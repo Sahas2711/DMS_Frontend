@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Armchair, CarFront, ConciergeBell, Luggage } from 'lucide-react';
 import heroImage from '../../assets/services/Ground-Services-Hero.webp';
 import coordinatedSupportImg from '../../assets/services/Coordinated-terminal-support.webp';
 import tellUsWhereImg from '../../assets/services/tell-uwhere-flying.webp';
@@ -12,6 +13,35 @@ import Seo from '../../components/Seo';
 import { PAGE_META } from '../../config/site';
 
 gsap.registerPlugin(ScrollTrigger);
+
+/**
+ * "Your airport team" cards. Each icon is chosen to be readable at 20px and
+ * distinct from the other three at a glance — a concierge bell for the human
+ * welcome, a rolling case for baggage, an armchair for the lounge, and a car
+ * for the apron transfer.
+ */
+const AIRPORT_TEAM_SERVICES = [
+    {
+        icon: ConciergeBell,
+        title: 'Meet & greet',
+        description: 'A named host welcomes you at the terminal, kerb, or aircraft bridge.',
+    },
+    {
+        icon: Luggage,
+        title: 'Baggage handling',
+        description: 'Porter coordination and baggage assistance from check-in to collection.',
+    },
+    {
+        icon: Armchair,
+        title: 'Lounge coordination',
+        description: 'Confirmed lounge access and an escorted route to your departure gate.',
+    },
+    {
+        icon: CarFront,
+        title: 'Airside transfers',
+        description: 'Where available, discreet transfers that protect every minute of your connection.',
+    },
+];
 
 const GroundServices = () => {
     const terminalImgWrapperRef = useRef(null);
@@ -276,41 +306,20 @@ const GroundServices = () => {
 
                     {/* Cards */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 w-full">
-                        {/* Card 1 */}
-                        <div className="bg-white rounded-xl p-6 shadow-lg flex flex-col">
-                            <div className="w-10 h-10 bg-[#e8f1fc] rounded-lg mb-6"></div>
-                            <h3 className="text-ink text-base font-bold mb-2">Meet & greet</h3>
-                            <p className="text-gray-500 text-sm leading-relaxed">
-                                A named host welcomes you at the terminal, kerb, or aircraft bridge.
-                            </p>
-                        </div>
-                        
-                        {/* Card 2 */}
-                        <div className="bg-white rounded-xl p-6 shadow-lg flex flex-col">
-                            <div className="w-10 h-10 bg-[#e8f1fc] rounded-lg mb-6"></div>
-                            <h3 className="text-ink text-base font-bold mb-2">Baggage handling</h3>
-                            <p className="text-gray-500 text-sm leading-relaxed">
-                                Porter coordination and baggage assistance from check-in to collection.
-                            </p>
-                        </div>
-
-                        {/* Card 3 */}
-                        <div className="bg-white rounded-xl p-6 shadow-lg flex flex-col">
-                            <div className="w-10 h-10 bg-[#e8f1fc] rounded-lg mb-6"></div>
-                            <h3 className="text-ink text-base font-bold mb-2">Lounge coordination</h3>
-                            <p className="text-gray-500 text-sm leading-relaxed">
-                                Confirmed lounge access and an escorted route to your departure gate.
-                            </p>
-                        </div>
-
-                        {/* Card 4 */}
-                        <div className="bg-white rounded-xl p-6 shadow-lg flex flex-col">
-                            <div className="w-10 h-10 bg-[#e8f1fc] rounded-lg mb-6"></div>
-                            <h3 className="text-ink text-base font-bold mb-2">Airside transfers</h3>
-                            <p className="text-gray-500 text-sm leading-relaxed">
-                                Where available, discreet transfers that protect every minute of your connection.
-                            </p>
-                        </div>
+                        {AIRPORT_TEAM_SERVICES.map(({ icon: Icon, title, description }) => (
+                            <div key={title} className="bg-white rounded-xl p-6 shadow-lg flex flex-col">
+                                {/* Icon tile. The icon is decorative — the heading
+                                    below already names the service — so it is hidden
+                                    from assistive tech. */}
+                                <div className="w-11 h-11 rounded-xl bg-navy/10 text-navy flex items-center justify-center mb-6">
+                                    <Icon className="w-5 h-5" strokeWidth={1.5} aria-hidden="true" />
+                                </div>
+                                <h3 className="text-ink text-base font-bold mb-2">{title}</h3>
+                                <p className="text-gray-500 text-sm leading-relaxed">
+                                    {description}
+                                </p>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
