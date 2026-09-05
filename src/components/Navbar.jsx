@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
 import { useLanguage } from '../hooks/useLanguage';
+import AuthModal from './auth/AuthModal';
 
 const NAV_LINKS = [
     { label: 'Home', href: '/' },
@@ -122,6 +123,16 @@ const Navbar = () => {
     const [isMobileLangDropdownOpen, setIsMobileLangDropdownOpen] = useState(false);
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
     const [isMobileUserDropdownOpen, setIsMobileUserDropdownOpen] = useState(false);
+    const [authModalMode, setAuthModalMode] = useState(null); // null | 'signin' | 'signup'
+
+    // Close whichever menu launched the dialog, so the visitor is not left with
+    // a dropdown hanging open behind it.
+    const openAuthModal = (mode = 'signin') => {
+        setIsUserDropdownOpen(false);
+        setIsMobileUserDropdownOpen(false);
+        setIsMobileMenuOpen(false);
+        setAuthModalMode(mode);
+    };
     const navContainerRef = useRef(null);
     const langDropdownRef = useRef(null);
     const userDropdownRef = useRef(null);
@@ -162,6 +173,7 @@ const Navbar = () => {
     };
 
     return (
+        <>
         <nav
             ref={navContainerRef}
             className="flex items-center justify-between px-4 sm:px-6 md:px-10 lg:px-12 xl:px-16 2xl:px-28 py-3.5 md:py-4 text-white relative z-50 select-none"
@@ -298,16 +310,16 @@ const Navbar = () => {
                         <div className="absolute right-0 top-full mt-2.5 w-[250px] bg-white text-gray-800 rounded-3xl shadow-[0_12px_40px_rgba(0,0,0,0.18)] p-4 border border-gray-100 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                             {/* Log In Or Signup Button */}
                             <div className="mb-4">
-                                <Link
-                                    to="/booking"
-                                    onClick={() => setIsUserDropdownOpen(false)}
-                                    className="w-full bg-[#004d40] hover:bg-[#00382e] text-white font-bold text-sm py-3 px-5 rounded-full flex items-center justify-center gap-2 shadow-sm transition-all duration-200 ring-4 ring-[#004d40]/15"
+                                <button
+                                    type="button"
+                                    onClick={() => openAuthModal('signin')}
+                                    className="w-full bg-[#004d40] hover:bg-[#00382e] text-white font-bold text-sm py-3 px-5 rounded-full flex items-center justify-center gap-2 shadow-sm transition-all duration-200 ring-4 ring-[#004d40]/15 cursor-pointer focus:outline-none focus:ring-4 focus:ring-[#004d40]/40"
                                 >
                                     <span>Log In Or Signup</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.2} stroke="currentColor" className="w-4 h-4">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.2} stroke="currentColor" className="w-4 h-4" aria-hidden="true">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l3 3m0 0l-3 3m3-3H3" />
                                     </svg>
-                                </Link>
+                                </button>
                             </div>
 
                             {/* Menu Links */}
@@ -463,14 +475,14 @@ const Navbar = () => {
                                 </button>
                                 {isMobileUserDropdownOpen && (
                                     <div className="absolute left-0 bottom-full mb-2 w-56 bg-white text-gray-800 rounded-2xl shadow-2xl p-3 border border-gray-100 z-50 animate-in fade-in duration-200">
-                                        <Link
-                                            to="/booking"
-                                            onClick={handleMobileLinkClick}
-                                            className="w-full bg-[#004d40] text-white font-bold text-xs py-2 px-3 rounded-full flex items-center justify-center gap-1.5 mb-2 shadow-sm"
+                                        <button
+                                            type="button"
+                                            onClick={() => openAuthModal('signin')}
+                                            className="w-full bg-[#004d40] text-white font-bold text-xs py-2 px-3 rounded-full flex items-center justify-center gap-1.5 mb-2 shadow-sm cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#004d40]/50"
                                         >
                                             <span>Log In Or Signup</span>
-                                            <span>&rarr;</span>
-                                        </Link>
+                                            <span aria-hidden="true">&rarr;</span>
+                                        </button>
                                         <div className="flex flex-col space-y-1 text-left">
                                             <Link
                                                 to="/destination"
@@ -512,6 +524,13 @@ const Navbar = () => {
                 </div>
             )}
         </nav>
+
+        <AuthModal
+            open={authModalMode !== null}
+            initialMode={authModalMode ?? 'signin'}
+            onClose={() => setAuthModalMode(null)}
+        />
+        </>
     );
 };
 
