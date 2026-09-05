@@ -135,6 +135,8 @@ const Tours = () => {
                         src={vipBgImg}
                         alt="VIP Benefits Background"
                         className="absolute inset-0 w-full h-full object-cover z-0"
+                        loading="lazy"
+                        decoding="async"
                     />
 
                     {/* Subtle Overlay to ensure text readability */}
@@ -317,6 +319,8 @@ const Tours = () => {
                         src={extraBenefitsImg}
                         alt="Extraordinary Benefits"
                         className="absolute inset-0 w-full h-full object-cover z-0"
+                        loading="lazy"
+                        decoding="async"
                     />
 
                     {/* Gradient overlay for text readability (darker on left) */}

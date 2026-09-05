@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
-import heroImage from '../assets/home/hero-image-home.png';
+import heroImage from '../assets/home/hero-image-home.webp';
 
 // Icons
 import tailorMadeIcon from '../assets/home/Tailor-Made-Tours.svg';
@@ -240,7 +240,9 @@ const INTERNATIONAL_DESTINATIONS = [
         <img 
             src={service.icon} 
             alt={service.title} 
-            className="w-14 h-14 mb-6 object-contain group-hover:scale-110 transition-transform duration-300" 
+            className="w-14 h-14 mb-6 object-contain group-hover:scale-110 transition-transform duration-300"
+            loading="lazy"
+            decoding="async"
         />
 
         {/* Title */}
@@ -298,7 +300,9 @@ const EditorialDestinationCard = ({ dest, index }) => {
                     <img 
                         src={dest.image} 
                         alt={dest.title} 
-                        className="w-full h-full object-cover transition-transform duration-700 ease-[0.16,1,0.3,1] group-hover:scale-108 origin-center" 
+                        className="w-full h-full object-cover transition-transform duration-700 ease-[0.16,1,0.3,1] group-hover:scale-108 origin-center"
+                        loading="lazy"
+                        decoding="async"
                     />
                 </motion.div>
 
@@ -631,6 +635,8 @@ const Home = () => {
                                                 src={watermarkImg}
                                                 alt=""
                                                 className="absolute top-0 right-0 h-full w-auto object-cover opacity-85 pointer-events-none select-none"
+                                                loading="lazy"
+                                                decoding="async"
                                             />
                                         </div>
 
@@ -705,8 +711,8 @@ const Home = () => {
             {/* Popular Destinations Section */}
             <section className="w-full bg-navy relative overflow-hidden py-20 md:py-28 lg:py-32 pl-6 md:pl-12 lg:pl-20 xl:pl-32 pr-6 md:pr-12 lg:pr-0 flex flex-col items-center">
                 {/* Watermarks */}
-                <img src={popWatermark1} alt="" className="absolute top-0 left-0 w-48 md:w-auto md:h-full md:max-w-none opacity-30 md:opacity-100 pointer-events-none z-0" />
-                <img src={popWatermark2} alt="" className="absolute top-0 right-0 w-32 md:w-auto opacity-30 md:opacity-100 pointer-events-none z-0" />
+                <img src={popWatermark1} alt="" className="absolute top-0 left-0 w-48 md:w-auto md:h-full md:max-w-none opacity-30 md:opacity-100 pointer-events-none z-0" loading="lazy" decoding="async" />
+                <img src={popWatermark2} alt="" className="absolute top-0 right-0 w-32 md:w-auto opacity-30 md:opacity-100 pointer-events-none z-0" loading="lazy" decoding="async" />
                 
                 {/* Content */}
                 <div className="relative z-10 w-full flex flex-col lg:flex-row gap-10 lg:gap-14 xl:gap-20 items-start lg:items-center">
@@ -764,7 +770,7 @@ const Home = () => {
                                     className="w-[280px] sm:w-[340px] md:w-[380px] bg-white rounded-3xl overflow-hidden shadow-xl snap-start flex-shrink-0 relative group cursor-pointer flex flex-col h-[390px] sm:h-[410px] transition-transform duration-300 hover:-translate-y-1 block"
                                 >
                                     <div className="h-[55%] overflow-hidden relative">
-                                        <img src={tour.image} alt={tour.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108" />
+                                        <img src={tour.image} alt={tour.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-108" loading="lazy" decoding="async" />
                                     </div>
                                     <div className="p-6 sm:p-7 bg-white flex flex-col flex-grow justify-between text-left">
                                         <h3 className="text-gray-900 group-hover:text-[#0ea5e9] font-bold text-lg sm:text-xl md:text-2xl line-clamp-2 leading-snug transition-colors duration-300">{tour.title}</h3>
@@ -795,7 +801,7 @@ const Home = () => {
                             aria-label="Scroll left"
                             className="absolute -left-4 sm:-left-5 lg:-left-6 top-1/2 -translate-y-1/2 z-30 hover:scale-110 active:scale-95 transition-transform hidden sm:flex items-center justify-center cursor-pointer drop-shadow-2xl"
                         >
-                            <img src={sliderBtnImg} alt="Previous" className="w-12 lg:w-14 h-12 lg:h-14 object-contain rounded-full rotate-180" />
+                            <img src={sliderBtnImg} alt="Previous" className="w-12 lg:w-14 h-12 lg:h-14 object-contain rounded-full rotate-180" loading="lazy" decoding="async" />
                         </button>
 
                         {/* Right Slider Arrow */}
@@ -805,7 +811,7 @@ const Home = () => {
                             aria-label="Scroll right"
                             className="absolute right-4 sm:right-6 md:right-8 lg:right-12 xl:right-16 top-1/2 -translate-y-1/2 z-30 hover:scale-110 active:scale-95 transition-transform hidden sm:flex items-center justify-center cursor-pointer drop-shadow-2xl"
                         >
-                            <img src={sliderBtnImg} alt="Next" className="w-12 lg:w-14 h-12 lg:h-14 object-contain rounded-full" />
+                            <img src={sliderBtnImg} alt="Next" className="w-12 lg:w-14 h-12 lg:h-14 object-contain rounded-full" loading="lazy" decoding="async" />
                         </button>
                     </div>
                 </div>
@@ -827,6 +833,8 @@ const Home = () => {
                                 src={planTripImg}
                                 alt="Plan your trip"
                                 className="w-full h-auto object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                loading="lazy"
+                                decoding="async"
                             />
                         </div>
                         
@@ -935,6 +943,8 @@ const Home = () => {
                                     src={dest.image}
                                     alt={dest.title}
                                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[0.16,1,0.3,1] group-hover:scale-108"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                                 
                                 {/* Luxury Gradient Overlay */}
@@ -1007,6 +1017,8 @@ const Home = () => {
                                     src={dest.image}
                                     alt={dest.title}
                                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[0.16,1,0.3,1] group-hover:scale-108"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                                 
                                 {/* Luxury Gradient Overlay */}

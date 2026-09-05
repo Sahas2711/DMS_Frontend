@@ -157,6 +157,8 @@ const GroundServices = () => {
                                 src={coordinatedSupportImg}
                                 alt="Coordinated terminal support"
                                 className="w-full h-auto object-cover"
+                                loading="lazy"
+                                decoding="async"
                             />
                         </div>
                     </div>
@@ -170,6 +172,8 @@ const GroundServices = () => {
                     src={tellUsWhereImg}
                     alt="Tell us where you are flying"
                     className="absolute inset-0 w-full h-full object-cover z-0"
+                    loading="lazy"
+                    decoding="async"
                 />
 
                 {/* Overlay card */}
@@ -193,8 +197,8 @@ const GroundServices = () => {
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {/* Flight Number */}
                                 <div className="flex flex-col text-left">
-                                    <label className="text-ink text-xs font-bold mb-2">Flight number</label>
-                                    <input
+                                    <label className="text-ink text-xs font-bold mb-2" htmlFor="groundservices-flightNumber">Flight number</label>
+                                    <input id="groundservices-flightNumber" name="flightNumber"
                                         type="text"
                                         placeholder="e.g. SQ 322"
                                         className="w-full px-4 py-3 rounded-md border-none focus:ring-2 focus:ring-ink text-sm text-gray-700 shadow-sm"
@@ -202,8 +206,8 @@ const GroundServices = () => {
                                 </div>
                                 {/* Travel Date */}
                                 <div className="flex flex-col text-left">
-                                    <label className="text-ink text-xs font-bold mb-2">Travel date</label>
-                                    <input
+                                    <label className="text-ink text-xs font-bold mb-2" htmlFor="groundservices-travelDate">Travel date</label>
+                                    <input id="groundservices-travelDate" name="travelDate"
                                         type="text"
                                         placeholder="DD / MM / YYYY"
                                         className="w-full px-4 py-3 rounded-md border-none focus:ring-2 focus:ring-ink text-sm text-gray-700 shadow-sm"
@@ -211,8 +215,8 @@ const GroundServices = () => {
                                 </div>
                                 {/* Airport */}
                                 <div className="flex flex-col text-left">
-                                    <label className="text-ink text-xs font-bold mb-2">Airport</label>
-                                    <input
+                                    <label className="text-ink text-xs font-bold mb-2" htmlFor="groundservices-airport">Airport</label>
+                                    <input id="groundservices-airport" name="airport"
                                         type="text"
                                         placeholder="Arrival or departure airport"
                                         className="w-full px-4 py-3 rounded-md border-none focus:ring-2 focus:ring-ink text-sm text-gray-700 shadow-sm"
@@ -220,10 +224,10 @@ const GroundServices = () => {
                                 </div>
                                 {/* Travellers */}
                                 <div className="flex flex-col text-left">
-                                    <label className="text-ink text-xs font-bold mb-2">Travellers</label>
+                                    <label className="text-ink text-xs font-bold mb-2" htmlFor="groundservices-travellers">Travellers</label>
                                     <div className="relative">
-                                        <select className="w-full px-4 py-3 rounded-md border-none focus:ring-2 focus:ring-ink text-sm text-gray-700 appearance-none bg-white shadow-sm">
-                                            <option value="" disabled selected className="hidden"></option>
+                                        <select id="groundservices-travellers" name="travellers" defaultValue="" className="w-full px-4 py-3 rounded-md border-none focus:ring-2 focus:ring-ink text-sm text-gray-700 appearance-none bg-white shadow-sm">
+                                            <option value="" disabled className="hidden"></option>
                                             <option value="1">1</option>
                                             <option value="2">2</option>
                                             <option value="3">3</option>
@@ -252,8 +256,8 @@ const GroundServices = () => {
             {/* Your Airport Team Section */}
             <section className="w-full bg-navy relative overflow-hidden py-24 px-6 md:px-12 lg:px-24 flex justify-center">
                 {/* Watermarks */}
-                <img src={popWatermark1} alt="" className="absolute top-0 left-0 w-48 md:w-auto md:h-full md:max-w-none opacity-30 md:opacity-100 pointer-events-none z-0" />
-                <img src={popWatermark2} alt="" className="absolute top-0 right-0 w-32 md:w-auto opacity-30 md:opacity-100 pointer-events-none z-0" />
+                <img src={popWatermark1} alt="" className="absolute top-0 left-0 w-48 md:w-auto md:h-full md:max-w-none opacity-30 md:opacity-100 pointer-events-none z-0" loading="lazy" decoding="async" />
+                <img src={popWatermark2} alt="" className="absolute top-0 right-0 w-32 md:w-auto opacity-30 md:opacity-100 pointer-events-none z-0" loading="lazy" decoding="async" />
                 
                 {/* Content */}
                 <div className="relative z-10 w-full max-w-7xl flex flex-col">
@@ -326,6 +330,8 @@ const GroundServices = () => {
                                 src={travelOnYourTermsImg} 
                                 alt="Travel on your terms" 
                                 className="w-full h-auto object-cover"
+                                loading="lazy"
+                                decoding="async"
                             />
                         </div>
                     </div>

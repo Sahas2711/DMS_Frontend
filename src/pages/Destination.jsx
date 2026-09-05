@@ -219,8 +219,8 @@ const Destination = () => {
 
                             <form className="flex flex-col gap-5">
                                 <div className="flex flex-col text-left">
-                                    <label className="text-white text-[11px] font-medium mb-2">Destination airport</label>
-                                    <input
+                                    <label className="text-white text-[11px] font-medium mb-2" htmlFor="destination-destinationAirport">Destination airport</label>
+                                    <input id="destination-destinationAirport" name="destinationAirport"
                                         type="text"
                                         placeholder="Search city or airport code"
                                         className="w-full px-4 py-3.5 rounded-[6px] border border-transparent focus:border-[#0ea5e9] focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/30 text-sm text-gray-800 bg-white shadow-sm placeholder-gray-400 transition-all"
@@ -229,17 +229,17 @@ const Destination = () => {
 
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div className="flex flex-col text-left">
-                                        <label className="text-white text-[11px] font-medium mb-2">Travel date</label>
-                                        <input
+                                        <label className="text-white text-[11px] font-medium mb-2" htmlFor="destination-travelDate">Travel date</label>
+                                        <input id="destination-travelDate" name="travelDate"
                                             type="text"
                                             placeholder="DD / MM / YYYY"
                                             className="w-full px-4 py-3.5 rounded-[6px] border border-transparent focus:border-[#0ea5e9] focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/30 text-sm text-gray-800 bg-white shadow-sm placeholder-gray-400 transition-all"
                                         />
                                     </div>
                                     <div className="flex flex-col text-left">
-                                        <label className="text-white text-[11px] font-medium mb-2">Journey type</label>
+                                        <label className="text-white text-[11px] font-medium mb-2" htmlFor="destination-journeyType">Journey type</label>
                                         <div className="relative">
-                                            <select 
+                                            <select id="destination-journeyType" name="journeyType" 
                                                 defaultValue=""
                                                 className="w-full px-4 py-3.5 rounded-[6px] border border-transparent focus:border-[#0ea5e9] focus:outline-none focus:ring-2 focus:ring-[#0ea5e9]/30 text-sm text-gray-700 appearance-none bg-white shadow-sm transition-all cursor-pointer"
                                             >
@@ -462,6 +462,8 @@ const Destination = () => {
                     src={chooseSupportImg}
                     alt="Choose your support"
                     className="absolute inset-0 w-full h-full object-cover z-0"
+                    loading="lazy"
+                    decoding="async"
                 />
 
                 {/* Dark Overlay */}

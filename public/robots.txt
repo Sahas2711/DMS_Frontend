@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Transactional pages carry no search value
+Disallow: /checkout
+Disallow: /checkouts
+
+Sitemap: https://www.asianstartravel.vn/sitemap.xml

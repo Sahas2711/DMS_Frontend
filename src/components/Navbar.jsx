@@ -171,7 +171,7 @@ const Navbar = () => {
             {/* Logo */}
             <div className="flex-shrink-0 z-50">
                 <Link to="/" aria-label="Home" onClick={handleMobileLinkClick}>
-                    <img src={logo} alt="Asian Star Travel Logo" className="h-10 sm:h-12 md:h-14 lg:h-16 object-contain" />
+                    <img src={logo} alt="Asian Star Travel Logo" className="h-10 sm:h-12 md:h-14 lg:h-16 object-contain" loading="lazy" decoding="async" />
                 </Link>
             </div>
 

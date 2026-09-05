@@ -112,6 +112,8 @@ const ServicesPrivateTours = () => {
                                 src={travelYourWayImg}
                                 alt="Travel Your Way"
                                 className="w-full h-auto object-cover"
+                                loading="lazy"
+                                decoding="async"
                             />
                         </div>
                     </div>
@@ -143,13 +145,13 @@ const ServicesPrivateTours = () => {
                         </p>
                         <ul className="space-y-4">
                             <li className="flex items-center text-gray-700 text-xs md:text-sm">
-                                <img src={passengerIcon} alt="Passenger" className="w-5 h-5 mr-4 opacity-70" /> 3 Passengers
+                                <img src={passengerIcon} alt="Passenger" className="w-5 h-5 mr-4 opacity-70" loading="lazy" decoding="async" /> 3 Passengers
                             </li>
                             <li className="flex items-center text-gray-700 text-xs md:text-sm">
-                                <img src={suitcaseIcon} alt="Suitcase" className="w-5 h-5 mr-4 opacity-70" /> 2 Large Suitcases
+                                <img src={suitcaseIcon} alt="Suitcase" className="w-5 h-5 mr-4 opacity-70" loading="lazy" decoding="async" /> 2 Large Suitcases
                             </li>
                             <li className="flex items-center text-gray-700 text-xs md:text-sm">
-                                <img src={wifiIcon} alt="Wifi" className="w-5 h-5 mr-4 opacity-70" /> Complimentary Wi-Fi
+                                <img src={wifiIcon} alt="Wifi" className="w-5 h-5 mr-4 opacity-70" loading="lazy" decoding="async" /> Complimentary Wi-Fi
                             </li>
                         </ul>
                     </div>
@@ -169,13 +171,13 @@ const ServicesPrivateTours = () => {
                         </p>
                         <ul className="space-y-4">
                             <li className="flex items-center text-gray-700 text-xs md:text-sm">
-                                <img src={passengerIcon} alt="Passenger" className="w-5 h-5 mr-4 opacity-70" /> 4 Passengers
+                                <img src={passengerIcon} alt="Passenger" className="w-5 h-5 mr-4 opacity-70" loading="lazy" decoding="async" /> 4 Passengers
                             </li>
                             <li className="flex items-center text-gray-700 text-xs md:text-sm">
-                                <img src={suitcaseIcon} alt="Suitcase" className="w-5 h-5 mr-4 opacity-70" /> 4 Large Suitcases
+                                <img src={suitcaseIcon} alt="Suitcase" className="w-5 h-5 mr-4 opacity-70" loading="lazy" decoding="async" /> 4 Large Suitcases
                             </li>
                             <li className="flex items-center text-gray-700 text-xs md:text-sm">
-                                <img src={refreshmentIcon} alt="Refreshments" className="w-5 h-5 mr-4 opacity-70" /> Refreshments
+                                <img src={refreshmentIcon} alt="Refreshments" className="w-5 h-5 mr-4 opacity-70" loading="lazy" decoding="async" /> Refreshments
                             </li>
                         </ul>
                     </div>
@@ -195,13 +197,13 @@ const ServicesPrivateTours = () => {
                         </p>
                         <ul className="space-y-4">
                             <li className="flex items-center text-gray-700 text-xs md:text-sm">
-                                <img src={passengerIcon} alt="Passenger" className="w-5 h-5 mr-4 opacity-70" /> 6-7 Passengers
+                                <img src={passengerIcon} alt="Passenger" className="w-5 h-5 mr-4 opacity-70" loading="lazy" decoding="async" /> 6-7 Passengers
                             </li>
                             <li className="flex items-center text-gray-700 text-xs md:text-sm">
-                                <img src={suitcaseIcon} alt="Suitcase" className="w-5 h-5 mr-4 opacity-70" /> 6 Large Suitcases
+                                <img src={suitcaseIcon} alt="Suitcase" className="w-5 h-5 mr-4 opacity-70" loading="lazy" decoding="async" /> 6 Large Suitcases
                             </li>
                             <li className="flex items-center text-gray-700 text-xs md:text-sm">
-                                <img src={chairsIcon} alt="Chairs" className="w-5 h-5 mr-4 opacity-70" /> Leather Captain Chairs
+                                <img src={chairsIcon} alt="Chairs" className="w-5 h-5 mr-4 opacity-70" loading="lazy" decoding="async" /> Leather Captain Chairs
                             </li>
                         </ul>
                     </div>

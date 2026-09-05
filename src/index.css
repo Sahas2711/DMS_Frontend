@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+/* Fonts are loaded from index.html with preconnect + preload. A second
+   @import here fetched the same families again and blocked rendering while
+   the CSS parser waited on it. */
 @import "tailwindcss";
 
 @theme {

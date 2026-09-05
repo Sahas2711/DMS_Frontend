@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import heroImage from '../assets/contactus/Contactus-hero-image.webp';
 import mapImage from '../assets/contactus/map-image-contactus.webp';
 import PageHero from '../components/PageHero';
@@ -65,22 +65,27 @@ const EXPERTISE_GUARANTEES = [
     }
 ];
 
-const Contactus = () => {
-    const [formData, setFormData] = useState({
-        fullName: '',
-        email: '',
-        phone: '',
-        country: '',
-        travelDates: '',
-        travelers: '',
-        serviceInterest: '',
-        travelArrangement: '',
-        travelStyle: '',
-        message: '',
-        agreePrivacy: false,
-    });
+const EMPTY_ENQUIRY = {
+    fullName: '',
+    email: '',
+    phone: '',
+    country: '',
+    travelDates: '',
+    travelers: '',
+    serviceInterest: '',
+    travelArrangement: '',
+    travelStyle: '',
+    message: '',
+    agreePrivacy: false,
+};
 
+const Contactus = () => {
+    const [formData, setFormData] = useState(EMPTY_ENQUIRY);
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const resetTimer = useRef(null);
+
+    // Clear the pending reset on unmount so it cannot fire after the page is gone
+    useEffect(() => () => clearTimeout(resetTimer.current), []);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -92,22 +97,16 @@ const Contactus = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // TODO: POST `formData` to the enquiry endpoint once the backend exists.
+        // Until then this only shows the confirmation state - nothing is sent,
+        // so no enquiry submitted here actually reaches anyone.
         setIsSubmitted(true);
-        setTimeout(() => {
+
+        clearTimeout(resetTimer.current);
+        resetTimer.current = setTimeout(() => {
             setIsSubmitted(false);
-            setFormData({
-                fullName: '',
-                email: '',
-                phone: '',
-                country: '',
-                travelDates: '',
-                travelers: '',
-                serviceInterest: '',
-                travelArrangement: '',
-                travelStyle: '',
-                message: '',
-                agreePrivacy: false,
-            });
+            setFormData(EMPTY_ENQUIRY);
         }, 5000);
     };
 
@@ -354,10 +353,10 @@ const Contactus = () => {
                                 {/* Row 1: Full Name & Email */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="fullName">
                                             Full Name <span className="text-red-500">*</span>
                                         </label>
-                                        <input
+                                        <input id="fullName"
                                             type="text"
                                             name="fullName"
                                             required
@@ -368,10 +367,10 @@ const Contactus = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="email">
                                             Email Address <span className="text-red-500">*</span>
                                         </label>
-                                        <input
+                                        <input id="email"
                                             type="email"
                                             name="email"
                                             required
@@ -386,10 +385,10 @@ const Contactus = () => {
                                 {/* Row 2: Phone & Country */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="phone">
                                             Phone / WhatsApp
                                         </label>
-                                        <input
+                                        <input id="phone"
                                             type="tel"
                                             name="phone"
                                             value={formData.phone}
@@ -399,10 +398,10 @@ const Contactus = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="country">
                                             Country / Residence
                                         </label>
-                                        <input
+                                        <input id="country"
                                             type="text"
                                             name="country"
                                             value={formData.country}
@@ -416,10 +415,10 @@ const Contactus = () => {
                                 {/* Row 3: Travel Dates & Number of Travelers */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="travelDates">
                                             Travel Dates
                                         </label>
-                                        <input
+                                        <input id="travelDates"
                                             type="text"
                                             name="travelDates"
                                             value={formData.travelDates}
@@ -429,10 +428,10 @@ const Contactus = () => {
                                         />
                                     </div>
                                     <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="travelers">
                                             Number of Travelers
                                         </label>
-                                        <input
+                                        <input id="travelers"
                                             type="text"
                                             name="travelers"
                                             value={formData.travelers}
@@ -446,10 +445,10 @@ const Contactus = () => {
                                 {/* Row 4: Service Interest & Travel Arrangement */}
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                                     <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="serviceInterest">
                                             Service Interest <span className="text-red-500">*</span>
                                         </label>
-                                        <select
+                                        <select id="serviceInterest"
                                             name="serviceInterest"
                                             required
                                             value={formData.serviceInterest}
@@ -465,10 +464,10 @@ const Contactus = () => {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="travelArrangement">
                                             Travel Arrangement
                                         </label>
-                                        <select
+                                        <select id="travelArrangement"
                                             name="travelArrangement"
                                             value={formData.travelArrangement}
                                             onChange={handleChange}
@@ -486,10 +485,10 @@ const Contactus = () => {
 
                                 {/* Row 5: Travel Style & Special Interests */}
                                 <div>
-                                    <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                                    <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="travelStyle">
                                         Travel Style &amp; Special Interests
                                     </label>
-                                    <input
+                                    <input id="travelStyle"
                                         type="text"
                                         name="travelStyle"
                                         value={formData.travelStyle}
@@ -501,10 +500,10 @@ const Contactus = () => {
 
                                 {/* Row 6: Message */}
                                 <div>
-                                    <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                                    <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="message">
                                         Message / Travel Request Details <span className="text-red-500">*</span>
                                     </label>
-                                    <textarea
+                                    <textarea id="message"
                                         name="message"
                                         required
                                         rows={4}
@@ -571,6 +570,8 @@ const Contactus = () => {
                             src={mapImage}
                             alt="Asian Star Travel Office Locations Map"
                             className="absolute inset-0 w-full h-full object-cover z-0"
+                            loading="lazy"
+                            decoding="async"
                         />
 
                         {/* Tint Overlay */}

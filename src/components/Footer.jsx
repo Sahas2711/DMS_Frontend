@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { SITE } from '../config/site';
 
 const Footer = () => {
     return (
@@ -6,12 +7,12 @@ const Footer = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 {/* Column 1: Brand Info */}
                 <div className="flex flex-col space-y-6">
-                    <h3 className="text-white text-2xl font-serif">Asian Star Travel</h3>
+                    <h3 className="text-white text-2xl font-serif">{SITE.name}</h3>
                     <p className="leading-relaxed">
-                        Asian Star Travel is a Vietnam-based inbound travel company & DMC, crafting private journeys and reliable ground services from Ho Chi Minh City.
+                        {SITE.name} is a Vietnam-based inbound travel company &amp; DMC, crafting private journeys and reliable ground services from Ho Chi Minh City.
                     </p>
                     <p className="italic text-gold">
-                        Discover Vietnam: Timeless Charm!
+                        {SITE.tagline}
                     </p>
                 </div>
 
@@ -42,7 +43,7 @@ const Footer = () => {
                 <div className="flex flex-col space-y-6">
                     <div>
                         <h4 className="text-white font-bold tracking-wider mb-6 text-xs uppercase">Contact</h4>
-                        <div className="space-y-3.5 text-10px text-gray-300">
+                        <div className="space-y-3.5 text-xs text-gray-300">
                             <p className="leading-relaxed">
                                 <span className="text-white font-semibold block mb-0.5">India Office:</span>
                                 7th Floor Kirloskar Tech Park, Godrej Woodsman Estate, Hebbal Kempapura, Bengaluru, Karnataka 560024
@@ -56,8 +57,8 @@ const Footer = () => {
                                 No. 4 Nguyen Thi Minh Khai Street, Sai Gon Ward, Ho Chi Minh City
                             </p> */}
                             <p className="pt-1">
-                                <a href="mailto:info@asianstartravel.vn" className="hover:text-white transition-colors underline-offset-2 hover:underline">
-                                    info@asianstartravel.vn
+                                <a href={`mailto:${SITE.email}`} className="hover:text-white transition-colors underline-offset-2 hover:underline">
+                                    {SITE.email}
                                 </a>
                             </p>
                         </div>
@@ -65,11 +66,16 @@ const Footer = () => {
 
                     <div className="pt-4">
                         <h4 className="text-white font-bold tracking-wider mb-4 text-xs uppercase">Follow Us</h4>
+                        {/* TODO: replace with the real page URL. A bare href="#"
+                            scrolls to the top instead of going anywhere. */}
                         <a
-                            href="#"
+                            href="https://www.facebook.com/asianstartravel.vn"
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="inline-block px-6 py-2 rounded-full border border-white/20 hover:bg-white/10 transition-colors text-white text-xs"
                         >
                             Facebook
+                            <span className="sr-only"> (opens in a new tab)</span>
                         </a>
                     </div>
                 </div>
@@ -77,7 +83,7 @@ const Footer = () => {
 
             {/* Bottom Bar */}
             <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400">
-                <p>Copyright 2026 &copy; Asian Star Travel</p>
+                <p>Copyright {new Date().getFullYear()} &copy; {SITE.name}</p>
                 <Link to="/privacy-policy" className="hover:text-white transition-colors mt-4 md:mt-0">Privacy Policy</Link>
             </div>
         </footer>

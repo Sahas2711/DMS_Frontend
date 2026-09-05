@@ -168,7 +168,7 @@ const Booking = () => {
                     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 mb-5 text-left">
                         {/* Service Date */}
                         <div>
-                            <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                            <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="booking-serviceDate">
                                 Service Date
                             </label>
                             <div
@@ -183,7 +183,7 @@ const Booking = () => {
                                     }
                                 }}
                             >
-                                <input
+                                <input id="booking-serviceDate" name="serviceDate"
                                     type="text"
                                     readOnly
                                     value={serviceDateDisplay}
@@ -204,10 +204,10 @@ const Booking = () => {
 
                         {/* Flight Number */}
                         <div>
-                            <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                            <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="booking-flightNumber">
                                 Flight Number
                             </label>
-                            <input
+                            <input id="booking-flightNumber" name="flightNumber"
                                 type="text"
                                 value={flightNumber}
                                 onChange={(e) => setFlightNumber(e.target.value)}
@@ -218,10 +218,10 @@ const Booking = () => {
 
                         {/* Travellers */}
                         <div>
-                            <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                            <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="booking-travellers">
                                 Travellers
                             </label>
-                            <select
+                            <select id="booking-travellers" name="travellers"
                                 value={travellers}
                                 onChange={(e) => setTravellers(e.target.value)}
                                 className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl bg-cream border border-gray-200 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze cursor-pointer"
@@ -236,10 +236,10 @@ const Booking = () => {
 
                         {/* Service Level */}
                         <div>
-                            <label className="text-[11px] font-semibold text-navy block mb-1.5">
+                            <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="booking-serviceLevel">
                                 Service Level
                             </label>
-                            <select
+                            <select id="booking-serviceLevel" name="serviceLevel"
                                 value={serviceLevel}
                                 onChange={(e) => setServiceLevel(e.target.value)}
                                 className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl bg-cream border border-gray-200 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze cursor-pointer"
@@ -316,6 +316,8 @@ const Booking = () => {
                                     src={inboundTransitImg}
                                     alt="Arrival Assistance"
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                                 <span className="absolute top-4 left-4 bg-navy/80 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase">
                                     INBOUND TRANSIT
@@ -355,6 +357,8 @@ const Booking = () => {
                                     src={outboundTransitImg}
                                     alt="Departure Assistance"
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                                 <span className="absolute top-4 left-4 bg-navy/80 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase">
                                     OUTBOUND TRANSIT
@@ -456,6 +460,8 @@ const Booking = () => {
                     src={seamlessHanoiTransitImg}
                     alt="Seamless Hanoi Transit"
                     className="absolute inset-0 w-full h-full object-cover z-0"
+                    loading="lazy"
+                    decoding="async"
                 />
 
                 {/* Dark Overlay */}

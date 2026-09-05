@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import heroImage from '../assets/Trip/trip-hero-image.webp';
 import tasteImg from '../assets/Trip/taste.webp';
@@ -58,10 +58,14 @@ const ChatBubbleIcon = () => (
 
 const Trip = () => {
     const dateInputRef = useRef(null);
+    const notificationTimer = useRef(null);
     const [selectedDate, setSelectedDate] = useState('');
     const [travelers, setTravelers] = useState('2');
     const [interest, setInterest] = useState('Choose an interest');
     const [matchedNotification, setMatchedNotification] = useState(false);
+
+    // Clear the pending timer on unmount so it cannot fire after the page is gone
+    useEffect(() => () => clearTimeout(notificationTimer.current), []);
 
     const handleDateChange = (e) => {
         setSelectedDate(e.target.value);
@@ -69,7 +73,8 @@ const Trip = () => {
 
     const handleMatch = () => {
         setMatchedNotification(true);
-        setTimeout(() => setMatchedNotification(false), 3000);
+        clearTimeout(notificationTimer.current);
+        notificationTimer.current = setTimeout(() => setMatchedNotification(false), 3000);
     };
 
     return (
@@ -202,6 +207,8 @@ const Trip = () => {
                                     src={tasteImg}
                                     alt="Taste Hanoi"
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             </div>
                             <div className="p-6 sm:p-7 flex flex-col flex-grow justify-between">
@@ -229,6 +236,8 @@ const Trip = () => {
                                     src={heritageImg}
                                     alt="Heritage Hanoi"
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                    loading="lazy"
+                                    decoding="async"
                                 />
                             </div>
                             <div className="p-6 sm:p-7 flex flex-col flex-grow justify-between">
@@ -412,6 +421,8 @@ const Trip = () => {
                     src={saveThisForLaterImg}
                     alt="Save This For Later"
                     className="absolute inset-0 w-full h-full object-cover z-0"
+                    loading="lazy"
+                    decoding="async"
                 />
 
                 {/* Dark Gradient Overlay */}

@@ -99,6 +99,8 @@ const Blogs = () => {
                             src={travelJournalImg}
                             alt="Timeless Waters: Navigating the Karst Labyrinths"
                             className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-700"
+                            loading="lazy"
+                            decoding="async"
                         />
 
                         {/* Gradient Overlay */}
@@ -169,6 +171,8 @@ const Blogs = () => {
                                 src={editorsDispatchImg}
                                 alt="The Connoisseur's Guide to Seamless International Transit at Hanoi Noi Bai"
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                loading="lazy"
+                                decoding="async"
                             />
                             <div className="absolute top-5 left-5 bg-navy/90 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase border border-white/20">
                                 EDITOR'S DISPATCH
@@ -254,6 +258,8 @@ const Blogs = () => {
                                         src={article.image}
                                         alt={article.title}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                     <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-navy text-[9px] font-bold tracking-wider px-3 py-1 rounded-full uppercase shadow-sm">
                                         {article.tag}
@@ -311,6 +317,8 @@ const Blogs = () => {
                     src={seamlessHanoiTransitImg}
                     alt="Seamless Hanoi Transit"
                     className="absolute inset-0 w-full h-full object-cover z-0"
+                    loading="lazy"
+                    decoding="async"
                 />
 
                 {/* Dark Overlay */}

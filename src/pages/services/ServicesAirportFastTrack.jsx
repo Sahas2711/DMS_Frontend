@@ -199,6 +199,8 @@ const ServicesAirportFastTrack = () => {
                                 src={globalCoverageImg}
                                 alt="Global Coverage"
                                 className="w-full h-auto object-cover"
+                                loading="lazy"
+                                decoding="async"
                             />
                         </div>
                     </div>
@@ -260,6 +262,8 @@ const ServicesAirportFastTrack = () => {
                         src={arrivalsImg}
                         alt="Arrivals"
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        decoding="async"
                     />
                     <div className="absolute inset-0 bg-black/40"></div>
                 </div>
@@ -312,8 +316,8 @@ const ServicesAirportFastTrack = () => {
                         <form className="flex flex-col space-y-5">
                             {/* Service direction */}
                             <div className="flex flex-col">
-                                <label className="text-ink text-xs font-semibold mb-2">Service direction</label>
-                                <select className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none bg-white">
+                                <label className="text-ink text-xs font-semibold mb-2" htmlFor="servicesairportfasttrack-serviceDirection">Service direction</label>
+                                <select id="servicesairportfasttrack-serviceDirection" name="serviceDirection" className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none bg-white">
                                     <option>Arrival assistance</option>
                                     <option>Departure assistance</option>
                                     <option>Connection assistance</option>
@@ -322,8 +326,8 @@ const ServicesAirportFastTrack = () => {
 
                             {/* Airport */}
                             <div className="flex flex-col">
-                                <label className="text-ink text-xs font-semibold mb-2">Airport</label>
-                                <select className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none bg-white">
+                                <label className="text-ink text-xs font-semibold mb-2" htmlFor="servicesairportfasttrack-airport">Airport</label>
+                                <select id="servicesairportfasttrack-airport" name="airport" className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none bg-white">
                                     <option>Select your airport</option>
                                     <option>Dubai (DXB)</option>
                                     <option>London (LHR)</option>
@@ -335,12 +339,12 @@ const ServicesAirportFastTrack = () => {
                             {/* Date and Flight */}
                             <div className="flex gap-4">
                                 <div className="flex flex-col w-1/2">
-                                    <label className="text-ink text-xs font-semibold mb-2">Arrival date</label>
-                                    <input type="text" placeholder="DD / MM / YYYY" className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none" />
+                                    <label className="text-ink text-xs font-semibold mb-2" htmlFor="servicesairportfasttrack-arrivalDate">Arrival date</label>
+                                    <input id="servicesairportfasttrack-arrivalDate" name="arrivalDate" type="text" placeholder="DD / MM / YYYY" className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none" />
                                 </div>
                                 <div className="flex flex-col w-1/2">
-                                    <label className="text-ink text-xs font-semibold mb-2">Flight number</label>
-                                    <input type="text" placeholder="e.g. EK 404" className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none" />
+                                    <label className="text-ink text-xs font-semibold mb-2" htmlFor="servicesairportfasttrack-flightNumber">Flight number</label>
+                                    <input id="servicesairportfasttrack-flightNumber" name="flightNumber" type="text" placeholder="e.g. EK 404" className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none" />
                                 </div>
                             </div>
 
@@ -455,7 +459,10 @@ const ServicesAirportFastTrack = () => {
                         <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100 flex flex-col items-start">
                             <div className="bg-[#eff6ff] p-3 rounded-xl mb-6">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-[#2b7bb5]">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 10.5b0-2.25-1.875-4.5-4.5-4.5h-1.5c-1.5 0-3 1.5-3 3v2.25H20.25zM8.25 6h7.5M3.75 10.5h16.5v9a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25v-9z" />
+                                    {/* Briefcase. The command after "M20.25 10.5" was a stray
+                                        "b" (not a valid SVG path command), which made the browser
+                                        reject the whole path and render nothing. */}
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 10.5c0-2.25-1.875-4.5-4.5-4.5h-1.5c-1.5 0-3 1.5-3 3v2.25H20.25zM8.25 6h7.5M3.75 10.5h16.5v9a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25v-9z" />
                                 </svg>
                             </div>
                             <h3 className="text-ink text-lg font-bold mb-4">Onward travel, coordinated</h3>
@@ -586,6 +593,8 @@ const ServicesAirportFastTrack = () => {
                     src={watermark1}
                     alt=""
                     className="absolute inset-0 w-full h-full object-cover object-center opacity-100 pointer-events-none z-0"
+                    loading="lazy"
+                    decoding="async"
                 />
 
                 <div className="relative z-10 w-full max-w-7xl flex flex-col md:flex-row items-center justify-between gap-10">

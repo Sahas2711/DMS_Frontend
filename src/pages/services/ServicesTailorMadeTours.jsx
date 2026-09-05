@@ -78,6 +78,8 @@ const Services = () => {
                                 src={travelYourWayImg} 
                                 alt="Travel Your Way" 
                                 className="w-full h-auto object-cover"
+                                loading="lazy"
+                                decoding="async"
                             />
                         </div>
                     </div>
@@ -174,17 +176,19 @@ const Services = () => {
                     <img 
                         src={beautifulWeekendImg} 
                         alt="Beautiful Weekend" 
-                        className="absolute inset-0 w-full h-full object-cover z-0" 
+                        className="absolute inset-0 w-full h-full object-cover z-0"
+                        loading="lazy"
+                        decoding="async"
                     />
                     
                     {/* Form Box */}
                     <div className="relative z-10 bg-[#f4f4f4]/95 p-8 md:p-12 w-[90%] max-w-md flex flex-col shadow-xl">
                         {/* Destination */}
                         <div className="mb-6">
-                            <label className="block text-[10px] md:text-xs font-bold text-gray-500 tracking-wider mb-2 uppercase">
+                            <label className="block text-[10px] md:text-xs font-bold text-gray-500 tracking-wider mb-2 uppercase" htmlFor="servicestailormadetours-destination">
                                 Destination
                             </label>
-                            <input 
+                            <input id="servicestailormadetours-destination" name="destination" 
                                 type="text" 
                                 placeholder="Where to?" 
                                 className="w-full bg-transparent border-b border-gray-300 py-2 text-gray-700 focus:outline-none focus:border-gray-500 text-sm md:text-base placeholder-gray-400"
@@ -193,10 +197,10 @@ const Services = () => {
                         
                         {/* Dates */}
                         <div className="mb-6">
-                            <label className="block text-[10px] md:text-xs font-bold text-gray-500 tracking-wider mb-2 uppercase">
+                            <label className="block text-[10px] md:text-xs font-bold text-gray-500 tracking-wider mb-2 uppercase" htmlFor="servicestailormadetours-dates">
                                 Dates
                             </label>
-                            <input 
+                            <input id="servicestailormadetours-dates" name="dates" 
                                 type="text" 
                                 placeholder="When?" 
                                 className="w-full bg-transparent border-b border-gray-300 py-2 text-gray-700 focus:outline-none focus:border-gray-500 text-sm md:text-base placeholder-gray-400"
@@ -205,10 +209,10 @@ const Services = () => {
                         
                         {/* Accommodation Style */}
                         <div className="mb-10 relative">
-                            <label className="block text-[10px] md:text-xs font-bold text-gray-500 tracking-wider mb-2 uppercase">
+                            <label className="block text-[10px] md:text-xs font-bold text-gray-500 tracking-wider mb-2 uppercase" htmlFor="servicestailormadetours-accommodationStyle">
                                 Accommodation Style
                             </label>
-                            <select className="w-full bg-transparent border-b border-gray-300 py-2 text-gray-700 focus:outline-none focus:border-gray-500 appearance-none text-sm md:text-base">
+                            <select id="servicestailormadetours-accommodationStyle" name="accommodationStyle" className="w-full bg-transparent border-b border-gray-300 py-2 text-gray-700 focus:outline-none focus:border-gray-500 appearance-none text-sm md:text-base">
                                 <option>Boutique Hotel</option>
                                 <option>Luxury Resort</option>
                                 <option>Private Villa</option>
@@ -234,7 +238,9 @@ const Services = () => {
                 <img 
                     src={bespokeTravelImg} 
                     alt="Bespoke Travel Experiences" 
-                    className="absolute inset-0 w-full h-full object-cover z-0" 
+                    className="absolute inset-0 w-full h-full object-cover z-0"
+                    loading="lazy"
+                    decoding="async"
                 />
                 
                 {/* Dark Overlay for text readability */}

@@ -266,11 +266,11 @@ const Checkouts = () => {
                                 <div className="grid grid-cols-1 gap-5">
                                     {/* Full Name */}
                                     <div>
-                                        <label className="text-xs font-semibold text-navy block mb-1.5">
+                                        <label className="text-xs font-semibold text-navy block mb-1.5" htmlFor="fullName">
                                             Full Legal Name (as shown on passport) *
                                         </label>
                                         <div className="relative">
-                                            <input
+                                            <input id="fullName"
                                                 type="text"
                                                 name="fullName"
                                                 required
@@ -286,10 +286,10 @@ const Checkouts = () => {
 
                                     {/* Email */}
                                     <div>
-                                        <label className="text-xs font-semibold text-navy block mb-1.5">
+                                        <label className="text-xs font-semibold text-navy block mb-1.5" htmlFor="email">
                                             Email Address *
                                         </label>
-                                        <input
+                                        <input id="email"
                                             type="email"
                                             name="email"
                                             required
@@ -305,12 +305,13 @@ const Checkouts = () => {
                                     {/* Phone & Country */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="min-w-0">
-                                            <label className="text-xs font-semibold text-navy block mb-1.5">
+                                            <label className="text-xs font-semibold text-navy block mb-1.5" htmlFor="phone">
                                                 Mobile Phone / WhatsApp *
                                             </label>
                                             <div className="flex gap-2 min-w-0 w-full">
-                                                <select
+                                                <select id="phonePrefix"
                                                     name="phonePrefix"
+                                                    aria-label="Country calling code"
                                                     value={formData.phonePrefix}
                                                     onChange={handlePhonePrefixChange}
                                                     className="w-28 sm:w-32 shrink-0 px-2 py-3 rounded-lg border border-gray-200 bg-white text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze cursor-pointer"
@@ -322,21 +323,22 @@ const Checkouts = () => {
                                                     ))}
                                                 </select>
                                                 <input
+                                                    id="phone"
                                                     type="tel"
                                                     name="phone"
                                                     required
                                                     value={formData.phone}
                                                     onChange={handleInputChange}
-                                                    placeholder="(415) 890-3342"
+                                                    placeholder="912 345 678"
                                                     className="min-w-0 flex-1 w-full px-3.5 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze"
                                                 />
                                             </div>
                                         </div>
                                         <div className="min-w-0">
-                                            <label className="text-xs font-semibold text-navy block mb-1.5">
+                                            <label className="text-xs font-semibold text-navy block mb-1.5" htmlFor="country">
                                                 Country of Passport / Residence *
                                             </label>
-                                            <select
+                                            <select id="country"
                                                 name="country"
                                                 required
                                                 value={formData.country}
@@ -373,10 +375,16 @@ const Checkouts = () => {
 
                                 {/* Direction Toggle Tabs */}
                                 <div className="mb-5">
-                                    <label className="text-xs font-semibold text-navy block mb-2">
+                                    {/* A heading for a pair of toggle buttons, not a field
+                                        label — so it is a group label, not a <label>. */}
+                                    <span id="transit-direction-label" className="text-xs font-semibold text-navy block mb-2">
                                         Transit Direction
-                                    </label>
-                                    <div className="grid grid-cols-2 gap-3 p-1 rounded-xl bg-gray-200/60">
+                                    </span>
+                                    <div
+                                        className="grid grid-cols-2 gap-3 p-1 rounded-xl bg-gray-200/60"
+                                        role="group"
+                                        aria-labelledby="transit-direction-label"
+                                    >
                                         <button
                                             type="button"
                                             onClick={() => setTransitDirection('inbound')}
@@ -406,11 +414,11 @@ const Checkouts = () => {
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
                                     {/* Flight Number */}
                                     <div>
-                                        <label className="text-xs font-semibold text-navy block mb-1.5">
+                                        <label className="text-xs font-semibold text-navy block mb-1.5" htmlFor="flightNumber">
                                             Flight Number *
                                         </label>
                                         <div className="relative">
-                                            <input
+                                            <input id="flightNumber"
                                                 type="text"
                                                 name="flightNumber"
                                                 required
@@ -426,7 +434,7 @@ const Checkouts = () => {
 
                                     {/* Arrival Date (Active interactive Date Picker) */}
                                     <div>
-                                        <label className="text-xs font-semibold text-navy block mb-1.5">
+                                        <label className="text-xs font-semibold text-navy block mb-1.5" htmlFor="checkouts-arrivalDate">
                                             Arrival Date *
                                         </label>
                                         <div
@@ -441,18 +449,24 @@ const Checkouts = () => {
                                                 }
                                             }}
                                         >
-                                            <input
+                                            {/* Visible, labelled field showing the formatted date */}
+                                            <input id="checkouts-arrivalDate"
                                                 type="text"
                                                 readOnly
                                                 value={formData.arrivalDateDisplay}
                                                 className="w-full px-3.5 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze cursor-pointer pr-10"
                                             />
+                                            {/* Native picker behind it: carries the submitted ISO
+                                                value, but is hidden from assistive tech and the tab
+                                                order since the field above is the labelled one. */}
                                             <input
                                                 ref={dateInputRef}
                                                 type="date"
                                                 name="arrivalDate"
                                                 value={formData.arrivalDate}
                                                 onChange={handleDateChange}
+                                                aria-hidden="true"
+                                                tabIndex={-1}
                                                 className="absolute inset-0 opacity-0 pointer-events-none w-full h-full"
                                             />
                                             <span className="absolute right-3.5 top-3.5 pointer-events-none">
@@ -463,7 +477,7 @@ const Checkouts = () => {
 
                                     {/* Scheduled Landing (Active interactive Time Picker) */}
                                     <div>
-                                        <label className="text-xs font-semibold text-navy block mb-1.5">
+                                        <label className="text-xs font-semibold text-navy block mb-1.5" htmlFor="landingTime">
                                             Scheduled Landing *
                                         </label>
                                         <div
@@ -478,7 +492,7 @@ const Checkouts = () => {
                                                 }
                                             }}
                                         >
-                                            <input
+                                            <input id="landingTime"
                                                 type="text"
                                                 name="landingTime"
                                                 required
@@ -486,12 +500,19 @@ const Checkouts = () => {
                                                 onChange={handleInputChange}
                                                 className="w-full px-3.5 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze pr-10"
                                             />
+                                            {/* Native picker behind the labelled text field above.
+                                                It deliberately has no `name`: the visible input
+                                                already submits landingTime, and two controls
+                                                sharing a name would send the value twice. */}
                                             <input
                                                 ref={timeInputRef}
                                                 type="time"
                                                 value={formData.landingTime}
-                                                onChange={handleInputChange}
-                                                name="landingTime"
+                                                onChange={(e) =>
+                                                    setFormData((prev) => ({ ...prev, landingTime: e.target.value }))
+                                                }
+                                                aria-hidden="true"
+                                                tabIndex={-1}
                                                 className="absolute inset-0 opacity-0 pointer-events-none w-full h-full"
                                             />
                                             <span className="absolute right-3.5 top-3.5 pointer-events-none">
@@ -522,10 +543,10 @@ const Checkouts = () => {
                                 </div>
 
                                 <div>
-                                    <label className="text-xs font-semibold text-navy block mb-1.5">
+                                    <label className="text-xs font-semibold text-navy block mb-1.5" htmlFor="placardNotes">
                                         Arrival Nameboard / Signage &amp; Baggage Details (Optional)
                                     </label>
-                                    <textarea
+                                    <textarea id="placardNotes"
                                         rows={3}
                                         name="placardNotes"
                                         value={formData.placardNotes}
@@ -590,10 +611,10 @@ const Checkouts = () => {
                                         {paymentMethod === 'card' && (
                                             <div className="mt-5 pt-4 border-t border-gray-100 grid grid-cols-1 gap-4">
                                                 <div>
-                                                    <label className="text-[11px] font-semibold text-gray-700 block mb-1">
+                                                    <label className="text-[11px] font-semibold text-gray-700 block mb-1" htmlFor="cardName">
                                                         Cardholder Full Name
                                                     </label>
-                                                    <input
+                                                    <input id="cardName"
                                                         type="text"
                                                         name="cardName"
                                                         value={formData.cardName}
@@ -602,11 +623,11 @@ const Checkouts = () => {
                                                     />
                                                 </div>
                                                 <div>
-                                                    <label className="text-[11px] font-semibold text-gray-700 block mb-1">
+                                                    <label className="text-[11px] font-semibold text-gray-700 block mb-1" htmlFor="cardNumber">
                                                         Card Number
                                                     </label>
                                                     <div className="relative">
-                                                        <input
+                                                        <input id="cardNumber"
                                                             type="text"
                                                             name="cardNumber"
                                                             value={formData.cardNumber}
@@ -618,10 +639,10 @@ const Checkouts = () => {
                                                 </div>
                                                 <div className="grid grid-cols-2 gap-4">
                                                     <div>
-                                                        <label className="text-[11px] font-semibold text-gray-700 block mb-1">
+                                                        <label className="text-[11px] font-semibold text-gray-700 block mb-1" htmlFor="cardExpiry">
                                                             Expiration
                                                         </label>
-                                                        <input
+                                                        <input id="cardExpiry"
                                                             type="text"
                                                             name="cardExpiry"
                                                             value={formData.cardExpiry}
@@ -631,10 +652,10 @@ const Checkouts = () => {
                                                         />
                                                     </div>
                                                     <div>
-                                                        <label className="text-[11px] font-semibold text-gray-700 block mb-1">
+                                                        <label className="text-[11px] font-semibold text-gray-700 block mb-1" htmlFor="cardCvv">
                                                             Security Code (CVV)
                                                         </label>
-                                                        <input
+                                                        <input id="cardCvv"
                                                             type="text"
                                                             name="cardCvv"
                                                             value={formData.cardCvv}
@@ -970,6 +991,8 @@ const Checkouts = () => {
                     src={seamlessHanoiTransitImg}
                     alt="Seamless Hanoi Transit"
                     className="absolute inset-0 w-full h-full object-cover z-0"
+                    loading="lazy"
+                    decoding="async"
                 />
 
                 {/* Dark Overlay */}

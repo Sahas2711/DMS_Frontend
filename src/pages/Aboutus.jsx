@@ -297,6 +297,8 @@ const Aboutus = () => {
                                 src={aboutSectionImg}
                                 alt="Asian Star Travel Vietnam Operations"
                                 className="w-full h-auto object-cover aspect-[4/3] md:aspect-[16/11]"
+                                loading="lazy"
+                                decoding="async"
                             />
 
                             {/* Floating Card at Bottom */}
@@ -344,6 +346,8 @@ const Aboutus = () => {
                                 src={ourStoryImg}
                                 alt="Asian Star Travel Ground Hospitality"
                                 className="w-full h-auto object-cover aspect-[4/5]"
+                                loading="lazy"
+                                decoding="async"
                             />
 
                             {/* Top Left Floating Badge */}
@@ -440,6 +444,8 @@ const Aboutus = () => {
                                         src={service.image}
                                         alt={service.title}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                     <div className="absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-white/95 backdrop-blur-md flex items-center justify-center shadow-md z-10">
                                         {service.icon}
@@ -480,6 +486,8 @@ const Aboutus = () => {
                     src={regionalReachImg}
                     alt="Destinations We Cover Across Vietnam"
                     className="absolute inset-0 w-full h-full object-cover z-0"
+                    loading="lazy"
+                    decoding="async"
                 />
 
                 {/* Gradient Overlay */}

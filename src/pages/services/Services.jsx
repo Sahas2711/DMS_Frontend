@@ -171,6 +171,8 @@ const Services = () => {
                                         src={service.image}
                                         alt={service.title}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                        loading="lazy"
+                                        decoding="async"
                                     />
                                     <div className="absolute top-4 left-4 bg-navy/90 backdrop-blur-sm text-gold text-[10px] font-bold tracking-widest px-3.5 py-1.5 rounded-full uppercase border border-gold/30">
                                         {service.badge}
