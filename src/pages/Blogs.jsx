@@ -7,15 +7,12 @@ import vietnamTravelImg from '../assets/blogs/VIETNAM-TRAVEL.webp';
 import destinationsImg from '../assets/blogs/DESTINATIONS.webp';
 import travelTipsImg from '../assets/blogs/TRAVEL-TIPS.webp';
 import seamlessHanoiTransitImg from '../assets/blogs/SEAMLESS-HANOI-TRANSIT.webp';
-
-const StarIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-white mb-4">
-        <path d="M12 2C12.5 7.5 16.5 11.5 22 12C16.5 12.5 12.5 16.5 12 22C11.5 16.5 7.5 12.5 2 12C7.5 11.5 11.5 7.5 12 2Z" />
-    </svg>
-);
+import PageHero from '../components/PageHero';
+import Seo from '../components/Seo';
+import { PAGE_META } from '../config/site';
 
 const PhotoIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-[#8C7A53]">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-bronze">
         <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
     </svg>
 );
@@ -71,52 +68,27 @@ const Blogs = () => {
 
     return (
         <div className="w-full bg-[#FFFFFF]">
-            {/* Hero Section */}
-            <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
-                {/* Background Image */}
-                <img
-                    src={heroImage}
-                    alt="Travel Blogs Hero"
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                />
+            <Seo {...PAGE_META['/blog']} path="/blog" />
 
-                {/* Dark/Blue Overlay to improve text readability */}
-                <div className="absolute inset-0 bg-[#081634]/30 z-0"></div>
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col items-center text-center px-6 -mt-10">
-                    <StarIcon />
-
-                    <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-serif tracking-widest mb-6">
-                        ASMALLWORLD
-                    </h1>
-
-                    {/* Gold separator line */}
-                    <div className="w-24 md:w-32 h-[1px] bg-[#C5A869] mb-6"></div>
-
-                    <p className="text-white text-sm md:text-base font-light tracking-wide uppercase">
-                        Travel Blog
-                    </p>
-                </div>
-            </section>
+            <PageHero image={heroImage} alt="" eyebrow="Travel Blog" uppercase />
 
             {/* Travel Journal / Travel Inspiration & Expert Tips Section */}
             <section className="w-full pt-16 md:pt-20 pb-8 md:pb-12 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center bg-[#FFFFFF]">
                 <div className="w-full max-w-7xl flex flex-col items-center">
                     
                     {/* Eyebrow Badge */}
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#FAF3DF] border border-[#EDE4D0] text-[#8C7A53] text-[11px] font-bold tracking-widest uppercase mb-4">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#8C7A53]"></span>
+                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-champagne border border-[#EDE4D0] text-bronze text-[11px] font-bold tracking-widest uppercase mb-4">
+                        <span className="w-1.5 h-1.5 rounded-full bg-bronze"></span>
                         TRAVEL JOURNAL
                     </div>
 
                     {/* Section Title */}
-                    <h2 className="text-[#081634] text-3xl md:text-4xl lg:text-[46px] font-serif font-normal text-center leading-[1.2] mb-4">
+                    <h2 className="text-navy text-3xl md:text-4xl lg:text-[46px] font-serif font-normal text-center leading-[1.2] mb-4">
                         Travel Inspiration &amp; Expert Tips
                     </h2>
 
                     {/* Subtitle */}
-                    <p className="text-[#556987] text-sm md:text-base text-center max-w-xl mx-auto mb-10 md:mb-12 leading-relaxed">
+                    <p className="text-steel text-sm md:text-base text-center max-w-xl mx-auto mb-10 md:mb-12 leading-relaxed">
                         Discover travel guides, airport tips, destinations and useful insights for a smoother journey across Southeast Asia and beyond.
                     </p>
 
@@ -130,13 +102,13 @@ const Blogs = () => {
                         />
 
                         {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#081634]/90 via-[#081634]/30 to-transparent z-0"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent z-0"></div>
 
                         {/* Banner Content */}
                         <div className="relative z-10 w-full flex flex-col md:flex-row md:items-end justify-between gap-6">
                             {/* Left Text */}
                             <div className="flex flex-col items-start text-left">
-                                <span className="inline-block text-[9px] sm:text-[10px] font-bold tracking-widest text-[#E3CA90] bg-[#081634]/60 backdrop-blur-sm px-3.5 py-1 rounded-full uppercase mb-3 border border-[#E3CA90]/30">
+                                <span className="inline-block text-[9px] sm:text-[10px] font-bold tracking-widest text-[#E3CA90] bg-navy/60 backdrop-blur-sm px-3.5 py-1 rounded-full uppercase mb-3 border border-[#E3CA90]/30">
                                     COVER STORY - HA LONG ARCHIPELAGO
                                 </span>
                                 <h3 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-[38px] font-serif font-normal leading-[1.2] max-w-2xl drop-shadow-md">
@@ -146,14 +118,14 @@ const Blogs = () => {
 
                             {/* Right Glass Badge */}
                             <div className="bg-white/95 backdrop-blur-md rounded-xl md:rounded-2xl p-3.5 sm:p-4 shadow-xl border border-white/60 flex items-center gap-3 flex-shrink-0 self-start md:self-end">
-                                <div className="w-9 h-9 rounded-lg bg-[#FAF3DF] flex items-center justify-center flex-shrink-0">
+                                <div className="w-9 h-9 rounded-lg bg-champagne flex items-center justify-center flex-shrink-0">
                                     <PhotoIcon />
                                 </div>
                                 <div className="flex flex-col text-left">
-                                    <span className="text-[9px] sm:text-[10px] font-bold text-[#8C7A53] tracking-widest uppercase">
+                                    <span className="text-[9px] sm:text-[10px] font-bold text-bronze tracking-widest uppercase">
                                         FIELD ARCHIVE
                                     </span>
-                                    <span className="text-xs sm:text-sm font-bold text-[#081634]">
+                                    <span className="text-xs sm:text-sm font-bold text-navy">
                                         Gulf of Tonkin Exclusive Dispatch
                                     </span>
                                 </div>
@@ -198,7 +170,7 @@ const Blogs = () => {
                                 alt="The Connoisseur's Guide to Seamless International Transit at Hanoi Noi Bai"
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                             />
-                            <div className="absolute top-5 left-5 bg-[#081634]/90 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase border border-white/20">
+                            <div className="absolute top-5 left-5 bg-navy/90 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase border border-white/20">
                                 EDITOR'S DISPATCH
                             </div>
                         </div>
@@ -208,7 +180,7 @@ const Blogs = () => {
                             <div>
                                 {/* Top Meta Row */}
                                 <div className="flex items-center justify-between text-xs mb-3">
-                                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#8C7A53] uppercase">
+                                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-bronze uppercase">
                                         AIRPORT SERVICES
                                     </span>
                                     <span className="text-gray-400 flex items-center gap-1.5 text-xs">
@@ -217,12 +189,12 @@ const Blogs = () => {
                                 </div>
 
                                 {/* Title */}
-                                <h3 className="text-[#081634] text-2xl md:text-3xl lg:text-[34px] font-serif font-normal leading-[1.2] my-4">
+                                <h3 className="text-navy text-2xl md:text-3xl lg:text-[34px] font-serif font-normal leading-[1.2] my-4">
                                     The Connoisseur's Guide to Seamless International Transit at Hanoi Noi Bai
                                 </h3>
 
                                 {/* Description */}
-                                <p className="text-[#556987] text-xs md:text-sm leading-relaxed mb-8">
+                                <p className="text-steel text-xs md:text-sm leading-relaxed mb-8">
                                     From airbridge personal escorts to diplomatic fast-track immigration and private Mercedes transfers, learn how bespoke airport concierge redefines Southeast Asian arrivals for distinguished travelers.
                                 </p>
                             </div>
@@ -230,11 +202,11 @@ const Blogs = () => {
                             {/* Bottom Author Row */}
                             <div className="flex items-center justify-between pt-6 border-t border-gray-100 mt-auto">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-9 h-9 rounded-full bg-[#FAF3DF] flex items-center justify-center text-[#8C7A53] font-bold text-xs">
+                                    <div className="w-9 h-9 rounded-full bg-champagne flex items-center justify-center text-bronze font-bold text-xs">
                                         AST
                                     </div>
                                     <div className="flex flex-col text-left">
-                                        <span className="text-xs font-bold text-[#081634]">
+                                        <span className="text-xs font-bold text-navy">
                                             Concierge Protocol Team
                                         </span>
                                         <span className="text-[10px] text-gray-400">
@@ -245,7 +217,7 @@ const Blogs = () => {
 
                                 <a
                                     href="#"
-                                    className="text-xs font-semibold text-[#081634] hover:text-[#8C7A53] flex items-center gap-1.5 transition-colors group-hover:gap-2.5"
+                                    className="text-xs font-semibold text-navy hover:text-bronze flex items-center gap-1.5 transition-colors group-hover:gap-2.5"
                                 >
                                     Read Article
                                     <span>→</span>
@@ -257,10 +229,10 @@ const Blogs = () => {
                     {/* Middle Section Header */}
                     <div className="w-full flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-10 text-left">
                         <div>
-                            <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#8C7A53] uppercase mb-2 block">
+                            <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-bronze uppercase mb-2 block">
                                 SELECTED STORIES
                             </span>
-                            <h2 className="text-[#081634] text-3xl md:text-4xl font-serif font-normal">
+                            <h2 className="text-navy text-3xl md:text-4xl font-serif font-normal">
                                 Latest Articles &amp; Insights
                             </h2>
                         </div>
@@ -283,7 +255,7 @@ const Blogs = () => {
                                         alt={article.title}
                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                     />
-                                    <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-[#081634] text-[9px] font-bold tracking-wider px-3 py-1 rounded-full uppercase shadow-sm">
+                                    <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-navy text-[9px] font-bold tracking-wider px-3 py-1 rounded-full uppercase shadow-sm">
                                         {article.tag}
                                     </span>
                                 </div>
@@ -294,10 +266,10 @@ const Blogs = () => {
                                         <span className="text-[11px] text-gray-400 block mb-2">
                                             📅 {article.date} · {article.readTime}
                                         </span>
-                                        <h3 className="text-[#081634] text-base md:text-lg font-serif font-bold mb-3 leading-snug">
+                                        <h3 className="text-navy text-base md:text-lg font-serif font-bold mb-3 leading-snug">
                                             {article.title}
                                         </h3>
-                                        <p className="text-[#556987] text-xs leading-relaxed mb-6">
+                                        <p className="text-steel text-xs leading-relaxed mb-6">
                                             {article.description}
                                         </p>
                                     </div>
@@ -309,7 +281,7 @@ const Blogs = () => {
                                         </span>
                                         <a
                                             href={article.link}
-                                            className="text-xs font-semibold text-[#8C7A53] hover:text-[#081634] flex items-center gap-1 transition-colors"
+                                            className="text-xs font-semibold text-bronze hover:text-navy flex items-center gap-1 transition-colors"
                                         >
                                             Read More
                                             <span>→</span>
@@ -323,7 +295,7 @@ const Blogs = () => {
                     {/* Bottom Load Button */}
                     <button
                         type="button"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#EBE9E2] hover:bg-[#E0DDD4] text-[#081634] text-xs font-semibold transition-colors shadow-sm"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#EBE9E2] hover:bg-[#E0DDD4] text-navy text-xs font-semibold transition-colors shadow-sm"
                     >
                         <span>🔄</span>
                         Load Prior Dispatches
@@ -342,7 +314,7 @@ const Blogs = () => {
                 />
 
                 {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-[#081634]/40 z-0"></div>
+                <div className="absolute inset-0 bg-navy/40 z-0"></div>
 
                 {/* Content */}
                 <div className="relative z-10 w-full max-w-4xl mx-auto px-6 py-16 md:py-20 flex flex-col items-center text-center">
@@ -364,7 +336,7 @@ const Blogs = () => {
                     {/* CTA Button */}
                     <Link
                         to="/services/airport-fast-track"
-                        className="inline-flex items-center justify-center bg-[#E5B869] hover:bg-[#D4A758] text-[#081634] font-bold text-xs md:text-sm px-8 py-3.5 rounded-lg uppercase tracking-wider transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
+                        className="inline-flex items-center justify-center bg-[#E5B869] hover:bg-[#D4A758] text-navy font-bold text-xs md:text-sm px-8 py-3.5 rounded-lg uppercase tracking-wider transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
                     >
                         BOOK NOW
                     </Link>

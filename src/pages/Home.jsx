@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Sparkles, Compass } from 'lucide-react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import Seo from '../components/Seo';
+import { PAGE_META } from '../config/site';
 import heroImage from '../assets/home/hero-image-home.png';
 
 // Icons
@@ -233,7 +234,7 @@ const INTERNATIONAL_DESTINATIONS = [
             ease: [0.16, 1, 0.3, 1]
         }}
         whileHover={{ y: -6 }}
-        className="bg-white rounded-2xl p-8 sm:p-9 shadow-[0_4px_24px_rgba(8,22,52,0.03)] hover:shadow-[0_16px_36px_rgba(8,22,52,0.08)] border border-[#EDE8E0] hover:border-[#C5A869]/40 transition-all duration-300 flex flex-col items-start h-full text-left group cursor-pointer"
+        className="bg-white rounded-2xl p-8 sm:p-9 shadow-[0_4px_24px_rgba(8,22,52,0.03)] hover:shadow-[0_16px_36px_rgba(8,22,52,0.08)] border border-[#EDE8E0] hover:border-gold/40 transition-all duration-300 flex flex-col items-start h-full text-left group cursor-pointer"
     >
         {/* Original Luxury SVG Icon */}
         <img 
@@ -243,7 +244,7 @@ const INTERNATIONAL_DESTINATIONS = [
         />
 
         {/* Title */}
-        <h3 className="text-[#081634] text-xl font-serif font-bold mb-3">
+        <h3 className="text-navy text-xl font-serif font-bold mb-3">
             {service.title}
         </h3>
 
@@ -255,7 +256,7 @@ const INTERNATIONAL_DESTINATIONS = [
         {/* Action Link */}
         <Link 
             to={service.link}
-            className="text-[#C5A869] hover:text-[#B39758] font-semibold text-sm transition-colors flex items-center gap-1.5 mt-auto group/link"
+            className="text-gold hover:text-[#B39758] font-semibold text-sm transition-colors flex items-center gap-1.5 mt-auto group/link"
         >
             <span>Learn more</span>
             <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">&rarr;</span>
@@ -310,7 +311,7 @@ const EditorialDestinationCard = ({ dest, index }) => {
                         <h3 className="text-white text-xl font-serif font-medium drop-shadow-md">
                             {dest.title}
                         </h3>
-                        <span className="text-[#C5A869] text-base opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 font-medium">
+                        <span className="text-gold text-base opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 font-medium">
                             &rarr;
                         </span>
                     </div>
@@ -334,7 +335,7 @@ const EditorialPlanTripCard = () => (
             ease: [0.16, 1, 0.3, 1]
         }}
         whileHover={{ y: -6 }}
-        className="bg-[#081634] rounded-[20px] p-6 shadow-sm hover:shadow-2xl border border-white/5 hover:border-[#C5A869]/40 transition-all duration-500 h-[340px] sm:h-[360px] md:h-[375px] w-full flex flex-col items-center justify-center text-center group cursor-pointer relative overflow-hidden"
+        className="bg-navy rounded-[20px] p-6 shadow-sm hover:shadow-2xl border border-white/5 hover:border-gold/40 transition-all duration-500 h-[340px] sm:h-[360px] md:h-[375px] w-full flex flex-col items-center justify-center text-center group cursor-pointer relative overflow-hidden"
     >
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(197,168,105,0.06),transparent_70%)] pointer-events-none"></div>
 
@@ -342,7 +343,7 @@ const EditorialPlanTripCard = () => (
             <p className="text-gray-300 mb-3 text-xs sm:text-sm font-light">
                 Not sure where to start?
             </p>
-            <span className="text-[#C5A869] font-serif text-2xl md:text-3xl group-hover:text-[#DEBA77] transition-colors flex items-center gap-2 font-medium">
+            <span className="text-gold font-serif text-2xl md:text-3xl group-hover:text-[#DEBA77] transition-colors flex items-center gap-2 font-medium">
                 <span>Plan Your Trip</span>
                 <span className="inline-block transition-transform duration-300 group-hover:translate-x-2">&rarr;</span>
             </span>
@@ -441,17 +442,21 @@ const Home = () => {
 
     return (
         <div className="w-full flex flex-col">
+            <Seo {...PAGE_META['/']} path="/" />
+
             {/* Hero Section */}
-            <section className="relative w-full h-[85vh] sm:h-[90vh] lg:min-h-screen overflow-hidden flex items-center justify-center bg-[#081634]">
-                {/* Background Image */}
+            <section className="relative w-full h-[85vh] sm:h-[90vh] lg:min-h-screen overflow-hidden flex items-center justify-center bg-navy">
+                {/* Background Image — the LCP element, so it loads eagerly at high priority */}
                 <img
                     src={heroImage}
-                    alt="Travel Discover Belong - Asian Star Travel"
+                    alt=""
                     className="absolute inset-0 w-full h-full object-cover object-center z-0 block select-none"
+                    fetchPriority="high"
+                    decoding="async"
                 />
 
                 {/* Subtle Luxury Gradient Overlay for depth and text readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#081634]/35 via-black/10 to-[#081634]/25 z-0 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/35 via-black/10 to-navy/25 z-0 pointer-events-none" />
 
                 {/* Clean Direct Typography */}
                 <div className="relative z-10 flex flex-col items-center text-center px-6 pointer-events-none">
@@ -463,9 +468,9 @@ const Home = () => {
                     >
                         <h1 className="text-white font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl tracking-wider flex flex-wrap items-center justify-center gap-x-3 sm:gap-x-4 gap-y-2 drop-shadow-[0_4px_24px_rgba(0,0,0,0.85)] font-normal">
                             <span>Travel</span>
-                            <span className="text-[#C5A869] text-xs sm:text-sm md:text-base">✦</span>
+                            <span className="text-gold text-xs sm:text-sm md:text-base">✦</span>
                             <span>Discover</span>
-                            <span className="text-[#C5A869] text-xs sm:text-sm md:text-base">✦</span>
+                            <span className="text-gold text-xs sm:text-sm md:text-base">✦</span>
                             <span>Belong</span>
                         </h1>
                     </motion.div>
@@ -482,7 +487,7 @@ const Home = () => {
                     transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                     className="max-w-4xl text-center mb-16"
                 >
-                    <h2 className="text-[#081634] text-4xl md:text-5xl font-serif font-bold mb-6 tracking-tight">
+                    <h2 className="text-navy text-4xl md:text-5xl font-serif font-bold mb-6 tracking-tight">
                         Travel Services Designed Around You
                     </h2>
                     <p className="text-gray-600 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto">
@@ -512,7 +517,7 @@ const Home = () => {
                     transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                     className="max-w-4xl text-center mb-14"
                 >
-                    <h2 className="text-[#081634] text-4xl md:text-5xl font-serif font-bold mb-4 tracking-tight">
+                    <h2 className="text-navy text-4xl md:text-5xl font-serif font-bold mb-4 tracking-tight">
                         Discover India Your Way
                     </h2>
                     <p className="text-gray-600 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
@@ -698,7 +703,7 @@ const Home = () => {
             </section>
 
             {/* Popular Destinations Section */}
-            <section className="w-full bg-[#081634] relative overflow-hidden py-20 md:py-28 lg:py-32 pl-6 md:pl-12 lg:pl-20 xl:pl-32 pr-6 md:pr-12 lg:pr-0 flex flex-col items-center">
+            <section className="w-full bg-navy relative overflow-hidden py-20 md:py-28 lg:py-32 pl-6 md:pl-12 lg:pl-20 xl:pl-32 pr-6 md:pr-12 lg:pr-0 flex flex-col items-center">
                 {/* Watermarks */}
                 <img src={popWatermark1} alt="" className="absolute top-0 left-0 w-48 md:w-auto md:h-full md:max-w-none opacity-30 md:opacity-100 pointer-events-none z-0" />
                 <img src={popWatermark2} alt="" className="absolute top-0 right-0 w-32 md:w-auto opacity-30 md:opacity-100 pointer-events-none z-0" />
@@ -831,9 +836,9 @@ const Home = () => {
                             whileInView={{ opacity: 1, scale: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.35, duration: 0.6, type: 'spring', stiffness: 200 }}
-                            className="absolute -bottom-6 -left-4 md:-bottom-8 md:-left-8 bg-[#081634] p-5 md:p-6 rounded-2xl shadow-2xl min-w-[200px] border border-white/10 hover:scale-105 transition-transform duration-300 cursor-pointer"
+                            className="absolute -bottom-6 -left-4 md:-bottom-8 md:-left-8 bg-navy p-5 md:p-6 rounded-2xl shadow-2xl min-w-[200px] border border-white/10 hover:scale-105 transition-transform duration-300 cursor-pointer"
                         >
-                            <h4 className="text-[#C5A869] font-serif text-base md:text-lg font-semibold mb-1">
+                            <h4 className="text-gold font-serif text-base md:text-lg font-semibold mb-1">
                                 Trusted India DMC
                             </h4>
                             <p className="text-gray-300 text-xs md:text-sm">
@@ -850,7 +855,7 @@ const Home = () => {
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         className="w-full md:w-1/2 flex flex-col items-start mt-12 md:mt-0"
                     >
-                        <h2 className="text-[#081634] text-4xl md:text-5xl font-serif font-bold mb-10 leading-tight">
+                        <h2 className="text-navy text-4xl md:text-5xl font-serif font-bold mb-10 leading-tight">
                             Why Travel with Asian<br/>Star Travel
                         </h2>
                         
@@ -868,12 +873,12 @@ const Home = () => {
                                     }}
                                     className="flex items-center group cursor-pointer hover:translate-x-2 transition-transform duration-200"
                                 >
-                                    <div className="w-6 h-6 rounded-full bg-[#fdf5e6] group-hover:bg-[#C5A869]/20 flex items-center justify-center mr-4 flex-shrink-0 transition-colors duration-200 shadow-sm">
-                                        <svg className="w-3.5 h-3.5 text-[#C5A869] group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <div className="w-6 h-6 rounded-full bg-[#fdf5e6] group-hover:bg-gold/20 flex items-center justify-center mr-4 flex-shrink-0 transition-colors duration-200 shadow-sm">
+                                        <svg className="w-3.5 h-3.5 text-gold group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
                                         </svg>
                                     </div>
-                                    <span className="text-[#2a3b5c] font-semibold text-sm md:text-base group-hover:text-[#081634] transition-colors">
+                                    <span className="text-[#2a3b5c] font-semibold text-sm md:text-base group-hover:text-navy transition-colors">
                                         {item}
                                     </span>
                                 </motion.div>
@@ -883,7 +888,7 @@ const Home = () => {
                         <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
                             <Link
                                 to="/trip"
-                                className="bg-[#081634] hover:bg-[#0a1f4a] text-white font-semibold py-3.5 px-8 rounded-full text-sm tracking-wide shadow-lg hover:shadow-xl hover:shadow-[#081634]/25 transition-all duration-300 inline-flex items-center gap-2 group"
+                                className="bg-navy hover:bg-[#0a1f4a] text-white font-semibold py-3.5 px-8 rounded-full text-sm tracking-wide shadow-lg hover:shadow-xl hover:shadow-navy/25 transition-all duration-300 inline-flex items-center gap-2 group"
                             >
                                 <span>Plan Your Trip</span>
                                 <span className="inline-block transition-transform duration-300 group-hover:translate-x-1 font-bold">&rarr;</span>
@@ -902,7 +907,7 @@ const Home = () => {
                     transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                     className="max-w-3xl mb-12"
                 >
-                    <h2 className="text-[#081634] text-4xl md:text-5xl font-serif font-bold mb-4 tracking-tight">
+                    <h2 className="text-navy text-4xl md:text-5xl font-serif font-bold mb-4 tracking-tight">
                         Popular Domestic Destinations
                     </h2>
                     <p className="text-gray-500 text-base md:text-lg max-w-2xl mx-auto font-normal">
@@ -933,7 +938,7 @@ const Home = () => {
                                 />
                                 
                                 {/* Luxury Gradient Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#081634]/95 via-[#081634]/30 to-transparent transition-opacity duration-500 group-hover:from-[#081634]"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-navy/95 via-navy/30 to-transparent transition-opacity duration-500 group-hover:from-navy"></div>
                                 
                                 {/* Text Content */}
                                 <div className="absolute bottom-0 left-0 p-8 text-left z-10 w-full transition-transform duration-300 group-hover:-translate-y-1">
@@ -941,11 +946,11 @@ const Home = () => {
                                         <h3 className="text-white font-serif text-2xl lg:text-3xl font-medium tracking-tight">
                                             {dest.title}
                                         </h3>
-                                        <span className="text-[#C5A869] text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 font-bold">
+                                        <span className="text-gold text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 font-bold">
                                             &rarr;
                                         </span>
                                     </div>
-                                    <p className="text-[#C5A869] text-xs font-bold tracking-widest uppercase">
+                                    <p className="text-gold text-xs font-bold tracking-widest uppercase">
                                         {dest.tours}
                                     </p>
                                 </div>
@@ -957,7 +962,7 @@ const Home = () => {
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }}>
                     <Link
                         to="/destination"
-                        className="border border-gray-400 hover:border-[#081634] hover:bg-[#081634] hover:text-white transition-all duration-300 text-gray-700 text-xs font-bold tracking-widest uppercase py-3.5 px-8 rounded-full inline-flex items-center gap-2 group shadow-sm hover:shadow-lg"
+                        className="border border-gray-400 hover:border-navy hover:bg-navy hover:text-white transition-all duration-300 text-gray-700 text-xs font-bold tracking-widest uppercase py-3.5 px-8 rounded-full inline-flex items-center gap-2 group shadow-sm hover:shadow-lg"
                     >
                         <span>READ MORE</span>
                         <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">&rarr;</span>
@@ -974,7 +979,7 @@ const Home = () => {
                     transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
                     className="max-w-3xl mb-12"
                 >
-                    <h2 className="text-[#081634] text-4xl md:text-5xl font-serif font-bold mb-4 tracking-tight">
+                    <h2 className="text-navy text-4xl md:text-5xl font-serif font-bold mb-4 tracking-tight">
                         Best International Destinations
                     </h2>
                     <p className="text-gray-500 text-base md:text-lg max-w-2xl mx-auto font-normal">
@@ -1005,7 +1010,7 @@ const Home = () => {
                                 />
                                 
                                 {/* Luxury Gradient Overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#081634]/95 via-[#081634]/30 to-transparent transition-opacity duration-500 group-hover:from-[#081634]"></div>
+                                <div className="absolute inset-0 bg-gradient-to-t from-navy/95 via-navy/30 to-transparent transition-opacity duration-500 group-hover:from-navy"></div>
                                 
                                 {/* Text Content */}
                                 <div className="absolute bottom-0 left-0 p-8 text-left z-10 w-full transition-transform duration-300 group-hover:-translate-y-1">
@@ -1013,11 +1018,11 @@ const Home = () => {
                                         <h3 className="text-white font-serif text-2xl lg:text-3xl font-medium tracking-tight">
                                             {dest.title}
                                         </h3>
-                                        <span className="text-[#C5A869] text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 font-bold">
+                                        <span className="text-gold text-lg opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 font-bold">
                                             &rarr;
                                         </span>
                                     </div>
-                                    <p className="text-[#C5A869] text-xs font-bold tracking-widest uppercase">
+                                    <p className="text-gold text-xs font-bold tracking-widest uppercase">
                                         {dest.tours}
                                     </p>
                                 </div>
@@ -1029,7 +1034,7 @@ const Home = () => {
                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.96 }}>
                     <Link
                         to="/destination"
-                        className="border border-gray-400 hover:border-[#081634] hover:bg-[#081634] hover:text-white transition-all duration-300 text-gray-700 text-xs font-bold tracking-widest uppercase py-3.5 px-8 rounded-full inline-flex items-center gap-2 group shadow-sm hover:shadow-lg"
+                        className="border border-gray-400 hover:border-navy hover:bg-navy hover:text-white transition-all duration-300 text-gray-700 text-xs font-bold tracking-widest uppercase py-3.5 px-8 rounded-full inline-flex items-center gap-2 group shadow-sm hover:shadow-lg"
                     >
                         <span>READ MORE</span>
                         <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5">&rarr;</span>
@@ -1048,7 +1053,7 @@ const Home = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-[#081634]/50 via-[#081634]/35 to-[#081634]/65 z-0"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-navy/50 via-navy/35 to-navy/65 z-0"></div>
                 
                 <motion.div
                     initial={{ opacity: 0, y: 25 }}
@@ -1070,7 +1075,7 @@ const Home = () => {
                     <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="mb-2">
                         <Link
                             to="/contact"
-                            className="bg-[#EAB308] hover:bg-[#FACC15] text-[#081634] font-bold py-3.5 px-9 rounded-full text-sm tracking-wide shadow-[0_6px_25px_rgba(234,179,8,0.35)] hover:shadow-[0_10px_35px_rgba(234,179,8,0.45)] transition-all duration-300 inline-block"
+                            className="bg-[#EAB308] hover:bg-[#FACC15] text-navy font-bold py-3.5 px-9 rounded-full text-sm tracking-wide shadow-[0_6px_25px_rgba(234,179,8,0.35)] hover:shadow-[0_10px_35px_rgba(234,179,8,0.45)] transition-all duration-300 inline-block"
                         >
                             Send Travel Request
                         </Link>
@@ -1083,13 +1088,13 @@ const Home = () => {
                     <div className="flex flex-col sm:flex-row gap-3">
                         <Link
                             to="/trip"
-                            className="border border-white/60 hover:border-white hover:bg-white hover:text-[#081634] transition-all duration-300 text-white text-xs font-medium py-2 px-5 rounded-full backdrop-blur-xs"
+                            className="border border-white/60 hover:border-white hover:bg-white hover:text-navy transition-all duration-300 text-white text-xs font-medium py-2 px-5 rounded-full backdrop-blur-xs"
                         >
                             Private travelers
                         </Link>
                         <Link
                             to="/services"
-                            className="border border-white/60 hover:border-white hover:bg-white hover:text-[#081634] transition-all duration-300 text-white text-xs font-medium py-2 px-5 rounded-full backdrop-blur-xs"
+                            className="border border-white/60 hover:border-white hover:bg-white hover:text-navy transition-all duration-300 text-white text-xs font-medium py-2 px-5 rounded-full backdrop-blur-xs"
                         >
                             Travel agencies & tour operators
                         </Link>

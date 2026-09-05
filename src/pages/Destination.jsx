@@ -3,12 +3,9 @@ import { Link } from 'react-router-dom';
 import { motion, useInView } from 'framer-motion';
 import heroImage from '../assets/destination/Destination-hero-image.webp';
 import chooseSupportImg from '../assets/destination/Choose-your-support.webp';
-
-const StarIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-white mb-4">
-        <path d="M12 2C12.5 7.5 16.5 11.5 22 12C16.5 12.5 12.5 16.5 12 22C11.5 16.5 7.5 12.5 2 12C7.5 11.5 11.5 7.5 12 2Z" />
-    </svg>
-);
+import StarIcon from '../components/icons/StarIcon';
+import Seo from '../components/Seo';
+import { PAGE_META, SITE } from '../config/site';
 
 const AnimatedCounter = ({ value, duration = 2, decimals = 0, prefix = "", suffix = "" }) => {
     const [count, setCount] = useState(0);
@@ -65,20 +62,25 @@ const Destination = () => {
 
     return (
         <div className="w-full">
-            {/* Hero Section */}
+            <Seo {...PAGE_META['/destination']} path="/destination" />
+
+            {/* Hero Section — animated, so it keeps its own markup rather than
+                using the shared <PageHero /> */}
             <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <img
                     src={heroImage}
-                    alt="Destination Hero"
+                    alt=""
                     className="absolute inset-0 w-full h-full object-cover z-0 scale-105 animate-fade-in"
+                    fetchPriority="high"
+                    decoding="async"
                 />
 
                 {/* Overlay to improve text readability */}
-                <div className="absolute inset-0 bg-[#081634]/30 z-0"></div>
+                <div className="absolute inset-0 bg-navy/30 z-0" aria-hidden="true"></div>
 
                 {/* Content */}
-                <motion.div 
+                <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
@@ -87,7 +89,7 @@ const Destination = () => {
                     <StarIcon />
 
                     <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-serif tracking-widest mb-6">
-                        ASMALLWORLD
+                        {SITE.wordmark}
                     </h1>
 
                     {/* Gold separator line */}
@@ -95,7 +97,7 @@ const Destination = () => {
                         initial={{ width: 0 }}
                         animate={{ width: "6rem" }}
                         transition={{ duration: 1.2, delay: 0.3 }}
-                        className="h-[1px] bg-[#C5A869] mb-6"
+                        className="h-[1px] bg-gold mb-6"
                     />
 
                     <p className="text-white text-sm md:text-base font-light tracking-wide uppercase">
@@ -121,15 +123,15 @@ const Destination = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6 }}
-                            className="flex items-center text-[#101828] text-xs font-bold mb-6 bg-white/80 backdrop-blur-sm px-3.5 py-1.5 rounded-full w-fit shadow-sm border border-gray-200/60"
+                            className="flex items-center text-ink text-xs font-bold mb-6 bg-white/80 backdrop-blur-sm px-3.5 py-1.5 rounded-full w-fit shadow-sm border border-gray-200/60"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-2 text-[#081634]">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 mr-2 text-navy">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
                             </svg>
                             Concierge support across 80+ airports
                         </motion.div>
 
-                        <h2 className="text-[#081634] text-4xl md:text-5xl lg:text-[48px] font-bold leading-[1.1] mb-6">
+                        <h2 className="text-navy text-4xl md:text-5xl lg:text-[48px] font-bold leading-[1.1] mb-6">
                             Your smoothest airport moment starts with the right destination.
                         </h2>
 
@@ -142,7 +144,7 @@ const Destination = () => {
                                 whileHover={{ scale: 1.04 }}
                                 whileTap={{ scale: 0.96 }}
                                 onClick={scrollToFeatured}
-                                className="group bg-[#081634] hover:bg-[#122345] text-white font-medium py-3.5 px-6 rounded-md transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center text-sm"
+                                className="group bg-navy hover:bg-[#122345] text-white font-medium py-3.5 px-6 rounded-md transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center text-sm"
                             >
                                 <span>Explore airports</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5 ml-2 mt-0.5 transition-transform duration-300 group-hover:translate-y-1">
@@ -155,7 +157,7 @@ const Destination = () => {
                             >
                                 <Link 
                                     to="/services/ground-services"
-                                    className="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-[#081634] font-medium py-3.5 px-6 rounded-md transition-all duration-300 shadow-sm hover:shadow-md text-sm border border-gray-200/80"
+                                    className="inline-flex items-center justify-center bg-white hover:bg-gray-50 text-navy font-medium py-3.5 px-6 rounded-md transition-all duration-300 shadow-sm hover:shadow-md text-sm border border-gray-200/80"
                                 >
                                     Arrange ground support
                                 </Link>
@@ -171,7 +173,7 @@ const Destination = () => {
                                 transition={{ duration: 0.6, delay: 0.1 }}
                                 className="flex flex-col"
                             >
-                                <span className="text-[#081634] text-2xl md:text-[26px] font-bold mb-1">
+                                <span className="text-navy text-2xl md:text-[26px] font-bold mb-1">
                                     <AnimatedCounter value={80} suffix="+" />
                                 </span>
                                 <span className="text-gray-500 text-[11px] font-medium tracking-wide">Airport partners</span>
@@ -184,7 +186,7 @@ const Destination = () => {
                                 transition={{ duration: 0.6, delay: 0.2 }}
                                 className="flex flex-col"
                             >
-                                <span className="text-[#081634] text-2xl md:text-[26px] font-bold mb-1">24/7</span>
+                                <span className="text-navy text-2xl md:text-[26px] font-bold mb-1">24/7</span>
                                 <span className="text-gray-500 text-[11px] font-medium tracking-wide">Flight monitoring</span>
                             </motion.div>
 
@@ -195,7 +197,7 @@ const Destination = () => {
                                 transition={{ duration: 0.6, delay: 0.3 }}
                                 className="flex flex-col"
                             >
-                                <span className="text-[#081634] text-2xl md:text-[26px] font-bold mb-1">
+                                <span className="text-navy text-2xl md:text-[26px] font-bold mb-1">
                                     <AnimatedCounter value={4} suffix=" regions" />
                                 </span>
                                 <span className="text-gray-500 text-[11px] font-medium tracking-wide">Global coverage</span>
@@ -211,7 +213,7 @@ const Destination = () => {
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         className="w-full lg:w-1/2 flex justify-end"
                     >
-                        <div className="bg-[#081634] rounded-[24px] p-8 md:p-10 shadow-2xl flex flex-col w-full max-w-[540px] relative border border-white/10 hover:border-white/20 transition-all duration-300">
+                        <div className="bg-navy rounded-[24px] p-8 md:p-10 shadow-2xl flex flex-col w-full max-w-[540px] relative border border-white/10 hover:border-white/20 transition-all duration-300">
                             <span className="text-[#94a3b8] text-[10px] font-bold tracking-widest mb-3 uppercase">Find your airport</span>
                             <h3 className="text-white text-2xl md:text-[28px] font-bold mb-8 leading-snug">Start with the journey you are taking.</h3>
 
@@ -291,7 +293,7 @@ const Destination = () => {
                             className="flex flex-col text-left max-w-2xl"
                         >
                             <span className="text-[#94a3b8] text-[11px] font-bold tracking-wider mb-4 uppercase">Featured destinations</span>
-                            <h2 className="text-[#081634] text-3xl md:text-4xl lg:text-[44px] font-bold leading-tight">
+                            <h2 className="text-navy text-3xl md:text-4xl lg:text-[44px] font-bold leading-tight">
                                 Airport expertise in the cities that move the world.
                             </h2>
                         </motion.div>
@@ -322,19 +324,19 @@ const Destination = () => {
                                 {/* Top color block */}
                                 <div className="bg-[#e7f3fd] h-[210px] w-full p-6 flex items-end relative overflow-hidden">
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    <div className="bg-white text-[#101828] text-[10px] font-bold py-1.5 px-3 rounded-md shadow-sm relative z-10 group-hover:scale-105 group-hover:shadow-md transition-all duration-300">
+                                    <div className="bg-white text-ink text-[10px] font-bold py-1.5 px-3 rounded-md shadow-sm relative z-10 group-hover:scale-105 group-hover:shadow-md transition-all duration-300">
                                         SIN - Singapore
                                     </div>
                                 </div>
                                 {/* Content */}
                                 <div className="p-6 md:p-7 flex flex-col flex-grow text-left">
-                                    <h3 className="text-[#101828] group-hover:text-[#0ea5e9] text-[17px] font-bold mb-2 transition-colors duration-300">
+                                    <h3 className="text-ink group-hover:text-[#0ea5e9] text-[17px] font-bold mb-2 transition-colors duration-300">
                                         Singapore Changi
                                     </h3>
                                     <p className="text-[#64748b] text-[14px] leading-relaxed">
                                         An effortless handover from kerbside welcome to lounge-ready departure.
                                     </p>
-                                    <div className="flex items-center text-[#101828] text-[11px] font-bold mt-auto pt-8">
+                                    <div className="flex items-center text-ink text-[11px] font-bold mt-auto pt-8">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5 mr-2 text-[#64748b] group-hover:text-[#0ea5e9] group-hover:scale-110 transition-all duration-300">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                         </svg>
@@ -357,19 +359,19 @@ const Destination = () => {
                                 {/* Top color block */}
                                 <div className="bg-[#0f2947] h-[210px] w-full p-6 flex items-end relative overflow-hidden">
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    <div className="bg-white text-[#101828] text-[10px] font-bold py-1.5 px-3 rounded-md shadow-sm relative z-10 group-hover:scale-105 group-hover:shadow-md transition-all duration-300">
+                                    <div className="bg-white text-ink text-[10px] font-bold py-1.5 px-3 rounded-md shadow-sm relative z-10 group-hover:scale-105 group-hover:shadow-md transition-all duration-300">
                                         DXB - Dubai
                                     </div>
                                 </div>
                                 {/* Content */}
                                 <div className="p-6 md:p-7 flex flex-col flex-grow text-left">
-                                    <h3 className="text-[#101828] group-hover:text-[#0ea5e9] text-[17px] font-bold mb-2 transition-colors duration-300">
+                                    <h3 className="text-ink group-hover:text-[#0ea5e9] text-[17px] font-bold mb-2 transition-colors duration-300">
                                         Dubai International
                                     </h3>
                                     <p className="text-[#64748b] text-[14px] leading-relaxed">
                                         A considered path through one of the world's busiest international hubs.
                                     </p>
-                                    <div className="flex items-center text-[#101828] text-[11px] font-bold mt-auto pt-8">
+                                    <div className="flex items-center text-ink text-[11px] font-bold mt-auto pt-8">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5 mr-2 text-[#64748b] group-hover:text-[#0ea5e9] group-hover:scale-110 transition-all duration-300">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                         </svg>
@@ -392,19 +394,19 @@ const Destination = () => {
                                 {/* Top color block */}
                                 <div className="bg-[#52b1e6] h-[210px] w-full p-6 flex items-end relative overflow-hidden">
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    <div className="bg-white text-[#101828] text-[10px] font-bold py-1.5 px-3 rounded-md shadow-sm relative z-10 group-hover:scale-105 group-hover:shadow-md transition-all duration-300">
+                                    <div className="bg-white text-ink text-[10px] font-bold py-1.5 px-3 rounded-md shadow-sm relative z-10 group-hover:scale-105 group-hover:shadow-md transition-all duration-300">
                                         LHR - London
                                     </div>
                                 </div>
                                 {/* Content */}
                                 <div className="p-6 md:p-7 flex flex-col flex-grow text-left">
-                                    <h3 className="text-[#101828] group-hover:text-[#0ea5e9] text-[17px] font-bold mb-2 transition-colors duration-300">
+                                    <h3 className="text-ink group-hover:text-[#0ea5e9] text-[17px] font-bold mb-2 transition-colors duration-300">
                                         London Heathrow
                                     </h3>
                                     <p className="text-[#64748b] text-[14px] leading-relaxed">
                                         Tight connections and terminal changes, handled with calm precision.
                                     </p>
-                                    <div className="flex items-center text-[#101828] text-[11px] font-bold mt-auto pt-8">
+                                    <div className="flex items-center text-ink text-[11px] font-bold mt-auto pt-8">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5 mr-2 text-[#64748b] group-hover:text-[#0ea5e9] group-hover:scale-110 transition-all duration-300">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                         </svg>
@@ -427,19 +429,19 @@ const Destination = () => {
                                 {/* Top color block */}
                                 <div className="bg-[#f2b84b] h-[210px] w-full p-6 flex items-end relative overflow-hidden">
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                                    <div className="bg-white text-[#101828] text-[10px] font-bold py-1.5 px-3 rounded-md shadow-sm relative z-10 group-hover:scale-105 group-hover:shadow-md transition-all duration-300">
+                                    <div className="bg-white text-ink text-[10px] font-bold py-1.5 px-3 rounded-md shadow-sm relative z-10 group-hover:scale-105 group-hover:shadow-md transition-all duration-300">
                                         BKK - Bangkok
                                     </div>
                                 </div>
                                 {/* Content */}
                                 <div className="p-6 md:p-7 flex flex-col flex-grow text-left">
-                                    <h3 className="text-[#101828] group-hover:text-[#0ea5e9] text-[17px] font-bold mb-2 transition-colors duration-300">
+                                    <h3 className="text-ink group-hover:text-[#0ea5e9] text-[17px] font-bold mb-2 transition-colors duration-300">
                                         Suvarnabhumi
                                     </h3>
                                     <p className="text-[#64748b] text-[14px] leading-relaxed">
                                         A warm local welcome and smoother passage through the terminal.
                                     </p>
-                                    <div className="flex items-center text-[#101828] text-[11px] font-bold mt-auto pt-8">
+                                    <div className="flex items-center text-ink text-[11px] font-bold mt-auto pt-8">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5 mr-2 text-[#64748b] group-hover:text-[#0ea5e9] group-hover:scale-110 transition-all duration-300">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                         </svg>
@@ -499,7 +501,7 @@ const Destination = () => {
                                             </svg>
                                         </div>
                                         <div className="flex flex-col">
-                                            <h4 className="text-[#081634] group-hover:text-[#0ea5e9] text-[15px] font-bold mb-1 transition-colors duration-300">Airport Fast Track</h4>
+                                            <h4 className="text-navy group-hover:text-[#0ea5e9] text-[15px] font-bold mb-1 transition-colors duration-300">Airport Fast Track</h4>
                                             <p className="text-[#64748b] text-[14px] leading-relaxed mb-4">
                                                 Priority guidance through airport formalities when every minute matters.
                                             </p>
@@ -530,7 +532,7 @@ const Destination = () => {
                                             </svg>
                                         </div>
                                         <div className="flex flex-col">
-                                            <h4 className="text-[#081634] group-hover:text-[#0ea5e9] text-[15px] font-bold mb-1 transition-colors duration-300">Ground Services</h4>
+                                            <h4 className="text-navy group-hover:text-[#0ea5e9] text-[15px] font-bold mb-1 transition-colors duration-300">Ground Services</h4>
                                             <p className="text-[#64748b] text-[14px] leading-relaxed mb-4">
                                                 Meet & greet, baggage assistance, lounge coordination, and airside support.
                                             </p>
@@ -561,7 +563,7 @@ const Destination = () => {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                             </svg>
 
-                            <h3 className="text-[#081634] text-2xl font-bold mb-4">Not seeing your airport?</h3>
+                            <h3 className="text-navy text-2xl font-bold mb-4">Not seeing your airport?</h3>
                             <p className="text-[#4b5e7d] text-[13px] leading-relaxed mb-6">
                                 Our coverage grows with our travellers. Share your itinerary and our concierge team will check local availability for you.
                             </p>
@@ -574,7 +576,7 @@ const Destination = () => {
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                     </svg>
                                     <div className="flex flex-col">
-                                        <span className="text-[#081634] text-[12px] font-bold mb-1">Flight-aware support</span>
+                                        <span className="text-navy text-[12px] font-bold mb-1">Flight-aware support</span>
                                         <span className="text-[#64748b] text-[12px]">We work around live flight timings.</span>
                                     </div>
                                 </div>
@@ -584,7 +586,7 @@ const Destination = () => {
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                     </svg>
                                     <div className="flex flex-col">
-                                        <span className="text-[#081634] text-[12px] font-bold mb-1">Confirmed before you travel</span>
+                                        <span className="text-navy text-[12px] font-bold mb-1">Confirmed before you travel</span>
                                         <span className="text-[#64748b] text-[12px]">No assumptions—just a clear service plan.</span>
                                     </div>
                                 </div>
@@ -596,7 +598,7 @@ const Destination = () => {
                             >
                                 <Link
                                     to="/contact-us"
-                                    className="group w-full bg-[#081634] hover:bg-[#122345] text-white text-xs font-semibold py-3.5 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                                    className="group w-full bg-navy hover:bg-[#122345] text-white text-xs font-semibold py-3.5 px-6 rounded-lg transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
                                 >
                                     <span>Contact Concierge Team</span>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5 transition-transform duration-300 group-hover:translate-x-1">

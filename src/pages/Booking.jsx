@@ -4,33 +4,30 @@ import heroImage from '../assets/bookings/booking-hero-image.webp';
 import inboundTransitImg from '../assets/bookings/INBOUND-TRANSIT.webp';
 import outboundTransitImg from '../assets/bookings/OUTBOUND-TRANSIT.webp';
 import seamlessHanoiTransitImg from '../assets/bookings/SEAMLESS-HANOI-TRANSIT.webp';
-
-const StarIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-white mb-4">
-        <path d="M12 2C12.5 7.5 16.5 11.5 22 12C16.5 12.5 12.5 16.5 12 22C11.5 16.5 7.5 12.5 2 12C7.5 11.5 11.5 7.5 12 2Z" />
-    </svg>
-);
+import PageHero from '../components/PageHero';
+import Seo from '../components/Seo';
+import { PAGE_META } from '../config/site';
 
 const MeetAssistIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-[#8C7A53]">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-bronze">
         <path strokeLinecap="round" strokeLinejoin="round" d="M10.05 4.575a1.575 1.575 0 1 0-3.15 0v3m3.15-3v-1.5a1.575 1.575 0 0 1 3.15 0v1.5m-3.15 0 .075 5.925m3.075-5.925a1.575 1.575 0 0 1 3.15 0v4.5m-3.15-4.5.075 5.925m3.075-5.925a1.575 1.575 0 0 1 3.15 0v4.5m-15.675-3a1.575 1.575 0 0 0-3.15 0v3c0 6.075 4.925 11 11 11s11-4.925 11-11v-1.5" />
     </svg>
 );
 
 const ShieldCheckIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-[#8C7A53]">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-bronze">
         <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
     </svg>
 );
 
 const FlightLandingIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-[#8C7A53]">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-bronze">
         <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75h19.5m-17.7-6.225 3.375.9 3.075-5.325a.75.75 0 0 1 1.05-.262l1.95 1.125a.75.75 0 0 1 .263 1.05l-1.8 3.113 4.2.9 2.025-1.5a.75.75 0 0 1 .9.075l1.35 1.05a.75.75 0 0 1 .15.975l-2.025 3.525a.75.75 0 0 1-.9.375l-13.65-3.675a.75.75 0 0 1-.525-.9l.525-1.95a.75.75 0 0 1 .712-.562Z" />
     </svg>
 );
 
 const CarIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-[#8C7A53]">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-bronze">
         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h7.5m-7.5 0v-2.25a.75.75 0 0 1 .75-.75h9a.75.75 0 0 1 .75.75v2.25m3 0a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m-13.5-3v-3.75a2.25 2.25 0 0 1 2.25-2.25h10.5a2.25 2.25 0 0 1 2.25 2.25v3.75m-15 0h15" />
     </svg>
 );
@@ -94,34 +91,9 @@ const Booking = () => {
 
     return (
         <div className="w-full bg-[#FFFFFF]">
-            {/* Hero Section */}
-            <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
-                {/* Background Image */}
-                <img
-                    src={heroImage}
-                    alt="Booking Hero"
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                />
+            <Seo {...PAGE_META['/booking']} path="/booking" />
 
-                {/* Dark/Blue Overlay to improve text readability */}
-                <div className="absolute inset-0 bg-[#081634]/30 z-0"></div>
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col items-center text-center px-6 -mt-10">
-                    <StarIcon />
-
-                    <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-serif tracking-widest mb-6">
-                        ASMALLWORLD
-                    </h1>
-
-                    {/* Gold separator line */}
-                    <div className="w-24 md:w-32 h-[1px] bg-[#C5A869] mb-6"></div>
-
-                    <p className="text-white text-sm md:text-base font-light tracking-wide">
-                        Services / Booking Trip
-                    </p>
-                </div>
-            </section>
+            <PageHero image={heroImage} alt="" eyebrow="Services / Booking Trip" />
 
             {/* 4 Features Bar Section */}
             <section className="w-full bg-[#FFFFFF] border-b border-gray-100 py-8 md:py-10 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">
@@ -130,14 +102,14 @@ const Booking = () => {
                         const IconComponent = item.icon;
                         return (
                             <div key={idx} className="flex items-start gap-3.5 text-left group">
-                                <div className="w-11 h-11 rounded-xl bg-[#FAF3DF] flex items-center justify-center flex-shrink-0 group-hover:bg-[#F3EBD0] transition-colors">
+                                <div className="w-11 h-11 rounded-xl bg-champagne flex items-center justify-center flex-shrink-0 group-hover:bg-[#F3EBD0] transition-colors">
                                     <IconComponent />
                                 </div>
                                 <div className="flex flex-col">
-                                    <h4 className="text-[#081634] font-bold text-sm md:text-[15px] mb-1 leading-snug">
+                                    <h4 className="text-navy font-bold text-sm md:text-[15px] mb-1 leading-snug">
                                         {item.title}
                                     </h4>
-                                    <p className="text-[#556987] text-xs leading-relaxed">
+                                    <p className="text-steel text-xs leading-relaxed">
                                         {item.desc}
                                     </p>
                                 </div>
@@ -152,17 +124,17 @@ const Booking = () => {
                 <div className="max-w-5xl w-full bg-white rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-10 shadow-lg border border-gray-100 flex flex-col items-center text-center">
                     
                     {/* Eyebrow */}
-                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#8C7A53] uppercase mb-1.5 block">
+                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-bronze uppercase mb-1.5 block">
                         NOI BAI EXPEDITED SERVICES
                     </span>
 
                     {/* Section Heading */}
-                    <h2 className="text-[#081634] text-2xl sm:text-3xl md:text-[34px] font-serif font-normal mb-1.5">
+                    <h2 className="text-navy text-2xl sm:text-3xl md:text-[34px] font-serif font-normal mb-1.5">
                         Reserve Your Assistance
                     </h2>
 
                     {/* Subtitle */}
-                    <p className="text-[#556987] text-xs sm:text-sm mb-6 leading-relaxed max-w-lg">
+                    <p className="text-steel text-xs sm:text-sm mb-6 leading-relaxed max-w-lg">
                         Instant confirmation with your flight number and date.
                     </p>
 
@@ -173,8 +145,8 @@ const Booking = () => {
                             onClick={() => setTransitType('ARRIVAL')}
                             className={`py-2.5 sm:py-3 text-xs sm:text-sm font-bold tracking-wider transition-all cursor-pointer ${
                                 transitType === 'ARRIVAL'
-                                    ? 'bg-[#081634] text-white shadow-sm'
-                                    : 'bg-[#EFECE6] text-gray-700 hover:bg-[#E8E4DC]'
+                                    ? 'bg-navy text-white shadow-sm'
+                                    : 'bg-stone text-gray-700 hover:bg-[#E8E4DC]'
                             }`}
                         >
                             ARRIVAL
@@ -184,8 +156,8 @@ const Booking = () => {
                             onClick={() => setTransitType('DEPARTURE')}
                             className={`py-2.5 sm:py-3 text-xs sm:text-sm font-bold tracking-wider transition-all cursor-pointer ${
                                 transitType === 'DEPARTURE'
-                                    ? 'bg-[#081634] text-white shadow-sm'
-                                    : 'bg-[#EFECE6] text-gray-700 hover:bg-[#E8E4DC]'
+                                    ? 'bg-navy text-white shadow-sm'
+                                    : 'bg-stone text-gray-700 hover:bg-[#E8E4DC]'
                             }`}
                         >
                             DEPARTURE
@@ -196,7 +168,7 @@ const Booking = () => {
                     <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 mb-5 text-left">
                         {/* Service Date */}
                         <div>
-                            <label className="text-[11px] font-semibold text-[#081634] block mb-1.5">
+                            <label className="text-[11px] font-semibold text-navy block mb-1.5">
                                 Service Date
                             </label>
                             <div
@@ -215,7 +187,7 @@ const Booking = () => {
                                     type="text"
                                     readOnly
                                     value={serviceDateDisplay}
-                                    className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl bg-[#FAF9F5] border border-gray-200 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8C7A53] cursor-pointer pr-10"
+                                    className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl bg-cream border border-gray-200 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze cursor-pointer pr-10"
                                 />
                                 <input
                                     ref={dateInputRef}
@@ -232,7 +204,7 @@ const Booking = () => {
 
                         {/* Flight Number */}
                         <div>
-                            <label className="text-[11px] font-semibold text-[#081634] block mb-1.5">
+                            <label className="text-[11px] font-semibold text-navy block mb-1.5">
                                 Flight Number
                             </label>
                             <input
@@ -240,19 +212,19 @@ const Booking = () => {
                                 value={flightNumber}
                                 onChange={(e) => setFlightNumber(e.target.value)}
                                 placeholder="E.G. VN311, SQ192, BA253"
-                                className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl bg-[#FAF9F5] border border-gray-200 text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#8C7A53]"
+                                className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl bg-cream border border-gray-200 text-xs sm:text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-bronze"
                             />
                         </div>
 
                         {/* Travellers */}
                         <div>
-                            <label className="text-[11px] font-semibold text-[#081634] block mb-1.5">
+                            <label className="text-[11px] font-semibold text-navy block mb-1.5">
                                 Travellers
                             </label>
                             <select
                                 value={travellers}
                                 onChange={(e) => setTravellers(e.target.value)}
-                                className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl bg-[#FAF9F5] border border-gray-200 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8C7A53] cursor-pointer"
+                                className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl bg-cream border border-gray-200 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze cursor-pointer"
                             >
                                 <option value="1">1 Guest</option>
                                 <option value="2">2 Guests</option>
@@ -264,13 +236,13 @@ const Booking = () => {
 
                         {/* Service Level */}
                         <div>
-                            <label className="text-[11px] font-semibold text-[#081634] block mb-1.5">
+                            <label className="text-[11px] font-semibold text-navy block mb-1.5">
                                 Service Level
                             </label>
                             <select
                                 value={serviceLevel}
                                 onChange={(e) => setServiceLevel(e.target.value)}
-                                className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl bg-[#FAF9F5] border border-gray-200 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8C7A53] cursor-pointer"
+                                className="w-full px-3.5 py-2.5 sm:py-3 rounded-xl bg-cream border border-gray-200 text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze cursor-pointer"
                             >
                                 <option value="standard">Standard Fast Track</option>
                                 <option value="vip">VIP Fast Track + Dedicated Escort</option>
@@ -281,7 +253,7 @@ const Booking = () => {
                     </div>
 
                     {/* Total Estimated Amount Strip */}
-                    <div className="w-full bg-[#FAF9F5] rounded-xl py-3 px-4 sm:px-5 flex items-center justify-between border border-gray-200/60 mb-5 text-left">
+                    <div className="w-full bg-cream rounded-xl py-3 px-4 sm:px-5 flex items-center justify-between border border-gray-200/60 mb-5 text-left">
                         <div>
                             <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">
                                 TOTAL ESTIMATED AMOUNT
@@ -291,7 +263,7 @@ const Booking = () => {
                             </span>
                         </div>
                         <div className="text-right">
-                            <span className="text-2xl sm:text-3xl font-serif font-bold text-[#081634]">
+                            <span className="text-2xl sm:text-3xl font-serif font-bold text-navy">
                                 ${totalEstimate}
                             </span>
                             <span className="text-xs text-gray-500 ml-1 font-semibold">USD</span>
@@ -301,7 +273,7 @@ const Booking = () => {
                     {/* Continue Booking CTA Button */}
                     <Link
                         to="/checkout"
-                        className="w-full bg-[#E5B869] hover:bg-[#D4A758] text-[#081634] font-bold py-3.5 rounded-xl text-xs sm:text-sm tracking-widest uppercase transition-all shadow-md hover:shadow-lg active:scale-[0.99] block text-center cursor-pointer"
+                        className="w-full bg-[#E5B869] hover:bg-[#D4A758] text-navy font-bold py-3.5 rounded-xl text-xs sm:text-sm tracking-widest uppercase transition-all shadow-md hover:shadow-lg active:scale-[0.99] block text-center cursor-pointer"
                     >
                         CONTINUE BOOKING
                     </Link>
@@ -320,17 +292,17 @@ const Booking = () => {
                 <div className="max-w-6xl w-full flex flex-col items-center text-center">
                     
                     {/* Eyebrow */}
-                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#8C7A53] uppercase mb-2 block">
+                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-bronze uppercase mb-2 block">
                         BESPOKE CONCIERGE
                     </span>
 
                     {/* Section Title */}
-                    <h2 className="text-[#081634] text-3xl md:text-4xl lg:text-[42px] font-serif font-normal mb-2">
+                    <h2 className="text-navy text-3xl md:text-4xl lg:text-[42px] font-serif font-normal mb-2">
                         Our Services
                     </h2>
 
                     {/* Subtitle */}
-                    <p className="text-[#556987] text-xs sm:text-sm md:text-base mb-12 md:mb-14 leading-relaxed max-w-xl">
+                    <p className="text-steel text-xs sm:text-sm md:text-base mb-12 md:mb-14 leading-relaxed max-w-xl">
                         Personalised care for every stage of your flight.
                     </p>
 
@@ -345,7 +317,7 @@ const Booking = () => {
                                     alt="Arrival Assistance"
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 />
-                                <span className="absolute top-4 left-4 bg-[#081634]/80 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase">
+                                <span className="absolute top-4 left-4 bg-navy/80 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase">
                                     INBOUND TRANSIT
                                 </span>
                             </div>
@@ -354,21 +326,21 @@ const Booking = () => {
                             <div className="p-6 sm:p-8 flex flex-col justify-between flex-grow">
                                 <div>
                                     <div className="flex items-center justify-between gap-4 mb-3">
-                                        <h3 className="text-[#081634] text-xl sm:text-2xl font-serif font-bold">
+                                        <h3 className="text-navy text-xl sm:text-2xl font-serif font-bold">
                                             Arrival Assistance
                                         </h3>
-                                        <span className="text-[#8C7A53] font-bold text-sm sm:text-base whitespace-nowrap">
+                                        <span className="text-bronze font-bold text-sm sm:text-base whitespace-nowrap">
                                             From $33.90
                                         </span>
                                     </div>
-                                    <p className="text-[#556987] text-xs sm:text-sm leading-relaxed mb-6">
+                                    <p className="text-steel text-xs sm:text-sm leading-relaxed mb-6">
                                         Meet your personal host at the arrival gate. Seamlessly bypass crowded queues through dedicated priority immigration channels, baggage collection, and curbside coordination.
                                     </p>
                                 </div>
 
                                 <Link
                                     to="/checkout"
-                                    className="w-full bg-[#081634] hover:bg-[#122345] text-white font-bold py-3.5 rounded-xl text-xs tracking-widest uppercase transition-all shadow-md active:scale-[0.99] text-center block mt-auto cursor-pointer"
+                                    className="w-full bg-navy hover:bg-[#122345] text-white font-bold py-3.5 rounded-xl text-xs tracking-widest uppercase transition-all shadow-md active:scale-[0.99] text-center block mt-auto cursor-pointer"
                                 >
                                     BOOK ARRIVAL
                                 </Link>
@@ -384,7 +356,7 @@ const Booking = () => {
                                     alt="Departure Assistance"
                                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                                 />
-                                <span className="absolute top-4 left-4 bg-[#081634]/80 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase">
+                                <span className="absolute top-4 left-4 bg-navy/80 backdrop-blur-sm text-white text-[9px] sm:text-[10px] font-bold tracking-wider px-3 py-1 rounded-full uppercase">
                                     OUTBOUND TRANSIT
                                 </span>
                             </div>
@@ -393,21 +365,21 @@ const Booking = () => {
                             <div className="p-6 sm:p-8 flex flex-col justify-between flex-grow">
                                 <div>
                                     <div className="flex items-center justify-between gap-4 mb-3">
-                                        <h3 className="text-[#081634] text-xl sm:text-2xl font-serif font-bold">
+                                        <h3 className="text-navy text-xl sm:text-2xl font-serif font-bold">
                                             Departure Assistance
                                         </h3>
-                                        <span className="text-[#8C7A53] font-bold text-sm sm:text-base whitespace-nowrap">
+                                        <span className="text-bronze font-bold text-sm sm:text-base whitespace-nowrap">
                                             From $36.50
                                         </span>
                                     </div>
-                                    <p className="text-[#556987] text-xs sm:text-sm leading-relaxed mb-6">
+                                    <p className="text-steel text-xs sm:text-sm leading-relaxed mb-6">
                                         Curbside meet &amp; assist at Noi Bai International. Fast-track airline check-in counters, expedited priority security, and immigration escort straight to your lounge or gate.
                                     </p>
                                 </div>
 
                                 <Link
                                     to="/checkout"
-                                    className="w-full bg-[#081634] hover:bg-[#122345] text-white font-bold py-3.5 rounded-xl text-xs tracking-widest uppercase transition-all shadow-md active:scale-[0.99] text-center block mt-auto cursor-pointer"
+                                    className="w-full bg-navy hover:bg-[#122345] text-white font-bold py-3.5 rounded-xl text-xs tracking-widest uppercase transition-all shadow-md active:scale-[0.99] text-center block mt-auto cursor-pointer"
                                 >
                                     BOOK DEPARTURE
                                 </Link>
@@ -419,16 +391,16 @@ const Booking = () => {
             </section>
 
             {/* Why Asian Star Travel Section (#FBF9F4 background) */}
-            <section className="w-full bg-[#FBF9F4] py-20 md:py-28 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">
+            <section className="w-full bg-ivory py-20 md:py-28 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">
                 <div className="max-w-6xl w-full flex flex-col items-center text-center">
                     
                     {/* Eyebrow */}
-                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#8C7A53] uppercase mb-2 block">
+                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-bronze uppercase mb-2 block">
                         DISTINCTIVE HOSPITALITY
                     </span>
 
                     {/* Section Title */}
-                    <h2 className="text-[#081634] text-3xl md:text-4xl lg:text-[42px] font-serif font-normal mb-12 md:mb-14">
+                    <h2 className="text-navy text-3xl md:text-4xl lg:text-[42px] font-serif font-normal mb-12 md:mb-14">
                         Why Asian Star Travel
                     </h2>
 
@@ -436,39 +408,39 @@ const Booking = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full text-left">
                         {/* Card 01 */}
                         <div className="bg-white rounded-2xl md:rounded-3xl p-7 sm:p-8 md:p-9 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 flex flex-col justify-start">
-                            <span className="text-[#C5A869] text-3xl sm:text-4xl font-serif font-normal mb-4 block">
+                            <span className="text-gold text-3xl sm:text-4xl font-serif font-normal mb-4 block">
                                 01
                             </span>
-                            <h3 className="text-[#081634] font-serif font-bold text-lg sm:text-xl mb-3">
+                            <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-3">
                                 Professional Assistance
                             </h3>
-                            <p className="text-[#556987] text-xs sm:text-sm leading-relaxed">
+                            <p className="text-steel text-xs sm:text-sm leading-relaxed">
                                 Certified, uniform concierges with official Noi Bai airport security clearance and English fluency.
                             </p>
                         </div>
 
                         {/* Card 02 */}
                         <div className="bg-white rounded-2xl md:rounded-3xl p-7 sm:p-8 md:p-9 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 flex flex-col justify-start">
-                            <span className="text-[#C5A869] text-3xl sm:text-4xl font-serif font-normal mb-4 block">
+                            <span className="text-gold text-3xl sm:text-4xl font-serif font-normal mb-4 block">
                                 02
                             </span>
-                            <h3 className="text-[#081634] font-serif font-bold text-lg sm:text-xl mb-3">
+                            <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-3">
                                 Airport Expertise
                             </h3>
-                            <p className="text-[#556987] text-xs sm:text-sm leading-relaxed">
+                            <p className="text-steel text-xs sm:text-sm leading-relaxed">
                                 Deep local operational knowledge navigating Terminal 1 (Domestic) &amp; Terminal 2 (International) seamlessly.
                             </p>
                         </div>
 
                         {/* Card 03 */}
                         <div className="bg-white rounded-2xl md:rounded-3xl p-7 sm:p-8 md:p-9 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 flex flex-col justify-start">
-                            <span className="text-[#C5A869] text-3xl sm:text-4xl font-serif font-normal mb-4 block">
+                            <span className="text-gold text-3xl sm:text-4xl font-serif font-normal mb-4 block">
                                 03
                             </span>
-                            <h3 className="text-[#081634] font-serif font-bold text-lg sm:text-xl mb-3">
+                            <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-3">
                                 Personalised Service
                             </h3>
-                            <p className="text-[#556987] text-xs sm:text-sm leading-relaxed">
+                            <p className="text-steel text-xs sm:text-sm leading-relaxed">
                                 Real-time flight tracking, flexible delays accommodated, and custom care for families, executives, and elders.
                             </p>
                         </div>
@@ -487,7 +459,7 @@ const Booking = () => {
                 />
 
                 {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-[#081634]/40 z-0"></div>
+                <div className="absolute inset-0 bg-navy/40 z-0"></div>
 
                 {/* Content */}
                 <div className="relative z-10 w-full max-w-4xl mx-auto px-6 py-16 md:py-20 flex flex-col items-center text-center">
@@ -509,7 +481,7 @@ const Booking = () => {
                     {/* CTA Button */}
                     <Link
                         to="/checkout"
-                        className="inline-flex items-center justify-center bg-[#E5B869] hover:bg-[#D4A758] text-[#081634] font-bold text-xs md:text-sm px-8 py-3.5 rounded-lg uppercase tracking-wider transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
+                        className="inline-flex items-center justify-center bg-[#E5B869] hover:bg-[#D4A758] text-navy font-bold text-xs md:text-sm px-8 py-3.5 rounded-lg uppercase tracking-wider transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
                     >
                         BOOK NOW
                     </Link>

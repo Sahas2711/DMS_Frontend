@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../assets/logo.png';
-import { useLanguage } from '../context/LanguageContext';
+import { useLanguage } from '../hooks/useLanguage';
 
 const NAV_LINKS = [
     { label: 'Home', href: '/' },
@@ -26,12 +26,6 @@ const NAV_LINKS = [
     // { label: 'Booking', href: '/booking' },
 
 ];
-
-const GlobeIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-1.605.42-3.113 1.157-4.418" />
-    </svg>
-);
 
 const UserIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
@@ -189,7 +183,7 @@ const Navbar = () => {
                             <div className="relative">
                                 <button
                                     onClick={(e) => toggleDesktopDropdown(link.label, e)}
-                                    className={`flex items-center transition-colors focus:outline-none cursor-pointer py-1 ${activeDropdown === link.label ? 'text-[#C5A869]' : 'hover:text-[#C5A869]'}`}
+                                    className={`flex items-center transition-colors focus:outline-none cursor-pointer py-1 ${activeDropdown === link.label ? 'text-gold' : 'hover:text-gold'}`}
                                 >
                                     {link.label}
                                     <ChevronDownIcon className={activeDropdown === link.label ? 'rotate-180' : ''} />
@@ -198,7 +192,7 @@ const Navbar = () => {
                                     <div className="absolute top-full left-0 mt-3 w-52 bg-white text-gray-800 rounded-xl shadow-2xl py-2 overflow-hidden border border-gray-100 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                                         <Link
                                             to={link.href}
-                                            className="block px-4 py-2.5 font-semibold text-xs text-[#081634] hover:bg-amber-50 hover:text-[#C5A869] transition-colors border-b border-gray-100"
+                                            className="block px-4 py-2.5 font-semibold text-xs text-navy hover:bg-amber-50 hover:text-gold transition-colors border-b border-gray-100"
                                             onClick={() => setActiveDropdown(null)}
                                         >
                                             All Services Overview &rarr;
@@ -207,7 +201,7 @@ const Navbar = () => {
                                             <Link
                                                 key={dropItem.label}
                                                 to={dropItem.href}
-                                                className="block px-4 py-2 hover:bg-gray-50 hover:text-[#C5A869] transition-colors text-xs font-normal text-gray-700"
+                                                className="block px-4 py-2 hover:bg-gray-50 hover:text-gold transition-colors text-xs font-normal text-gray-700"
                                                 onClick={() => setActiveDropdown(null)}
                                             >
                                                 {dropItem.label}
@@ -219,7 +213,7 @@ const Navbar = () => {
                         ) : (
                             <Link
                                 to={link.href}
-                                className="hover:text-[#C5A869] transition-colors whitespace-nowrap py-1"
+                                className="hover:text-gold transition-colors whitespace-nowrap py-1"
                             >
                                 {link.label}
                             </Link>
@@ -247,7 +241,7 @@ const Navbar = () => {
                             viewBox="0 0 24 24"
                             strokeWidth={2}
                             stroke="currentColor"
-                            className={`w-3.5 h-3.5 transition-transform duration-200 ${isLangDropdownOpen ? 'rotate-180 text-[#C5A869]' : 'text-gray-300 group-hover:text-white'}`}
+                            className={`w-3.5 h-3.5 transition-transform duration-200 ${isLangDropdownOpen ? 'rotate-180 text-gold' : 'text-gray-300 group-hover:text-white'}`}
                         >
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                         </svg>
@@ -266,7 +260,7 @@ const Navbar = () => {
                                         changeLanguage(lang);
                                         setIsLangDropdownOpen(false);
                                     }}
-                                    className={`w-full text-left px-3.5 py-2.5 flex items-center justify-between text-xs transition-colors hover:bg-amber-50/70 cursor-pointer ${selectedLang.code === lang.code ? 'text-[#081634] font-bold bg-amber-50/40' : 'text-gray-700 font-medium'
+                                    className={`w-full text-left px-3.5 py-2.5 flex items-center justify-between text-xs transition-colors hover:bg-amber-50/70 cursor-pointer ${selectedLang.code === lang.code ? 'text-navy font-bold bg-amber-50/40' : 'text-gray-700 font-medium'
                                         }`}
                                 >
                                     <div className="flex items-center space-x-2.5">
@@ -277,7 +271,7 @@ const Navbar = () => {
                                         </div>
                                     </div>
                                     {selectedLang.code === lang.code && (
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 text-[#C5A869]">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-4 h-4 text-gold">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                         </svg>
                                     )}
@@ -292,7 +286,7 @@ const Navbar = () => {
                     <button
                         type="button"
                         onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                        className={`hidden sm:flex p-2 md:p-2.5 rounded-full border transition-all focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer ${isUserDropdownOpen ? 'bg-white/20 border-white/40 text-[#C5A869]' : 'border-white/20 hover:bg-white/10 text-white'
+                        className={`hidden sm:flex p-2 md:p-2.5 rounded-full border transition-all focus:outline-none focus:ring-2 focus:ring-white/50 cursor-pointer ${isUserDropdownOpen ? 'bg-white/20 border-white/40 text-gold' : 'border-white/20 hover:bg-white/10 text-white'
                             }`}
                         aria-label="User Menu"
                         aria-expanded={isUserDropdownOpen}
@@ -360,7 +354,7 @@ const Navbar = () => {
 
                 {/* Mobile Menu Toggle Button */}
                 <button
-                    className="xl:hidden p-2 text-white hover:text-[#C5A869] transition-colors focus:outline-none cursor-pointer rounded-lg hover:bg-white/10"
+                    className="xl:hidden p-2 text-white hover:text-gold transition-colors focus:outline-none cursor-pointer rounded-lg hover:bg-white/10"
                     onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                     aria-label="Toggle Mobile Menu"
                 >
@@ -379,16 +373,16 @@ const Navbar = () => {
                                         <button
                                             type="button"
                                             onClick={toggleMobileDropdown}
-                                            className={`flex items-center justify-between w-full text-left transition-colors focus:outline-none cursor-pointer py-1.5 ${mobileDropdownOpen ? 'text-[#C5A869]' : 'hover:text-[#C5A869]'}`}
+                                            className={`flex items-center justify-between w-full text-left transition-colors focus:outline-none cursor-pointer py-1.5 ${mobileDropdownOpen ? 'text-gold' : 'hover:text-gold'}`}
                                         >
                                             <span className="font-medium text-white">{link.label}</span>
                                             <ChevronDownIcon className={mobileDropdownOpen ? 'rotate-180' : ''} />
                                         </button>
                                         {mobileDropdownOpen && (
-                                            <div className="mt-2.5 ml-2 flex flex-col space-y-2 border-l-2 border-[#C5A869]/60 pl-4 bg-white/5 rounded-r-lg p-3 animate-in slide-in-from-top-1 duration-200">
+                                            <div className="mt-2.5 ml-2 flex flex-col space-y-2 border-l-2 border-gold/60 pl-4 bg-white/5 rounded-r-lg p-3 animate-in slide-in-from-top-1 duration-200">
                                                 <Link
                                                     to={link.href}
-                                                    className="block text-[#C5A869] font-medium py-1.5 text-sm hover:underline"
+                                                    className="block text-gold font-medium py-1.5 text-sm hover:underline"
                                                     onClick={handleMobileLinkClick}
                                                 >
                                                     All Services Overview &rarr;
@@ -397,7 +391,7 @@ const Navbar = () => {
                                                     <Link
                                                         key={dropItem.label}
                                                         to={dropItem.href}
-                                                        className="block text-gray-300 hover:text-[#C5A869] transition-colors py-1.5 text-sm"
+                                                        className="block text-gray-300 hover:text-gold transition-colors py-1.5 text-sm"
                                                         onClick={handleMobileLinkClick}
                                                     >
                                                         {dropItem.label}
@@ -409,7 +403,7 @@ const Navbar = () => {
                                 ) : (
                                     <Link
                                         to={link.href}
-                                        className="block hover:text-[#C5A869] transition-colors py-1 text-sm sm:text-base text-gray-200"
+                                        className="block hover:text-gold transition-colors py-1 text-sm sm:text-base text-gray-200"
                                         onClick={handleMobileLinkClick}
                                     >
                                         {link.label}
@@ -441,7 +435,7 @@ const Navbar = () => {
                                                     changeLanguage(lang);
                                                     setIsMobileLangDropdownOpen(false);
                                                 }}
-                                                className={`w-full text-left px-3.5 py-2 flex items-center justify-between text-xs transition-colors hover:bg-amber-50 cursor-pointer ${selectedLang.code === lang.code ? 'text-[#081634] font-bold bg-amber-50/50' : 'text-gray-700'
+                                                className={`w-full text-left px-3.5 py-2 flex items-center justify-between text-xs transition-colors hover:bg-amber-50 cursor-pointer ${selectedLang.code === lang.code ? 'text-navy font-bold bg-amber-50/50' : 'text-gray-700'
                                                     }`}
                                             >
                                                 <div className="flex items-center space-x-2">
@@ -449,7 +443,7 @@ const Navbar = () => {
                                                     <span className="font-medium text-gray-900">{lang.native}</span>
                                                 </div>
                                                 {selectedLang.code === lang.code && (
-                                                    <span className="text-[#C5A869] text-xs font-bold">✓</span>
+                                                    <span className="text-gold text-xs font-bold">✓</span>
                                                 )}
                                             </button>
                                         ))}
@@ -510,7 +504,7 @@ const Navbar = () => {
                         <Link
                             to="/booking"
                             onClick={handleMobileLinkClick}
-                            className="bg-[#C5A869] text-[#081634] text-xs font-bold px-4 py-2 rounded-full hover:bg-[#b59758] transition-colors uppercase tracking-wider"
+                            className="bg-gold text-navy text-xs font-bold px-4 py-2 rounded-full hover:bg-[#b59758] transition-colors uppercase tracking-wider"
                         >
                             Book Now
                         </Link>

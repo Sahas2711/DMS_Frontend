@@ -6,6 +6,19 @@
     --font-heading: 'Playfair Display', Georgia, serif;
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+    /* Brand palette — prefer bg-navy / text-gold / border-bronze over
+       repeating arbitrary hex values across hundreds of class names. */
+    --color-navy: #081634;
+    --color-navy-light: #1a2e4c;
+    --color-gold: #c5a869;
+    --color-bronze: #8c7a53;
+    --color-ink: #101828;
+    --color-steel: #556987;
+    --color-cream: #faf9f5;
+    --color-ivory: #fbf9f4;
+    --color-champagne: #faf3df;
+    --color-stone: #efece6;
 }
 
 *,

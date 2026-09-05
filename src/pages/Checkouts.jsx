@@ -2,12 +2,9 @@ import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import heroImage from '../assets/checkouts/checkouts-hero-image.webp';
 import seamlessHanoiTransitImg from '../assets/checkouts/SEAMLESS-HANOI-TRANSIT.webp';
-
-const StarIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-white mb-4">
-        <path d="M12 2C12.5 7.5 16.5 11.5 22 12C16.5 12.5 12.5 16.5 12 22C11.5 16.5 7.5 12.5 2 12C7.5 11.5 11.5 7.5 12 2Z" />
-    </svg>
-);
+import PageHero from '../components/PageHero';
+import Seo from '../components/Seo';
+import { PAGE_META } from '../config/site';
 
 const CalendarIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-gray-400">
@@ -82,22 +79,29 @@ const Checkouts = () => {
     });
     const [isConfirmed, setIsConfirmed] = useState(false);
 
-    // Form inputs state
+    // Form inputs state.
+    //
+    // These start empty on purpose. The page previously shipped with a fictional
+    // customer's name, email, phone and card details pre-filled, which a real
+    // visitor would have submitted as their own. Card fields must also never be
+    // held in component state once payments go live — replace them with the
+    // payment provider's hosted fields (Stripe Elements or equivalent) so card
+    // data never touches this application.
     const [formData, setFormData] = useState({
-        fullName: 'Eleanor Vance',
-        email: 'eleanor.vance@vanceholdings.com',
-        phonePrefix: '+1 (USA)',
-        phone: '(415) 890-3342',
-        country: 'United States',
-        flightNumber: 'SQ 192',
-        arrivalDate: '2025-10-28',
-        arrivalDateDisplay: '28 Oct 2025',
-        landingTime: '14:45',
-        placardNotes: 'Placard Name: Eleanor Vance. Traveling with 2 check-in bags. Please prepare luggage porter cart at carousel #3.',
-        cardName: 'Eleanor Vance',
-        cardNumber: '•••• •••• •••• 4291',
-        cardExpiry: '08 / 28',
-        cardCvv: '888',
+        fullName: '',
+        email: '',
+        phonePrefix: '+84 (VNM)',
+        phone: '',
+        country: 'Vietnam',
+        flightNumber: '',
+        arrivalDate: '',
+        arrivalDateDisplay: '',
+        landingTime: '',
+        placardNotes: '',
+        cardName: '',
+        cardNumber: '',
+        cardExpiry: '',
+        cardCvv: '',
     });
 
     const handleInputChange = (e) => {
@@ -159,34 +163,15 @@ const Checkouts = () => {
 
     return (
         <div className="w-full bg-[#FFFFFF]">
-            {/* Hero Section */}
-            <section className="relative w-full h-[45vh] md:h-[60vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
-                {/* Background Image */}
-                <img
-                    src={heroImage}
-                    alt="Checkout Hero"
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                />
+            <Seo {...PAGE_META['/checkout']} path="/checkout" />
 
-                {/* Dark/Blue Overlay to improve text readability */}
-                <div className="absolute inset-0 bg-[#081634]/35 z-0"></div>
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col items-center text-center px-6 -mt-10">
-                    <StarIcon />
-
-                    <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-serif tracking-widest mb-6">
-                        ASMALLWORLD
-                    </h1>
-
-                    {/* Gold separator line */}
-                    <div className="w-24 md:w-32 h-[1px] bg-[#C5A869] mb-6"></div>
-
-                    <p className="text-white text-sm md:text-base font-light tracking-wide">
-                        Services / Checkout
-                    </p>
-                </div>
-            </section>
+            <PageHero
+                image={heroImage}
+                alt=""
+                eyebrow="Services / Checkout"
+                size="compact"
+                overlay={35}
+            />
 
             {/* Main Checkout Experience Section */}
             <main className="w-full py-12 md:py-16 px-4 sm:px-6 md:px-12 lg:px-20 xl:px-32 max-w-7xl mx-auto">
@@ -196,17 +181,17 @@ const Checkouts = () => {
                     <div className="flex flex-col text-left">
                         {/* Breadcrumbs */}
                         <div className="flex items-center gap-2 text-xs text-gray-400 mb-2">
-                            <Link to="/" className="hover:text-[#081634] transition-colors">Home</Link>
+                            <Link to="/" className="hover:text-navy transition-colors">Home</Link>
                             <span>&gt;</span>
-                            <Link to="/services" className="hover:text-[#081634] transition-colors">Services</Link>
+                            <Link to="/services" className="hover:text-navy transition-colors">Services</Link>
                             <span>&gt;</span>
-                            <Link to="/services/airport-fast-track" className="hover:text-[#081634] transition-colors">Hanoi Fast Track</Link>
+                            <Link to="/services/airport-fast-track" className="hover:text-navy transition-colors">Hanoi Fast Track</Link>
                             <span>&gt;</span>
-                            <span className="text-[#081634] font-medium">Checkout</span>
+                            <span className="text-navy font-medium">Checkout</span>
                         </div>
 
                         {/* Title */}
-                        <h2 className="text-[#081634] text-2xl sm:text-3xl md:text-4xl font-serif font-normal">
+                        <h2 className="text-navy text-2xl sm:text-3xl md:text-4xl font-serif font-normal">
                             Checkout &amp; Confirmation
                         </h2>
                         <p className="text-gray-500 text-xs sm:text-sm mt-1">
@@ -223,16 +208,16 @@ const Checkouts = () => {
 
                 {isConfirmed ? (
                     /* Booking Success Confirmation View */
-                    <div className="w-full bg-[#FAF9F5] border border-emerald-300 rounded-3xl p-8 md:p-14 text-center my-8 shadow-xl">
+                    <div className="w-full bg-cream border border-emerald-300 rounded-3xl p-8 md:p-14 text-center my-8 shadow-xl">
                         <div className="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                             </svg>
                         </div>
-                        <span className="text-[11px] font-bold tracking-widest text-[#8C7A53] uppercase mb-2 block">
+                        <span className="text-[11px] font-bold tracking-widest text-bronze uppercase mb-2 block">
                             RESERVATION CONFIRMED &bull; BOOKING #AST-88392
                         </span>
-                        <h2 className="text-[#081634] text-3xl md:text-4xl font-serif mb-4">
+                        <h2 className="text-navy text-3xl md:text-4xl font-serif mb-4">
                             Thank you, {formData.fullName}!
                         </h2>
                         <p className="text-gray-600 max-w-xl mx-auto text-sm md:text-base mb-6 leading-relaxed">
@@ -243,13 +228,13 @@ const Checkouts = () => {
                             <button
                                 type="button"
                                 onClick={() => setIsConfirmed(false)}
-                                className="px-6 py-3 bg-[#081634] text-white rounded-xl text-xs font-semibold hover:bg-[#122345] transition-colors cursor-pointer"
+                                className="px-6 py-3 bg-navy text-white rounded-xl text-xs font-semibold hover:bg-[#122345] transition-colors cursor-pointer"
                             >
                                 Edit / View Reservation Details
                             </button>
                             <Link
                                 to="/"
-                                className="px-6 py-3 bg-white border border-gray-300 text-[#081634] rounded-xl text-xs font-semibold hover:bg-gray-50 transition-colors"
+                                className="px-6 py-3 bg-white border border-gray-300 text-navy rounded-xl text-xs font-semibold hover:bg-gray-50 transition-colors"
                             >
                                 Return to Homepage
                             </Link>
@@ -263,17 +248,17 @@ const Checkouts = () => {
                         <div className="lg:col-span-7 xl:col-span-8 flex flex-col gap-6 text-left">
                             
                             {/* STEP 1: Primary Traveller & Contact */}
-                            <div className="bg-[#FAF9F5] rounded-2xl p-6 sm:p-8 border border-[#EFECE6] shadow-sm">
+                            <div className="bg-cream rounded-2xl p-6 sm:p-8 border border-stone shadow-sm">
                                 <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200/60">
                                     <div className="flex items-center gap-3">
-                                        <span className="w-7 h-7 rounded-full bg-[#081634] text-white text-xs font-bold flex items-center justify-center">
+                                        <span className="w-7 h-7 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center">
                                             1
                                         </span>
-                                        <h3 className="text-[#081634] font-serif font-bold text-lg md:text-xl">
+                                        <h3 className="text-navy font-serif font-bold text-lg md:text-xl">
                                             Primary Traveller &amp; Contact
                                         </h3>
                                     </div>
-                                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded bg-[#FAF3DF] text-[#8C7A53] uppercase tracking-wider">
+                                    <span className="text-[10px] font-bold px-2.5 py-0.5 rounded bg-champagne text-bronze uppercase tracking-wider">
                                         LEAD PASSENGER
                                     </span>
                                 </div>
@@ -281,7 +266,7 @@ const Checkouts = () => {
                                 <div className="grid grid-cols-1 gap-5">
                                     {/* Full Name */}
                                     <div>
-                                        <label className="text-xs font-semibold text-[#081634] block mb-1.5">
+                                        <label className="text-xs font-semibold text-navy block mb-1.5">
                                             Full Legal Name (as shown on passport) *
                                         </label>
                                         <div className="relative">
@@ -291,7 +276,7 @@ const Checkouts = () => {
                                                 required
                                                 value={formData.fullName}
                                                 onChange={handleInputChange}
-                                                className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8C7A53] pr-10"
+                                                className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze pr-10"
                                             />
                                             <span className="absolute right-3.5 top-3.5 text-emerald-600 font-bold text-sm">
                                                 ✓
@@ -301,7 +286,7 @@ const Checkouts = () => {
 
                                     {/* Email */}
                                     <div>
-                                        <label className="text-xs font-semibold text-[#081634] block mb-1.5">
+                                        <label className="text-xs font-semibold text-navy block mb-1.5">
                                             Email Address *
                                         </label>
                                         <input
@@ -310,7 +295,7 @@ const Checkouts = () => {
                                             required
                                             value={formData.email}
                                             onChange={handleInputChange}
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8C7A53]"
+                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze"
                                         />
                                         <span className="text-[11px] text-gray-400 mt-1.5 flex items-center gap-1.5">
                                             🔒 Booking confirmation, flight watch alerts, and airport coordinator phone will be sent here.
@@ -320,7 +305,7 @@ const Checkouts = () => {
                                     {/* Phone & Country */}
                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div className="min-w-0">
-                                            <label className="text-xs font-semibold text-[#081634] block mb-1.5">
+                                            <label className="text-xs font-semibold text-navy block mb-1.5">
                                                 Mobile Phone / WhatsApp *
                                             </label>
                                             <div className="flex gap-2 min-w-0 w-full">
@@ -328,7 +313,7 @@ const Checkouts = () => {
                                                     name="phonePrefix"
                                                     value={formData.phonePrefix}
                                                     onChange={handlePhonePrefixChange}
-                                                    className="w-28 sm:w-32 shrink-0 px-2 py-3 rounded-lg border border-gray-200 bg-white text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8C7A53] cursor-pointer"
+                                                    className="w-28 sm:w-32 shrink-0 px-2 py-3 rounded-lg border border-gray-200 bg-white text-xs sm:text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze cursor-pointer"
                                                 >
                                                     {COUNTRIES_AND_CODES.map((item, idx) => (
                                                         <option key={idx} value={item.label}>
@@ -343,12 +328,12 @@ const Checkouts = () => {
                                                     value={formData.phone}
                                                     onChange={handleInputChange}
                                                     placeholder="(415) 890-3342"
-                                                    className="min-w-0 flex-1 w-full px-3.5 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8C7A53]"
+                                                    className="min-w-0 flex-1 w-full px-3.5 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze"
                                                 />
                                             </div>
                                         </div>
                                         <div className="min-w-0">
-                                            <label className="text-xs font-semibold text-[#081634] block mb-1.5">
+                                            <label className="text-xs font-semibold text-navy block mb-1.5">
                                                 Country of Passport / Residence *
                                             </label>
                                             <select
@@ -356,7 +341,7 @@ const Checkouts = () => {
                                                 required
                                                 value={formData.country}
                                                 onChange={handleCountryChange}
-                                                className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8C7A53] cursor-pointer"
+                                                className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze cursor-pointer"
                                             >
                                                 {COUNTRIES_AND_CODES.map((item, idx) => (
                                                     <option key={idx} value={item.country}>
@@ -370,13 +355,13 @@ const Checkouts = () => {
                             </div>
 
                             {/* STEP 2: Flight Schedule & Itinerary */}
-                            <div className="bg-[#FAF9F5] rounded-2xl p-6 sm:p-8 border border-[#EFECE6] shadow-sm">
+                            <div className="bg-cream rounded-2xl p-6 sm:p-8 border border-stone shadow-sm">
                                 <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200/60">
                                     <div className="flex items-center gap-3">
-                                        <span className="w-7 h-7 rounded-full bg-[#081634] text-white text-xs font-bold flex items-center justify-center">
+                                        <span className="w-7 h-7 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center">
                                             2
                                         </span>
-                                        <h3 className="text-[#081634] font-serif font-bold text-lg md:text-xl">
+                                        <h3 className="text-navy font-serif font-bold text-lg md:text-xl">
                                             Flight Schedule &amp; Itinerary
                                         </h3>
                                     </div>
@@ -388,7 +373,7 @@ const Checkouts = () => {
 
                                 {/* Direction Toggle Tabs */}
                                 <div className="mb-5">
-                                    <label className="text-xs font-semibold text-[#081634] block mb-2">
+                                    <label className="text-xs font-semibold text-navy block mb-2">
                                         Transit Direction
                                     </label>
                                     <div className="grid grid-cols-2 gap-3 p-1 rounded-xl bg-gray-200/60">
@@ -397,8 +382,8 @@ const Checkouts = () => {
                                             onClick={() => setTransitDirection('inbound')}
                                             className={`py-2.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                                                 transitDirection === 'inbound'
-                                                    ? 'bg-white text-[#081634] shadow-sm'
-                                                    : 'text-gray-600 hover:text-[#081634]'
+                                                    ? 'bg-white text-navy shadow-sm'
+                                                    : 'text-gray-600 hover:text-navy'
                                             }`}
                                         >
                                             <span>🛬</span> Inbound Arrival (HAN T2)
@@ -408,8 +393,8 @@ const Checkouts = () => {
                                             onClick={() => setTransitDirection('outbound')}
                                             className={`py-2.5 px-3 rounded-lg text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
                                                 transitDirection === 'outbound'
-                                                    ? 'bg-white text-[#081634] shadow-sm'
-                                                    : 'text-gray-600 hover:text-[#081634]'
+                                                    ? 'bg-white text-navy shadow-sm'
+                                                    : 'text-gray-600 hover:text-navy'
                                             }`}
                                         >
                                             <span>🛫</span> Outbound Departure (HAN T2)
@@ -421,7 +406,7 @@ const Checkouts = () => {
                                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-5">
                                     {/* Flight Number */}
                                     <div>
-                                        <label className="text-xs font-semibold text-[#081634] block mb-1.5">
+                                        <label className="text-xs font-semibold text-navy block mb-1.5">
                                             Flight Number *
                                         </label>
                                         <div className="relative">
@@ -431,7 +416,7 @@ const Checkouts = () => {
                                                 required
                                                 value={formData.flightNumber}
                                                 onChange={handleInputChange}
-                                                className="w-full px-3.5 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 font-bold focus:outline-none focus:ring-2 focus:ring-[#8C7A53]"
+                                                className="w-full px-3.5 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 font-bold focus:outline-none focus:ring-2 focus:ring-bronze"
                                             />
                                             <span className="absolute right-2.5 top-3 text-[10px] font-bold text-gray-500 bg-gray-100 px-2 py-1 rounded">
                                                 SIN → HAN
@@ -441,7 +426,7 @@ const Checkouts = () => {
 
                                     {/* Arrival Date (Active interactive Date Picker) */}
                                     <div>
-                                        <label className="text-xs font-semibold text-[#081634] block mb-1.5">
+                                        <label className="text-xs font-semibold text-navy block mb-1.5">
                                             Arrival Date *
                                         </label>
                                         <div
@@ -460,7 +445,7 @@ const Checkouts = () => {
                                                 type="text"
                                                 readOnly
                                                 value={formData.arrivalDateDisplay}
-                                                className="w-full px-3.5 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8C7A53] cursor-pointer pr-10"
+                                                className="w-full px-3.5 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze cursor-pointer pr-10"
                                             />
                                             <input
                                                 ref={dateInputRef}
@@ -478,7 +463,7 @@ const Checkouts = () => {
 
                                     {/* Scheduled Landing (Active interactive Time Picker) */}
                                     <div>
-                                        <label className="text-xs font-semibold text-[#081634] block mb-1.5">
+                                        <label className="text-xs font-semibold text-navy block mb-1.5">
                                             Scheduled Landing *
                                         </label>
                                         <div
@@ -499,7 +484,7 @@ const Checkouts = () => {
                                                 required
                                                 value={formData.landingTime}
                                                 onChange={handleInputChange}
-                                                className="w-full px-3.5 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8C7A53] pr-10"
+                                                className="w-full px-3.5 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze pr-10"
                                             />
                                             <input
                                                 ref={timeInputRef}
@@ -517,8 +502,8 @@ const Checkouts = () => {
                                 </div>
 
                                 {/* Live Radar Alert Box */}
-                                <div className="w-full bg-[#FAF3DF]/60 border border-[#EDE4D0] rounded-xl p-3.5 flex items-start gap-3">
-                                    <span className="text-[#8C7A53] text-base">✈</span>
+                                <div className="w-full bg-champagne/60 border border-[#EDE4D0] rounded-xl p-3.5 flex items-start gap-3">
+                                    <span className="text-bronze text-base">✈</span>
                                     <p className="text-xs text-[#7A6237] leading-relaxed">
                                         <strong>Singapore Airlines SQ 192</strong> from Singapore Changi (SIN) to Hanoi Noi Bai (HAN). Our airport coordinator will monitor your aircraft's descent on radar and assemble at the jetbridge 15 minutes prior to touchdown.
                                     </p>
@@ -526,18 +511,18 @@ const Checkouts = () => {
                             </div>
 
                             {/* STEP 3: Luggage & Special Instructions */}
-                            <div className="bg-[#FAF9F5] rounded-2xl p-6 sm:p-8 border border-[#EFECE6] shadow-sm">
+                            <div className="bg-cream rounded-2xl p-6 sm:p-8 border border-stone shadow-sm">
                                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200/60">
-                                    <span className="w-7 h-7 rounded-full bg-[#081634] text-white text-xs font-bold flex items-center justify-center">
+                                    <span className="w-7 h-7 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center">
                                         3
                                     </span>
-                                    <h3 className="text-[#081634] font-serif font-bold text-lg md:text-xl">
+                                    <h3 className="text-navy font-serif font-bold text-lg md:text-xl">
                                         Luggage &amp; Special Instructions
                                     </h3>
                                 </div>
 
                                 <div>
-                                    <label className="text-xs font-semibold text-[#081634] block mb-1.5">
+                                    <label className="text-xs font-semibold text-navy block mb-1.5">
                                         Arrival Nameboard / Signage &amp; Baggage Details (Optional)
                                     </label>
                                     <textarea
@@ -545,7 +530,7 @@ const Checkouts = () => {
                                         name="placardNotes"
                                         value={formData.placardNotes}
                                         onChange={handleInputChange}
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#8C7A53] resize-none"
+                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-white text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-bronze resize-none"
                                     />
                                     <span className="text-[11px] text-gray-400 mt-1 block">
                                         Our escort officer will display this exact placard at the aerobridge terminal exit.
@@ -554,13 +539,13 @@ const Checkouts = () => {
                             </div>
 
                             {/* STEP 4: Payment Guarantee */}
-                            <div className="bg-[#FAF9F5] rounded-2xl p-6 sm:p-8 border border-[#EFECE6] shadow-sm">
+                            <div className="bg-cream rounded-2xl p-6 sm:p-8 border border-stone shadow-sm">
                                 <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200/60">
                                     <div className="flex items-center gap-3">
-                                        <span className="w-7 h-7 rounded-full bg-[#081634] text-white text-xs font-bold flex items-center justify-center">
+                                        <span className="w-7 h-7 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center">
                                             4
                                         </span>
-                                        <h3 className="text-[#081634] font-serif font-bold text-lg md:text-xl">
+                                        <h3 className="text-navy font-serif font-bold text-lg md:text-xl">
                                             Payment Guarantee
                                         </h3>
                                     </div>
@@ -573,7 +558,7 @@ const Checkouts = () => {
                                 <div className="flex flex-col gap-3">
                                     
                                     {/* Option 1: Credit or Debit Card */}
-                                    <div className={`rounded-xl border p-4 sm:p-5 transition-all ${paymentMethod === 'card' ? 'border-[#8C7A53] bg-white shadow-sm' : 'border-gray-200 bg-white/60'}`}>
+                                    <div className={`rounded-xl border p-4 sm:p-5 transition-all ${paymentMethod === 'card' ? 'border-bronze bg-white shadow-sm' : 'border-gray-200 bg-white/60'}`}>
                                         <label className="flex items-center justify-between cursor-pointer">
                                             <div className="flex items-center gap-3">
                                                 <input
@@ -582,10 +567,10 @@ const Checkouts = () => {
                                                     value="card"
                                                     checked={paymentMethod === 'card'}
                                                     onChange={() => setPaymentMethod('card')}
-                                                    className="w-4 h-4 text-[#8C7A53] focus:ring-[#8C7A53]"
+                                                    className="w-4 h-4 text-bronze focus:ring-bronze"
                                                 />
                                                 <div>
-                                                    <span className="text-sm font-bold text-[#081634] block">
+                                                    <span className="text-sm font-bold text-navy block">
                                                         Credit or Debit Card
                                                     </span>
                                                     <span className="text-[11px] text-gray-400">
@@ -613,7 +598,7 @@ const Checkouts = () => {
                                                         name="cardName"
                                                         value={formData.cardName}
                                                         onChange={handleInputChange}
-                                                        className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-[#8C7A53]"
+                                                        className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:ring-2 focus:ring-bronze"
                                                     />
                                                 </div>
                                                 <div>
@@ -626,7 +611,7 @@ const Checkouts = () => {
                                                             name="cardNumber"
                                                             value={formData.cardNumber}
                                                             onChange={handleInputChange}
-                                                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-[#8C7A53]"
+                                                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-bronze"
                                                         />
                                                         <span className="absolute right-3 top-3 text-gray-400">💳</span>
                                                     </div>
@@ -642,7 +627,7 @@ const Checkouts = () => {
                                                             value={formData.cardExpiry}
                                                             onChange={handleInputChange}
                                                             placeholder="MM / YY"
-                                                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm text-center font-mono focus:outline-none focus:ring-2 focus:ring-[#8C7A53]"
+                                                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm text-center font-mono focus:outline-none focus:ring-2 focus:ring-bronze"
                                                         />
                                                     </div>
                                                     <div>
@@ -655,7 +640,7 @@ const Checkouts = () => {
                                                             value={formData.cardCvv}
                                                             onChange={handleInputChange}
                                                             placeholder="CVV"
-                                                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm text-center font-mono focus:outline-none focus:ring-2 focus:ring-[#8C7A53]"
+                                                            className="w-full px-3.5 py-2.5 rounded-lg border border-gray-200 bg-gray-50/50 text-sm text-center font-mono focus:outline-none focus:ring-2 focus:ring-bronze"
                                                         />
                                                     </div>
                                                 </div>
@@ -664,7 +649,7 @@ const Checkouts = () => {
                                     </div>
 
                                     {/* Option 2: Corporate Bank Wire */}
-                                    <div className={`rounded-xl border p-4 sm:p-5 transition-all ${paymentMethod === 'wire' ? 'border-[#8C7A53] bg-white shadow-sm' : 'border-gray-200 bg-white/60'}`}>
+                                    <div className={`rounded-xl border p-4 sm:p-5 transition-all ${paymentMethod === 'wire' ? 'border-bronze bg-white shadow-sm' : 'border-gray-200 bg-white/60'}`}>
                                         <label className="flex items-center justify-between cursor-pointer">
                                             <div className="flex items-center gap-3">
                                                 <input
@@ -673,10 +658,10 @@ const Checkouts = () => {
                                                     value="wire"
                                                     checked={paymentMethod === 'wire'}
                                                     onChange={() => setPaymentMethod('wire')}
-                                                    className="w-4 h-4 text-[#8C7A53] focus:ring-[#8C7A53]"
+                                                    className="w-4 h-4 text-bronze focus:ring-bronze"
                                                 />
                                                 <div>
-                                                    <span className="text-sm font-bold text-[#081634] block">
+                                                    <span className="text-sm font-bold text-navy block">
                                                         Corporate Bank Wire (USD / EUR / SGD)
                                                     </span>
                                                     <span className="text-[11px] text-gray-400">
@@ -689,7 +674,7 @@ const Checkouts = () => {
                                     </div>
 
                                     {/* Option 3: Pay on Arrival */}
-                                    <div className={`rounded-xl border p-4 sm:p-5 transition-all ${paymentMethod === 'arrival' ? 'border-[#8C7A53] bg-white shadow-sm' : 'border-gray-200 bg-white/60'}`}>
+                                    <div className={`rounded-xl border p-4 sm:p-5 transition-all ${paymentMethod === 'arrival' ? 'border-bronze bg-white shadow-sm' : 'border-gray-200 bg-white/60'}`}>
                                         <label className="flex items-center justify-between cursor-pointer">
                                             <div className="flex items-center gap-3">
                                                 <input
@@ -698,10 +683,10 @@ const Checkouts = () => {
                                                     value="arrival"
                                                     checked={paymentMethod === 'arrival'}
                                                     onChange={() => setPaymentMethod('arrival')}
-                                                    className="w-4 h-4 text-[#8C7A53] focus:ring-[#8C7A53]"
+                                                    className="w-4 h-4 text-bronze focus:ring-bronze"
                                                 />
                                                 <div>
-                                                    <span className="text-sm font-bold text-[#081634] block">
+                                                    <span className="text-sm font-bold text-navy block">
                                                         Pay on Arrival at Noi Bai Airport (Verified Reservation)
                                                     </span>
                                                     <span className="text-[11px] text-gray-400">
@@ -739,18 +724,18 @@ const Checkouts = () => {
                         <div className="lg:col-span-5 xl:col-span-4 sticky top-24 flex flex-col gap-6 text-left">
                             
                             {/* Summary Card */}
-                            <div className="bg-[#FAF9F5] border border-[#EFECE6] rounded-3xl p-6 sm:p-7 shadow-lg">
+                            <div className="bg-cream border border-stone rounded-3xl p-6 sm:p-7 shadow-lg">
                                 {/* Top Header */}
                                 <div className="flex items-start justify-between gap-2 mb-3 pb-3 border-b border-gray-200/60">
                                     <div>
-                                        <span className="text-[10px] font-bold tracking-[0.15em] text-[#8C7A53] uppercase block mb-1">
+                                        <span className="text-[10px] font-bold tracking-[0.15em] text-bronze uppercase block mb-1">
                                             VIP AIRPORT RESERVATION
                                         </span>
-                                        <h3 className="text-[#081634] text-xl font-serif font-bold">
+                                        <h3 className="text-navy text-xl font-serif font-bold">
                                             Hanoi Airport Fast Track
                                         </h3>
                                     </div>
-                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#EDEBE4] text-[#8C7A53] flex-shrink-0">
+                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[#EDEBE4] text-bronze flex-shrink-0">
                                         HAN T2
                                     </span>
                                 </div>
@@ -759,23 +744,23 @@ const Checkouts = () => {
                                 <div className="flex flex-col gap-2 text-xs py-2 border-b border-gray-200/60">
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Service Scope:</span>
-                                        <span className="font-semibold text-[#081634]">Arrival VIP Fast Track Escort</span>
+                                        <span className="font-semibold text-navy">Arrival VIP Fast Track Escort</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Airport &amp; Terminal:</span>
-                                        <span className="font-semibold text-[#081634]">Noi Bai Int'l (HAN) - Terminal 2</span>
+                                        <span className="font-semibold text-navy">Noi Bai Int'l (HAN) - Terminal 2</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Scheduled Arrival:</span>
-                                        <span className="font-semibold text-[#081634]">{formData.arrivalDateDisplay} · {formData.landingTime} Local</span>
+                                        <span className="font-semibold text-navy">{formData.arrivalDateDisplay} · {formData.landingTime} Local</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Flight Code:</span>
-                                        <span className="font-semibold text-[#081634]">{formData.flightNumber} (Singapore Airlines)</span>
+                                        <span className="font-semibold text-navy">{formData.flightNumber} (Singapore Airlines)</span>
                                     </div>
                                     <div className="flex justify-between">
                                         <span className="text-gray-500">Party Size:</span>
-                                        <span className="font-semibold text-[#081634]">1 Adult Traveller</span>
+                                        <span className="font-semibold text-navy">1 Adult Traveller</span>
                                     </div>
                                 </div>
 
@@ -811,16 +796,16 @@ const Checkouts = () => {
                                     </span>
                                     <div className="space-y-2.5">
                                         {/* Upgrade 1 */}
-                                        <label className={`flex items-start justify-between p-3 rounded-xl border text-xs cursor-pointer transition-all ${addons.mercedes ? 'border-[#8C7A53] bg-white shadow-sm' : 'border-gray-200 bg-white/50'}`}>
+                                        <label className={`flex items-start justify-between p-3 rounded-xl border text-xs cursor-pointer transition-all ${addons.mercedes ? 'border-bronze bg-white shadow-sm' : 'border-gray-200 bg-white/50'}`}>
                                             <div className="flex items-start gap-2.5">
                                                 <input
                                                     type="checkbox"
                                                     checked={addons.mercedes}
                                                     onChange={() => toggleAddon('mercedes')}
-                                                    className="mt-0.5 rounded text-[#8C7A53] focus:ring-[#8C7A53]"
+                                                    className="mt-0.5 rounded text-bronze focus:ring-bronze"
                                                 />
                                                 <div>
-                                                    <span className="font-bold text-[#081634] block">
+                                                    <span className="font-bold text-navy block">
                                                         Private Mercedes E-Class Transfer
                                                     </span>
                                                     <span className="text-[10px] text-gray-500">
@@ -828,22 +813,22 @@ const Checkouts = () => {
                                                     </span>
                                                 </div>
                                             </div>
-                                            <span className="font-bold text-[#8C7A53] flex-shrink-0">
+                                            <span className="font-bold text-bronze flex-shrink-0">
                                                 +$62.00
                                             </span>
                                         </label>
 
                                         {/* Upgrade 2 */}
-                                        <label className={`flex items-start justify-between p-3 rounded-xl border text-xs cursor-pointer transition-all ${addons.lounge ? 'border-[#8C7A53] bg-white shadow-sm' : 'border-gray-200 bg-white/50'}`}>
+                                        <label className={`flex items-start justify-between p-3 rounded-xl border text-xs cursor-pointer transition-all ${addons.lounge ? 'border-bronze bg-white shadow-sm' : 'border-gray-200 bg-white/50'}`}>
                                             <div className="flex items-start gap-2.5">
                                                 <input
                                                     type="checkbox"
                                                     checked={addons.lounge}
                                                     onChange={() => toggleAddon('lounge')}
-                                                    className="mt-0.5 rounded text-[#8C7A53] focus:ring-[#8C7A53]"
+                                                    className="mt-0.5 rounded text-bronze focus:ring-bronze"
                                                 />
                                                 <div>
-                                                    <span className="font-bold text-[#081634] block">
+                                                    <span className="font-bold text-navy block">
                                                         VIP Lotus Executive Lounge (HAN)
                                                     </span>
                                                     <span className="text-[10px] text-gray-500">
@@ -851,7 +836,7 @@ const Checkouts = () => {
                                                     </span>
                                                 </div>
                                             </div>
-                                            <span className="font-bold text-[#8C7A53] flex-shrink-0">
+                                            <span className="font-bold text-bronze flex-shrink-0">
                                                 +$38.00
                                             </span>
                                         </label>
@@ -889,7 +874,7 @@ const Checkouts = () => {
                                 {/* Total Price */}
                                 <div className="pt-4 flex items-center justify-between">
                                     <div>
-                                        <span className="text-sm font-bold text-[#081634] block">
+                                        <span className="text-sm font-bold text-navy block">
                                             Total Amount
                                         </span>
                                         <span className="text-[10px] text-gray-400 font-bold uppercase">
@@ -897,7 +882,7 @@ const Checkouts = () => {
                                         </span>
                                     </div>
                                     <div className="text-right">
-                                        <span className="text-2xl sm:text-3xl font-serif font-bold text-[#081634]">
+                                        <span className="text-2xl sm:text-3xl font-serif font-bold text-navy">
                                             ${totalPrice}
                                         </span>
                                         <span className="text-xs text-gray-500 ml-1">USD</span>
@@ -906,13 +891,13 @@ const Checkouts = () => {
                             </div>
 
                             {/* Operations Verification Badge */}
-                            <div className="bg-[#FAF9F5] border border-[#EFECE6] rounded-2xl p-4 flex items-center justify-between shadow-sm">
+                            <div className="bg-cream border border-stone rounded-2xl p-4 flex items-center justify-between shadow-sm">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-full bg-[#081634] text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0">
+                                    <div className="w-8 h-8 rounded-full bg-navy text-white text-[10px] font-bold flex items-center justify-center flex-shrink-0">
                                         AST
                                     </div>
                                     <div className="flex flex-col">
-                                        <span className="text-xs font-bold text-[#081634]">
+                                        <span className="text-xs font-bold text-navy">
                                             Noi Bai Operations Dispatch Desk
                                         </span>
                                         <span className="text-[10px] text-gray-400">
@@ -931,12 +916,12 @@ const Checkouts = () => {
                 {/* Bottom Trust & Guarantee Cards (3 columns) */}
                 <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 pt-16 mt-16 border-t border-gray-100 text-left">
                     {/* Badge 1 */}
-                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-[#FAF9F5] border border-[#EFECE6]/80">
-                        <div className="w-10 h-10 rounded-xl bg-[#FAF3DF] flex items-center justify-center text-[#8C7A53] flex-shrink-0">
+                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream border border-stone/80">
+                        <div className="w-10 h-10 rounded-xl bg-champagne flex items-center justify-center text-bronze flex-shrink-0">
                             🔒
                         </div>
                         <div>
-                            <h4 className="text-sm font-bold text-[#081634] mb-1">
+                            <h4 className="text-sm font-bold text-navy mb-1">
                                 Encrypted Payment Guarantee
                             </h4>
                             <p className="text-xs text-gray-500 leading-relaxed">
@@ -946,12 +931,12 @@ const Checkouts = () => {
                     </div>
 
                     {/* Badge 2 */}
-                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-[#FAF9F5] border border-[#EFECE6]/80">
-                        <div className="w-10 h-10 rounded-xl bg-[#FAF3DF] flex items-center justify-center text-[#8C7A53] flex-shrink-0">
+                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream border border-stone/80">
+                        <div className="w-10 h-10 rounded-xl bg-champagne flex items-center justify-center text-bronze flex-shrink-0">
                             ✉
                         </div>
                         <div>
-                            <h4 className="text-sm font-bold text-[#081634] mb-1">
+                            <h4 className="text-sm font-bold text-navy mb-1">
                                 Instant Direct Confirmation
                             </h4>
                             <p className="text-xs text-gray-500 leading-relaxed">
@@ -961,12 +946,12 @@ const Checkouts = () => {
                     </div>
 
                     {/* Badge 3 */}
-                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-[#FAF9F5] border border-[#EFECE6]/80">
-                        <div className="w-10 h-10 rounded-xl bg-[#FAF3DF] flex items-center justify-center text-[#8C7A53] flex-shrink-0">
+                    <div className="flex items-start gap-4 p-5 rounded-2xl bg-cream border border-stone/80">
+                        <div className="w-10 h-10 rounded-xl bg-champagne flex items-center justify-center text-bronze flex-shrink-0">
                             🎧
                         </div>
                         <div>
-                            <h4 className="text-sm font-bold text-[#081634] mb-1">
+                            <h4 className="text-sm font-bold text-navy mb-1">
                                 24/7 Operations Desk
                             </h4>
                             <p className="text-xs text-gray-500 leading-relaxed">
@@ -988,7 +973,7 @@ const Checkouts = () => {
                 />
 
                 {/* Dark Overlay */}
-                <div className="absolute inset-0 bg-[#081634]/40 z-0"></div>
+                <div className="absolute inset-0 bg-navy/40 z-0"></div>
 
                 {/* Content */}
                 <div className="relative z-10 w-full max-w-4xl mx-auto px-6 py-16 md:py-20 flex flex-col items-center text-center">
@@ -1010,7 +995,7 @@ const Checkouts = () => {
                     {/* CTA Button */}
                     <Link
                         to="/services/airport-fast-track"
-                        className="inline-flex items-center justify-center bg-[#E5B869] hover:bg-[#D4A758] text-[#081634] font-bold text-xs md:text-sm px-8 py-3.5 rounded-lg uppercase tracking-wider transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
+                        className="inline-flex items-center justify-center bg-[#E5B869] hover:bg-[#D4A758] text-navy font-bold text-xs md:text-sm px-8 py-3.5 rounded-lg uppercase tracking-wider transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
                     >
                         BOOK NOW
                     </Link>

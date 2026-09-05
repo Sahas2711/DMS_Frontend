@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import Seo from '../components/Seo';
+import { PAGE_META, SITE } from '../config/site';
 import toursHeroImg from '../assets/home/Tourspage-hero section.webp';
 import vipBgImg from '../assets/home/vip-benifits-bg.webp';
 import extraBenefitsImg from '../assets/home/extraordinary-benifits.webp';
@@ -84,22 +86,26 @@ const LocationIcon = () => (
 const Tours = () => {
     return (
         <div className="w-full flex flex-col">
+            <Seo {...PAGE_META['/tours']} path="/tours" />
+
             {/* Hero Section */}
             <section className="relative w-full h-[60vh] md:h-[75vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
                 {/* Background Image */}
                 <img
                     src={toursHeroImg}
-                    alt="Tours Background"
+                    alt=""
                     className="absolute inset-0 w-full h-full object-cover z-0"
+                    fetchPriority="high"
+                    decoding="async"
                 />
 
                 {/* Dark/Blue Overlay to match screenshot tint and improve text readability */}
-                <div className="absolute inset-0 bg-[#081634]/30 z-0"></div>
+                <div className="absolute inset-0 bg-navy/30 z-0" aria-hidden="true"></div>
 
                 {/* Content */}
                 <div className="relative z-10 flex flex-col items-center text-center px-6 -mt-16 md:-mt-24">
                     <h1 className="text-white text-4xl md:text-6xl lg:text-7xl font-serif tracking-widest mb-4">
-                        ASMALLWORLD
+                        {SITE.wordmark}
                     </h1>
 
                     <h2 className="text-white text-xl md:text-3xl font-serif tracking-wide mb-6">
@@ -107,7 +113,7 @@ const Tours = () => {
                     </h2>
 
                     {/* Gold Separator Line */}
-                    <div className="w-64 md:w-96 h-[1px] bg-[#C5A869] mb-6 opacity-80"></div>
+                    <div className="w-64 md:w-96 h-[1px] bg-gold mb-6 opacity-80"></div>
 
                     <p className="text-gray-100 text-xs md:text-sm tracking-wider font-light">
                         Hotels we love with extraordinary benefits
@@ -151,7 +157,7 @@ const Tours = () => {
                             whileInView={{ scaleX: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.6, delay: 0.2 }}
-                            className="w-16 h-[2px] bg-[#C5A869] mb-6"
+                            className="w-16 h-[2px] bg-gold mb-6"
                         />
 
                         <motion.p 
@@ -161,7 +167,7 @@ const Tours = () => {
                             transition={{ duration: 0.6, delay: 0.25 }}
                             className="text-white text-sm md:text-base lg:text-lg mb-12 opacity-95 drop-shadow-sm max-w-2xl"
                         >
-                            Our exclusive ASMALLWORLD VIP rate offers you extraordinary benefits at no extra cost
+                            Our exclusive {SITE.name} VIP rate offers you extraordinary benefits at no extra cost
                         </motion.p>
 
                         {/* Benefit Cards */}
@@ -194,7 +200,7 @@ const Tours = () => {
                             transition={{ duration: 0.6, delay: 0.6 }}
                             className="text-white text-[10px] md:text-xs max-w-4xl opacity-90"
                         >
-                            *VIP benefits are available to ASMALLWORLD Premium Members. Benefits vary by hotel and may be subject to availability
+                            *VIP benefits are available to {SITE.name} Premium Members. Benefits vary by hotel and may be subject to availability
                         </motion.p>
                     </div>
                 </motion.div>
@@ -217,7 +223,7 @@ const Tours = () => {
                         whileInView={{ scaleX: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="w-16 h-[1px] bg-[#C5A869]"
+                        className="w-16 h-[1px] bg-gold"
                     />
                 </motion.div>
 
@@ -289,7 +295,7 @@ const Tours = () => {
                             transition={{ duration: 0.5 }}
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.96 }}
-                            className="bg-[#081634] hover:bg-[#11264f] transition-colors text-white text-xs font-bold tracking-widest uppercase py-3.5 px-8 rounded-full shadow-md cursor-pointer"
+                            className="bg-navy hover:bg-[#11264f] transition-colors text-white text-xs font-bold tracking-widest uppercase py-3.5 px-8 rounded-full shadow-md cursor-pointer"
                         >
                             SEE ALL SPECIAL OFFERS
                         </motion.button>
@@ -379,7 +385,7 @@ const Tours = () => {
                         whileInView={{ scaleX: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.6, delay: 0.2 }}
-                        className="w-16 h-[1px] bg-[#C5A869]"
+                        className="w-16 h-[1px] bg-gold"
                     />
                 </motion.div>
 

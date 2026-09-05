@@ -7,14 +7,11 @@ import heroImage from '../../assets/services/AirportTrack-hero.webp';
 import globalCoverageImg from '../../assets/services/global-coverage.webp';
 import arrivalsImg from '../../assets/services/arivals.webp';
 import watermark1 from '../../assets/home/watermark1-Popular-Destinations.png';
+import PageHero from '../../components/PageHero';
+import Seo from '../../components/Seo';
+import { PAGE_META } from '../../config/site';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const StarIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-white mb-4">
-        <path d="M12 2C12.5 7.5 16.5 11.5 22 12C16.5 12.5 12.5 16.5 12 22C11.5 16.5 7.5 12.5 2 12C7.5 11.5 11.5 7.5 12 2Z" />
-    </svg>
-);
 
 const AnimatedCounter = ({ value, duration = 2, decimals = 0, prefix = "", suffix = "" }) => {
     const [count, setCount] = useState(0);
@@ -114,34 +111,14 @@ const ServicesAirportFastTrack = () => {
 
     return (
         <div className="w-full">
-            {/* Hero Section */}
-            <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
-                {/* Background Image */}
-                <img
-                    src={heroImage}
-                    alt="Airport Fast Track Hero"
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                />
+            <Seo {...PAGE_META['/services/airport-fast-track']} path="/services/airport-fast-track" />
 
-                {/* Dark/Blue Overlay to improve text readability */}
-                <div className="absolute inset-0 bg-[#081634]/30 z-0"></div>
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col items-center text-center px-6 -mt-10">
-                    <StarIcon />
-
-                    <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-serif tracking-widest mb-6">
-                        Asian Star Travel
-                    </h1>
-
-                    {/* Orange/Gold Separator Line */}
-                    <div className="w-48 md:w-64 h-[1px] bg-[#C5A869] mb-6 opacity-80"></div>
-
-                    <p className="text-white text-sm md:text-base tracking-wider font-light drop-shadow-md">
-                        Services / Airport Fast Track
-                    </p>
-                </div>
-            </section>
+            <PageHero
+                image={heroImage}
+                alt=""
+                eyebrow="Services / Airport Fast Track"
+                rule="wide"
+            />
 
             {/* Stats Section */}
             <section className="w-full bg-white py-8 md:py-12 px-6">
@@ -155,7 +132,7 @@ const ServicesAirportFastTrack = () => {
                         transition={{ duration: 0.5, delay: 0.1 }}
                         className="flex flex-col items-center w-full md:w-1/4"
                     >
-                        <span className="text-2xl md:text-3xl font-bold text-[#1a2e4c] mb-1 md:mb-2">
+                        <span className="text-2xl md:text-3xl font-bold text-navy-light mb-1 md:mb-2">
                             <AnimatedCounter value={60} suffix="+" duration={2} />
                         </span>
                         <span className="text-xs md:text-sm text-[#7f8c9f]">international airports</span>
@@ -169,7 +146,7 @@ const ServicesAirportFastTrack = () => {
                         transition={{ duration: 0.5, delay: 0.2 }}
                         className="flex flex-col items-center w-full md:w-1/4"
                     >
-                        <span className="text-2xl md:text-3xl font-bold text-[#1a2e4c] mb-1 md:mb-2 inline-flex items-center">
+                        <span className="text-2xl md:text-3xl font-bold text-navy-light mb-1 md:mb-2 inline-flex items-center">
                             <AnimatedCounter value={24} duration={1.5} />/<AnimatedCounter value={7} duration={1.5} />
                         </span>
                         <span className="text-xs md:text-sm text-[#7f8c9f]">global support</span>
@@ -183,7 +160,7 @@ const ServicesAirportFastTrack = () => {
                         transition={{ duration: 0.5, delay: 0.3 }}
                         className="flex flex-col items-center w-full md:w-1/4"
                     >
-                        <span className="text-2xl md:text-3xl font-bold text-[#1a2e4c] mb-1 md:mb-2 inline-flex items-center">
+                        <span className="text-2xl md:text-3xl font-bold text-navy-light mb-1 md:mb-2 inline-flex items-center">
                             <AnimatedCounter value={4.9} decimals={1} duration={2} />/5
                         </span>
                         <span className="text-xs md:text-sm text-[#7f8c9f]">traveler satisfaction</span>
@@ -197,7 +174,7 @@ const ServicesAirportFastTrack = () => {
                         transition={{ duration: 0.5, delay: 0.4 }}
                         className="flex flex-col items-center w-full md:w-1/4"
                     >
-                        <span className="text-2xl md:text-3xl font-bold text-[#1a2e4c] mb-1 md:mb-2">
+                        <span className="text-2xl md:text-3xl font-bold text-navy-light mb-1 md:mb-2">
                             <AnimatedCounter value={15} suffix=" min" duration={1.8} />
                         </span>
                         <span className="text-xs md:text-sm text-[#7f8c9f]">average response time</span>
@@ -232,7 +209,7 @@ const ServicesAirportFastTrack = () => {
                             Global Coverage
                         </span>
 
-                        <h2 className="text-[#101828] text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight mb-6">
+                        <h2 className="text-ink text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight mb-6">
                             A warm welcome across the <br className="hidden lg:block" />
                             world's busiest terminals.
                         </h2>
@@ -247,25 +224,25 @@ const ServicesAirportFastTrack = () => {
 
                             {/* Card 1 */}
                             <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100 flex flex-col justify-center">
-                                <h4 className="text-[#101828] text-sm font-bold mb-1">Asia Pacific</h4>
+                                <h4 className="text-ink text-sm font-bold mb-1">Asia Pacific</h4>
                                 <p className="text-gray-400 text-xs">Singapore · Bangkok · Seoul</p>
                             </div>
 
                             {/* Card 2 */}
                             <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100 flex flex-col justify-center">
-                                <h4 className="text-[#101828] text-sm font-bold mb-1">Middle East</h4>
+                                <h4 className="text-ink text-sm font-bold mb-1">Middle East</h4>
                                 <p className="text-gray-400 text-xs">Dubai · Doha · Abu Dhabi</p>
                             </div>
 
                             {/* Card 3 */}
                             <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100 flex flex-col justify-center">
-                                <h4 className="text-[#101828] text-sm font-bold mb-1">Europe</h4>
+                                <h4 className="text-ink text-sm font-bold mb-1">Europe</h4>
                                 <p className="text-gray-400 text-xs">London · Paris · Rome</p>
                             </div>
 
                             {/* Card 4 */}
                             <div className="bg-white rounded-lg p-5 shadow-sm border border-gray-100 flex flex-col justify-center">
-                                <h4 className="text-[#101828] text-sm font-bold mb-1">Americas</h4>
+                                <h4 className="text-ink text-sm font-bold mb-1">Americas</h4>
                                 <p className="text-gray-400 text-xs">New York · Miami · Toronto</p>
                             </div>
 
@@ -296,7 +273,7 @@ const ServicesAirportFastTrack = () => {
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-[#2b7bb5] mr-2">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
                             </svg>
-                            <span className="text-[#101828] text-xs font-semibold">Meet, assist, and glide through arrivals</span>
+                            <span className="text-ink text-xs font-semibold">Meet, assist, and glide through arrivals</span>
                         </div>
 
                         <h2 className="text-white text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
@@ -310,13 +287,13 @@ const ServicesAirportFastTrack = () => {
 
                         <div className="flex flex-col sm:flex-row gap-6">
                             <div className="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-[#C5A869] mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-gold mr-2">
                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
                                 </svg>
                                 <span className="text-white text-sm font-medium">Arrival & departure service</span>
                             </div>
                             <div className="flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-[#C5A869] mr-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5 text-gold mr-2">
                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clipRule="evenodd" />
                                 </svg>
                                 <span className="text-white text-sm font-medium">Trusted local hosts</span>
@@ -327,7 +304,7 @@ const ServicesAirportFastTrack = () => {
                     {/* Right Side Form Card */}
                     <div className="w-full lg:w-[450px] bg-white rounded-xl shadow-2xl p-6 md:p-8 relative">
                         <div className="flex justify-between items-start mb-2">
-                            <h3 className="text-[#101828] text-xl md:text-2xl font-bold">Plan your fast track</h3>
+                            <h3 className="text-ink text-xl md:text-2xl font-bold">Plan your fast track</h3>
                             <span className="bg-[#eff6ff] text-[#1d4ed8] text-[10px] font-bold px-2 py-1 rounded-md">24/7 support</span>
                         </div>
                         <p className="text-gray-500 text-xs mb-6">Get a confirmed itinerary within 2 hours.</p>
@@ -335,8 +312,8 @@ const ServicesAirportFastTrack = () => {
                         <form className="flex flex-col space-y-5">
                             {/* Service direction */}
                             <div className="flex flex-col">
-                                <label className="text-[#101828] text-xs font-semibold mb-2">Service direction</label>
-                                <select className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-[#C5A869] focus:outline-none bg-white">
+                                <label className="text-ink text-xs font-semibold mb-2">Service direction</label>
+                                <select className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none bg-white">
                                     <option>Arrival assistance</option>
                                     <option>Departure assistance</option>
                                     <option>Connection assistance</option>
@@ -345,8 +322,8 @@ const ServicesAirportFastTrack = () => {
 
                             {/* Airport */}
                             <div className="flex flex-col">
-                                <label className="text-[#101828] text-xs font-semibold mb-2">Airport</label>
-                                <select className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-[#C5A869] focus:outline-none bg-white">
+                                <label className="text-ink text-xs font-semibold mb-2">Airport</label>
+                                <select className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none bg-white">
                                     <option>Select your airport</option>
                                     <option>Dubai (DXB)</option>
                                     <option>London (LHR)</option>
@@ -358,17 +335,17 @@ const ServicesAirportFastTrack = () => {
                             {/* Date and Flight */}
                             <div className="flex gap-4">
                                 <div className="flex flex-col w-1/2">
-                                    <label className="text-[#101828] text-xs font-semibold mb-2">Arrival date</label>
-                                    <input type="text" placeholder="DD / MM / YYYY" className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-[#C5A869] focus:outline-none" />
+                                    <label className="text-ink text-xs font-semibold mb-2">Arrival date</label>
+                                    <input type="text" placeholder="DD / MM / YYYY" className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none" />
                                 </div>
                                 <div className="flex flex-col w-1/2">
-                                    <label className="text-[#101828] text-xs font-semibold mb-2">Flight number</label>
-                                    <input type="text" placeholder="e.g. EK 404" className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-[#C5A869] focus:outline-none" />
+                                    <label className="text-ink text-xs font-semibold mb-2">Flight number</label>
+                                    <input type="text" placeholder="e.g. EK 404" className="w-full border border-gray-300 rounded-md p-3 text-sm text-gray-700 focus:ring-2 focus:ring-gold focus:outline-none" />
                                 </div>
                             </div>
 
                             {/* Submit */}
-                            <button type="button" className="w-full bg-[#fbbc42] hover:bg-[#e5ab3b] text-[#101828] font-bold py-3 rounded-md transition-colors flex justify-center items-center mt-2">
+                            <button type="button" className="w-full bg-[#fbbc42] hover:bg-[#e5ab3b] text-ink font-bold py-3 rounded-md transition-colors flex justify-center items-center mt-2">
                                 Check availability
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-4 h-4 ml-2">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -393,7 +370,7 @@ const ServicesAirportFastTrack = () => {
                         Arrive & Depart with Ease
                     </h2>
                     {/* Gold Separator */}
-                    <div className="w-16 md:w-24 h-[1px] bg-[#C5A869] mb-12"></div>
+                    <div className="w-16 md:w-24 h-[1px] bg-gold mb-12"></div>
 
                     {/* Cards Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
@@ -435,7 +412,7 @@ const ServicesAirportFastTrack = () => {
                         <span className="text-[#2b7bb5] text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase mb-4 block">
                             The Aeropass Difference
                         </span>
-                        <h2 className="text-[#101828] text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-6">
+                        <h2 className="text-ink text-3xl md:text-4xl lg:text-5xl font-semibold leading-tight mb-6">
                             A smoother airport experience <br className="hidden md:block" />
                             from door to departure lounge.
                         </h2>
@@ -455,7 +432,7 @@ const ServicesAirportFastTrack = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 19.128a9.38 9.38 0 002.625.372 9.337 9.337 0 004.121-.952 4.125 4.125 0 00-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 018.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0111.964-3.07M12 6.375a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zm8.25 2.25a2.625 2.625 0 11-5.25 0 2.625 2.625 0 015.25 0z" />
                                 </svg>
                             </div>
-                            <h3 className="text-[#101828] text-lg font-bold mb-4">Meet at the moment you need</h3>
+                            <h3 className="text-ink text-lg font-bold mb-4">Meet at the moment you need</h3>
                             <p className="text-gray-500 text-sm leading-relaxed">
                                 Your host welcomes you at the aircraft bridge, curbside, or check-in—exactly where your journey begins.
                             </p>
@@ -468,7 +445,7 @@ const ServicesAirportFastTrack = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z" />
                                 </svg>
                             </div>
-                            <h3 className="text-[#101828] text-lg font-bold mb-4">Priority through formalities</h3>
+                            <h3 className="text-ink text-lg font-bold mb-4">Priority through formalities</h3>
                             <p className="text-gray-500 text-sm leading-relaxed">
                                 Navigate immigration, security, and baggage collection with clear guidance and fast-track access where available.
                             </p>
@@ -481,7 +458,7 @@ const ServicesAirportFastTrack = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 10.5b0-2.25-1.875-4.5-4.5-4.5h-1.5c-1.5 0-3 1.5-3 3v2.25H20.25zM8.25 6h7.5M3.75 10.5h16.5v9a2.25 2.25 0 01-2.25 2.25H6a2.25 2.25 0 01-2.25-2.25v-9z" />
                                 </svg>
                             </div>
-                            <h3 className="text-[#101828] text-lg font-bold mb-4">Onward travel, coordinated</h3>
+                            <h3 className="text-ink text-lg font-bold mb-4">Onward travel, coordinated</h3>
                             <p className="text-gray-500 text-sm leading-relaxed">
                                 We coordinate luggage support, terminal handovers, and your pre-arranged driver so nothing is left to chance.
                             </p>
@@ -507,7 +484,7 @@ const ServicesAirportFastTrack = () => {
                             Simple by Design
                         </span>
 
-                        <h2 className="text-[#101828] text-3xl md:text-4xl font-bold leading-tight mb-6 text-[#1a2e4c]">
+                        <h2 className="text-ink text-3xl md:text-4xl font-bold leading-tight mb-6 text-navy-light">
                             Three steps to a calmer <br className="hidden xl:block" /> journey.
                         </h2>
 
@@ -555,7 +532,7 @@ const ServicesAirportFastTrack = () => {
                                 1
                             </div>
                             <div className="flex flex-col">
-                                <h4 className="text-[#1a2e4c] text-base font-bold mb-1">Share your flight details</h4>
+                                <h4 className="text-navy-light text-base font-bold mb-1">Share your flight details</h4>
                                 <p className="text-gray-500 text-xs md:text-sm">Choose your airport, travel date, service direction, and guest count.</p>
                             </div>
                         </motion.div>
@@ -573,7 +550,7 @@ const ServicesAirportFastTrack = () => {
                                 2
                             </div>
                             <div className="flex flex-col">
-                                <h4 className="text-[#1a2e4c] text-base font-bold mb-1">Receive a tailored confirmation</h4>
+                                <h4 className="text-navy-light text-base font-bold mb-1">Receive a tailored confirmation</h4>
                                 <p className="text-gray-500 text-xs md:text-sm">A concierge confirms availability, inclusions, and meeting instructions.</p>
                             </div>
                         </motion.div>
@@ -591,7 +568,7 @@ const ServicesAirportFastTrack = () => {
                                 3
                             </div>
                             <div className="flex flex-col">
-                                <h4 className="text-[#1a2e4c] text-base font-bold mb-1">Meet your host and move with ease</h4>
+                                <h4 className="text-navy-light text-base font-bold mb-1">Meet your host and move with ease</h4>
                                 <p className="text-gray-500 text-xs md:text-sm">Follow your personalized instructions and enjoy a seamless airport passage.</p>
                             </div>
                         </motion.div>
@@ -602,7 +579,7 @@ const ServicesAirportFastTrack = () => {
             </section>
 
             {/* Travel With Confidence Testimonial Section */}
-            <section className="relative w-full bg-[#101828] py-24 px-6 md:px-12 lg:px-24 xl:px-40 flex items-center justify-center overflow-hidden min-h-[350px]">
+            <section className="relative w-full bg-ink py-24 px-6 md:px-12 lg:px-24 xl:px-40 flex items-center justify-center overflow-hidden min-h-[350px]">
 
                 {/* Background Watermarks */}
                 <img
@@ -637,7 +614,7 @@ const ServicesAirportFastTrack = () => {
                         >
                             <Link 
                                 to="/booking"
-                                className="group bg-[#fbbc42] hover:bg-[#e5ab3b] text-[#101828] text-sm font-bold py-3.5 px-8 rounded-md transition-all duration-300 flex items-center shadow-md hover:shadow-lg whitespace-nowrap"
+                                className="group bg-[#fbbc42] hover:bg-[#e5ab3b] text-ink text-sm font-bold py-3.5 px-8 rounded-md transition-all duration-300 flex items-center shadow-md hover:shadow-lg whitespace-nowrap"
                             >
                                 <span>Reserve your assistance</span>
                                 <svg 
@@ -666,7 +643,7 @@ const ServicesAirportFastTrack = () => {
                                 className="w-full text-left px-6 py-5 bg-white hover:bg-gray-50 transition-colors flex justify-between items-center"
                                 onClick={() => toggleFaq(index)}
                             >
-                                <span className="text-[#101828] text-sm md:text-[15px] font-medium">{faq.question}</span>
+                                <span className="text-ink text-sm md:text-[15px] font-medium">{faq.question}</span>
                                 <svg 
                                     xmlns="http://www.w3.org/2000/svg" 
                                     fill="none" 

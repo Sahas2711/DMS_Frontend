@@ -8,14 +8,11 @@ import passengerIcon from '../../assets/services/passanger.svg';
 import refreshmentIcon from '../../assets/services/Refreshment.svg';
 import suitcaseIcon from '../../assets/services/suitcase.svg';
 import wifiIcon from '../../assets/services/wifi.svg';
+import PageHero from '../../components/PageHero';
+import Seo from '../../components/Seo';
+import { PAGE_META } from '../../config/site';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const StarIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-white mb-4">
-        <path d="M12 2C12.5 7.5 16.5 11.5 22 12C16.5 12.5 12.5 16.5 12 22C11.5 16.5 7.5 12.5 2 12C7.5 11.5 11.5 7.5 12 2Z" />
-    </svg>
-);
 
 const ServicesPrivateTours = () => {
     const storyImgWrapperRef = useRef(null);
@@ -61,34 +58,14 @@ const ServicesPrivateTours = () => {
 
     return (
         <div className="w-full">
-            {/* Hero Section */}
-            <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
-                {/* Background Image */}
-                <img
-                    src={heroImage}
-                    alt="Private Transfers Hero"
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                />
+            <Seo {...PAGE_META['/services/private-tours']} path="/services/private-tours" />
 
-                {/* Dark/Blue Overlay to improve text readability */}
-                <div className="absolute inset-0 bg-[#081634]/30 z-0"></div>
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col items-center text-center px-6 -mt-10">
-                    <StarIcon />
-
-                    <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-serif tracking-widest mb-6">
-                        Asian Star Travel
-                    </h1>
-
-                    {/* Orange/Gold Separator Line */}
-                    <div className="w-48 md:w-64 h-[1px] bg-[#C5A869] mb-6 opacity-80"></div>
-
-                    <p className="text-white text-sm md:text-base tracking-wider font-light drop-shadow-md">
-                        Services / Private Transfers &amp; Chauffeur
-                    </p>
-                </div>
-            </section>
+            <PageHero
+                image={heroImage}
+                alt=""
+                eyebrow="Services / Private Transfers & Chauffeur"
+                rule="wide"
+            />
 
             {/* Travel Your Way Section */}
             <section className="w-full bg-[#F3F2EE] py-20 px-6 md:px-12 lg:px-24 xl:px-40 flex justify-center">

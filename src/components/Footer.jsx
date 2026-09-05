@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 const Footer = () => {
     return (
-        <footer className="bg-[#081634] text-gray-300 pt-16 pb-8 px-6 md:px-12 lg:px-24 xl:px-40 text-sm">
+        <footer className="bg-navy text-gray-300 pt-16 pb-8 px-6 md:px-12 lg:px-24 xl:px-40 text-sm">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
                 {/* Column 1: Brand Info */}
                 <div className="flex flex-col space-y-6">
@@ -10,7 +10,7 @@ const Footer = () => {
                     <p className="leading-relaxed">
                         Asian Star Travel is a Vietnam-based inbound travel company & DMC, crafting private journeys and reliable ground services from Ho Chi Minh City.
                     </p>
-                    <p className="italic text-[#C5A869]">
+                    <p className="italic text-gold">
                         Discover Vietnam: Timeless Charm!
                     </p>
                 </div>

@@ -4,12 +4,9 @@ import heroImage from '../assets/Trip/trip-hero-image.webp';
 import tasteImg from '../assets/Trip/taste.webp';
 import heritageImg from '../assets/Trip/heritage.webp';
 import saveThisForLaterImg from '../assets/Trip/SAVE-THIS-FOR-LATER.webp';
-
-const StarIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-8 h-8 text-white mb-4">
-        <path d="M12 2C12.5 7.5 16.5 11.5 22 12C16.5 12.5 12.5 16.5 12 22C11.5 16.5 7.5 12.5 2 12C7.5 11.5 11.5 7.5 12 2Z" />
-    </svg>
-);
+import PageHero from '../components/PageHero';
+import Seo from '../components/Seo';
+import { PAGE_META } from '../config/site';
 
 const CalendarIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-gray-600">
@@ -77,34 +74,9 @@ const Trip = () => {
 
     return (
         <div className="w-full bg-[#FFFFFF]">
-            {/* Hero Section */}
-            <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
-                {/* Background Image */}
-                <img
-                    src={heroImage}
-                    alt="Trip Hero"
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                />
+            <Seo {...PAGE_META['/trip']} path="/trip" />
 
-                {/* Dark/Blue Overlay to improve text readability */}
-                <div className="absolute inset-0 bg-[#081634]/30 z-0"></div>
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col items-center text-center px-6 -mt-10">
-                    <StarIcon />
-
-                    <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-serif tracking-widest mb-6">
-                        ASMALLWORLD
-                    </h1>
-
-                    {/* Gold separator line */}
-                    <div className="w-24 md:w-32 h-[1px] bg-[#C5A869] mb-6"></div>
-
-                    <p className="text-white text-sm md:text-base font-light tracking-wide">
-                        Services / Ground services
-                    </p>
-                </div>
-            </section>
+            <PageHero image={heroImage} alt="" eyebrow="Plan Your Trip" />
 
             {/* Build A Day You Will Love Filter Bar */}
             <section className="w-full bg-[#0E1C37] py-6 md:py-8 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center border-t border-white/5">
@@ -123,7 +95,7 @@ const Trip = () => {
                     <div className="flex flex-wrap items-center gap-3 relative">
                         {/* Any dates Pill */}
                         <div
-                            className="relative bg-white text-[#081634] text-xs sm:text-sm font-medium px-4 py-2.5 rounded-full flex items-center gap-2 shadow-sm cursor-pointer hover:bg-gray-50 transition-colors"
+                            className="relative bg-white text-navy text-xs sm:text-sm font-medium px-4 py-2.5 rounded-full flex items-center gap-2 shadow-sm cursor-pointer hover:bg-gray-50 transition-colors"
                             onClick={() => {
                                 if (dateInputRef.current) {
                                     try {
@@ -146,7 +118,7 @@ const Trip = () => {
                         </div>
 
                         {/* Travelers Selector Pill */}
-                        <div className="relative bg-white text-[#081634] text-xs sm:text-sm font-medium px-4 py-2.5 rounded-full flex items-center gap-2 shadow-sm hover:bg-gray-50 transition-colors">
+                        <div className="relative bg-white text-navy text-xs sm:text-sm font-medium px-4 py-2.5 rounded-full flex items-center gap-2 shadow-sm hover:bg-gray-50 transition-colors">
                             <span>{travelers} travelers</span>
                             <UsersIcon />
                             <select
@@ -163,7 +135,7 @@ const Trip = () => {
                         </div>
 
                         {/* Interest Dropdown Pill */}
-                        <div className="relative bg-white text-[#081634] text-xs sm:text-sm font-medium px-4 py-2.5 rounded-full flex items-center gap-2 shadow-sm hover:bg-gray-50 transition-colors">
+                        <div className="relative bg-white text-navy text-xs sm:text-sm font-medium px-4 py-2.5 rounded-full flex items-center gap-2 shadow-sm hover:bg-gray-50 transition-colors">
                             <span>{interest}</span>
                             <ChevronDownIcon />
                             <select
@@ -206,16 +178,16 @@ const Trip = () => {
                     {/* Header Row (2 Columns) */}
                     <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
                         <div>
-                            <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#081634] uppercase mb-2 block">
+                            <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-navy uppercase mb-2 block">
                                 A CITY OF CONTRASTS
                             </span>
-                            <h2 className="text-[#081634] text-3xl sm:text-4xl md:text-[44px] font-serif font-bold leading-tight">
+                            <h2 className="text-navy text-3xl sm:text-4xl md:text-[44px] font-serif font-bold leading-tight">
                                 Choose the Hanoi <br className="hidden sm:inline" />
                                 that speaks to you
                             </h2>
                         </div>
                         <div className="max-w-md">
-                            <p className="text-[#556987] text-xs sm:text-sm md:text-[15px] leading-relaxed">
+                            <p className="text-steel text-xs sm:text-sm md:text-[15px] leading-relaxed">
                                 Move from the incense-softened calm of old temples to a street-side bowl of pho before lunch. Every turn brings a new texture.
                             </p>
                         </div>
@@ -235,15 +207,15 @@ const Trip = () => {
                             <div className="p-6 sm:p-7 flex flex-col flex-grow justify-between">
                                 <div>
                                     <div className="flex items-center justify-between mb-2">
-                                        <span className="text-[10px] font-bold tracking-wider text-[#081634] uppercase">
+                                        <span className="text-[10px] font-bold tracking-wider text-navy uppercase">
                                             TASTE
                                         </span>
                                         <CutleryIcon />
                                     </div>
-                                    <h3 className="text-[#081634] font-serif font-bold text-lg sm:text-xl mb-2">
+                                    <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-2">
                                         Follow the flavor trail
                                     </h3>
-                                    <p className="text-[#556987] text-xs sm:text-sm leading-relaxed">
+                                    <p className="text-steel text-xs sm:text-sm leading-relaxed">
                                         Breakfast pho, hidden cafés and recipes shaped by generations.
                                     </p>
                                 </div>
@@ -262,15 +234,15 @@ const Trip = () => {
                             <div className="p-6 sm:p-7 flex flex-col flex-grow justify-between">
                                 <div>
                                     <div className="flex items-center justify-between mb-2">
-                                        <span className="text-[10px] font-bold tracking-wider text-[#081634] uppercase">
+                                        <span className="text-[10px] font-bold tracking-wider text-navy uppercase">
                                             HERITAGE
                                         </span>
                                         <TempleIcon />
                                     </div>
-                                    <h3 className="text-[#081634] font-serif font-bold text-lg sm:text-xl mb-2">
+                                    <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-2">
                                         Read the city’s layers
                                     </h3>
-                                    <p className="text-[#556987] text-xs sm:text-sm leading-relaxed">
+                                    <p className="text-steel text-xs sm:text-sm leading-relaxed">
                                         Ancient courtyards, French facades and remarkable local craft.
                                     </p>
                                 </div>
@@ -293,7 +265,7 @@ const Trip = () => {
 
                             <Link
                                 to="/tours"
-                                className="bg-white hover:bg-gray-100 text-[#081634] font-bold text-xs sm:text-sm px-6 py-3 rounded-full inline-flex items-center justify-center transition-all w-fit shadow-md hover:scale-105 active:scale-95 cursor-pointer"
+                                className="bg-white hover:bg-gray-100 text-navy font-bold text-xs sm:text-sm px-6 py-3 rounded-full inline-flex items-center justify-center transition-all w-fit shadow-md hover:scale-105 active:scale-95 cursor-pointer"
                             >
                                 Explore More
                             </Link>
@@ -310,10 +282,10 @@ const Trip = () => {
                     {/* Header Row */}
                     <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
                         <div>
-                            <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#081634] uppercase mb-2 block">
+                            <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-navy uppercase mb-2 block">
                                 CURATED FOR YOUR FIRST VISIT
                             </span>
-                            <h2 className="text-[#081634] text-3xl sm:text-4xl font-serif font-bold">
+                            <h2 className="text-navy text-3xl sm:text-4xl font-serif font-bold">
                                 Small moments, planned beautifully
                             </h2>
                         </div>
@@ -341,7 +313,7 @@ const Trip = () => {
                                         <HeartIcon />
                                     </button>
                                 </div>
-                                <h3 className="text-[#081634] font-serif font-bold text-lg sm:text-xl mb-2 group-hover:text-[#C5A869] transition-colors">
+                                <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-2 group-hover:text-gold transition-colors">
                                     Old Quarter + coffee ritual
                                 </h3>
                                 <p className="text-[#D97706] text-xs font-medium mb-6">
@@ -349,12 +321,12 @@ const Trip = () => {
                                 </p>
                             </div>
                             <div className="border-t border-gray-100 pt-4 flex items-center justify-between">
-                                <span className="text-[#081634] font-bold text-xs sm:text-sm">
+                                <span className="text-navy font-bold text-xs sm:text-sm">
                                     From $42
                                 </span>
                                 <Link
                                     to="/tours"
-                                    className="text-[#081634] font-bold text-xs sm:text-sm flex items-center gap-1 hover:text-[#C5A869] transition-colors"
+                                    className="text-navy font-bold text-xs sm:text-sm flex items-center gap-1 hover:text-gold transition-colors"
                                 >
                                     Details →
                                 </Link>
@@ -375,7 +347,7 @@ const Trip = () => {
                                         <HeartIcon />
                                     </button>
                                 </div>
-                                <h3 className="text-[#081634] font-serif font-bold text-lg sm:text-xl mb-2 group-hover:text-[#C5A869] transition-colors">
+                                <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-2 group-hover:text-gold transition-colors">
                                     Temple of Literature &amp; craft
                                 </h3>
                                 <p className="text-[#D97706] text-xs font-medium mb-6">
@@ -383,12 +355,12 @@ const Trip = () => {
                                 </p>
                             </div>
                             <div className="border-t border-gray-100 pt-4 flex items-center justify-between">
-                                <span className="text-[#081634] font-bold text-xs sm:text-sm">
+                                <span className="text-navy font-bold text-xs sm:text-sm">
                                     From $55
                                 </span>
                                 <Link
                                     to="/tours"
-                                    className="text-[#081634] font-bold text-xs sm:text-sm flex items-center gap-1 hover:text-[#C5A869] transition-colors"
+                                    className="text-navy font-bold text-xs sm:text-sm flex items-center gap-1 hover:text-gold transition-colors"
                                 >
                                     Details →
                                 </Link>
@@ -409,7 +381,7 @@ const Trip = () => {
                                         <HeartIcon />
                                     </button>
                                 </div>
-                                <h3 className="text-[#081634] font-serif font-bold text-lg sm:text-xl mb-2 group-hover:text-[#C5A869] transition-colors">
+                                <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-2 group-hover:text-gold transition-colors">
                                     Hanoi after dark
                                 </h3>
                                 <p className="text-[#D97706] text-xs font-medium mb-6">
@@ -417,12 +389,12 @@ const Trip = () => {
                                 </p>
                             </div>
                             <div className="border-t border-gray-100 pt-4 flex items-center justify-between">
-                                <span className="text-[#081634] font-bold text-xs sm:text-sm">
+                                <span className="text-navy font-bold text-xs sm:text-sm">
                                     From $49
                                 </span>
                                 <Link
                                     to="/tours"
-                                    className="text-[#081634] font-bold text-xs sm:text-sm flex items-center gap-1 hover:text-[#C5A869] transition-colors"
+                                    className="text-navy font-bold text-xs sm:text-sm flex items-center gap-1 hover:text-gold transition-colors"
                                 >
                                     Details →
                                 </Link>
@@ -443,7 +415,7 @@ const Trip = () => {
                 />
 
                 {/* Dark Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-[#081634]/85 via-[#081634]/60 to-transparent z-0"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-navy/85 via-navy/60 to-transparent z-0"></div>
 
                 {/* Content Container */}
                 <div className="relative z-10 max-w-7xl w-full px-6 md:px-12 lg:px-20 xl:px-32 py-16 md:py-20 flex flex-col md:flex-row md:items-center justify-between gap-8">
@@ -461,7 +433,7 @@ const Trip = () => {
                         </p>
                         <Link
                             to="/contact"
-                            className="inline-flex items-center justify-center bg-[#081634] hover:bg-[#122345] text-white border border-white/20 font-medium text-xs sm:text-sm px-6 py-3 rounded-full transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
+                            className="inline-flex items-center justify-center bg-navy hover:bg-[#122345] text-white border border-white/20 font-medium text-xs sm:text-sm px-6 py-3 rounded-full transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 cursor-pointer"
                         >
                             Speak with a Hanoi specialist
                         </Link>
