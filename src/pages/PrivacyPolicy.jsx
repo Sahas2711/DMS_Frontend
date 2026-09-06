@@ -12,7 +12,7 @@ const SECTIONS = [
     {
         heading: 'Who we are',
         body: [
-            `${SITE.name} is a Vietnam-based inbound travel company and destination management company. When we refer to "we", "us" or "our" in this policy, we mean ${SITE.name}.`,
+            `${SITE.name} is a global B2B destination management company. When we refer to "we", "us" or "our" in this policy, we mean ${SITE.name}.`,
             `You can reach us about anything in this policy at ${SITE.email}.`,
         ],
     },
@@ -36,6 +36,7 @@ const SECTIONS = [
         body: [
             'This website uses Google Translate to offer the site in additional languages. When you select a language, a preference cookie is set and your page content is sent to Google for translation. Google processes this data under its own privacy policy.',
             'We use cookies and similar browser storage that are necessary for the site to function and to remember your preferences.',
+            'If analytics is configured on this site, it is loaded only after you accept our cookie banner, and it is used to understand aggregate site usage. It is never loaded before you consent.',
         ],
     },
     {

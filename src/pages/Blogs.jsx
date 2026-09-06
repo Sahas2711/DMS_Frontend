@@ -34,8 +34,7 @@ const ARTICLES = [
         readTime: "4 min read",
         title: "Hanoi's Hidden French Colonial Cafes & Architectural Walking Guide",
         description: "Step off the beaten path into quiet tree-lined courtyards, heritage villas, and the finest artisanal egg coffee haunts in the capital.",
-        author: "By Cultural Desk",
-        link: "#"
+        author: "By Cultural Desk"
     },
     {
         tag: "DESTINATIONS",
@@ -44,8 +43,7 @@ const ARTICLES = [
         readTime: "7 min read",
         title: "Chasing the Golden Season: Mu Cang Chai's Terraced Highlands",
         description: "An insider's journey through Northern Vietnam's dramatic harvest peaks, private luxury lodges, and tribal trekking routes.",
-        author: "By Expedition Lead",
-        link: "#"
+        author: "By Expedition Lead"
     },
     {
         tag: "TRAVEL TIPS",
@@ -53,9 +51,8 @@ const ARTICLES = [
         date: "02 Oct 2025",
         readTime: "5 min read",
         title: "Essential Vietnam Visa on Arrival & Fast-Track Protocol for 2025",
-        description: "Navigating new e-visa clearances, stamping fee procedures, and how VIP airport concierge guarantees zero wait time upon landing.",
-        author: "By Aviation Bureau",
-        link: "#"
+        description: "Navigating new e-visa clearances, stamping fee procedures, and airport fast-track assistance protocols for smoother arrivals.",
+        author: "By Aviation Bureau"
     }
 ];
 
@@ -93,7 +90,7 @@ const Blogs = () => {
                     </p>
 
                     {/* Featured Cover Story Visual */}
-                    <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl min-h-[380px] md:min-h-[480px] lg:min-h-[540px] flex flex-col justify-end p-6 sm:p-8 md:p-12 group cursor-pointer">
+                    <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl min-h-[380px] md:min-h-[480px] lg:min-h-[540px] flex flex-col justify-end p-6 sm:p-8 md:p-12 group">
                         {/* Background Image */}
                         <img
                             src={travelJournalImg}
@@ -219,13 +216,7 @@ const Blogs = () => {
                                     </div>
                                 </div>
 
-                                <a
-                                    href="#"
-                                    className="text-xs font-semibold text-navy hover:text-bronze flex items-center gap-1.5 transition-colors group-hover:gap-2.5"
-                                >
-                                    Read Article
-                                    <span>→</span>
-                                </a>
+                        </div>
                             </div>
                         </div>
                     </div>
@@ -241,7 +232,7 @@ const Blogs = () => {
                             </h2>
                         </div>
                         <span className="text-xs text-gray-500 mt-2 md:mt-0">
-                            Showing {filteredArticles.length} of 24 dispatches
+                            Showing {filteredArticles.length} of {ARTICLES.length} dispatches
                         </span>
                     </div>
 
@@ -285,29 +276,14 @@ const Blogs = () => {
                                         <span className="text-[11px] text-gray-400">
                                             {article.author}
                                         </span>
-                                        <a
-                                            href={article.link}
-                                            className="text-xs font-semibold text-bronze hover:text-navy flex items-center gap-1 transition-colors"
-                                        >
-                                            Read More
-                                            <span>→</span>
-                                        </a>
+                                        <span className="text-[11px] text-bronze flex items-center gap-1">
+                                            Excerpt
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
-
-                    {/* Bottom Load Button */}
-                    <button
-                        type="button"
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#EBE9E2] hover:bg-[#E0DDD4] text-navy text-xs font-semibold transition-colors shadow-sm"
-                    >
-                        <span>🔄</span>
-                        Load Prior Dispatches
-                    </button>
-
-                </div>
             </section>
 
             {/* Seamless Hanoi Transit CTA Banner Section */}
@@ -338,15 +314,15 @@ const Blogs = () => {
 
                     {/* Subtitle */}
                     <p className="text-gray-200 text-xs sm:text-sm md:text-base max-w-lg mb-8 leading-relaxed drop-shadow-sm">
-                        Book your Fast Track assistance today and experience effortless airport hospitality.
+                        Fast-track and reconnect assistance for your clients across Vietnam, Japan and Australia. Send us the details and we will confirm the service plan.
                     </p>
 
                     {/* CTA Button */}
                     <Link
-                        to="/services/airport-fast-track"
+                        to="/request-quote"
                         className="inline-flex items-center justify-center bg-[#E5B869] hover:bg-[#D4A758] text-navy font-bold text-xs md:text-sm px-8 py-3.5 rounded-lg uppercase tracking-wider transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
                     >
-                        BOOK NOW
+                        Request a Quote
                     </Link>
                 </div>
             </section>

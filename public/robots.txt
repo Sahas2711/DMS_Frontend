@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
 
-# Transactional pages carry no search value
-Disallow: /checkout
-Disallow: /checkouts
+# Enquiry and legal pages don't need indexing
+Disallow: /request-quote
+Disallow: /become-a-partner
 
 Sitemap: https://www.asianstartravel.vn/sitemap.xml

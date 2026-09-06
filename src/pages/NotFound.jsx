@@ -4,8 +4,8 @@ import StarIcon from '../components/icons/StarIcon';
 import { SITE } from '../config/site';
 
 const SUGGESTIONS = [
-    { label: 'Tours & Itineraries', to: '/tours' },
-    { label: 'Our Services', to: '/services' },
+    { label: 'Journeys & Experiences', to: '/tours' },
+    { label: 'Travel Trade', to: '/travel-trade' },
     { label: 'Destinations', to: '/destination' },
     { label: 'Contact Us', to: '/contact' },
 ];

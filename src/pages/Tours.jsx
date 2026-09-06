@@ -1,96 +1,188 @@
+import { useCallback, useEffect, useState } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Seo from '../components/Seo';
-import { PAGE_META, SITE } from '../config/site';
+import { PAGE_META } from '../config/site';
+import { fetchTours } from '../services/api/cms';
+import { errorMessage } from '../services/api/client';
+import { TRIP_TYPE_BY_VALUE } from '../config/enquiry';
+import MediaImage from '../components/cms/MediaImage';
 import toursHeroImg from '../assets/home/Tourspage-hero section.webp';
-import vipBgImg from '../assets/home/vip-benifits-bg.webp';
-import extraBenefitsImg from '../assets/home/extraordinary-benifits.webp';
 
-// VIP Benefit Icons
-import roomUpgradeIcon from '../assets/home/room-upgrade.png';
-import cashCreditIcon from '../assets/home/cash_credit.png';
-import complimentaryIcon from '../assets/home/complimentary.png';
-import loyaltyPointsIcon from '../assets/home/loyalty-points.png';
-import earlyCheckInIcon from '../assets/home/check_in-early.png';
-import lateCheckOutIcon from '../assets/home/check-in-late.png';
+const CATEGORIES = [
+    { value: '', label: 'All journeys' },
+    { value: 'FIT', label: 'FIT' },
+    { value: 'GROUP', label: 'Groups' },
+    { value: 'MICE', label: 'MICE' },
+    { value: 'HONEYMOON', label: 'Honeymoon' },
+    { value: 'LUXURY', label: 'Luxury' },
+];
 
-const VIP_BENEFITS = [
-    {
-        icon: roomUpgradeIcon,
-        title: "Room upgrade",
-        subtitle: "to a better category"
-    },
-    {
-        icon: cashCreditIcon,
-        title: "$100 hotel credit",
-        subtitle: "for your stay"
-    },
-    {
-        icon: complimentaryIcon,
-        title: "Complimentary",
-        subtitle: "breakfast for two every day"
-    },
-    {
-        icon: loyaltyPointsIcon,
-        title: "Earn Loyalty Points",
-        subtitle: "Hyatt, Bonvoy, Hilton, Shangri-La"
-    },
-    {
-        icon: earlyCheckInIcon,
-        title: "Early Check-In",
-        subtitle: "to start your stay early"
-    },
-    {
-        icon: lateCheckOutIcon,
-        title: "Late Check-Out",
-        subtitle: "to extend your stay"
+const VALID_CATEGORIES = CATEGORIES.slice(1).map((c) => c.value);
+
+function durationLabel(tour) {
+    const days = tour?.duration_days;
+    if (!days) return 'Flexible duration';
+    const nights = tour?.duration_nights;
+    return nights ? `${days} days / ${nights} nights` : `${days} days`;
+}
+
+const TourCard = ({ tour }) => {
+    const destination = tour.destination;
+    const image = tour.hero_media?.url;
+    return (
+        <article className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100/90 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
+            <MediaImage
+                src={image}
+                alt={tour.hero_media?.alt_text || tour.title}
+                fallbackChar={tour.title?.charAt(0)}
+                className="w-full h-52 object-cover"
+            />
+            <div className="p-6 flex flex-col flex-grow text-left">
+                <div className="flex items-center gap-2 mb-3">
+                    <span className="text-[10px] font-bold tracking-wider uppercase bg-champagne text-bronze px-2.5 py-1 rounded-full">
+                        {TRIP_TYPE_BY_VALUE[tour.category] || tour.category}
+                    </span>
+                    {destination && (
+                        <span className="text-[10px] font-semibold tracking-wide text-gray-500">
+                            {destination.country} · {destination.name}
+                        </span>
+                    )}
+                </div>
+                <h3 className="text-navy font-serif text-lg font-bold mb-2 leading-snug">
+                    {tour.title}
+                </h3>
+                {tour.summary && (
+                    <p className="text-steel text-sm leading-relaxed mb-4 flex-grow">{tour.summary}</p>
+                )}
+                <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
+                    <span className="text-xs text-gray-500 font-medium">{durationLabel(tour)}</span>
+                    <Link
+                        to={`/request-quote?trip_type=${tour.category}`}
+                        className="text-bronze hover:text-navy text-xs font-bold transition-colors"
+                    >
+                        Request a quote →
+                    </Link>
+                </div>
+            </div>
+        </article>
+    );
+};
+
+const EMPTY_RESULT = { key: null, status: 'loading', items: [], error: null };
+
+const TourCatalog = ({ category }) => {
+    const [result, setResult] = useState(EMPTY_RESULT);
+    const [attempt, setAttempt] = useState(0);
+    // Current request key — while a new fetch is in flight the previous result
+    // no longer matches, so the UI shows the loading state again.
+    const key = `${category || 'all'}#${attempt}`;
+
+    useEffect(() => {
+        const controller = new AbortController();
+
+        fetchTours({ category: category || undefined, pageSize: 100, sort: 'display_order' })
+            .then((data) => {
+                if (!controller.signal.aborted) {
+                    setResult({ key, status: 'success', items: data.items ?? [], error: null });
+                }
+            })
+            .catch((error) => {
+                if (!controller.signal.aborted) {
+                    setResult({
+                        key,
+                        status: 'error',
+                        items: [],
+                        error: errorMessage(error, 'We could not load the journeys right now.'),
+                    });
+                }
+            });
+
+        return () => controller.abort();
+    }, [key, category, attempt]);
+
+    const state = result.key === key ? result : EMPTY_RESULT;
+
+    if (state.status === 'loading') {
+        return (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" aria-busy="true">
+                {Array.from({ length: 6 }).map((_, i) => (
+                    <div key={i} className="rounded-2xl bg-white border border-gray-100 p-0 overflow-hidden animate-pulse">
+                        <div className="w-full h-52 bg-gray-200" />
+                        <div className="p-6 space-y-3">
+                            <div className="h-3 w-24 bg-gray-200 rounded" />
+                            <div className="h-5 w-3/4 bg-gray-200 rounded" />
+                            <div className="h-3 w-full bg-gray-100 rounded" />
+                            <div className="h-3 w-2/3 bg-gray-100 rounded" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
     }
-];
 
-const SPECIAL_OFFERS = [
-    { tag: "Stay 4 nights, pay for 3", title: "Emirates Palace Abu Dhabi", location: "Abu Dhabi, United Arab Emirates" },
-    { tag: "Stay 3 nights, pay for 2", title: "One&Only Aesthesis", location: "Glyfada, Greece" },
-    { tag: "Stay 4 nights, pay for 3", title: "One&Only One Za'abeel", location: "Dubai, United Arab Emirates" },
-    { tag: "Stay 4 nights, pay for 3", title: "Conrad Singapore Marina Bay", location: "Singapore, Singapore" },
-    { tag: "Stay 4 nights, pay for 3", title: "Rosewood Hotel Georgia", location: "Vancouver, Canada" },
-    { tag: "Stay 3 nights, pay for 2", title: "Corinthia Hotel London", location: "London, United Kingdom" },
-    { tag: "Stay 3 nights, pay for 2", title: "Fairmont Copley Plaza, Boston", location: "Boston, United States" },
-    { tag: "Stay 4 nights, pay for 3", title: "Shangri-La The Shard, London", location: "London, United Kingdom" },
-    { tag: "Stay 3 nights, pay for 2", title: "The Fifth Avenue Hotel", location: "New York, United States" },
-    { tag: "Stay 3 nights, pay for 2", title: "Sofitel Legend The Grand Amsterdam", location: "Amsterdam, Netherlands" },
-    { tag: "Stay 4 nights, pay for 3", title: "Conservatorium Amsterdam", location: "Amsterdam, Netherlands" }
-];
+    if (state.status === 'error') {
+        return (
+            <div className="w-full bg-red-50 border border-red-200 rounded-2xl p-8 text-center">
+                <p className="text-red-800 text-sm font-semibold mb-2">Could not load journeys</p>
+                <p className="text-red-700/80 text-xs mb-5 max-w-md mx-auto leading-relaxed">{state.error}</p>
+                <button
+                    type="button"
+                    onClick={() => setAttempt((n) => n + 1)}
+                    className="bg-[#731E2A] hover:bg-[#5C1822] text-white font-bold text-xs tracking-wider uppercase py-2.5 px-6 rounded-full transition-colors"
+                >
+                    Try again
+                </button>
+            </div>
+        );
+    }
 
-const POPULAR_HOTELS = [
-    { title: "Shangri-La The Shard, London", location: "London, United Kingdom" },
-    { title: "Conrad Bangkok", location: "Bangkok, Thailand" },
-    { title: "InterContinental Cascais - Estoril", location: "Estoril, Portugal" },
-    { title: "Hyatt Regency Malta", location: "St. Julians, Malta" },
-    { title: "Thompson Madrid by Hyatt", location: "Madrid, Spain" },
-    { title: "Hotel das Cataratas, A Belmond Hotel, Iguassu F...", location: "Foz do Iguaçu, Brazil" }
-];
+    if (state.items.length === 0) {
+        return (
+            <div className="w-full bg-cream border border-gray-100 rounded-2xl p-10 text-center">
+                <h3 className="text-navy text-xl font-serif font-semibold mb-2">No journeys published yet</h3>
+                <p className="text-steel text-sm leading-relaxed max-w-md mx-auto mb-5">
+                    We are adding new journeys to this collection. Meanwhile, tell us what your
+                    clients need and we will design it for you.
+                </p>
+                <Link
+                    to={`/request-quote${category ? `?trip_type=${category}` : ''}`}
+                    className="inline-block bg-[#731E2A] hover:bg-[#5C1822] text-white font-bold text-xs tracking-wider uppercase py-3 px-8 rounded-full transition-colors"
+                >
+                    Request a custom journey
+                </Link>
+            </div>
+        );
+    }
 
-const TagIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5 mr-1.5">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 7.5h.008v.008H6V7.5z" />
-    </svg>
-);
-
-const LocationIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3.5 h-3.5 mr-1.5">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-    </svg>
-);
+    return (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {state.items.map((tour) => (
+                <TourCard key={tour.public_id || tour.slug} tour={tour} />
+            ))}
+        </div>
+    );
+};
 
 const Tours = () => {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const rawCategory = (searchParams.get('category') || '').toUpperCase();
+    const category = VALID_CATEGORIES.includes(rawCategory) ? rawCategory : '';
+
+    const selectCategory = useCallback(
+        (value) => {
+            if (value) setSearchParams({ category: value }, { replace: true });
+            else setSearchParams({}, { replace: true });
+        },
+        [setSearchParams]
+    );
+
     return (
         <div className="w-full flex flex-col">
             <Seo {...PAGE_META['/tours']} path="/tours" />
 
             {/* Hero Section */}
-            <section className="relative w-full h-[60vh] md:h-[75vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
-                {/* Background Image */}
+            <section className="relative w-full h-[55vh] md:h-[65vh] lg:min-h-[520px] flex items-center justify-center overflow-hidden">
                 <img
                     src={toursHeroImg}
                     alt=""
@@ -98,330 +190,67 @@ const Tours = () => {
                     fetchPriority="high"
                     decoding="async"
                 />
-
-                {/* Dark/Blue Overlay to match screenshot tint and improve text readability */}
-                <div className="absolute inset-0 bg-navy/30 z-0" aria-hidden="true"></div>
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col items-center text-center px-6 -mt-16 md:-mt-24">
-                    <h1 className="text-white text-4xl md:text-6xl lg:text-7xl font-serif tracking-widest mb-4">
-                        {SITE.wordmark}
+                <div className="absolute inset-0 bg-navy/35 z-0" aria-hidden="true" />
+                <div className="relative z-10 flex flex-col items-center text-center px-6">
+                    <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-serif tracking-wide mb-4">
+                        Journeys &amp; Experiences
                     </h1>
-
-                    <h2 className="text-white text-xl md:text-3xl font-serif tracking-wide mb-6">
-                        Tours
-                    </h2>
-
-                    {/* Gold Separator Line */}
-                    <div className="w-64 md:w-96 h-[1px] bg-gold mb-6 opacity-80"></div>
-
-                    <p className="text-gray-100 text-xs md:text-sm tracking-wider font-light">
-                        Hotels we love with extraordinary benefits
+                    <div className="w-24 md:w-40 h-px bg-gold mb-6" aria-hidden="true" />
+                    <p className="text-gray-100 text-sm md:text-base max-w-2xl leading-relaxed">
+                        Sample journeys our DMC designs across Vietnam, Japan and Australia. Every
+                        journey shown can be tailored — or built from scratch around your brief.
                     </p>
                 </div>
             </section>
 
-            {/* VIP Benefits Section */}
-            <section className="w-full bg-[#F8F6F0] py-20 px-6 md:px-12 lg:px-24 xl:px-40 flex justify-center">
-                <motion.div 
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="w-full max-w-7xl relative rounded-[2rem] overflow-hidden shadow-xl"
-                >
-                    {/* Background Image */}
-                    <img
-                        src={vipBgImg}
-                        alt="VIP Benefits Background"
-                        className="absolute inset-0 w-full h-full object-cover z-0"
-                        loading="lazy"
-                        decoding="async"
-                    />
-
-                    {/* Subtle Overlay to ensure text readability */}
-                    <div className="absolute inset-0 bg-black/20 z-0"></div>
-
-                    {/* Content */}
-                    <div className="relative z-10 p-8 md:p-14 lg:p-20 flex flex-col items-start text-left">
-                        <motion.h2 
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
-                            className="text-white text-3xl md:text-4xl lg:text-5xl font-serif mb-6 drop-shadow-sm"
-                        >
-                            VIP benefits for Premium Members*
-                        </motion.h2>
-
-                        <motion.div 
-                            initial={{ scaleX: 0, originX: 0 }}
-                            whileInView={{ scaleX: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="w-16 h-[2px] bg-gold mb-6"
-                        />
-
-                        <motion.p 
-                            initial={{ opacity: 0, y: 15 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.25 }}
-                            className="text-white text-sm md:text-base lg:text-lg mb-12 opacity-95 drop-shadow-sm max-w-2xl"
-                        >
-                            Our exclusive {SITE.name} VIP rate offers you extraordinary benefits at no extra cost
-                        </motion.p>
-
-                        {/* Benefit Cards */}
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6 w-full mb-12">
-                            {VIP_BENEFITS.map((benefit, index) => (
-                                <motion.div 
-                                    key={index} 
-                                    initial={{ opacity: 0, y: 25 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: 0.15 + index * 0.08, ease: "easeOut" }}
-                                    whileHover={{ y: -6, scale: 1.02 }}
-                                    className="bg-[#F2DFCB] rounded-2xl p-5 flex flex-col items-center text-center shadow-md hover:shadow-2xl transition-shadow duration-300 cursor-pointer group"
-                                >
-                                    <motion.img 
-                                        src={benefit.icon} 
-                                        alt={benefit.title} 
-                                        className="w-12 h-12 object-contain mb-5 transition-transform duration-300 group-hover:scale-110" 
-                                    />
-                                    <h3 className="text-[#3A5B74] font-medium text-xs md:text-sm mb-2">{benefit.title}</h3>
-                                    <p className="text-gray-600 text-[10px] md:text-xs leading-snug">{benefit.subtitle}</p>
-                                </motion.div>
-                            ))}
+            {/* Catalog */}
+            <section className="w-full bg-white py-14 md:py-20 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">
+                <div className="w-full max-w-7xl flex flex-col">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-10">
+                        <h2 className="text-navy text-2xl md:text-3xl font-serif font-normal">
+                            {category ? TRIP_TYPE_BY_VALUE[category] : 'All journeys'}
+                        </h2>
+                        <div className="flex flex-wrap gap-2" role="tablist" aria-label="Filter journeys by experience type">
+                            {CATEGORIES.map((cat) => {
+                                const active = (cat.value || '') === category;
+                                return (
+                                    <button
+                                        key={cat.value || 'all'}
+                                        type="button"
+                                        role="tab"
+                                        aria-selected={active}
+                                        onClick={() => selectCategory(cat.value)}
+                                        className={`text-xs font-semibold px-4 py-2 rounded-full border transition-colors cursor-pointer ${
+                                            active
+                                                ? 'bg-navy text-white border-navy'
+                                                : 'bg-white text-navy border-gray-200 hover:border-bronze hover:text-bronze'
+                                        }`}
+                                    >
+                                        {cat.label}
+                                    </button>
+                                );
+                            })}
                         </div>
-
-                        <motion.p 
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.6 }}
-                            className="text-white text-[10px] md:text-xs max-w-4xl opacity-90"
-                        >
-                            *VIP benefits are available to {SITE.name} Premium Members. Benefits vary by hotel and may be subject to availability
-                        </motion.p>
-                    </div>
-                </motion.div>
-            </section>
-
-            {/* Special Offers Section */}
-            <section className="w-full bg-white py-20 px-6 md:px-12 lg:px-24 xl:px-40 flex flex-col items-center">
-                <motion.div 
-                    initial={{ opacity: 0, y: 25 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-12 flex flex-col items-center"
-                >
-                    <h2 className="text-[#2c3e50] text-4xl md:text-5xl font-serif mb-4">
-                        Special Offers
-                    </h2>
-                    <motion.div 
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="w-16 h-[1px] bg-gold"
-                    />
-                </motion.div>
-
-                <div className="w-full max-w-7xl">
-                    {/* Top 2 Large Cards */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                        {SPECIAL_OFFERS.slice(0, 2).map((offer, index) => (
-                            <motion.div 
-                                key={index} 
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.2 }}
-                                transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
-                                whileHover={{ y: -6 }}
-                                className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col cursor-pointer group"
-                            >
-                                {/* Gray Image Placeholder */}
-                                <div className="w-full h-64 md:h-80 bg-[#d3d3d3] overflow-hidden">
-                                    <div className="w-full h-full bg-[#d3d3d3] transition-transform duration-500 group-hover:scale-105" />
-                                </div>
-                                <div className="p-6 flex flex-col flex-grow">
-                                    <div className="text-[#3A5B74] text-[10px] md:text-xs font-bold mb-2 flex items-center">
-                                        <TagIcon /> {offer.tag}
-                                    </div>
-                                    <h3 className="text-gray-900 font-serif font-medium text-lg md:text-xl mb-3 group-hover:text-[#00605F] transition-colors">{offer.title}</h3>
-                                    <div className="text-gray-500 text-xs flex items-center mt-auto">
-                                        <LocationIcon /> {offer.location}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
                     </div>
 
-                    {/* Bottom Grid of 3 Cards per row */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-                        {SPECIAL_OFFERS.slice(2).map((offer, index) => (
-                            <motion.div 
-                                key={index} 
-                                initial={{ opacity: 0, y: 25 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.15 }}
-                                transition={{ duration: 0.5, delay: (index % 3) * 0.1, ease: "easeOut" }}
-                                whileHover={{ y: -6 }}
-                                className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col cursor-pointer group"
-                            >
-                                {/* Gray Image Placeholder */}
-                                <div className="w-full h-48 md:h-56 bg-[#d3d3d3] overflow-hidden">
-                                    <div className="w-full h-full bg-[#d3d3d3] transition-transform duration-500 group-hover:scale-105" />
-                                </div>
-                                <div className="p-5 flex flex-col flex-grow">
-                                    <div className="text-[#3A5B74] text-[10px] md:text-xs font-bold mb-2 flex items-center">
-                                        <TagIcon /> {offer.tag}
-                                    </div>
-                                    <h3 className="text-gray-900 font-serif font-medium text-base md:text-lg mb-3 group-hover:text-[#00605F] transition-colors">{offer.title}</h3>
-                                    <div className="text-gray-500 text-[10px] md:text-xs flex items-center mt-auto">
-                                        <LocationIcon /> {offer.location}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
+                    <motion.div
+                        key={category || 'all'}
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4 }}
+                    >
+                        <TourCatalog category={category} />
+                    </motion.div>
 
-                    {/* See All Button */}
-                    <div className="flex justify-center w-full">
-                        <motion.button 
-                            initial={{ opacity: 0, y: 15 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5 }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.96 }}
-                            className="bg-navy hover:bg-[#11264f] transition-colors text-white text-xs font-bold tracking-widest uppercase py-3.5 px-8 rounded-full shadow-md cursor-pointer"
-                        >
-                            SEE ALL SPECIAL OFFERS
-                        </motion.button>
-                    </div>
+                    <p className="text-center text-steel text-xs md:text-sm mt-12 max-w-xl mx-auto leading-relaxed">
+                        Looking for a specific journey, dates or hotel tier?{' '}
+                        <Link to="/request-quote" className="text-navy underline hover:text-bronze font-semibold">
+                            Request a quote
+                        </Link>{' '}
+                        and our specialists will tailor it around your brief.
+                    </p>
                 </div>
             </section>
-
-            {/* Extraordinary Benefits CTA Section */}
-            <section className="w-full bg-[#F8F6F0] py-20 px-6 md:px-12 lg:px-24 xl:px-40 flex justify-center">
-                <motion.div 
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="w-full max-w-7xl relative rounded-[2rem] overflow-hidden shadow-lg h-[400px] flex items-center"
-                >
-                    {/* Background Image */}
-                    <img
-                        src={extraBenefitsImg}
-                        alt="Extraordinary Benefits"
-                        className="absolute inset-0 w-full h-full object-cover z-0"
-                        loading="lazy"
-                        decoding="async"
-                    />
-
-                    {/* Gradient overlay for text readability (darker on left) */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-0"></div>
-
-                    {/* Content */}
-                    <div className="relative z-10 p-8 md:p-14 lg:p-20 flex flex-col items-start text-left max-w-2xl">
-                        <motion.h2 
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
-                            className="text-white text-3xl md:text-5xl font-serif mb-6 drop-shadow-sm leading-tight"
-                        >
-                            Sign up for extraordinary benefits
-                        </motion.h2>
-
-                        {/* Coral Separator Line */}
-                        <motion.div 
-                            initial={{ scaleX: 0, originX: 0 }}
-                            whileInView={{ scaleX: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="w-24 h-[2px] bg-[#FF7F50] mb-6"
-                        />
-
-                        <motion.p 
-                            initial={{ opacity: 0, y: 15 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.25 }}
-                            className="text-white text-sm md:text-base lg:text-lg mb-10 opacity-95 drop-shadow-sm"
-                        >
-                            Enjoy the world's best hotels with our extraordinary benefits
-                        </motion.p>
-
-                        <motion.button 
-                            initial={{ opacity: 0, y: 15 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.35 }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.96 }}
-                            className="bg-[#FF7F50] hover:bg-[#e66c40] transition-colors text-white text-xs font-bold tracking-widest uppercase py-3.5 px-8 rounded-full shadow-md cursor-pointer"
-                        >
-                            CREATE YOUR ACCOUNT
-                        </motion.button>
-                    </div>
-                </motion.div>
-            </section>
-
-            {/* Popular Hotels Section */}
-            <section className="w-full bg-[#F8F6F0] py-20 px-6 md:px-12 lg:px-24 xl:px-40 flex flex-col items-center">
-                <motion.div 
-                    initial={{ opacity: 0, y: 25 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-12 flex flex-col items-center"
-                >
-                    <h2 className="text-[#2c3e50] text-4xl md:text-5xl font-serif mb-4">
-                        Popular Hotels
-                    </h2>
-                    <motion.div 
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="w-16 h-[1px] bg-gold"
-                    />
-                </motion.div>
-
-                <div className="w-full max-w-7xl">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {POPULAR_HOTELS.map((hotel, index) => (
-                            <motion.div 
-                                key={index} 
-                                initial={{ opacity: 0, y: 25 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.15 }}
-                                transition={{ duration: 0.5, delay: (index % 3) * 0.1, ease: "easeOut" }}
-                                whileHover={{ y: -6 }}
-                                className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col cursor-pointer group"
-                            >
-                                {/* Gray Image Placeholder */}
-                                <div className="w-full h-56 bg-[#d3d3d3] overflow-hidden">
-                                    <div className="w-full h-full bg-[#d3d3d3] transition-transform duration-500 group-hover:scale-105" />
-                                </div>
-                                <div className="p-5 flex flex-col flex-grow">
-                                    <h3 className="text-gray-800 font-sans text-sm md:text-base mb-3 group-hover:text-[#00605F] transition-colors">{hotel.title}</h3>
-                                    <div className="text-gray-500 text-[10px] md:text-xs flex items-center mt-auto">
-                                        <LocationIcon /> {hotel.location}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-
         </div>
     );
 };

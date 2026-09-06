@@ -10,83 +10,84 @@ export const SITE = {
     name: 'Asian Star Travel',
     /** Wordmark shown in page heroes — letter-spaced uppercase treatment. */
     wordmark: 'ASIAN STAR TRAVEL',
-    tagline: 'Discover Vietnam: Timeless Charm!',
+    tagline: 'Your Trusted B2B DMC across Vietnam, Japan & Australia',
     description:
-        'Asian Star Travel is a Vietnam-based inbound travel company and DMC, crafting private journeys, tailor-made tours, airport fast track and reliable ground services.',
-    email: 'info@asianstartravel.vn',
+        'Asian Star Travel is a global B2B DMC, crafting private journeys, FIT and group programs, MICE, honeymoon and luxury experiences for travel agents and tour operators across Vietnam, Japan and Australia.',
+    email: 'info@asianstartravels.com',
     locale: 'en_US',
     /** Set to the production origin before deploying (used for canonical + OG URLs). */
     url: 'https://www.asianstartravel.vn',
+    /** Registered office — single source of truth, rendered in the footer
+     *  and on the contact page. */
+    registeredAddress: '7th Floor Kirloskar Tech Park, Godrej Woodsman Estate, Hebbal Kempapura, Bengaluru, Karnataka 560024',
+    /** Enquiry routing mailboxes (mirror the backend per-form recipient lists). */
+    enquiryEmails: {
+        quote: 'inquiry@asianstartravels.com',
+        partner: 'sales@asianstartravels.com',
+        contact: 'info@asianstartravels.com',
+    },
+    /** Analytics — leave empty to disable all external analytics requests.
+     *  Set to a GA4 measurement ID ("G-XXXXXXX") to enable consent-gated
+     *  analytics. Nothing loads until a visitor accepts cookies. */
+    analytics: {
+        gaMeasurementId: '',
+    },
 };
 
 /** Per-route metadata. Keys match the canonical route paths in App.jsx. */
 export const PAGE_META = {
     '/': {
-        title: `${SITE.name} — Private Tours, Transfers & Ground Services in Vietnam`,
+        title: `${SITE.name} — B2B DMC Partner for Vietnam, Japan & Australia`,
         description: SITE.description,
     },
     '/tours': {
-        title: `Tours & Itineraries | ${SITE.name}`,
+        title: `Journeys & Experiences | ${SITE.name}`,
         description:
-            'Curated private tours and multi-day itineraries across Vietnam, India and Asia, designed around your pace and travel dates.',
+            'Tours and experiences across Vietnam, Japan and Australia — FIT, groups, MICE, honeymoon and luxury journeys for travel agents and their clients.',
     },
-    '/services': {
-        title: `Travel Services | ${SITE.name}`,
+    '/experiences': {
+        title: `Experiences | ${SITE.name}`,
         description:
-            'Tailor-made tours, private transfers, airport fast track, car rental and corporate incentive travel from a licensed Vietnamese DMC.',
+            'FIT, Groups, MICE, Honeymoon and Luxury — the travel experiences Asian Star Travel designs across Vietnam, Japan and Australia.',
     },
-    '/services/private-tours': {
-        title: `Private Tours & Transfers | ${SITE.name}`,
+    '/request-quote': {
+        title: `Request a Quote | ${SITE.name}`,
         description:
-            'Comfortable, punctual private cars with professional local drivers between every destination on your itinerary.',
+            'Send your itinerary requirements and receive a tailored proposal from our destination specialists within one business day.',
     },
-    '/services/tailor-made-tours': {
-        title: `Tailor-Made Tours | ${SITE.name}`,
+    '/become-a-partner': {
+        title: `Become a Partner | ${SITE.name}`,
         description:
-            'Bespoke private itineraries built around your interests, pace and dates — never off-the-shelf.',
+            'Join the Asian Star Travel partner network — preferred rates and dedicated support for travel agencies, tour operators and OTAs.',
     },
-    '/services/airport-fast-track': {
-        title: `Airport Fast Track & VIP Clearance | ${SITE.name}`,
+    '/travel-trade': {
+        title: `Travel Trade | ${SITE.name}`,
         description:
-            'Skip the queues with expedited immigration, porter service and VIP assistance on arrival and departure at Hanoi Noi Bai and beyond.',
+            'Built for travel agents, agencies and tour operators: FIT and group programs, MICE support and a dedicated trade desk.',
     },
-    '/services/ground-services': {
-        title: `Ground Services in India | ${SITE.name}`,
-        description:
-            'Coordinated terminal support, chauffeur transfers and 24-hour on-duty managers across Indian gateways.',
+    '/terms': {
+        title: `Terms of Use | ${SITE.name}`,
+        description: 'The terms that govern your use of the Asian Star Travel website.',
     },
     '/destination': {
         title: `Destinations | ${SITE.name}`,
         description:
-            'Explore our destination portfolio across Vietnam, India, Korea, Europe and the Gulf.',
+            'Launch destinations: Vietnam, Japan and Australia. Explore cities, regions and the experiences our DMC designs for travel agents.',
     },
     '/about': {
         title: `About Us | ${SITE.name}`,
         description:
-            'A Vietnam-based inbound travel company and DMC with regional reach, licensed by the Vietnam National Administration of Tourism.',
+            'A global B2B DMC — the ground partner travel agents trust across Vietnam, Japan and Australia.',
     },
     '/contact': {
         title: `Contact Us | ${SITE.name}`,
         description:
-            'Talk to our team about a private itinerary, airport fast track or ground services. 24/7 dedicated support.',
+            'Talk to our B2B team about FIT and group programs, MICE support, or how to become a partner. Dedicated trade support across Vietnam, Japan and Australia.',
     },
     '/blog': {
         title: `Travel Journal | ${SITE.name}`,
         description:
             'Destination guides, transit tips and editorial dispatches from our travel specialists.',
-    },
-    '/trip': {
-        title: `Plan Your Trip | ${SITE.name}`,
-        description: 'Tell us how you travel and we will match you with the right journey.',
-    },
-    '/booking': {
-        title: `Booking | ${SITE.name}`,
-        description: 'Reserve your transfer, fast track or tour with Asian Star Travel.',
-    },
-    '/checkout': {
-        title: `Checkout | ${SITE.name}`,
-        description: 'Complete your Asian Star Travel booking.',
-        noIndex: true,
     },
     '/privacy-policy': {
         title: `Privacy Policy | ${SITE.name}`,

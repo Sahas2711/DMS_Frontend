@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import heroImage from '../assets/contactus/Contactus-hero-image.webp';
 import mapImage from '../assets/contactus/map-image-contactus.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
-import { PAGE_META } from '../config/site';
+import ContactForm from '../components/forms/ContactForm';
+import { PAGE_META, SITE } from '../config/site';
 
 const INSTANT_CONNECTIONS = [
     {
@@ -31,7 +32,7 @@ const INSTANT_CONNECTIONS = [
     },
     {
         title: "Direct Hotline",
-        value: "1900 272 716 / +84 24 3828 9999",
+        value: "+84 24 3828 9999",
         tag: "VOICE CONSULTATION",
         link: "tel:+842438289999",
         icon: (
@@ -45,71 +46,27 @@ const INSTANT_CONNECTIONS = [
 const EXPERTISE_GUARANTEES = [
     {
         number: "01",
-        title: "Local Vietnam Travel Experts",
-        description: "In-house destination specialists resident in Hanoi and Saigon crafting authentic insider pathways."
+        title: "Destination Specialists",
+        description: "In-house ground experts for Vietnam, Japan and Australia crafting authentic, insider itineraries."
     },
     {
         number: "02",
         title: "Bespoke Private Itineraries",
-        description: "Private, entirely flexible, and handcrafted strictly according to your timeline, luxury tier, and personal tempo."
+        description: "Private, entirely flexible, and handcrafted strictly according to your timeline, luxury tier, and client's tempo."
     },
     {
         number: "03",
-        title: "24/7 Dedicated Ground Support",
-        description: "Real-time airbridge coordination, chauffeur transfers, and 24-hour on-duty managers on standby."
+        title: "Dedicated Trade Support",
+        description: "A named account team coordinating quotes, confirmations and ground services for your programs."
     },
     {
         number: "04",
-        title: "Licensed Operator",
-        description: "Vietnam National Administration of Tourism accreditation: No. 01-2873/2025/CDLQGVN-GP LHQT."
+        title: "Licensed Ground Operator",
+        description: "Operated to industry standards with vetted guides, drivers and hotels across our launch destinations."
     }
 ];
 
-const EMPTY_ENQUIRY = {
-    fullName: '',
-    email: '',
-    phone: '',
-    country: '',
-    travelDates: '',
-    travelers: '',
-    serviceInterest: '',
-    travelArrangement: '',
-    travelStyle: '',
-    message: '',
-    agreePrivacy: false,
-};
-
 const Contactus = () => {
-    const [formData, setFormData] = useState(EMPTY_ENQUIRY);
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const resetTimer = useRef(null);
-
-    // Clear the pending reset on unmount so it cannot fire after the page is gone
-    useEffect(() => () => clearTimeout(resetTimer.current), []);
-
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: type === 'checkbox' ? checked : value
-        }));
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        // TODO: POST `formData` to the enquiry endpoint once the backend exists.
-        // Until then this only shows the confirmation state - nothing is sent,
-        // so no enquiry submitted here actually reaches anyone.
-        setIsSubmitted(true);
-
-        clearTimeout(resetTimer.current);
-        resetTimer.current = setTimeout(() => {
-            setIsSubmitted(false);
-            setFormData(EMPTY_ENQUIRY);
-        }, 5000);
-    };
-
     return (
         <div className="w-full bg-[#FFFFFF]">
             <Seo {...PAGE_META['/contact']} path="/contact" />
@@ -127,12 +84,12 @@ const Contactus = () => {
 
                     {/* Heading */}
                     <h2 className="text-navy text-3xl md:text-4xl lg:text-[42px] font-serif font-normal leading-[1.2] mb-4">
-                        Need Help Planning Your Vietnam Journey?
+                        Need Help Planning Across Vietnam, Japan &amp; Australia?
                     </h2>
 
                     {/* Subtitle */}
                     <p className="text-steel text-sm md:text-base max-w-xl mx-auto mb-12 md:mb-14 leading-relaxed">
-                        Our local travel team is ready to help you create a personalized Vietnam experience in real time.
+                        Our B2B team is ready to help you shape programs for your clients — destination advice, FIT and group support, MICE and more.
                     </p>
 
                     {/* 3 Channels Grid */}
@@ -189,7 +146,7 @@ const Contactus = () => {
 
                         {/* Subtitle */}
                         <p className="text-steel text-sm md:text-base leading-relaxed mb-8">
-                            Speak directly with our dedicated Vietnam destination specialists for immediate inquiries, aviation fast-track, or confidential delegations.
+                            Reach our B2B team directly for inquiries, join requests, or confidential delegations.
                         </p>
 
                         {/* Card 1: Direct Email */}
@@ -204,13 +161,13 @@ const Contactus = () => {
                                     DIRECT EMAIL
                                 </span>
                                 <a
-                                    href="mailto:nikhil@asianstartravels.com"
+                                    href={`mailto:${SITE.enquiryEmails.contact}`}
                                     className="text-sm md:text-base font-bold text-navy hover:text-bronze transition-colors truncate mt-0.5"
                                 >
-                                    nikhil@asianstartravels.com
+                                    {SITE.enquiryEmails.contact}
                                 </a>
                                 <span className="text-xs text-gray-500 mt-0.5">
-                                    Concierge &amp; Custom Itinerary Inquiries
+                                    General inquiries
                                 </span>
                             </div>
                         </div>
@@ -225,7 +182,7 @@ const Contactus = () => {
                                 </div>
                                 <div className="flex items-center justify-between flex-grow">
                                     <h3 className="text-sm md:text-base font-bold text-navy">
-                                        Head Office Address
+                                        Head Office
                                     </h3>
                                     <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-gray-100 text-gray-500">
                                         HQ
@@ -233,23 +190,14 @@ const Contactus = () => {
                                 </div>
                             </div>
                             <div className="pl-14 text-left">
-                                <p className="text-xs text-gray-600 mb-1">
-                                    No. 4 Nguyen Thi Minh Khai Street, Sai Gon Ward, Ho Chi Minh City
-                                </p>
-                                <p className="text-xs text-gray-600 mb-4">
-                                    No. 141 Nguyen Van Cu Street, Bo De Ward, Ha Noi City
-                                </p>
-                                <p className="text-xs font-semibold text-navy mb-1">
-                                    📞 (+84) 777 302 220, (+91) 70211 62391
-                                </p>
-                                <p className="text-[11px] text-gray-400">
-                                    🕒 Mon – Sat: 08:30 – 18:00 (GMT+7)
+                                <p className="text-xs text-gray-600 leading-relaxed">
+                                    {SITE.registeredAddress}
                                 </p>
                             </div>
                         </div>
 
-                        {/* Card 3: Office Address Mumbai */}
-                        <div className="w-full bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-gray-100/80 mb-4 hover:shadow-md transition-shadow">
+                        {/* Card 3: Trade Desk Contacts */}
+                        <div className="w-full bg-white rounded-2xl p-5 md:p-6 shadow-sm border border-gray-100/80 mb-6 hover:shadow-md transition-shadow">
                             <div className="flex items-start gap-4 mb-3">
                                 <div className="w-10 h-10 rounded-xl bg-cream flex items-center justify-center flex-shrink-0">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-bronze">
@@ -259,57 +207,30 @@ const Contactus = () => {
                                 </div>
                                 <div className="flex items-center justify-between flex-grow">
                                     <h3 className="text-sm md:text-base font-bold text-navy">
-                                        Office Address
+                                        Travel Trade Desk
                                     </h3>
                                     <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-champagne text-bronze">
-                                        DISTRICT 1
+                                        B2B
                                     </span>
                                 </div>
                             </div>
-                            <div className="pl-14 text-left">
-                                <p className="text-xs text-gray-600 mb-4">
-                                    Building No./Flat No.: 601 Rose Mary House Lady Jamshedji 2nd X Road Mumbai Maharashtra 400016
+                            <div className="pl-14 flex flex-col gap-1.5 text-left">
+                                <p className="text-xs text-gray-600">
+                                    <span className="text-navy font-bold inline-block w-32">Quote requests</span>
+                                    <a href={`mailto:${SITE.enquiryEmails.quote}`} className="hover:text-bronze transition-colors">
+                                        {SITE.enquiryEmails.quote}
+                                    </a>
                                 </p>
-                                <p className="text-xs font-semibold text-navy mb-1">
-                                    📞 +91 99305 24949
-                                </p>
-                                <p className="text-[11px] text-gray-400">
-                                    🕒 Mon – Sat: 08:30 – 18:00 (GMT+7)
+                                <p className="text-xs text-gray-600">
+                                    <span className="text-navy font-bold inline-block w-32">Partner network</span>
+                                    <a href={`mailto:${SITE.enquiryEmails.partner}`} className="hover:text-bronze transition-colors">
+                                        {SITE.enquiryEmails.partner}
+                                    </a>
                                 </p>
                             </div>
                         </div>
 
-                        {/* Card 4: 24/7 VIP Assistance */}
-                        <a
-                            href="tel:+919930524949"
-                            className="w-full bg-gradient-to-r from-[#F7F6F0] to-[#EFECE3] rounded-2xl p-5 md:p-6 shadow-sm border border-[#E5E0D5] flex items-center justify-between gap-4 mb-6 hover:shadow-md transition-all group"
-                        >
-                            <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-[#2E7D32] shadow-sm flex-shrink-0">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .94-3.138 7.37 7.37 0 0 1-.876-2.017A8.25 8.25 0 0 1 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
-                                    </svg>
-                                </div>
-                                <div className="flex flex-col text-left">
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-xs font-bold text-navy">
-                                            24/7 VIP Assistance
-                                        </span>
-                                        <span className="bg-[#E8F5E9] text-[#2E7D32] text-[9px] font-bold px-1.5 py-0.5 rounded-full">
-                                            LIVE
-                                        </span>
-                                    </div>
-                                    <span className="text-sm md:text-base font-bold text-navy mt-0.5">
-                                        +91 99305 24949
-                                    </span>
-                                </div>
-                            </div>
-                            <span className="text-gray-400 group-hover:text-navy group-hover:translate-x-1 transition-all text-base">
-                                →
-                            </span>
-                        </a>
-
-                        {/* Security & License notes */}
+                        {/* Security note */}
                         <div className="w-full flex items-center gap-2 text-xs text-gray-500 mb-3 text-left">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-bronze flex-shrink-0">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 1 0-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 0 0 2.25-2.25v-6.75a2.25 2.25 0 0 0-2.25-2.25H6.75a2.25 2.25 0 0 0-2.25 2.25v6.75a2.25 2.25 0 0 0 2.25 2.25Z" />
@@ -321,7 +242,7 @@ const Contactus = () => {
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-[#2E7D32] flex-shrink-0">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75m-3-7.036A11.959 11.959 0 0 1 3.598 6 11.99 11.99 0 0 0 3 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285Z" />
                             </svg>
-                            <span>LICENSED INTERNATIONAL TOUR OPERATOR - NO: 01-2873/2025/CDLQGVN-GP LHQT</span>
+                            <span>Licensed international tour operator.</span>
                         </div>
                     </div>
 
@@ -334,211 +255,20 @@ const Contactus = () => {
 
                         {/* Title */}
                         <h2 className="text-navy text-2xl md:text-3xl lg:text-[34px] font-serif font-normal mb-2">
-                            Tell Us About Your Trip
+                            Send Us a Message
                         </h2>
 
                         {/* Subtitle */}
                         <p className="text-steel text-xs md:text-sm mb-8 leading-relaxed">
-                            Complete the inquiry details below. We tailor every itinerary around your pace, preferences, and travel style.
+                            Send us a message and our team will respond. Planning a trip or itinerary?
+                            Use the{' '}
+                            <Link to="/request-quote" className="text-navy underline hover:text-bronze font-semibold">
+                                request-a-quote form
+                            </Link>{' '}
+                            instead — it captures all the details our specialists need.
                         </p>
 
-                        {/* Success Message */}
-                        {isSubmitted ? (
-                            <div className="p-6 bg-[#E8F5E9] border border-[#A5D6A7] rounded-xl text-center">
-                                <h3 className="text-[#2E7D32] font-bold text-lg mb-2">Thank you! Your travel request has been received.</h3>
-                                <p className="text-xs md:text-sm text-gray-700">Our dedicated Vietnam destination specialist will review your details and contact you shortly.</p>
-                            </div>
-                        ) : (
-                            <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                                {/* Row 1: Full Name & Email */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="fullName">
-                                            Full Name <span className="text-red-500">*</span>
-                                        </label>
-                                        <input id="fullName"
-                                            type="text"
-                                            name="fullName"
-                                            required
-                                            value={formData.fullName}
-                                            onChange={handleChange}
-                                            placeholder="e.g. Eleanor Vance"
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-bronze transition"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="email">
-                                            Email Address <span className="text-red-500">*</span>
-                                        </label>
-                                        <input id="email"
-                                            type="email"
-                                            name="email"
-                                            required
-                                            value={formData.email}
-                                            onChange={handleChange}
-                                            placeholder="you@example.com"
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-bronze transition"
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* Row 2: Phone & Country */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="phone">
-                                            Phone / WhatsApp
-                                        </label>
-                                        <input id="phone"
-                                            type="tel"
-                                            name="phone"
-                                            value={formData.phone}
-                                            onChange={handleChange}
-                                            placeholder="+84 ... or +1 ..."
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-bronze transition"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="country">
-                                            Country / Residence
-                                        </label>
-                                        <input id="country"
-                                            type="text"
-                                            name="country"
-                                            value={formData.country}
-                                            onChange={handleChange}
-                                            placeholder="e.g. United States, United Kingdom, Australia"
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-bronze transition"
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* Row 3: Travel Dates & Number of Travelers */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="travelDates">
-                                            Travel Dates
-                                        </label>
-                                        <input id="travelDates"
-                                            type="text"
-                                            name="travelDates"
-                                            value={formData.travelDates}
-                                            onChange={handleChange}
-                                            placeholder="e.g. Oct 2026, ~10 to 14 days"
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-bronze transition"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="travelers">
-                                            Number of Travelers
-                                        </label>
-                                        <input id="travelers"
-                                            type="text"
-                                            name="travelers"
-                                            value={formData.travelers}
-                                            onChange={handleChange}
-                                            placeholder="e.g. 2 Adults, 1 Child"
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-bronze transition"
-                                        />
-                                    </div>
-                                </div>
-
-                                {/* Row 4: Service Interest & Travel Arrangement */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                                    <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="serviceInterest">
-                                            Service Interest <span className="text-red-500">*</span>
-                                        </label>
-                                        <select id="serviceInterest"
-                                            name="serviceInterest"
-                                            required
-                                            value={formData.serviceInterest}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-bronze transition"
-                                        >
-                                            <option value="">Select primary service</option>
-                                            <option value="Tailor-Made Tours">Tailor-Made Tours</option>
-                                            <option value="Private Transfers">Private Transfers</option>
-                                            <option value="Airport Fast Track">Airport Fast Track</option>
-                                            <option value="Ground Services">Ground Services</option>
-                                            <option value="Comprehensive DMC Package">Comprehensive DMC Package</option>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="travelArrangement">
-                                            Travel Arrangement
-                                        </label>
-                                        <select id="travelArrangement"
-                                            name="travelArrangement"
-                                            value={formData.travelArrangement}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-bronze transition"
-                                        >
-                                            <option value="">Select travel arrangement</option>
-                                            <option value="Solo / Couple (FIT)">Solo / Couple (FIT)</option>
-                                            <option value="Small Family / Private Group">Small Family / Private Group</option>
-                                            <option value="Corporate & Incentive Travel">Corporate &amp; Incentive Travel</option>
-                                            <option value="Organized Group Travel (GIT)">Organized Group Travel (GIT)</option>
-                                            <option value="Travel Agency / B2B Partnership">Travel Agency / B2B Partnership</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                {/* Row 5: Travel Style & Special Interests */}
-                                <div>
-                                    <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="travelStyle">
-                                        Travel Style &amp; Special Interests
-                                    </label>
-                                    <input id="travelStyle"
-                                        type="text"
-                                        name="travelStyle"
-                                        value={formData.travelStyle}
-                                        onChange={handleChange}
-                                        placeholder="e.g. Culture & Heritage, Fine Dining, Halong Cruise, Coastal Wellness"
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-bronze transition"
-                                    />
-                                </div>
-
-                                {/* Row 6: Message */}
-                                <div>
-                                    <label className="text-[11px] font-semibold text-navy block mb-1.5" htmlFor="message">
-                                        Message / Travel Request Details <span className="text-red-500">*</span>
-                                    </label>
-                                    <textarea id="message"
-                                        name="message"
-                                        required
-                                        rows={4}
-                                        value={formData.message}
-                                        onChange={handleChange}
-                                        placeholder="Please share any specific destinations, preferred hotel tier (5-star boutique, ultra-luxury), flight details, dietary wishes, or custom operational requirements..."
-                                        className="w-full px-4 py-3 rounded-lg border border-gray-200 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-bronze transition resize-none"
-                                    />
-                                </div>
-
-                                {/* Row 7: Privacy Checkbox */}
-                                <div className="flex items-start gap-3 mt-1">
-                                    <input
-                                        type="checkbox"
-                                        id="agreePrivacy"
-                                        name="agreePrivacy"
-                                        required
-                                        checked={formData.agreePrivacy}
-                                        onChange={handleChange}
-                                        className="mt-1 h-4 w-4 rounded border-gray-300 text-[#731E2A] focus:ring-[#731E2A]"
-                                    />
-                                    <label htmlFor="agreePrivacy" className="text-xs text-gray-500 text-left leading-relaxed">
-                                        I agree that Asian Star Travel may use my details to respond to this inquiry in accordance with privacy guidelines.
-                                    </label>
-                                </div>
-
-                                {/* Submit Button */}
-                                <button
-                                    type="submit"
-                                    className="w-full bg-[#731E2A] hover:bg-[#5C1822] text-white font-bold py-4 rounded-lg text-sm tracking-wider uppercase flex items-center justify-center gap-2 transition-colors shadow-md mt-2"
-                                >
-                                    SEND TRAVEL REQUEST →
-                                </button>
-                            </form>
-                        )}
+                        <ContactForm />
                     </div>
 
                 </div>
@@ -555,12 +285,12 @@ const Contactus = () => {
 
                     {/* Section Title */}
                     <h2 className="text-navy text-3xl md:text-4xl lg:text-[46px] font-serif font-normal text-center leading-[1.2] mb-4">
-                        Visit Our Offices
+                        Visit Our Head Office
                     </h2>
 
                     {/* Subtitle */}
                     <p className="text-steel text-sm md:text-base text-center max-w-xl mb-12 md:mb-14 leading-relaxed">
-                        Meet our destination directors and operational ground teams in Vietnam's two major commercial and cultural hubs.
+                        Our registered head office — the B2B/wholesale operations hub serving travel agents and tour operators across Vietnam, Japan and Australia.
                     </p>
 
                     {/* Map Visual Container */}
@@ -568,7 +298,7 @@ const Contactus = () => {
                         {/* Background Map Image */}
                         <img
                             src={mapImage}
-                            alt="Asian Star Travel Office Locations Map"
+                            alt="Asian Star Travel head office location"
                             className="absolute inset-0 w-full h-full object-cover z-0"
                             loading="lazy"
                             decoding="async"
@@ -577,16 +307,9 @@ const Contactus = () => {
                         {/* Tint Overlay */}
                         <div className="absolute inset-0 bg-navy/15 z-0"></div>
 
-                        {/* Top-Left Coordinates Badge */}
-                        <div className="relative z-10 flex flex-col text-left text-[10px] md:text-xs font-mono font-bold tracking-wider text-[#B8924A] uppercase drop-shadow">
-                            <span>LAT 21.0285° N / LON 105.8542° E [HAN]</span>
-                            <span>LAT 10.8231° N / LON 106.6297° E [SGN]</span>
-                        </div>
-
-                        {/* Bottom Office Floating Cards */}
-                        <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6 w-full mt-10">
-                            {/* Hanoi Card */}
-                            <div className="bg-cream/95 backdrop-blur-md rounded-2xl p-5 md:p-6 shadow-xl border border-white/60 flex flex-col justify-between text-left">
+                        {/* Head Office Floating Card */}
+                        <div className="relative z-10 grid w-full mt-10">
+                            <div className="bg-cream/95 backdrop-blur-md rounded-2xl p-5 md:p-6 shadow-xl border border-white/60 flex flex-col justify-between text-left md:max-w-lg">
                                 <div>
                                     <div className="flex items-start justify-between gap-3 mb-2">
                                         <div className="flex items-center gap-3">
@@ -597,71 +320,30 @@ const Contactus = () => {
                                             </div>
                                             <div>
                                                 <h3 className="text-sm md:text-base font-bold text-navy">
-                                                    Hanoi Central Headquarters
+                                                    Head Office
                                                 </h3>
                                                 <span className="text-[10px] md:text-[11px] text-gray-500 block">
-                                                    Northern Vietnam &amp; Halong Fleet Dispatch
+                                                    B2B / Wholesale Operations
                                                 </span>
                                             </div>
                                         </div>
                                         <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#EDEBE4] text-bronze flex-shrink-0">
-                                            HAN DESK
+                                            BLR DESK
                                         </span>
                                     </div>
                                     <p className="text-xs text-gray-600 my-3 leading-relaxed">
-                                        141 Nguyen Van Cu St., Bo De Ward, Long Bien District, Ha Noi
+                                        {SITE.registeredAddress}
                                     </p>
                                 </div>
                                 <div className="flex items-center justify-between pt-3 border-t border-gray-200/60 mt-2">
                                     <span className="text-xs font-semibold text-navy flex items-center gap-1.5">
-                                        ✈ Noi Bai Int'l Airport Liaison
+                                        ✦ Launch markets: Vietnam · Japan · Australia
                                     </span>
                                     <a
-                                        href="tel:+842438289999"
+                                        href={`mailto:${SITE.enquiryEmails.contact}`}
                                         className="text-xs font-semibold text-navy hover:text-bronze transition-colors"
                                     >
-                                        Direct Call
-                                    </a>
-                                </div>
-                            </div>
-
-                            {/* Ho Chi Minh City Card */}
-                            <div className="bg-cream/95 backdrop-blur-md rounded-2xl p-5 md:p-6 shadow-xl border border-white/60 flex flex-col justify-between text-left">
-                                <div>
-                                    <div className="flex items-start justify-between gap-3 mb-2">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-9 h-9 rounded-full bg-champagne flex items-center justify-center flex-shrink-0 text-bronze">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <h3 className="text-sm md:text-base font-bold text-navy">
-                                                    Ho Chi Minh City Regional Office
-                                                </h3>
-                                                <span className="text-[10px] md:text-[11px] text-gray-500 block">
-                                                    Mekong Delta &amp; South Vietnam Operations
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#EDEBE4] text-bronze flex-shrink-0">
-                                            SGN DESK
-                                        </span>
-                                    </div>
-                                    <p className="text-xs text-gray-600 my-3 leading-relaxed">
-                                        Floor 7, 4 Nguyen Thi Minh Khai St., Sai Gon Ward, District 1, Ho Chi Minh City
-                                    </p>
-                                </div>
-                                <div className="flex items-center justify-between pt-3 border-t border-gray-200/60 mt-2">
-                                    <span className="text-xs font-semibold text-navy flex items-center gap-1.5">
-                                        🚗 Tan Son Nhat Airbridge Escort
-                                    </span>
-                                    <a
-                                        href="tel:+84777302220"
-                                        className="text-xs font-semibold text-navy hover:text-bronze transition-colors"
-                                    >
-                                        Direct Call
+                                        Email HQ
                                     </a>
                                 </div>
                             </div>

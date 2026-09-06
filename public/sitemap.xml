@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Canonical URLs only - the alias paths (/about-us, /destinations, /blogs, ...)
-  redirect to these and are deliberately left out.
+  redirect to these and are deliberately left out. Former transactional and
+  service routes (/checkout, /booking, /trip, /services, ...) redirect to
+  /request-quote and are excluded. Enquiry pages (/request-quote,
+  /become-a-partner) are excluded to match robots.txt.
   Update the <loc> host if the production domain differs from src/config/site.js.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -10,31 +13,19 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://www.asianstartravel.vn/destination</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
     <loc>https://www.asianstartravel.vn/tours</loc>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.asianstartravel.vn/services</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://www.asianstartravel.vn/services/tailor-made-tours</loc>
+    <loc>https://www.asianstartravel.vn/experiences</loc>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.asianstartravel.vn/services/private-tours</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.asianstartravel.vn/services/airport-fast-track</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.asianstartravel.vn/services/ground-services</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.asianstartravel.vn/destination</loc>
+    <loc>https://www.asianstartravel.vn/travel-trade</loc>
     <priority>0.8</priority>
   </url>
   <url>
@@ -46,19 +37,15 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.asianstartravel.vn/trip</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>https://www.asianstartravel.vn/booking</loc>
-    <priority>0.6</priority>
-  </url>
-  <url>
     <loc>https://www.asianstartravel.vn/contact</loc>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.asianstartravel.vn/privacy-policy</loc>
+    <priority>0.3</priority>
+  </url>
+  <url>
+    <loc>https://www.asianstartravel.vn/terms</loc>
     <priority>0.3</priority>
   </url>
 </urlset>
