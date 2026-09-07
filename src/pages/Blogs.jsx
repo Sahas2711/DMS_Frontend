@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { CalendarDays, Clock } from 'lucide-react';
 import heroImage from '../assets/blogs/blogs-hero-image.webp';
 import travelJournalImg from '../assets/blogs/travel-journal-section-image.webp';
 import editorsDispatchImg from '../assets/blogs/editors-dispatch.webp';
@@ -148,7 +149,8 @@ const Blogs = () => {
                                     key={cat}
                                     type="button"
                                     onClick={() => setSelectedCategory(cat)}
-                                    className={`px-5 py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-200 whitespace-nowrap cursor-pointer ${
+                                    aria-pressed={isActive}
+                                    className={`px-5 py-2 rounded-full text-xs md:text-sm font-medium transition-colors duration-200 whitespace-nowrap cursor-pointer ${
                                         isActive
                                             ? 'bg-[#7A5C1E] text-white shadow-sm'
                                             : 'bg-[#EAE7DF] hover:bg-[#DDD9CF] text-[#475467]'
@@ -185,7 +187,7 @@ const Blogs = () => {
                                         AIRPORT SERVICES
                                     </span>
                                     <span className="text-gray-400 flex items-center gap-1.5 text-xs">
-                                        🕒 18 Oct 2025 · 6 min read
+                                        <Clock className="h-3.5 w-3.5" aria-hidden="true" /> 18 Oct 2025 · 6 min read
                                     </span>
                                 </div>
 
@@ -219,7 +221,6 @@ const Blogs = () => {
                         </div>
                             </div>
                         </div>
-                    </div>
 
                     {/* Middle Section Header */}
                     <div className="w-full flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-10 text-left">
@@ -237,6 +238,13 @@ const Blogs = () => {
                     </div>
 
                     {/* 3 Articles Grid */}
+                    {filteredArticles.length === 0 ? (
+                        <div className="w-full text-center py-12 bg-white rounded-2xl border border-gray-100">
+                            <p className="text-navy font-serif text-lg font-semibold mb-1">No stories in this category yet</p>
+                            <p className="text-steel text-sm mb-4">Try another filter, or check back soon for new dispatches.</p>
+                            <button type="button" onClick={() => setSelectedCategory('All')} className="btn btn--gold btn--sm">View all stories</button>
+                        </div>
+                    ) : (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7 w-full mb-12 md:mb-14">
                         {filteredArticles.map((article, index) => (
                             <div
@@ -260,8 +268,8 @@ const Blogs = () => {
                                 {/* Body */}
                                 <div className="p-6 md:p-7 flex flex-col justify-between flex-grow text-left">
                                     <div>
-                                        <span className="text-[11px] text-gray-400 block mb-2">
-                                            📅 {article.date} · {article.readTime}
+                                        <span className="text-[11px] text-gray-400 block mb-2 flex items-center gap-1.5">
+                                            <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" /> {article.date} · {article.readTime}
                                         </span>
                                         <h3 className="text-navy text-base md:text-lg font-serif font-bold mb-3 leading-snug">
                                             {article.title}
@@ -284,6 +292,8 @@ const Blogs = () => {
                             </div>
                         ))}
                     </div>
+                    )}
+                </div>
             </section>
 
             {/* Seamless Hanoi Transit CTA Banner Section */}
@@ -320,7 +330,7 @@ const Blogs = () => {
                     {/* CTA Button */}
                     <Link
                         to="/request-quote"
-                        className="inline-flex items-center justify-center bg-[#E5B869] hover:bg-[#D4A758] text-navy font-bold text-xs md:text-sm px-8 py-3.5 rounded-lg uppercase tracking-wider transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
+                        className="btn btn--gold btn--lg"
                     >
                         Request a Quote
                     </Link>

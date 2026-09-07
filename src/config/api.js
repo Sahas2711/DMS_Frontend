@@ -6,12 +6,14 @@
  * environment:
  *
  *   dev     -> http://localhost:8000 (backend: uvicorn app.main:app --reload)
- *   prod    -> https://api.your-domain.com (or a relative proxy path)
+ *   prod    -> left empty (same-origin) — FastAPI serves the built SPA and the
+ *              /api/v1, /health and /uploads routes from the same origin
  *
- * The fallback below exists so the dev server works out of the box; it is not
- * a production value.
+ * Production must be same-origin: the fallback below is intentionally the
+ * empty string so API_V1 resolves to "/api/v1" relative to the current host.
+ * The dev server reaches the API by setting VITE_API_BASE_URL in .env.
  */
-const DEFAULT_API_BASE_URL = 'http://localhost:8000';
+const DEFAULT_API_BASE_URL = '';
 
 export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || DEFAULT_API_BASE_URL).replace(
     /\/+$/,

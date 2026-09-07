@@ -197,13 +197,13 @@ const Home = () => {
                     >
                         <Link
                             to="/request-quote"
-                            className="bg-gold hover:bg-[#b59758] text-navy font-bold text-xs tracking-wider uppercase py-3.5 px-8 rounded-full transition-colors shadow-sm"
+                            className="btn btn--gold btn--lg"
                         >
                             Request a Quote
                         </Link>
                         <Link
                             to="/become-a-partner"
-                            className="border border-white/50 hover:border-white hover:bg-white hover:text-navy text-white font-bold text-xs tracking-wider uppercase py-3.5 px-8 rounded-full transition-all"
+                            className="btn btn--ghost-white btn--lg"
                         >
                             Become a Partner
                         </Link>
@@ -399,23 +399,19 @@ const Home = () => {
                         </div>
 
                         <div className="flex flex-col sm:flex-row gap-3">
-                            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-                                <Link
-                                    to="/request-quote"
-                                    className="bg-navy hover:bg-[#0a1f4a] text-white font-semibold py-3.5 px-8 rounded-full text-sm tracking-wide shadow-lg hover:shadow-xl hover:shadow-navy/25 transition-all duration-300 inline-flex items-center gap-2 group"
-                                >
-                                    <span>Request a Quote</span>
-                                    <span className="inline-block transition-transform duration-300 group-hover:translate-x-1 font-bold">&rarr;</span>
-                                </Link>
-                            </motion.div>
-                            <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}>
-                                <Link
-                                    to="/become-a-partner"
-                                    className="border border-gray-400 hover:border-navy hover:bg-navy hover:text-white text-gray-700 font-semibold py-3.5 px-8 rounded-full text-sm tracking-wide transition-all duration-300"
-                                >
-                                    Become a Partner
-                                </Link>
-                            </motion.div>
+                            <Link
+                                to="/request-quote"
+                                className="btn btn--navy btn--lg group"
+                            >
+                                <span>Request a Quote</span>
+                                <span className="inline-block transition-transform duration-300 group-hover:translate-x-1 font-bold">&rarr;</span>
+                            </Link>
+                            <Link
+                                to="/become-a-partner"
+                                className="btn btn--ghost btn--lg"
+                            >
+                                Become a Partner
+                            </Link>
                         </div>
                     </motion.div>
                 </div>
@@ -489,14 +485,12 @@ const Home = () => {
                         Send your requirements and our trade desk will come back with a tailored proposal within one business day.
                     </p>
 
-                    <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }} className="mb-2">
-                        <Link
+                    <Link
                             to="/request-quote"
-                            className="bg-[#EAB308] hover:bg-[#FACC15] text-navy font-bold py-3.5 px-9 rounded-full text-sm tracking-wide shadow-[0_6px_25px_rgba(234,179,8,0.35)] hover:shadow-[0_10px_35px_rgba(234,179,8,0.45)] transition-all duration-300 inline-block"
+                            className="btn btn--amber-cta btn--lg"
                         >
                             Request a Quote
                         </Link>
-                    </motion.div>
 
                     <p className="text-gray-300 text-[11px] sm:text-xs mb-6 font-light tracking-wide">
                         Typical response within one business day. No payment required at this stage.
@@ -505,13 +499,13 @@ const Home = () => {
                     <div className="flex flex-col sm:flex-row gap-3">
                         <Link
                             to="/travel-trade"
-                            className="border border-white/60 hover:border-white hover:bg-white hover:text-navy transition-all duration-300 text-white text-xs font-medium py-2 px-5 rounded-full backdrop-blur-xs"
+                            className="btn btn--ghost-white btn--md"
                         >
                             Travel Trade Overview
                         </Link>
                         <Link
                             to="/become-a-partner"
-                            className="border border-white/60 hover:border-white hover:bg-white hover:text-navy transition-all duration-300 text-white text-xs font-medium py-2 px-5 rounded-full backdrop-blur-xs"
+                            className="btn btn--ghost-white btn--md"
                         >
                             Become a Partner
                         </Link>

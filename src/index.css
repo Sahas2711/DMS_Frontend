@@ -44,13 +44,18 @@ body,
     position: relative;
 }
 
-html {
-    scroll-behavior: smooth;
+@media (prefers-reduced-motion: no-preference) {
+    /* Native smooth scrolling only when Lenis is not driving the scroller.
+       Lenis manages its own rAF lerp; combining the two fights and can stall
+       the page. Lenis marks <html> with a `lenis` class while active. */
+    html:not(.lenis) {
+        scroll-behavior: smooth;
+    }
 }
 
-@media (prefers-reduced-motion: no-preference) {
+@media (prefers-reduced-motion: reduce) {
     html {
-        scroll-behavior: smooth;
+        scroll-behavior: auto;
     }
 }
 
@@ -123,4 +128,121 @@ h6 {
 .goog-text-highlight {
     background: none !important;
     box-shadow: none !important;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   Public button system.
+   Opt-in classes (.btn) used by the marketing pages and forms.
+   Dimensions never change on click/hover/active/loading: fixed
+   line-height, nowrap, consistent padding, colour-only transitions.
+   ───────────────────────────────────────────────────────────── */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    white-space: nowrap;
+    line-height: 1;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease, border-color 0.2s ease,
+        color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--color-bronze);
+    outline-offset: 2px;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn--sm {
+    padding: 0.55rem 1rem;
+    font-size: 10px;
+    min-height: 2rem;
+}
+
+.btn--md {
+    padding: 0.65rem 1.3rem;
+    font-size: 11px;
+    min-height: 2.4rem;
+}
+
+.btn--lg {
+    padding: 0.9rem 2rem;
+    font-size: 11px;
+    min-height: 3rem;
+}
+
+.btn--gold {
+    background: var(--color-gold);
+    color: #081634;
+}
+.btn--gold:hover {
+    background: #b59758;
+}
+
+.btn--navy {
+    background: var(--color-navy);
+    color: #fff;
+}
+.btn--navy:hover {
+    background: #0a1f4a;
+}
+
+.btn--wine {
+    background: #731e2a;
+    color: #fff;
+}
+.btn--wine:hover {
+    background: #5c1822;
+}
+
+.btn--amber-cta {
+    background: #eab308;
+    color: #081634;
+}
+.btn--amber-cta:hover {
+    background: #facc15;
+}
+
+.btn--ghost {
+    background: #fff;
+    color: var(--color-navy);
+    border: 1px solid #d1d5db;
+}
+.btn--ghost:hover {
+    border-color: var(--color-bronze);
+    color: var(--color-bronze);
+}
+
+.btn--ghost-white {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+}
+.btn--ghost-white:hover {
+    background: #fff;
+    color: var(--color-navy);
+    border-color: #fff;
+}
+
+.btn--block {
+    width: 100%;
+}
+
+/* Focus-visible rings for interactive elements that don't have their own. */
+button:focus-visible:not(.btn):not([class*='focus-visible']) {
+    outline: 2px solid var(--color-bronze);
+    outline-offset: 2px;
 }

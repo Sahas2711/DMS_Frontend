@@ -40,13 +40,13 @@ class ErrorBoundary extends Component {
                     <button
                         type="button"
                         onClick={this.handleRetry}
-                        className="px-6 py-3 rounded-full bg-navy text-white text-sm hover:bg-navy-light transition-colors"
+                        className="btn btn--navy btn--md"
                     >
                         Try again
                     </button>
                     <Link
                         to="/contact"
-                        className="px-6 py-3 rounded-full border border-navy/20 text-navy text-sm hover:bg-navy/5 transition-colors"
+                        className="btn btn--ghost btn--md"
                     >
                         Contact us
                     </Link>

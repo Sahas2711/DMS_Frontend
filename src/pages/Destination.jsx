@@ -10,7 +10,10 @@ import heroImage from '../assets/destination/Destination-hero-image.webp';
 import PageHero from '../components/PageHero';
 
 const DestinationCard = ({ destination }) => (
-    <article className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100/90 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full text-left">
+    <Link
+        to={`/destination/${destination.slug}`}
+        className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100/90 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full text-left"
+    >
         <MediaImage
             src={destination.hero_media?.url}
             alt={destination.hero_media?.alt_text || `${destination.name} highlights`}
@@ -32,7 +35,7 @@ const DestinationCard = ({ destination }) => (
                 <p className="text-gray-400 text-xs flex-grow">Details coming soon.</p>
             )}
         </div>
-    </article>
+    </Link>
 );
 
 const EMPTY_RESULT = { key: null, status: 'loading', destinations: [], tours: [], error: null };
@@ -138,7 +141,7 @@ const DestinationCatalog = () => {
                     </p>
                     <Link
                         to="/request-quote"
-                        className="inline-block bg-[#731E2A] hover:bg-[#5C1822] text-white font-bold text-xs tracking-wider uppercase py-3 px-8 rounded-full transition-colors"
+                        className="btn btn--wine btn--lg"
                     >
                         Request a quote
                     </Link>
@@ -166,7 +169,7 @@ const DestinationCatalog = () => {
                             </div>
                             <Link
                                 to="/tours"
-                                className="shrink-0 inline-block bg-navy hover:bg-[#122345] text-white font-semibold text-xs tracking-wider uppercase py-3 px-6 rounded-full transition-colors"
+                                className="btn btn--navy btn--md shrink-0"
                             >
                                 {journeyCount > 0 ? `${journeyCount} journe${journeyCount === 1 ? 'y' : 'ys'} available` : 'Explore journeys'} →
                             </Link>

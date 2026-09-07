@@ -99,7 +99,7 @@ const TravelTrade = () => (
                     </p>
                     <Link
                         to="/request-quote"
-                        className="inline-block bg-gold hover:bg-[#b59758] text-navy font-bold text-xs tracking-wider uppercase py-3.5 px-8 rounded-full transition-colors"
+                        className="btn btn--gold btn--lg"
                     >
                         Request a Quote
                     </Link>
@@ -114,7 +114,7 @@ const TravelTrade = () => (
                     </p>
                     <Link
                         to="/become-a-partner"
-                        className="inline-block bg-[#731E2A] hover:bg-[#5C1822] text-white font-bold text-xs tracking-wider uppercase py-3.5 px-8 rounded-full transition-colors"
+                        className="btn btn--wine btn--lg"
                     >
                         Become a Partner
                     </Link>

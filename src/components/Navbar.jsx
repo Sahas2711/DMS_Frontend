@@ -69,6 +69,21 @@ const Navbar = () => {
         setIsMobileLangDropdownOpen(false);
     };
 
+    // Escape closes the mobile menu; lock background scroll while it is open.
+    useEffect(() => {
+        if (!isMobileMenuOpen) return;
+        const onKeyDown = (e) => {
+            if (e.key === 'Escape') setIsMobileMenuOpen(false);
+        };
+        document.addEventListener('keydown', onKeyDown);
+        const prevOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.removeEventListener('keydown', onKeyDown);
+            document.body.style.overflow = prevOverflow;
+        };
+    }, [isMobileMenuOpen]);
+
     return (
         <nav
             ref={navContainerRef}
@@ -159,7 +174,7 @@ const Navbar = () => {
                 {/* Primary CTA */}
                 <Link
                     to="/request-quote"
-                    className="hidden lg:inline-flex items-center bg-gold hover:bg-[#b59758] text-navy font-bold text-xs tracking-wider uppercase px-5 md:px-6 py-2.5 md:py-3 rounded-full transition-colors shadow-sm whitespace-nowrap"
+                    className="btn btn--gold btn--md hidden lg:inline-flex"
                 >
                     Request a Quote
                 </Link>
@@ -251,7 +266,7 @@ const Navbar = () => {
                         <Link
                             to="/request-quote"
                             onClick={handleMobileLinkClick}
-                            className="bg-gold text-navy text-xs font-bold px-4 py-3 rounded-full text-center uppercase tracking-wider"
+                            className="btn btn--gold btn--md btn--block"
                         >
                             Request a Quote
                         </Link>

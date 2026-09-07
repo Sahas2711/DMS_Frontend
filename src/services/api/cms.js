@@ -1,6 +1,28 @@
 import { API_BASE_URL } from '../../config/api';
 import { get } from './client';
 
+const CACHE_TTL_MS = 60_000;
+const cache = new Map();
+
+async function cachedGet(url) {
+    const hit = cache.get(url);
+    if (hit) {
+        if (hit.timestamp && Date.now() - hit.timestamp < CACHE_TTL_MS) return hit.promise;
+        if (!hit.timestamp) return hit.promise; // still in flight — dedupe
+    }
+    const promise = get(url)
+        .then((data) => {
+            cache.set(url, { promise, timestamp: Date.now() });
+            return data;
+        })
+        .catch((err) => {
+            cache.delete(url);
+            throw err;
+        });
+    cache.set(url, { promise });
+    return promise;
+}
+
 function toQuery(params) {
     const search = new URLSearchParams();
     Object.entries(params).forEach(([key, value]) => {
@@ -15,7 +37,7 @@ function toQuery(params) {
  * Resolves to { items, meta }.
  */
 export async function fetchDestinations({ page = 1, pageSize = 100, sort } = {}) {
-    return get(`/destinations${toQuery({ page, page_size: pageSize, sort })}`);
+    return cachedGet(`/destinations${toQuery({ page, page_size: pageSize, sort })}`);
 }
 
 /**
@@ -23,7 +45,7 @@ export async function fetchDestinations({ page = 1, pageSize = 100, sort } = {})
  * FIT | GROUP | MICE | HONEYMOON | LUXURY; `destination` is a destination slug.
  */
 export async function fetchTours({ page = 1, pageSize = 100, category, destination, sort } = {}) {
-    return get(
+    return cachedGet(
         `/tours${toQuery({
             page,
             page_size: pageSize,
@@ -36,12 +58,12 @@ export async function fetchTours({ page = 1, pageSize = 100, category, destinati
 
 /** Fetch a single published tour by slug. */
 export async function fetchTourBySlug(slug) {
-    return get(`/tours/${encodeURIComponent(slug)}`);
+    return cachedGet(`/tours/${encodeURIComponent(slug)}`);
 }
 
 /** Fetch a single published destination by slug. */
 export async function fetchDestinationBySlug(slug) {
-    return get(`/destinations/${encodeURIComponent(slug)}`);
+    return cachedGet(`/destinations/${encodeURIComponent(slug)}`);
 }
 
 /**

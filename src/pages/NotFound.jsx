@@ -41,7 +41,7 @@ const NotFound = () => (
                     <Link
                         key={item.to}
                         to={item.to}
-                        className="px-6 py-3 rounded-full border border-navy/15 text-navy text-sm hover:bg-navy hover:text-white transition-colors"
+                        className="btn btn--ghost btn--md"
                     >
                         {item.label}
                     </Link>

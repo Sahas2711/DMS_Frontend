@@ -8,13 +8,16 @@ import ErrorBoundary from './components/ErrorBoundary';
 import RouteFallback from './components/RouteFallback';
 import CookieConsent from './components/CookieConsent';
 import AnalyticsProvider from './components/AnalyticsProvider';
+import { AuthProvider } from './context/AdminAuthContext';
 import Home from './pages/Home';
 
 // Every route other than the landing page is code-split, so a visitor arriving
 // at /contact no longer downloads the checkout flow, the tours carousel and
 // every other page before the site becomes interactive.
 const Tours = lazy(() => import('./pages/Tours'));
+const TourDetail = lazy(() => import('./pages/TourDetail'));
 const Destination = lazy(() => import('./pages/Destination'));
+const DestinationDetail = lazy(() => import('./pages/DestinationDetail'));
 const Aboutus = lazy(() => import('./pages/Aboutus'));
 const Contactus = lazy(() => import('./pages/Contactus'));
 const Blogs = lazy(() => import('./pages/Blogs'));
@@ -25,6 +28,22 @@ const TravelTrade = lazy(() => import('./pages/TravelTrade'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const Terms = lazy(() => import('./pages/Terms'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+
+// Admin console (protected shell + routes). Login sits outside the shell so an
+// unauthenticated visitor can reach it.
+const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
+const AdminLogin = lazy(() => import('./pages/admin/AdminLogin'));
+const ForgotPassword = lazy(() => import('./pages/admin/ForgotPassword'));
+const ResetPassword = lazy(() => import('./pages/admin/ResetPassword'));
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+const AdminDestinations = lazy(() => import('./pages/admin/AdminDestinations'));
+const AdminTours = lazy(() => import('./pages/admin/AdminTours'));
+const AdminRoutes = lazy(() => import('./pages/admin/AdminRoutes'));
+const AdminMedia = lazy(() => import('./pages/admin/AdminMedia'));
+const AdminEnquiries = lazy(() => import('./pages/admin/AdminEnquiries'));
+const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'));
+const AdminAudit = lazy(() => import('./pages/admin/AdminAudit'));
+const AdminAccount = lazy(() => import('./pages/admin/AdminAccount'));
 
 /**
  * Legacy and alternate URLs redirect to a single canonical path per page rather
@@ -64,15 +83,22 @@ function SmoothScroll() {
     const { pathname } = useLocation();
     const lenisRef = useRef(null);
 
+    // The admin console is a tool and must scroll natively. Lenis must be
+    // *destroyed* there, not just stopped: a stopped Lenis instance still
+    // preventDefaults wheel/touch events (lenis v1.3.26 wheel handler), which
+    // freezes scrolling on the page entirely.
+    const isAdmin = pathname.startsWith('/admin');
+
     useEffect(() => {
         const isTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
         const isMobile = window.innerWidth < 1024;
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        // Touch devices keep native momentum scrolling, and visitors who ask for
-        // reduced motion should not get hijacked scrolling at all.
-        if (isTouch || isMobile || prefersReducedMotion) {
-            return;
+        // Touch devices keep native momentum scrolling, visitors who ask for
+        // reduced motion should not get hijacked scrolling at all, and admin
+        // routes scroll natively.
+        if (isAdmin || isTouch || isMobile || prefersReducedMotion) {
+            return undefined;
         }
 
         const lenis = new Lenis({
@@ -101,15 +127,11 @@ function SmoothScroll() {
             lenis.destroy();
             lenisRef.current = null;
         };
-    }, []);
+    }, [isAdmin]);
 
-    // Reset scroll position on route change without recreating the Lenis instance
+    // Reset scroll position on route change (native; immediate)
     useEffect(() => {
-        if (lenisRef.current) {
-            lenisRef.current.scrollTo(0, { immediate: true });
-        } else {
-            window.scrollTo(0, 0);
-        }
+        window.scrollTo(0, 0);
     }, [pathname]);
 
     return null;
@@ -119,48 +141,69 @@ function App() {
     return (
         <Router>
             <AnalyticsProvider>
-                <SmoothScroll />
-                <div className="min-h-screen bg-gray-100 flex flex-col w-full max-w-full overflow-x-hidden relative">
-                    <a
-                        href="#main-content"
-                        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-full focus:bg-navy focus:text-white focus:text-sm"
-                    >
-                        Skip to main content
-                    </a>
+                <AuthProvider>
+                    <SmoothScroll />
+                    <div className="min-h-screen bg-gray-100 flex flex-col w-full max-w-full overflow-x-hidden relative">
+                        <a
+                            href="#main-content"
+                            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-full focus:bg-navy focus:text-white focus:text-sm"
+                        >
+                            Skip to main content
+                        </a>
 
-                    <Navbar />
+                        <Navbar />
 
-                    <main id="main-content" className="flex-grow w-full max-w-full overflow-x-hidden">
-                        <ErrorBoundary>
-                            <Suspense fallback={<RouteFallback />}>
-                                <Routes>
-                                    <Route path="/" element={<Home />} />
-                                    <Route path="/tours" element={<Tours />} />
-                                    <Route path="/destination" element={<Destination />} />
-                                    <Route path="/about" element={<Aboutus />} />
-                                    <Route path="/contact" element={<Contactus />} />
-                                    <Route path="/blog" element={<Blogs />} />
-                                    <Route path="/experiences" element={<Experiences />} />
-                                    <Route path="/request-quote" element={<RequestQuote />} />
-                                    <Route path="/become-a-partner" element={<BecomePartner />} />
-                                    <Route path="/travel-trade" element={<TravelTrade />} />
-                                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                                    <Route path="/terms" element={<Terms />} />
+                        <main id="main-content" className="flex-grow w-full max-w-full overflow-x-hidden">
+                            <ErrorBoundary>
+                                <Suspense fallback={<RouteFallback />}>
+                                    <Routes>
+                                        <Route path="/" element={<Home />} />
+                                        <Route path="/tours" element={<Tours />} />
+                                        <Route path="/tours/:slug" element={<TourDetail />} />
+                                        <Route path="/destination" element={<Destination />} />
+                                        <Route path="/destination/:slug" element={<DestinationDetail />} />
+                                        <Route path="/about" element={<Aboutus />} />
+                                        <Route path="/contact" element={<Contactus />} />
+                                        <Route path="/blog" element={<Blogs />} />
+                                        <Route path="/experiences" element={<Experiences />} />
+                                        <Route path="/request-quote" element={<RequestQuote />} />
+                                        <Route path="/become-a-partner" element={<BecomePartner />} />
+                                        <Route path="/travel-trade" element={<TravelTrade />} />
+                                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                                        <Route path="/terms" element={<Terms />} />
 
-                                    {ROUTE_ALIASES.map(([from, to]) => (
-                                        <Route key={from} path={from} element={<Navigate to={to} replace />} />
-                                    ))}
+                                        {ROUTE_ALIASES.map(([from, to]) => (
+                                            <Route key={from} path={from} element={<Navigate to={to} replace />} />
+                                        ))}
 
-                                    <Route path="*" element={<NotFound />} />
-                                </Routes>
-                            </Suspense>
-                        </ErrorBoundary>
-                    </main>
+                                        <Route path="/admin/login" element={<AdminLogin />} />
+                                        {/* Public password-reset flow (linked from the emailed URL and the login page). */}
+                                        <Route path="/forgot-password" element={<ForgotPassword />} />
+                                        <Route path="/reset-password" element={<ResetPassword />} />
+                                        <Route path="/admin" element={<AdminLayout />}>
+                                            <Route index element={<Navigate to="/admin/dashboard" replace />} />
+                                            <Route path="dashboard" element={<AdminDashboard />} />
+                                            <Route path="destinations" element={<AdminDestinations />} />
+                                            <Route path="tours" element={<AdminTours />} />
+                                            <Route path="routes" element={<AdminRoutes />} />
+                                            <Route path="media" element={<AdminMedia />} />
+                                            <Route path="enquiries" element={<AdminEnquiries />} />
+                                            <Route path="users" element={<AdminUsers />} />
+                                            <Route path="audit" element={<AdminAudit />} />
+                                            <Route path="account" element={<AdminAccount />} />
+                                        </Route>
 
-                    <Footer />
-                </div>
+                                        <Route path="*" element={<NotFound />} />
+                                    </Routes>
+                                </Suspense>
+                            </ErrorBoundary>
+                        </main>
 
-                <CookieConsent />
+                        <Footer />
+                    </div>
+
+                    <CookieConsent />
+                </AuthProvider>
             </AnalyticsProvider>
         </Router>
     );

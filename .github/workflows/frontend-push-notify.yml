@@ -1,0 +1,57 @@
+name: frontend-push-notify
+
+# Frontend CI/CD entry point: verifies the pushed frontend code, then triggers
+# the backend "build-and-deploy" workflow (repository_dispatch) so the
+# single-container image is rebuilt with this frontend commit.
+#
+# The dispatch requires a PAT that can post to the backend repository's
+# `repository_dispatch` API. Set it as the `DISPATCH_PAT` secret (or a GitHub
+# App). Until then, run the backend workflow manually via "Run workflow".
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  verify:
+    name: Verify and notify backend
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm run test
+
+      - name: Production build
+        run: npm run build
+
+      - name: Notify backend repo to rebuild the image
+        id: dispatch
+        env:
+          BACKEND_REPO: ${{ vars.BACKEND_REPO || 'your-org/DMS_Backend' }}
+          TOKEN: ${{ secrets.DISPATCH_PAT }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "No DISPATCH_PAT configured - skipping dispatch."
+            echo "Run the backend workflow manually (workflow_dispatch)."
+            exit 0
+          fi
+          curl -fsS -X POST \
+            -H "Authorization: token $TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/$BACKEND_REPO/dispatches" \
+            -d '{"event_type":"frontend-updated","client_payload":{"ref":"'"${GITHUB_SHA}"'"}}'
+          echo "Dispatch sent."

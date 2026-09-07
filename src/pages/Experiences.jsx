@@ -79,7 +79,7 @@ const Experiences = () => (
                         </p>
                         <Link
                             to="/request-quote"
-                            className="bg-gold hover:bg-[#b59758] text-navy text-center font-bold text-xs tracking-wider uppercase py-3 rounded-lg transition-colors"
+                            className="btn btn--gold btn--md w-full"
                         >
                             Get a recommendation
                         </Link>

@@ -47,14 +47,14 @@ const CookieConsent = () => {
                 <button
                     type="button"
                     onClick={() => choose('accept')}
-                    className="bg-gold hover:bg-[#b59758] text-navy font-bold text-xs tracking-wider uppercase px-5 py-2.5 rounded-full transition-colors cursor-pointer"
+                    className="btn btn--gold btn--sm"
                 >
                     Accept
                 </button>
                 <button
                     type="button"
                     onClick={() => choose('decline')}
-                    className="border border-white/25 hover:bg-white/10 text-white text-xs font-semibold px-5 py-2.5 rounded-full transition-colors cursor-pointer"
+                    className="btn btn--ghost-white btn--sm"
                 >
                     Decline non-essential
                 </button>

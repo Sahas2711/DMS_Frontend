@@ -20,24 +20,19 @@ const CATEGORIES = [
 
 const VALID_CATEGORIES = CATEGORIES.slice(1).map((c) => c.value);
 
-function durationLabel(tour) {
-    const days = tour?.duration_days;
-    if (!days) return 'Flexible duration';
-    const nights = tour?.duration_nights;
-    return nights ? `${days} days / ${nights} nights` : `${days} days`;
-}
-
 const TourCard = ({ tour }) => {
     const destination = tour.destination;
     const image = tour.hero_media?.url;
     return (
         <article className="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100/90 hover:shadow-lg transition-shadow duration-300 flex flex-col h-full">
-            <MediaImage
-                src={image}
-                alt={tour.hero_media?.alt_text || tour.title}
-                fallbackChar={tour.title?.charAt(0)}
-                className="w-full h-52 object-cover"
-            />
+            <Link to={`/tours/${tour.slug}`} aria-label={`View journey: ${tour.title}`}>
+                <MediaImage
+                    src={image}
+                    alt={tour.hero_media?.alt_text || tour.title}
+                    fallbackChar={tour.title?.charAt(0)}
+                    className="w-full h-52 object-cover"
+                />
+            </Link>
             <div className="p-6 flex flex-col flex-grow text-left">
                 <div className="flex items-center gap-2 mb-3">
                     <span className="text-[10px] font-bold tracking-wider uppercase bg-champagne text-bronze px-2.5 py-1 rounded-full">
@@ -50,13 +45,20 @@ const TourCard = ({ tour }) => {
                     )}
                 </div>
                 <h3 className="text-navy font-serif text-lg font-bold mb-2 leading-snug">
-                    {tour.title}
+                    <Link to={`/tours/${tour.slug}`} className="hover:text-bronze transition-colors">
+                        {tour.title}
+                    </Link>
                 </h3>
                 {tour.summary && (
                     <p className="text-steel text-sm leading-relaxed mb-4 flex-grow">{tour.summary}</p>
                 )}
                 <div className="flex items-center justify-between mt-auto pt-3 border-t border-gray-100">
-                    <span className="text-xs text-gray-500 font-medium">{durationLabel(tour)}</span>
+                    <Link
+                        to={`/tours/${tour.slug}`}
+                        className="text-navy hover:text-bronze text-xs font-bold transition-colors"
+                    >
+                        View journey →
+                    </Link>
                     <Link
                         to={`/request-quote?trip_type=${tour.category}`}
                         className="text-bronze hover:text-navy text-xs font-bold transition-colors"
@@ -147,7 +149,7 @@ const TourCatalog = ({ category }) => {
                 </p>
                 <Link
                     to={`/request-quote${category ? `?trip_type=${category}` : ''}`}
-                    className="inline-block bg-[#731E2A] hover:bg-[#5C1822] text-white font-bold text-xs tracking-wider uppercase py-3 px-8 rounded-full transition-colors"
+                    className="btn btn--wine btn--lg"
                 >
                     Request a custom journey
                 </Link>

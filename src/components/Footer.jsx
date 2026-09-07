@@ -90,6 +90,7 @@ const Footer = () => {
                 <div className="flex items-center gap-5">
                     <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
                     <Link to="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
+                    <Link to="/admin/login" className="hover:text-white transition-colors">Admin</Link>
                 </div>
             </div>
         </footer>

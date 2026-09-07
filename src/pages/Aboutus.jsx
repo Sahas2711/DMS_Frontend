@@ -237,7 +237,7 @@ const Aboutus = () => {
                         <div className="flex items-center gap-6 mb-12 sm:mb-16">
                             <Link
                                 to="/request-quote"
-                                className="inline-flex items-center justify-center bg-navy hover:bg-[#122345] text-white font-medium px-7 py-3.5 rounded-md text-sm transition-all shadow-sm cursor-pointer"
+                                className="btn btn--navy btn--lg"
                             >
                                 Request a Quote
                             </Link>
@@ -521,7 +521,7 @@ const Aboutus = () => {
                         {/* Button */}
                         <Link
                             to="/destination"
-                            className="inline-flex items-center gap-2 bg-[#FDE3A7] hover:bg-[#FCD88B] text-navy font-semibold px-6 py-3.5 rounded-lg text-sm transition-all shadow-md group cursor-pointer"
+                            className="btn btn--gold btn--md inline-flex items-center gap-2"
                         >
                             Explore Destinations
                             <span className="text-base leading-none group-hover:translate-x-1 transition-transform">→</span>
