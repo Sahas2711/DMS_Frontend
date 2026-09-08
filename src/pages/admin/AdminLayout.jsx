@@ -15,6 +15,7 @@ import {
     X,
 } from 'lucide-react';
 import { useAuth } from '../../context/AdminAuthContext';
+import Seo from '../../components/Seo';
 import { fetchUnreadEnquiryCounts } from '../../services/api/adminApi';
 import { Spinner } from '../../components/admin/ui';
 
@@ -123,6 +124,7 @@ function AdminLayout() {
 
     return (
         <div className="min-h-screen bg-ivory flex">
+            <Seo title="Admin Console | Asian Star Travel" noIndex />
             {/* Desktop sidebar */}
             <aside className="hidden lg:flex flex-col w-64 shrink-0 bg-white border-r border-gray-100 sticky top-0 h-screen">
                 <Link to="/admin/dashboard" className="px-6 py-6 border-b border-gray-100 block">

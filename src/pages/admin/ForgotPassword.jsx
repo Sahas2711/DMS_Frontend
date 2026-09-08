@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { forgotPassword } from '../../services/api/auth';
 import { errorMessage } from '../../services/api/client';
+import Seo from '../../components/Seo';
 import { Button, Input, Notice, Spinner } from '../../components/admin/ui';
 
 function ForgotPassword() {
@@ -10,10 +11,6 @@ function ForgotPassword() {
     const [sent, setSent] = useState(false);
     const [error, setError] = useState('');
     const [fieldErrors, setFieldErrors] = useState({});
-
-    useEffect(() => {
-        document.title = 'Forgot Password — Asian Star Travel';
-    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,6 +36,7 @@ function ForgotPassword() {
 
     return (
         <div className="min-h-screen bg-ivory flex items-center justify-center px-6 py-12">
+            <Seo title="Forgot Password — Asian Star Travel" noIndex path="/forgot-password" />
             <div className="w-full max-w-md">
                 <Link to="/" className="block text-center mb-8">
                     <span className="text-navy font-serif text-3xl font-bold">Asian Star Travel</span>

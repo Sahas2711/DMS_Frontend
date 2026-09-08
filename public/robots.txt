@@ -1,8 +1,18 @@
 User-agent: *
 Allow: /
 
-# Enquiry and legal pages don't need indexing
+# Private and enquiry pages must not be indexed
+Disallow: /admin
+Disallow: /admin/
+Disallow: /forgot-password
+Disallow: /reset-password
 Disallow: /request-quote
 Disallow: /become-a-partner
+
+# Private application surfaces (API responses and interactive API docs)
+Disallow: /api/
+Disallow: /docs
+Disallow: /redoc
+Disallow: /openapi.json
 
 Sitemap: https://www.asianstartravel.vn/sitemap.xml

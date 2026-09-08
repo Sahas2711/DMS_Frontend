@@ -66,9 +66,9 @@ const Blogs = () => {
 
     return (
         <div className="w-full bg-[#FFFFFF]">
-            <Seo {...PAGE_META['/blog']} path="/blog" />
+            <Seo {...PAGE_META['/blog']} path="/blog" image={heroImage} />
 
-            <PageHero image={heroImage} alt="" eyebrow="Travel Blog" uppercase />
+            <PageHero image={heroImage} alt="" title="Travel Journal" eyebrow="Travel Blog" uppercase />
 
             {/* Travel Journal / Travel Inspiration & Expert Tips Section */}
             <section className="w-full pt-16 md:pt-20 pb-8 md:pb-12 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center bg-[#FFFFFF]">

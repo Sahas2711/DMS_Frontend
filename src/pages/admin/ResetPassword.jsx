@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { resetPassword } from '../../services/api/auth';
 import { errorMessage } from '../../services/api/client';
+import Seo from '../../components/Seo';
 import { Button, Input, Notice, Spinner } from '../../components/admin/ui';
 
 function ResetPassword() {
@@ -15,10 +16,6 @@ function ResetPassword() {
     const [done, setDone] = useState(false);
     const [error, setError] = useState('');
     const [fieldErrors, setFieldErrors] = useState({});
-
-    useEffect(() => {
-        document.title = 'Reset Password — Asian Star Travel';
-    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -111,6 +108,7 @@ function ResetPassword() {
 
     return (
         <div className="min-h-screen bg-ivory flex items-center justify-center px-6 py-12">
+            <Seo title="Reset Password — Asian Star Travel" noIndex path="/reset-password" />
             <div className="w-full max-w-md">
                 {brand}
                 <form

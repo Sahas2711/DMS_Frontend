@@ -14,6 +14,10 @@ export const SITE = {
     description:
         'Asian Star Travel is a global B2B DMC, crafting private journeys, FIT and group programs, MICE, honeymoon and luxury experiences for travel agents and tour operators across Vietnam, Japan and Australia.',
     email: 'info@asianstartravels.com',
+    /** Public telephone (E.164) — used in contact page structured data. */
+    telephone: '+842438289999',
+    /** Relative path to the brand logo asset — used in Organization schema. */
+    logo: '/favicon.svg',
     locale: 'en_US',
     /** Set to the production origin before deploying (used for canonical + OG URLs). */
     url: 'https://www.asianstartravel.vn',

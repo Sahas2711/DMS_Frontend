@@ -8,6 +8,9 @@ import { SITE } from '../config/site';
  * @param {string}  image      Imported hero image URL.
  * @param {string}  alt        Alt text. Pass "" when the image is purely decorative
  *                             and the heading already conveys the meaning.
+ * @param {string}  title      H1 heading for the page. When omitted the brand
+ *                             wordmark is used so every page keeps exactly one
+ *                             descriptive H1 (good for SEO).
  * @param {string}  eyebrow    Small line under the gold rule (e.g. "Services / Checkout").
  * @param {boolean} uppercase  Uppercase the eyebrow.
  * @param {'default'|'compact'|'tall'} size  Hero height preset.
@@ -29,6 +32,7 @@ const RULES = {
 const PageHero = ({
     image,
     alt = '',
+    title,
     eyebrow,
     uppercase = false,
     size = 'default',
@@ -49,7 +53,7 @@ const PageHero = ({
             decoding="async"
         />
 
-        {/* Navy scrim keeps the wordmark readable over any photograph */}
+        {/* Navy scrim keeps the heading readable over any photograph */}
         <div
             className="absolute inset-0 bg-navy z-0"
             style={{ opacity: overlay / 100 }}
@@ -60,7 +64,7 @@ const PageHero = ({
             <StarIcon />
 
             <h1 className="text-white text-3xl md:text-5xl lg:text-6xl font-serif tracking-widest mb-6">
-                {SITE.wordmark}
+                {title || SITE.wordmark}
             </h1>
 
             <div

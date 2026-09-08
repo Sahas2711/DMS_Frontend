@@ -3,8 +3,10 @@ import heroImage from '../assets/contactus/Contactus-hero-image.webp';
 import mapImage from '../assets/contactus/map-image-contactus.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
+import JsonLd from '../components/JsonLd';
 import ContactForm from '../components/forms/ContactForm';
 import { PAGE_META, SITE } from '../config/site';
+import { organizationSchema } from '../config/structuredData';
 
 const INSTANT_CONNECTIONS = [
     {
@@ -69,9 +71,23 @@ const EXPERTISE_GUARANTEES = [
 const Contactus = () => {
     return (
         <div className="w-full bg-[#FFFFFF]">
-            <Seo {...PAGE_META['/contact']} path="/contact" />
+            <Seo {...PAGE_META['/contact']} path="/contact" image={heroImage} />
+            <JsonLd
+                data={[
+                    organizationSchema(),
+                    {
+                        '@context': 'https://schema.org',
+                        '@type': 'ContactPage',
+                        '@id': `${SITE.url}/contact/#contactpage`,
+                        name: 'Contact Us',
+                        url: `${SITE.url}/contact`,
+                        inLanguage: 'en',
+                        mainEntity: { '@id': `${SITE.url}/#organization` },
+                    },
+                ]}
+            />
 
-            <PageHero image={heroImage} alt="" eyebrow="Contact Us" uppercase />
+            <PageHero image={heroImage} alt="" title="Contact Us" eyebrow="Contact Us" uppercase />
 
             {/* Instant Connections Section */}
             <section className="w-full py-16 md:py-24 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center bg-[#FFFFFF]">

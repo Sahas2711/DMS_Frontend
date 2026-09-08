@@ -7,9 +7,9 @@ import { PAGE_META } from '../config/site';
 
 const Experiences = () => (
     <div className="w-full bg-white">
-        <Seo {...PAGE_META['/experiences']} path="/experiences" />
+        <Seo {...PAGE_META['/experiences']} path="/experiences" image={heroImage} />
 
-        <PageHero image={heroImage} alt="" eyebrow="Experiences" uppercase />
+        <PageHero image={heroImage} alt="" title="Experiences" eyebrow="Experiences" uppercase />
 
         <section className="w-full bg-white py-16 md:py-24 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">
             <div className="w-full max-w-7xl flex flex-col items-center text-center">

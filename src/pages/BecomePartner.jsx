@@ -26,9 +26,9 @@ const PARTNER_BENEFITS = [
 
 const BecomePartner = () => (
     <div className="w-full bg-white">
-        <Seo {...PAGE_META['/become-a-partner']} path="/become-a-partner" noIndex />
+        <Seo {...PAGE_META['/become-a-partner']} path="/become-a-partner" noIndex image={heroImage} />
 
-        <PageHero image={heroImage} alt="" eyebrow="Become a Partner" uppercase />
+        <PageHero image={heroImage} alt="" title="Become a Partner" eyebrow="Become a Partner" uppercase />
 
         <section className="w-full bg-ivory py-16 md:py-24 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">
             <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">

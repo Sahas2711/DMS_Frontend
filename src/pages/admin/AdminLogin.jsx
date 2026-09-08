@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AdminAuthContext';
 import { errorMessage } from '../../services/api/client';
+import Seo from '../../components/Seo';
 import { Button, Input, Notice } from '../../components/admin/ui';
 
 function AdminLogin() {
@@ -17,10 +18,6 @@ function AdminLogin() {
     const [submitting, setSubmitting] = useState(false);
     const [fieldErrors, setFieldErrors] = useState({});
     const [sessionNotice] = useState(location.state?.reason || '');
-
-    useEffect(() => {
-        document.title = 'Admin Login — Asian Star Travel';
-    }, []);
 
     if (ready && user) {
         return <Navigate to={from} replace />;
@@ -53,6 +50,7 @@ function AdminLogin() {
 
     return (
         <div className="min-h-screen bg-ivory flex items-center justify-center px-6 py-12">
+            <Seo title="Admin Login — Asian Star Travel" noIndex path="/admin/login" />
             <div className="w-full max-w-md">
                 <Link to="/" className="block text-center mb-8">
                     <span className="text-navy font-serif text-3xl font-bold">Asian Star Travel</span>

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Seo from '../components/Seo';
+import JsonLd from '../components/JsonLd';
 import { PAGE_META } from '../config/site';
+import { itemListSchema } from '../config/structuredData';
 import { fetchDestinations, fetchTours } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 import { LAUNCH_COUNTRIES } from '../config/enquiry';
@@ -132,6 +134,18 @@ const DestinationCatalog = () => {
 
     return (
         <div className="flex flex-col gap-16 md:gap-20">
+            {!emptyOverall && (
+                <JsonLd
+                    data={itemListSchema(
+                        state.destinations.map((destination) => ({
+                            name: destination.name,
+                            url: `/destination/${destination.slug}`,
+                            image: destination.hero_media?.url,
+                        }))
+                    )}
+                />
+            )}
+
             {emptyOverall && (
                 <div className="w-full bg-cream border border-gray-100 rounded-2xl p-10 text-center">
                     <h3 className="text-navy text-xl font-serif font-semibold mb-2">No destinations published yet</h3>
@@ -196,9 +210,9 @@ const DestinationCatalog = () => {
 
 const Destination = () => (
     <div className="w-full">
-        <Seo {...PAGE_META['/destination']} path="/destination" />
+        <Seo {...PAGE_META['/destination']} path="/destination" image={heroImage} />
 
-        <PageHero image={heroImage} alt="" eyebrow="Destinations" uppercase />
+        <PageHero image={heroImage} alt="" title="Destinations" eyebrow="Destinations" uppercase />
 
         <section className="w-full bg-ivory py-16 md:py-24 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">
             <div className="w-full max-w-7xl flex flex-col">

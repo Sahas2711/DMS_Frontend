@@ -199,9 +199,9 @@ const Aboutus = () => {
 
     return (
         <div className="w-full">
-            <Seo {...PAGE_META['/about']} path="/about" />
+            <Seo {...PAGE_META['/about']} path="/about" image={heroImage} />
 
-            <PageHero image={heroImage} alt="" eyebrow="About Us" uppercase />
+            <PageHero image={heroImage} alt="" title="About Us" eyebrow="About Us" uppercase />
 
             {/* About Us Main Intro Section */}
             <section className="w-full bg-ivory py-20 md:py-28 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">

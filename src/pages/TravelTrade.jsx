@@ -36,9 +36,9 @@ const TRADE_SUPPORT = [
 
 const TravelTrade = () => (
     <div className="w-full bg-white">
-        <Seo {...PAGE_META['/travel-trade']} path="/travel-trade" />
+        <Seo {...PAGE_META['/travel-trade']} path="/travel-trade" image={heroImage} />
 
-        <PageHero image={heroImage} alt="" eyebrow="Travel Trade" uppercase />
+        <PageHero image={heroImage} alt="" title="Travel Trade" eyebrow="Travel Trade" uppercase />
 
         {/* Intro */}
         <section className="w-full bg-white py-16 md:py-24 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">

@@ -2,12 +2,28 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, MapPin } from 'lucide-react';
 import Seo from '../components/Seo';
+import JsonLd from '../components/JsonLd';
 import { SITE } from '../config/site';
+import {
+    breadcrumbListSchema,
+    touristDestinationSchema,
+} from '../config/structuredData';
 import { fetchDestinationBySlug, fetchTours } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 import MediaImage from '../components/cms/MediaImage';
 
-const noSeo = { meta_title: '', meta_description: '', canonical_url: '', og_image_url: '' };
+const noSeo = {
+    meta_title: '',
+    meta_description: '',
+    canonical_url: '',
+    robots: '',
+    og_title: '',
+    og_description: '',
+    og_image_url: '',
+    twitter_title: '',
+    twitter_description: '',
+    twitter_image_url: '',
+};
 
 function DestinationDetail() {
     const { slug } = useParams();
@@ -35,12 +51,6 @@ function DestinationDetail() {
 
         return () => controller.abort();
     }, [slug]);
-
-    useEffect(() => {
-        if (state.destination) {
-            document.title = `${state.destination.name} — ${SITE.name}`;
-        }
-    }, [state.destination]);
 
     if (state.status === 'loading') {
         return (
@@ -74,7 +84,29 @@ function DestinationDetail() {
 
     return (
         <div className="w-full flex flex-col">
-            <Seo title={metaTitle} description={description} path={canonical} image={seo.og_image_url} />
+            <Seo
+                title={metaTitle}
+                description={description}
+                path={canonical}
+                image={seo.og_image_url || heroImage}
+                noIndex={Boolean(seo.robots && seo.robots.toLowerCase().includes('noindex'))}
+                robots={seo.robots || undefined}
+                ogTitle={seo.og_title || undefined}
+                ogDescription={seo.og_description || undefined}
+                twitterTitle={seo.twitter_title || undefined}
+                twitterDescription={seo.twitter_description || undefined}
+                twitterImage={seo.twitter_image_url || undefined}
+            />
+            <JsonLd
+                data={[
+                    breadcrumbListSchema([
+                        { name: 'Home', url: '/' },
+                        { name: 'Destinations', url: '/destination' },
+                        { name: dest.name, url: canonical },
+                    ]),
+                    touristDestinationSchema({ destination: dest, seo }),
+                ]}
+            />
 
             {/* Hero */}
             <section className="relative w-full h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">

@@ -2,7 +2,9 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import Seo from '../components/Seo';
+import JsonLd from '../components/JsonLd';
 import { PAGE_META } from '../config/site';
+import { organizationSchema, websiteSchema } from '../config/structuredData';
 import { EXPERIENCE_CATEGORIES, LAUNCH_COUNTRIES } from '../config/enquiry';
 import heroImage from '../assets/home/hero-image-home.webp';
 
@@ -156,7 +158,8 @@ const DestinationCard = ({ country, index }) => {
 const Home = () => {
     return (
         <div className="w-full flex flex-col">
-            <Seo {...PAGE_META['/']} path="/" />
+            <Seo {...PAGE_META['/']} path="/" image={heroImage} />
+            <JsonLd data={[organizationSchema(), websiteSchema()]} />
 
             {/* Hero Section */}
             <section className="relative w-full h-[85vh] sm:h-[90vh] lg:min-h-screen overflow-hidden flex items-center justify-center bg-navy">

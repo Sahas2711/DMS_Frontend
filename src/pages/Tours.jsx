@@ -2,7 +2,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Seo from '../components/Seo';
+import JsonLd from '../components/JsonLd';
 import { PAGE_META } from '../config/site';
+import { itemListSchema } from '../config/structuredData';
 import { fetchTours } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 import { TRIP_TYPE_BY_VALUE } from '../config/enquiry';
@@ -159,6 +161,17 @@ const TourCatalog = ({ category }) => {
 
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {!category && (
+                <JsonLd
+                    data={itemListSchema(
+                        state.items.map((tour) => ({
+                            name: tour.title,
+                            url: `/tours/${tour.slug}`,
+                            image: tour.hero_media?.url,
+                        }))
+                    )}
+                />
+            )}
             {state.items.map((tour) => (
                 <TourCard key={tour.public_id || tour.slug} tour={tour} />
             ))}
@@ -181,7 +194,7 @@ const Tours = () => {
 
     return (
         <div className="w-full flex flex-col">
-            <Seo {...PAGE_META['/tours']} path="/tours" />
+            <Seo {...PAGE_META['/tours']} path="/tours" image={toursHeroImg} />
 
             {/* Hero Section */}
             <section className="relative w-full h-[55vh] md:h-[65vh] lg:min-h-[520px] flex items-center justify-center overflow-hidden">

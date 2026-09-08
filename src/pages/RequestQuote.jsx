@@ -11,9 +11,9 @@ const RequestQuote = () => {
 
     return (
         <div className="w-full bg-white">
-            <Seo {...PAGE_META['/request-quote']} path="/request-quote" noIndex />
+            <Seo {...PAGE_META['/request-quote']} path="/request-quote" noIndex image={heroImage} />
 
-            <PageHero image={heroImage} alt="" eyebrow="Request a Quote" uppercase />
+            <PageHero image={heroImage} alt="" title="Request a Quote" eyebrow="Request a Quote" uppercase />
 
             <section className="w-full bg-ivory py-16 md:py-24 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">
                 <div className="w-full max-w-5xl grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
