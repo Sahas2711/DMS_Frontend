@@ -54,7 +54,7 @@ const Experiences = () => (
                             <div className="flex flex-col gap-2 mt-auto">
                                 <Link
                                     to={`/request-quote?trip_type=${category.value}`}
-                                    className="bg-[#731E2A] hover:bg-[#5C1822] text-white text-center font-bold text-xs tracking-wider uppercase py-3 rounded-lg transition-colors"
+                                    className="btn btn--wine btn--md w-full"
                                 >
                                     Request a quote
                                 </Link>

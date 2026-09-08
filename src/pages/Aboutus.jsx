@@ -32,10 +32,10 @@ const SealCheckIcon = () => (
 
 const SERVICES = [
     {
-        title: "FIT & Tailor-Made Tours",
-        description: "Private itineraries designed around your clients' pace, interests and travel dates — never off-the-shelf.",
+        title: "Tailor-Made Tours",
+        description: "Private itineraries designed around your pace, interests and travel dates — never off-the-shelf.",
         image: tailorMadeImg,
-        link: "/tours",
+        link: "/services/tailor-made-tours",
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-navy">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
@@ -47,7 +47,7 @@ const SERVICES = [
         title: "Private Transfers",
         description: "Private cars with professional local drivers between every destination — comfortable and on time.",
         image: privateTransfersImg,
-        link: "/request-quote",
+        link: "/services/private-tours",
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-navy">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.125-.504 1.125-1.125V14.25m-17.25 0V8.25m0 6h17.25m0-6H2.25m17.25 0a2.25 2.25 0 0 0-2.25-2.25H6.75A2.25 2.25 0 0 0 4.5 8.25m15 0v6" />
@@ -56,9 +56,9 @@ const SERVICES = [
     },
     {
         title: "Airport Fast Track",
-        description: "Expedited immigration and VIP assistance on arrival and departure — a seamless experience for your clients.",
+        description: "Expedited immigration and VIP assistance on arrival and departure — no queues, no stress.",
         image: airportFastTrackImg,
-        link: "/request-quote",
+        link: "/services/airport-fast-track",
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-navy">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15A2.25 2.25 0 0 0 2.25 6.75v10.5A2.25 2.25 0 0 0 4.5 19.5Zm6-10.125a1.875 1.875 0 1 1-3.75 0 1.875 1.875 0 0 1 3.75 0Zm1.294 6.33a2.996 2.996 0 0 0-2.583-1.455H7.789a2.996 2.996 0 0 0-2.583 1.455.75.75 0 0 0 .666 1.045h6.634a.75.75 0 0 0 .666-1.045Z" />
@@ -66,10 +66,10 @@ const SERVICES = [
         )
     },
     {
-        title: "Ground Services",
-        description: "End-to-end destination handling for agencies and tour operators — confirmed, dependable, local.",
+        title: "Ground services",
+        description: "Unhurried coastal escapes and wellness experiences — space to rest and recharge.",
         image: groundServicesImg,
-        link: "/become-a-partner",
+        link: "/services/ground-services",
         icon: (
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4 text-navy">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918" />
@@ -199,9 +199,9 @@ const Aboutus = () => {
 
     return (
         <div className="w-full">
-            <Seo {...PAGE_META['/about']} path="/about" image={heroImage} />
+            <Seo {...PAGE_META['/about']} path="/about" />
 
-            <PageHero image={heroImage} alt="" title="About Us" eyebrow="About Us" uppercase />
+            <PageHero image={heroImage} alt="" eyebrow="About Us" uppercase />
 
             {/* About Us Main Intro Section */}
             <section className="w-full bg-ivory py-20 md:py-28 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">
@@ -219,7 +219,7 @@ const Aboutus = () => {
                         {/* Pill Badge */}
                         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F3ECE0] border border-[#E9DEC9] text-[#7A6237] text-[11px] font-semibold tracking-wider uppercase mb-6">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#B8924A]"></span>
-                            GLOBAL B2B DMC
+                            VIETNAM-BASED INBOUND TRAVEL COMPANY &amp; DMC
                         </div>
 
                         {/* Title */}
@@ -229,17 +229,16 @@ const Aboutus = () => {
 
                         {/* Description */}
                         <p className="text-steel text-base md:text-lg leading-relaxed mb-8 max-w-lg">
-                            Asian Star Travel is a global B2B DMC — the ground partner travel
-                            agents trust across Vietnam, Japan and Australia.
+                            Asian Star Travel is a Vietnam-based inbound travel company &amp; DMC, crafting private journeys and reliable ground services from Ho Chi Minh City.
                         </p>
 
                         {/* Buttons / CTA */}
                         <div className="flex items-center gap-6 mb-12 sm:mb-16">
                             <Link
-                                to="/request-quote"
-                                className="btn btn--navy btn--lg"
+                                to="/contact"
+                                className="inline-flex items-center justify-center bg-navy hover:bg-[#122345] text-white font-medium px-7 py-3.5 rounded-md text-sm transition-all shadow-sm cursor-pointer"
                             >
-                                Request a Quote
+                                Plan Your Trip
                             </Link>
                             <a
                                 href="#our-story"
@@ -258,7 +257,7 @@ const Aboutus = () => {
                                     HQ OPERATIONS
                                 </span>
                                 <span className="text-xs md:text-sm lg:text-base font-semibold text-navy mt-1">
-                                    Bengaluru
+                                    Ho Chi Minh City
                                 </span>
                             </div>
 
@@ -268,7 +267,7 @@ const Aboutus = () => {
                                     SCOPE
                                 </span>
                                 <span className="text-xs md:text-sm lg:text-base font-semibold text-navy mt-1">
-                                    Vietnam · Japan · Australia
+                                    Nationwide Ground Coverage
                                 </span>
                             </div>
 
@@ -278,7 +277,7 @@ const Aboutus = () => {
                                     LICENSE
                                 </span>
                                 <span className="text-xs md:text-sm lg:text-base font-semibold text-navy mt-1">
-                                    Licensed Tour Operator
+                                    Official Tour Operator
                                 </span>
                             </div>
                         </div>
@@ -378,17 +377,17 @@ const Aboutus = () => {
 
                         {/* Heading */}
                         <h2 className="text-navy text-3xl md:text-4xl lg:text-[44px] font-serif font-normal leading-[1.2] mb-6">
-                            Crafting Private Journeys &amp; Reliable Ground Handling
+                            Crafting Private Journeys &amp; Ground Hospitality
                         </h2>
 
                         {/* Paragraph 1 */}
                         <p className="text-steel text-sm md:text-base leading-relaxed mb-5">
-                            Asian Star Travel is a global B2B destination management company. We design and operate FIT, group, MICE, honeymoon and luxury experiences across Vietnam, Japan and Australia — handling every detail for our partner agencies, from the first enquiry to the final transfer.
+                            Asian Star Travel is an inbound travel company and destination management company based in Ho Chi Minh City. We plan and operate private journeys and dependable ground services across Vietnam — handling every detail locally, from the first inquiry to the final airport transfer.
                         </p>
 
                         {/* Paragraph 2 */}
                         <p className="text-steel text-sm md:text-base leading-relaxed mb-8">
-                            We work with travel agencies, tour operators and OTAs who need a reliable DMC partner on the ground across the region.
+                            We work with independent travelers and with overseas agencies and tour operators who need a reliable partner on the ground in Vietnam.
                         </p>
 
                         {/* Bottom Quote Card */}
@@ -396,10 +395,10 @@ const Aboutus = () => {
                             <SealCheckIcon />
                             <div className="flex flex-col text-left">
                                 <p className="text-xs md:text-sm font-bold text-navy leading-snug mb-1">
-                                    "Handling every detail locally, from the first enquiry to the final transfer."
+                                    "Handling every detail locally, from the first inquiry to the final airport transfer."
                                 </p>
                                 <p className="text-[11px] md:text-xs text-gray-500">
-                                    Direct dispatch from our DMC desk.
+                                    Direct dispatch from our Ho Chi Minh City operational desk.
                                 </p>
                             </div>
                         </div>
@@ -419,12 +418,12 @@ const Aboutus = () => {
 
                     {/* Section Title */}
                     <h2 className="text-navy text-3xl md:text-4xl lg:text-[46px] font-serif font-normal text-center leading-[1.2] mb-4">
-                        What Our DMC Handles for Trade Partners
+                        Four Ways We Help You Experience Vietnam
                     </h2>
 
                     {/* Subtitle */}
                     <p className="text-steel text-sm md:text-base text-center max-w-xl mb-14 md:mb-16">
-                        FIT and group programs, transfers, fast-track clearance and full ground handling — operated by our local team.
+                        Each arranged and operated by our local team.
                     </p>
 
                     {/* Cards Grid */}
@@ -521,7 +520,7 @@ const Aboutus = () => {
                         {/* Button */}
                         <Link
                             to="/destination"
-                            className="btn btn--gold btn--md inline-flex items-center gap-2"
+                            className="inline-flex items-center gap-2 bg-[#FDE3A7] hover:bg-[#FCD88B] text-navy font-semibold px-6 py-3.5 rounded-lg text-sm transition-all shadow-md group cursor-pointer"
                         >
                             Explore Destinations
                             <span className="text-base leading-none group-hover:translate-x-1 transition-transform">→</span>
@@ -559,7 +558,7 @@ const Aboutus = () => {
                                 viewport={{ once: true, amount: 0.15 }}
                                 transition={{ duration: 0.5, delay: index * 0.1, ease: 'easeOut' }}
                                 whileHover={{ y: -6 }}
-                                className="bg-white rounded-2xl md:rounded-3xl p-7 md:p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-left border border-gray-100/80 group"
+                                className="bg-white rounded-2xl md:rounded-3xl p-7 md:p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between text-left border border-gray-100/80 group cursor-pointer"
                             >
                                 <div>
                                     {/* Icon Badge */}

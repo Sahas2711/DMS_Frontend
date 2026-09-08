@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CalendarDays, Clock } from 'lucide-react';
 import heroImage from '../assets/blogs/blogs-hero-image.webp';
 import travelJournalImg from '../assets/blogs/travel-journal-section-image.webp';
 import editorsDispatchImg from '../assets/blogs/editors-dispatch.webp';
@@ -35,7 +34,8 @@ const ARTICLES = [
         readTime: "4 min read",
         title: "Hanoi's Hidden French Colonial Cafes & Architectural Walking Guide",
         description: "Step off the beaten path into quiet tree-lined courtyards, heritage villas, and the finest artisanal egg coffee haunts in the capital.",
-        author: "By Cultural Desk"
+        author: "By Cultural Desk",
+        link: "#"
     },
     {
         tag: "DESTINATIONS",
@@ -44,7 +44,8 @@ const ARTICLES = [
         readTime: "7 min read",
         title: "Chasing the Golden Season: Mu Cang Chai's Terraced Highlands",
         description: "An insider's journey through Northern Vietnam's dramatic harvest peaks, private luxury lodges, and tribal trekking routes.",
-        author: "By Expedition Lead"
+        author: "By Expedition Lead",
+        link: "#"
     },
     {
         tag: "TRAVEL TIPS",
@@ -52,8 +53,9 @@ const ARTICLES = [
         date: "02 Oct 2025",
         readTime: "5 min read",
         title: "Essential Vietnam Visa on Arrival & Fast-Track Protocol for 2025",
-        description: "Navigating new e-visa clearances, stamping fee procedures, and airport fast-track assistance protocols for smoother arrivals.",
-        author: "By Aviation Bureau"
+        description: "Navigating new e-visa clearances, stamping fee procedures, and how VIP airport concierge guarantees zero wait time upon landing.",
+        author: "By Aviation Bureau",
+        link: "#"
     }
 ];
 
@@ -66,9 +68,9 @@ const Blogs = () => {
 
     return (
         <div className="w-full bg-[#FFFFFF]">
-            <Seo {...PAGE_META['/blog']} path="/blog" image={heroImage} />
+            <Seo {...PAGE_META['/blog']} path="/blog" />
 
-            <PageHero image={heroImage} alt="" title="Travel Journal" eyebrow="Travel Blog" uppercase />
+            <PageHero image={heroImage} alt="" eyebrow="Travel Blog" uppercase />
 
             {/* Travel Journal / Travel Inspiration & Expert Tips Section */}
             <section className="w-full pt-16 md:pt-20 pb-8 md:pb-12 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center bg-[#FFFFFF]">
@@ -91,7 +93,7 @@ const Blogs = () => {
                     </p>
 
                     {/* Featured Cover Story Visual */}
-                    <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl min-h-[380px] md:min-h-[480px] lg:min-h-[540px] flex flex-col justify-end p-6 sm:p-8 md:p-12 group">
+                    <div className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl min-h-[380px] md:min-h-[480px] lg:min-h-[540px] flex flex-col justify-end p-6 sm:p-8 md:p-12 group cursor-pointer">
                         {/* Background Image */}
                         <img
                             src={travelJournalImg}
@@ -149,8 +151,7 @@ const Blogs = () => {
                                     key={cat}
                                     type="button"
                                     onClick={() => setSelectedCategory(cat)}
-                                    aria-pressed={isActive}
-                                    className={`px-5 py-2 rounded-full text-xs md:text-sm font-medium transition-colors duration-200 whitespace-nowrap cursor-pointer ${
+                                    className={`px-5 py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-200 whitespace-nowrap cursor-pointer ${
                                         isActive
                                             ? 'bg-[#7A5C1E] text-white shadow-sm'
                                             : 'bg-[#EAE7DF] hover:bg-[#DDD9CF] text-[#475467]'
@@ -187,7 +188,7 @@ const Blogs = () => {
                                         AIRPORT SERVICES
                                     </span>
                                     <span className="text-gray-400 flex items-center gap-1.5 text-xs">
-                                        <Clock className="h-3.5 w-3.5" aria-hidden="true" /> 18 Oct 2025 · 6 min read
+                                        🕒 18 Oct 2025 · 6 min read
                                     </span>
                                 </div>
 
@@ -218,9 +219,16 @@ const Blogs = () => {
                                     </div>
                                 </div>
 
-                        </div>
+                                <a
+                                    href="#"
+                                    className="text-xs font-semibold text-navy hover:text-bronze flex items-center gap-1.5 transition-colors group-hover:gap-2.5"
+                                >
+                                    Read Article
+                                    <span>→</span>
+                                </a>
                             </div>
                         </div>
+                    </div>
 
                     {/* Middle Section Header */}
                     <div className="w-full flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-10 text-left">
@@ -233,18 +241,11 @@ const Blogs = () => {
                             </h2>
                         </div>
                         <span className="text-xs text-gray-500 mt-2 md:mt-0">
-                            Showing {filteredArticles.length} of {ARTICLES.length} dispatches
+                            Showing {filteredArticles.length} of 24 dispatches
                         </span>
                     </div>
 
                     {/* 3 Articles Grid */}
-                    {filteredArticles.length === 0 ? (
-                        <div className="w-full text-center py-12 bg-white rounded-2xl border border-gray-100">
-                            <p className="text-navy font-serif text-lg font-semibold mb-1">No stories in this category yet</p>
-                            <p className="text-steel text-sm mb-4">Try another filter, or check back soon for new dispatches.</p>
-                            <button type="button" onClick={() => setSelectedCategory('All')} className="btn btn--gold btn--sm">View all stories</button>
-                        </div>
-                    ) : (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7 w-full mb-12 md:mb-14">
                         {filteredArticles.map((article, index) => (
                             <div
@@ -268,8 +269,8 @@ const Blogs = () => {
                                 {/* Body */}
                                 <div className="p-6 md:p-7 flex flex-col justify-between flex-grow text-left">
                                     <div>
-                                        <span className="text-[11px] text-gray-400 block mb-2 flex items-center gap-1.5">
-                                            <CalendarDays className="h-3.5 w-3.5" aria-hidden="true" /> {article.date} · {article.readTime}
+                                        <span className="text-[11px] text-gray-400 block mb-2">
+                                            📅 {article.date} · {article.readTime}
                                         </span>
                                         <h3 className="text-navy text-base md:text-lg font-serif font-bold mb-3 leading-snug">
                                             {article.title}
@@ -284,15 +285,28 @@ const Blogs = () => {
                                         <span className="text-[11px] text-gray-400">
                                             {article.author}
                                         </span>
-                                        <span className="text-[11px] text-bronze flex items-center gap-1">
-                                            Excerpt
-                                        </span>
+                                        <a
+                                            href={article.link}
+                                            className="text-xs font-semibold text-bronze hover:text-navy flex items-center gap-1 transition-colors"
+                                        >
+                                            Read More
+                                            <span>→</span>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    )}
+
+                    {/* Bottom Load Button */}
+                    <button
+                        type="button"
+                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#EBE9E2] hover:bg-[#E0DDD4] text-navy text-xs font-semibold transition-colors shadow-sm"
+                    >
+                        <span>🔄</span>
+                        Load Prior Dispatches
+                    </button>
+
                 </div>
             </section>
 
@@ -324,15 +338,15 @@ const Blogs = () => {
 
                     {/* Subtitle */}
                     <p className="text-gray-200 text-xs sm:text-sm md:text-base max-w-lg mb-8 leading-relaxed drop-shadow-sm">
-                        Fast-track and reconnect assistance for your clients across Vietnam, Japan and Australia. Send us the details and we will confirm the service plan.
+                        Book your Fast Track assistance today and experience effortless airport hospitality.
                     </p>
 
                     {/* CTA Button */}
                     <Link
-                        to="/request-quote"
-                        className="btn btn--gold btn--lg"
+                        to="/services/airport-fast-track"
+                        className="inline-flex items-center justify-center bg-[#E5B869] hover:bg-[#D4A758] text-navy font-bold text-xs md:text-sm px-8 py-3.5 rounded-lg uppercase tracking-wider transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
                     >
-                        Request a Quote
+                        BOOK NOW
                     </Link>
                 </div>
             </section>

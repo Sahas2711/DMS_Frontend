@@ -4,8 +4,8 @@ import StarIcon from '../components/icons/StarIcon';
 import { SITE } from '../config/site';
 
 const SUGGESTIONS = [
-    { label: 'Journeys & Experiences', to: '/tours' },
-    { label: 'Travel Trade', to: '/travel-trade' },
+    { label: 'Tours & Itineraries', to: '/tours' },
+    { label: 'Our Services', to: '/services' },
     { label: 'Destinations', to: '/destination' },
     { label: 'Contact Us', to: '/contact' },
 ];
@@ -41,7 +41,7 @@ const NotFound = () => (
                     <Link
                         key={item.to}
                         to={item.to}
-                        className="btn btn--ghost btn--md"
+                        className="px-6 py-3 rounded-full border border-navy/15 text-navy text-sm hover:bg-navy hover:text-white transition-colors"
                     >
                         {item.label}
                     </Link>

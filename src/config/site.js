@@ -112,4 +112,33 @@ export const PAGE_META = {
         title: `Privacy Policy | ${SITE.name}`,
         description: 'How Asian Star Travel collects, uses and protects your personal data.',
     },
+    '/booking': {
+        title: `Book Your Journey | ${SITE.name}`,
+        description:
+            'Request your bespoke Vietnam, Japan or Australia journey — preferred rates for agents and their travelers.',
+    },
+    '/checkout': {
+        title: `Checkout | ${SITE.name}`,
+        description: 'Complete your booking details for your Asian Star Travel journey.',
+    },
+    '/trip': {
+        title: `Trip Reservation | ${SITE.name}`,
+        description: 'Reserve your private journey with our destination specialists.',
+    },
+    '/services/private-tours': {
+        title: `Private Tours | ${SITE.name}`,
+        description: 'Private, tailor-made tours across Vietnam — flexible pacing, dedicated guide and vehicle for you and your clients.',
+    },
+    '/services/tailor-made-tours': {
+        title: `Tailor-Made Tours | ${SITE.name}`,
+        description: 'Fully customizable journeys designed around client preferences, timeline and travel style.',
+    },
+    '/services/airport-fast-track': {
+        title: `Airport Fast Track | ${SITE.name}`,
+        description: 'Meet-and-greet and fast-track airport assistance across Vietnam\'s international airports.',
+    },
+    '/services/ground-services': {
+        title: `Ground Services | ${SITE.name}`,
+        description: 'Private transfers, experienced drivers and 24/7 ground support across Vietnam.',
+    },
 };

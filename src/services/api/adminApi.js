@@ -100,6 +100,16 @@ export const uploadMediaAsset = ({ file, alt_text, caption, onProgress }) => {
 export const deleteMediaAsset = (publicId) => adminDelete(`/admin/media/${publicId}`);
 
 // ---------------------------------------------------------------------------
+// Bookings
+// ---------------------------------------------------------------------------
+
+export const fetchAdminBookings = (params) => adminGet('/admin/bookings', { query: params });
+export const fetchAdminBooking = (publicId) => adminGet(`/admin/bookings/${publicId}`);
+export const markBookingRead = (publicId) => adminPatch(`/admin/bookings/${publicId}/read`);
+export const markBookingUnread = (publicId) => adminPatch(`/admin/bookings/${publicId}/unread`);
+export const updateBookingStatus = (publicId, payload) => adminPatch(`/admin/bookings/${publicId}/status`, payload);
+
+// ---------------------------------------------------------------------------
 // Enquiries
 // ---------------------------------------------------------------------------
 

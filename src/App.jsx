@@ -16,7 +16,11 @@ import Home from './pages/Home';
 // every other page before the site becomes interactive.
 const Tours = lazy(() => import('./pages/Tours'));
 const TourDetail = lazy(() => import('./pages/TourDetail'));
-const Services = lazy(() => import('./pages/Services'));
+const Services = lazy(() => import('./pages/services/Services'));
+const ServicesPrivateTours = lazy(() => import('./pages/services/ServicesPrivateTours'));
+const ServicesTailorMadeTours = lazy(() => import('./pages/services/ServicesTailorMadeTours'));
+const ServicesAirportFastTrack = lazy(() => import('./pages/services/ServicesAirportFastTrack'));
+const GroundServices = lazy(() => import('./pages/services/GroundServices'));
 const Destination = lazy(() => import('./pages/Destination'));
 const DestinationDetail = lazy(() => import('./pages/DestinationDetail'));
 const Aboutus = lazy(() => import('./pages/Aboutus'));
@@ -28,6 +32,9 @@ const BecomePartner = lazy(() => import('./pages/BecomePartner'));
 const TravelTrade = lazy(() => import('./pages/TravelTrade'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const Terms = lazy(() => import('./pages/Terms'));
+const Booking = lazy(() => import('./pages/Booking'));
+const Checkouts = lazy(() => import('./pages/Checkouts'));
+const Trip = lazy(() => import('./pages/Trip'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Admin console (protected shell + routes). Login sits outside the shell so an
@@ -42,6 +49,7 @@ const AdminTours = lazy(() => import('./pages/admin/AdminTours'));
 const AdminRoutes = lazy(() => import('./pages/admin/AdminRoutes'));
 const AdminMedia = lazy(() => import('./pages/admin/AdminMedia'));
 const AdminEnquiries = lazy(() => import('./pages/admin/AdminEnquiries'));
+const AdminBookings = lazy(() => import('./pages/admin/AdminBookings'));
 const AdminUsers = lazy(() => import('./pages/admin/AdminUsers'));
 const AdminAudit = lazy(() => import('./pages/admin/AdminAudit'));
 const AdminAccount = lazy(() => import('./pages/admin/AdminAccount'));
@@ -53,31 +61,22 @@ const AdminAccount = lazy(() => import('./pages/admin/AdminAccount'));
 const ROUTE_ALIASES = [
     ['/itineraries', '/tours'],
     ['/itinerary', '/tours'],
-    // Former consumer service sub-pages (airport fast track, private transfers,
-    // tailor-made, India ground services) are outside Phase-1 B2B DMC scope.
-    // Their URLs hand off to the Phase-1 enquiry workflow instead of dead routes.
-    // (/services itself is a live page.)
-    ['/services/private-tours', '/request-quote'],
+    // Former consumer service sub-pages with no live page of their own hand off
+    // to the Phase-1 enquiry workflow. (The canonical service pages below are
+    // real routes now — see the Routes block.)
     ['/services/private-transfers', '/request-quote'],
-    ['/services/tailor-made-tours', '/request-quote'],
     ['/services/tailor-made', '/request-quote'],
-    ['/services/airport-fast-track', '/request-quote'],
     ['/services/fast-track', '/request-quote'],
     ['/services/services-airport-fast-track', '/request-quote'],
-    ['/services/ground-services', '/request-quote'],
     ['/services/ground-services-india', '/request-quote'],
     ['/destinations', '/destination'],
     ['/about-us', '/about'],
     ['/contact-us', '/contact'],
     ['/blogs', '/blog'],
-    // The former consumer booking/checkout/trip flows are Phase 2/3. Instead of
-    // dead routes they now hand off to the Phase-1 enquiry workflow.
-    ['/checkout', '/request-quote'],
-    ['/checkouts', '/request-quote'],
-    ['/booking', '/request-quote'],
-    ['/bookings', '/request-quote'],
-    ['/trip', '/request-quote'],
-    ['/trips', '/request-quote'],
+    // Alternate spellings of the live booking/checkout/trip flows.
+    ['/bookings', '/booking'],
+    ['/checkouts', '/checkout'],
+    ['/trips', '/trip'],
 ];
 
 function SmoothScroll() {
@@ -144,7 +143,9 @@ function App() {
             <AnalyticsProvider>
                 <AuthProvider>
                     <SmoothScroll />
-                    <div className="min-h-screen bg-gray-100 flex flex-col w-full max-w-full overflow-x-hidden relative">
+                    <div className="min-h-screen bg-gray-100 flex flex-col w-full max-w-full relative">   
+                        {/* overflow clipping is handled globally in index.css via
+                            `overflow-x: clip` so Lenis keeps control of the scroller. */}
                         <a
                             href="#main-content"
                             className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-full focus:bg-navy focus:text-white focus:text-sm"
@@ -154,7 +155,7 @@ function App() {
 
                         <Navbar />
 
-                        <main id="main-content" className="flex-grow w-full max-w-full overflow-x-hidden">
+                        <main id="main-content" className="flex-grow w-full max-w-full">
                             <ErrorBoundary>
                                 <Suspense fallback={<RouteFallback />}>
                                     <Routes>
@@ -162,6 +163,10 @@ function App() {
                                         <Route path="/tours" element={<Tours />} />
                                         <Route path="/tours/:slug" element={<TourDetail />} />
                                         <Route path="/services" element={<Services />} />
+                                        <Route path="/services/private-tours" element={<ServicesPrivateTours />} />
+                                        <Route path="/services/tailor-made-tours" element={<ServicesTailorMadeTours />} />
+                                        <Route path="/services/airport-fast-track" element={<ServicesAirportFastTrack />} />
+                                        <Route path="/services/ground-services" element={<GroundServices />} />
                                         <Route path="/destination" element={<Destination />} />
                                         <Route path="/destination/:slug" element={<DestinationDetail />} />
                                         <Route path="/about" element={<Aboutus />} />
@@ -173,6 +178,9 @@ function App() {
                                         <Route path="/travel-trade" element={<TravelTrade />} />
                                         <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                                         <Route path="/terms" element={<Terms />} />
+                                        <Route path="/booking" element={<Booking />} />
+                                        <Route path="/checkout" element={<Checkouts />} />
+                                        <Route path="/trip" element={<Trip />} />
 
                                         {ROUTE_ALIASES.map(([from, to]) => (
                                             <Route key={from} path={from} element={<Navigate to={to} replace />} />
@@ -190,6 +198,7 @@ function App() {
                                             <Route path="routes" element={<AdminRoutes />} />
                                             <Route path="media" element={<AdminMedia />} />
                                             <Route path="enquiries" element={<AdminEnquiries />} />
+                                            <Route path="bookings" element={<AdminBookings />} />
                                             <Route path="users" element={<AdminUsers />} />
                                             <Route path="audit" element={<AdminAudit />} />
                                             <Route path="account" element={<AdminAccount />} />

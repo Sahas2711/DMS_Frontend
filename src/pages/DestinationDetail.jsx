@@ -67,8 +67,8 @@ function DestinationDetail() {
                     <Seo title="Destination not found" noIndex path={`/destination/${slug}`} />
                     <h1 className="text-navy font-serif text-2xl font-bold mb-2">Destination not available</h1>
                     <p className="text-steel text-sm leading-relaxed mb-5">{state.error}</p>
-                    <Link to="/destination" className="inline-flex items-center gap-2 bg-[#731E2A] hover:bg-[#5C1822] text-white font-bold text-xs tracking-wider uppercase py-3 px-6 rounded-full transition-colors">
-                        <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Browse all destinations
+<Link to="/destination" className="btn btn--wine btn--md">
+                        <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Browse destinations
                     </Link>
                 </div>
             </div>

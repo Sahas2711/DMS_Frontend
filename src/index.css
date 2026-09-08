@@ -18,9 +18,30 @@
     --color-ink: #101828;
     --color-steel: #556987;
     --color-cream: #faf9f5;
+    --color-eggshell: #f5f3ee;
     --color-ivory: #fbf9f4;
     --color-champagne: #faf3df;
     --color-stone: #efece6;
+}
+
+/*
+ * Eyebrow label used above section headings across the marketing pages
+ * (10-11px, letterspaced, uppercase, bronze). Keeps the four-class incantation
+ * in one place.
+ */
+.eyebrow {
+    font-size: 10px;
+    line-height: 1.4;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-bronze);
+}
+
+@media (min-width: 768px) {
+    .eyebrow {
+        font-size: 11px;
+    }
 }
 
 *,
@@ -40,7 +61,12 @@ body,
 #root {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden !important;
+    /* `clip` prevents horizontal overflow without creating a scroll
+       container, which `hidden` does and which breaks both native momentum
+       scroll and Lenis on some engines (esp. iOS/Safari). Fallback first, so
+       older browsers without `clip` still get `hidden`. */
+    overflow-x: hidden;
+    overflow-x: clip;
     position: relative;
 }
 
@@ -143,11 +169,10 @@ h6 {
     justify-content: center;
     gap: 0.5rem;
     white-space: nowrap;
-    line-height: 1;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-radius: 0.5rem;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border-radius: 9999px;
     cursor: pointer;
     transition: background-color 0.2s ease, border-color 0.2s ease,
         color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
@@ -167,21 +192,21 @@ h6 {
 }
 
 .btn--sm {
-    padding: 0.55rem 1rem;
-    font-size: 10px;
+    padding: 0.45rem 1.1rem;
+    font-size: 11px;
     min-height: 2rem;
 }
 
 .btn--md {
-    padding: 0.65rem 1.3rem;
-    font-size: 11px;
+    padding: 0.62rem 1.4rem;
+    font-size: 13px;
     min-height: 2.4rem;
 }
 
 .btn--lg {
-    padding: 0.9rem 2rem;
-    font-size: 11px;
-    min-height: 3rem;
+    padding: 0.82rem 2rem;
+    font-size: 14px;
+    min-height: 2.9rem;
 }
 
 .btn--gold {

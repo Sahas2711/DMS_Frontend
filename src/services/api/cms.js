@@ -67,6 +67,15 @@ export async function fetchDestinationBySlug(slug) {
 }
 
 /**
+ * GET /routes — published journey routes (public CMS).
+ * Resolves to { items, meta }. Sorted by display order so the Trip matcher
+ * presents curated itineraries, newest configuration first.
+ */
+export async function fetchRoutes({ page = 1, pageSize = 100, sort = 'display_order' } = {}) {
+    return cachedGet(`/routes${toQuery({ page, page_size: pageSize, sort })}`);
+}
+
+/**
  * Resolve a media URL returned by the API into one the browser can load.
  * Absolute URLs (e.g. seeded picsum placeholders or an object-storage CDN) are
  * passed through; relative URLs are prefixed with the API base URL.
