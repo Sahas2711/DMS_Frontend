@@ -16,6 +16,7 @@ import Home from './pages/Home';
 // every other page before the site becomes interactive.
 const Tours = lazy(() => import('./pages/Tours'));
 const TourDetail = lazy(() => import('./pages/TourDetail'));
+const Services = lazy(() => import('./pages/Services'));
 const Destination = lazy(() => import('./pages/Destination'));
 const DestinationDetail = lazy(() => import('./pages/DestinationDetail'));
 const Aboutus = lazy(() => import('./pages/Aboutus'));
@@ -52,10 +53,10 @@ const AdminAccount = lazy(() => import('./pages/admin/AdminAccount'));
 const ROUTE_ALIASES = [
     ['/itineraries', '/tours'],
     ['/itinerary', '/tours'],
-    // Former consumer service pages (airport fast track, private transfers,
+    // Former consumer service sub-pages (airport fast track, private transfers,
     // tailor-made, India ground services) are outside Phase-1 B2B DMC scope.
     // Their URLs hand off to the Phase-1 enquiry workflow instead of dead routes.
-    ['/services', '/request-quote'],
+    // (/services itself is a live page.)
     ['/services/private-tours', '/request-quote'],
     ['/services/private-transfers', '/request-quote'],
     ['/services/tailor-made-tours', '/request-quote'],
@@ -160,6 +161,7 @@ function App() {
                                         <Route path="/" element={<Home />} />
                                         <Route path="/tours" element={<Tours />} />
                                         <Route path="/tours/:slug" element={<TourDetail />} />
+                                        <Route path="/services" element={<Services />} />
                                         <Route path="/destination" element={<Destination />} />
                                         <Route path="/destination/:slug" element={<DestinationDetail />} />
                                         <Route path="/about" element={<Aboutus />} />

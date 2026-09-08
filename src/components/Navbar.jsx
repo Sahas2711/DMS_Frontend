@@ -5,12 +5,14 @@ import { useLanguage } from '../hooks/useLanguage';
 
 const NAV_LINKS = [
     { label: 'Home', href: '/' },
+    { label: 'Tours', href: '/tours' },
+    { label: 'Services', href: '/services' },
     { label: 'About', href: '/about' },
     { label: 'Destinations', href: '/destination' },
-    { label: 'Experiences', href: '/experiences' },
-    { label: 'Travel Trade', href: '/travel-trade' },
-    { label: 'Blog', href: '/blog' },
+    // { label: 'Experiences', href: '/experiences' },
+    // { label: 'Travel Trade', href: '/travel-trade' },
     { label: 'Contact', href: '/contact' },
+    { label: 'Blog', href: '/blog' },
 ];
 
 const ChevronDownIcon = ({ className }) => (

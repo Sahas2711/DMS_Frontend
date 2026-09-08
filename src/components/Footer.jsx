@@ -4,7 +4,7 @@ import { SITE } from '../config/site';
 const Footer = () => {
     return (
         <footer className="bg-navy text-gray-300 pt-16 pb-8 px-6 md:px-12 lg:px-24 xl:px-40 text-sm">
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-12 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-6 gap-12 mb-12">
                 {/* Column 1: Brand Info */}
                 <div className="flex flex-col space-y-6">
                     <h3 className="text-white text-2xl font-serif">{SITE.name}</h3>
@@ -20,6 +20,7 @@ const Footer = () => {
                 <div>
                     <h4 className="text-white font-bold tracking-wider mb-6 text-xs uppercase">Explore</h4>
                     <ul className="space-y-4">
+                        <li><Link to="/tours" className="hover:text-white transition-colors">Tours</Link></li>
                         <li><Link to="/destination" className="hover:text-white transition-colors">Destinations</Link></li>
                         <li><Link to="/experiences" className="hover:text-white transition-colors">Experiences</Link></li>
                         <li><Link to="/travel-trade" className="hover:text-white transition-colors">Travel Trade</Link></li>
@@ -29,7 +30,18 @@ const Footer = () => {
                     </ul>
                 </div>
 
-                {/* Column 3: For Travel Trade */}
+                {/* Column 3: Services */}
+                <div>
+                    <h4 className="text-white font-bold tracking-wider mb-6 text-xs uppercase">Services</h4>
+                    <ul className="space-y-4">
+                        <li><Link to="/tours" className="hover:text-white transition-colors">Tailor-Made Tours</Link></li>
+                        <li><Link to="/request-quote" className="hover:text-white transition-colors">Private Transfers</Link></li>
+                        <li><Link to="/request-quote" className="hover:text-white transition-colors">Airport Fast Track</Link></li>
+                        <li><Link to="/become-a-partner" className="hover:text-white transition-colors">Ground Services</Link></li>
+                    </ul>
+                </div>
+
+                {/* Column 4: For Travel Trade */}
                 <div>
                     <h4 className="text-white font-bold tracking-wider mb-6 text-xs uppercase">For Travel Trade</h4>
                     <ul className="space-y-4">
@@ -42,7 +54,7 @@ const Footer = () => {
 
 
 
-                {/* Column 4: Destinations */}
+                {/* Column 5: Destinations */}
                 <div>
                     <h4 className="text-white font-bold tracking-wider mb-6 text-xs uppercase">Destinations</h4>
                     <ul className="space-y-4">
@@ -52,7 +64,7 @@ const Footer = () => {
                     </ul>
                 </div>
 
-                {/* Column 5: Contact & Follow */}
+                {/* Column 6: Contact & Follow */}
                 <div className="flex flex-col space-y-6">
                     <div>
                         <h4 className="text-white font-bold tracking-wider mb-6 text-xs uppercase">Contact</h4>
@@ -66,20 +78,50 @@ const Footer = () => {
                                     {SITE.email}
                                 </a>
                             </p>
+                            {SITE.teamContacts.length > 0 && (
+                                <ul className="pt-1 space-y-1.5">
+                                    {SITE.teamContacts.map((person) => (
+                                        <li key={person.email} className="flex items-baseline gap-2">
+                                            <span className="text-white font-semibold">{person.name}</span>
+                                            <a
+                                                href={`mailto:${person.email}`}
+                                                className="hover:text-white transition-colors underline-offset-2 hover:underline"
+                                            >
+                                                {person.email}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
                         </div>
                     </div>
 
                     <div className="pt-4">
                         <h4 className="text-white font-bold tracking-wider mb-4 text-xs uppercase">Follow Us</h4>
-                        <a
-                            href="https://www.facebook.com/asianstartravel.vn"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-block px-6 py-2 rounded-full border border-white/20 hover:bg-white/10 transition-colors text-white text-xs"
-                        >
-                            Facebook
-                            <span className="sr-only"> (opens in a new tab)</span>
-                        </a>
+                        <div className="flex flex-wrap gap-3">
+                            {SITE.social.facebook && (
+                                <a
+                                    href={SITE.social.facebook}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-block px-6 py-2 rounded-full border border-white/20 hover:bg-white/10 transition-colors text-white text-xs"
+                                >
+                                    Facebook
+                                    <span className="sr-only"> (opens in a new tab)</span>
+                                </a>
+                            )}
+                            {SITE.social.instagram && (
+                                <a
+                                    href={SITE.social.instagram}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-block px-6 py-2 rounded-full border border-white/20 hover:bg-white/10 transition-colors text-white text-xs"
+                                >
+                                    Instagram
+                                    <span className="sr-only"> (opens in a new tab)</span>
+                                </a>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -30,6 +30,16 @@ export const SITE = {
         partner: 'sales@asianstartravels.com',
         contact: 'info@asianstartravels.com',
     },
+    /** Named team contacts shown in the footer — individual mailboxes. */
+    teamContacts: [
+        { name: 'Manal', email: 'manal@asianstartravels.com' },
+        { name: 'Nikhil', email: 'nikhil@asianstartravels.com' },
+    ],
+    /** Social links (footer "Follow us"). Leave empty to hide the button. */
+    social: {
+        facebook: 'https://www.facebook.com/asianstartravel.vn',
+        instagram: '',
+    },
     /** Analytics — leave empty to disable all external analytics requests.
      *  Set to a GA4 measurement ID ("G-XXXXXXX") to enable consent-gated
      *  analytics. Nothing loads until a visitor accepts cookies. */
@@ -53,6 +63,11 @@ export const PAGE_META = {
         title: `Experiences | ${SITE.name}`,
         description:
             'FIT, Groups, MICE, Honeymoon and Luxury — the travel experiences Asian Star Travel designs across Vietnam, Japan and Australia.',
+    },
+    '/services': {
+        title: `Services | ${SITE.name}`,
+        description:
+            'Tailor-made tours, private transfers, airport fast track and full ground services across Vietnam, Japan and Australia — operated by a B2B DMC.',
     },
     '/request-quote': {
         title: `Request a Quote | ${SITE.name}`,
