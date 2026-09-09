@@ -4,9 +4,11 @@ import heroImage from '../assets/blogs/blogs-hero-image.webp';
 import seamlessHanoiTransitImg from '../assets/blogs/SEAMLESS-HANOI-TRANSIT.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
+import JsonLd from '../components/JsonLd';
 import { PAGE_META } from '../config/site';
 import { POST_CATEGORIES } from '../config/posts';
 import { postImage } from '../config/postImages';
+import { itemListSchema } from '../config/structuredData';
 import { fetchPosts } from '../services/api/cms';
 
 const PhotoIcon = () => (
@@ -88,6 +90,7 @@ const Blogs = () => {
     return (
         <div className="w-full bg-[#FFFFFF]">
             <Seo {...PAGE_META['/blog']} path="/blog" />
+            <JsonLd data={[itemListSchema(posts)]} />
 
             <PageHero image={heroImage} alt="" eyebrow="Travel Blog" uppercase />
 

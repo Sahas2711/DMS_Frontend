@@ -2,9 +2,11 @@ import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import Seo from '../components/Seo';
+import JsonLd from '../components/JsonLd';
 import { SITE } from '../config/site';
 import { POST_CATEGORY_LABEL } from '../config/posts';
 import { postImage } from '../config/postImages';
+import { blogPostingSchema, breadcrumbListSchema } from '../config/structuredData';
 import { fetchPostBySlug } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 
@@ -96,6 +98,16 @@ function BlogDetail() {
                 twitterTitle={seo.twitter_title || undefined}
                 twitterDescription={seo.twitter_description || undefined}
                 twitterImage={seo.twitter_image_url || undefined}
+            />
+            <JsonLd
+                data={[
+                    breadcrumbListSchema([
+                        { name: 'Home', url: '/' },
+                        { name: 'Travel Journal', url: '/blog' },
+                        { name: post.title, url: canonical },
+                    ]),
+                    blogPostingSchema({ post, seo, canonical, image: cover }),
+                ]}
             />
 
             {/* Back link */}

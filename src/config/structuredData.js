@@ -91,4 +91,41 @@ export const touristDestinationSchema = ({ destination, seo }) => ({
     },
 });
 
-export default { organizationSchema, websiteSchema, breadcrumbListSchema, itemListSchema, touristTripSchema, touristDestinationSchema };
+/**
+ * BlogPosting for a single published article. Only real CMS values are used:
+ * dates come from `published_at` (omitted when absent), the author falls back
+ * to the company name and every image is a real URL — never fabricated.
+ */
+export const blogPostingSchema = ({ post, seo, canonical, image }) => {
+    const schema = {
+        '@context': 'https://schema.org',
+        '@type': 'BlogPosting',
+        headline: post.title,
+        ...(seo?.meta_description || post.excerpt ? { description: seo?.meta_description || post.excerpt } : {}),
+        inLanguage: 'en',
+        url: absolute(canonical),
+        mainEntityOfPage: absolute(canonical),
+        ...(image && !image.startsWith('data:') ? { image: [absolute(image)] } : {}),
+        author: {
+            '@type': 'Person',
+            name: post.author || SITE.name,
+        },
+        publisher: { '@id': `${origin}/#organization` },
+        ...(post.published_at ? { datePublished: post.published_at } : {}),
+    };
+    // JSON-LD must stay free of undefined values.
+    Object.keys(schema).forEach((key) => {
+        if (schema[key] === undefined) delete schema[key];
+    });
+    return schema;
+};
+
+export default {
+    organizationSchema,
+    websiteSchema,
+    breadcrumbListSchema,
+    itemListSchema,
+    touristTripSchema,
+    touristDestinationSchema,
+    blogPostingSchema,
+};
