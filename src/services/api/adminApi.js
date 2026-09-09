@@ -71,6 +71,35 @@ export const archiveTour = (publicId) => adminPatch(`/admin/tours/${publicId}/ar
 export const deleteTour = (publicId) => adminDelete(`/admin/tours/${publicId}`);
 
 // ---------------------------------------------------------------------------
+// Blog posts
+// ---------------------------------------------------------------------------
+
+export const fetchAdminPosts = (params) => adminGet('/admin/posts', { query: params });
+export const fetchAdminPost = (publicId) => adminGet(`/admin/posts/${publicId}`);
+export const createPost = (payload) => adminPost('/admin/posts', payload);
+export const updatePost = (publicId, payload) => adminPut(`/admin/posts/${publicId}`, payload);
+export const publishPost = (publicId) => adminPatch(`/admin/posts/${publicId}/publish`);
+export const archivePost = (publicId) => adminPatch(`/admin/posts/${publicId}/archive`);
+export const deletePost = (publicId) => adminDelete(`/admin/posts/${publicId}`);
+
+// ---------------------------------------------------------------------------
+// Special offers
+// ---------------------------------------------------------------------------
+
+export const fetchAdminSpecialOffers = (params) =>
+    adminGet('/admin/special-offers', { query: params });
+export const fetchAdminSpecialOffer = (publicId) => adminGet(`/admin/special-offers/${publicId}`);
+export const createSpecialOffer = (payload) => adminPost('/admin/special-offers', payload);
+export const updateSpecialOffer = (publicId, payload) =>
+    adminPut(`/admin/special-offers/${publicId}`, payload);
+export const publishSpecialOffer = (publicId) =>
+    adminPatch(`/admin/special-offers/${publicId}/publish`);
+export const archiveSpecialOffer = (publicId) =>
+    adminPatch(`/admin/special-offers/${publicId}/archive`);
+export const deleteSpecialOffer = (publicId) =>
+    adminDelete(`/admin/special-offers/${publicId}`);
+
+// ---------------------------------------------------------------------------
 // Routes
 // ---------------------------------------------------------------------------
 

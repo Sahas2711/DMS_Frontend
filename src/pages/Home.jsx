@@ -25,6 +25,22 @@ import panjabImg from '../assets/home/Panjab.webp';
 import factsBgImg from '../assets/home/Facts-pile-bg-img.webp';
 import watermarkImg from '../assets/home/facts-sectioncards-watermark.png';
 
+// Bundled section imagery. The CMS seeds destinations and tours with external
+// placeholder sources (picsum.photos), which some deployments cannot reach.
+// Rendering the bundled copy for matching seeds keeps every card image on the
+// same origin as the page — it can never fail to load.
+import hanoiImg from '../assets/home/tours/hanoi.jpg';
+import halongImg from '../assets/home/tours/halong.jpg';
+import hoianImg from '../assets/home/tours/hoian.jpg';
+import danangImg from '../assets/home/tours/danang.jpg';
+import saigonImg from '../assets/home/tours/saigon.jpg';
+import tokyoImg from '../assets/home/tours/tokyo.jpg';
+import kyotoImg from '../assets/home/tours/kyoto.jpg';
+import osakaImg from '../assets/home/tours/osaka.jpg';
+import sydneyImg from '../assets/home/tours/sydney.jpg';
+import cairnsImg from '../assets/home/tours/cairns.jpg';
+import greatOceanRoadImg from '../assets/home/tours/great-ocean-road.jpg';
+
 // Popular Destinations
 import abuDhabiImg from '../assets/home/Abu-Dhabi-City-Tour.webp';
 import yasIslandImg from '../assets/home/Yas-Island-Guided-Tour.webp';
@@ -173,6 +189,38 @@ const POPULAR_TOURS = [
         spots: 10
     }
 ];
+
+// picsum seed -> bundled asset, mirroring the seeds the CMS demo content
+// uses for its placeholder hero media (see seed_demo_content.py MEDIA_SEED_BY_DEST_SLUG).
+const BUNDLED_SEED_IMAGES = {
+    hanoi: hanoiImg,
+    halong: halongImg,
+    hoian: hoianImg,
+    danang: danangImg,
+    saigon: saigonImg,
+    tokyo: tokyoImg,
+    kyoto: kyotoImg,
+    osaka: osakaImg,
+    sydney: sydneyImg,
+    cairns: cairnsImg,
+    'great-ocean-road': greatOceanRoadImg,
+};
+
+/** Extract the picsum seed from a placeholder media URL (e.g. /seed/hanoi/1200/800). */
+function picsumSeed(url) {
+    const match = /\/seed\/([^/]+)\//.exec(url || '');
+    return match ? match[1] : null;
+}
+
+/**
+ * Resolve a card image: prefer the bundled copy for picsum-seeded placeholders
+ * (always renders), fall back to the resolved media URL, then to `fallback`.
+ */
+function cardImage(url, fallback) {
+    const seed = picsumSeed(url);
+    if (seed && BUNDLED_SEED_IMAGES[seed]) return BUNDLED_SEED_IMAGES[seed];
+    return resolveMediaUrl(url) || fallback;
+}
 
 const FACTS_DATA = [
     {
@@ -381,11 +429,11 @@ const Home = () => {
             const apiTours = (toursRes.status === 'fulfilled' ? toursRes.value?.items : []) || [];
 
             if (apiDestinations.length) {
-                const cards = apiDestinations.map((d) => ({
+                const cards = apiDestinations.map((d, index) => ({
                     title: d.name,
                     tag: d.country,
                     description: d.short_description || d.country,
-                    image: resolveMediaUrl(d.hero_media?.url) || DESTINATIONS[0]?.image,
+                    image: cardImage(d.hero_media?.url, (DESTINATIONS[index] || DESTINATIONS[0])?.image),
                     link: `/destination/${d.slug}`,
                 }));
                 setDestinations([...cards, ...DESTINATIONS].slice(0, 5));
@@ -398,9 +446,9 @@ const Home = () => {
             }
 
             if (apiTours.length) {
-                const tours = apiTours.map((t) => ({
+                const tours = apiTours.map((t, index) => ({
                     title: t.title,
-                    image: resolveMediaUrl(t.hero_media?.url) || POPULAR_TOURS[0]?.image,
+                    image: cardImage(t.hero_media?.url, (POPULAR_TOURS[index] || POPULAR_TOURS[0])?.image),
                     days: t.duration_days || null,
                     spots: null,
                 }));

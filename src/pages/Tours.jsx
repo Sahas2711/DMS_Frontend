@@ -4,7 +4,7 @@ import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
 import { PAGE_META, SITE } from '../config/site';
 import { itemListSchema } from '../config/structuredData';
-import { fetchTours, resolveMediaUrl } from '../services/api/cms';
+import { fetchSpecialOffers, fetchTours, resolveMediaUrl } from '../services/api/cms';
 import toursHeroImg from '../assets/home/Tourspage-hero section.webp';
 import vipBgImg from '../assets/home/vip-benifits-bg.webp';
 import extraBenefitsImg from '../assets/home/extraordinary-benifits.webp';
@@ -16,6 +16,53 @@ import complimentaryIcon from '../assets/home/complimentary.png';
 import loyaltyPointsIcon from '../assets/home/loyalty-points.png';
 import earlyCheckInIcon from '../assets/home/check_in-early.png';
 import lateCheckOutIcon from '../assets/home/check-in-late.png';
+
+// Bundled tour card imagery. The CMS seeds tours with external placeholder
+// sources (picsum.photos), which some deployments cannot reach. Rendering the
+// bundled copy keeps every card image on the same origin as the page — it can
+// never fail to load.
+import hanoiImg from '../assets/home/tours/hanoi.jpg';
+import halongImg from '../assets/home/tours/halong.jpg';
+import hoianImg from '../assets/home/tours/hoian.jpg';
+import danangImg from '../assets/home/tours/danang.jpg';
+import saigonImg from '../assets/home/tours/saigon.jpg';
+import tokyoImg from '../assets/home/tours/tokyo.jpg';
+import kyotoImg from '../assets/home/tours/kyoto.jpg';
+import osakaImg from '../assets/home/tours/osaka.jpg';
+import sydneyImg from '../assets/home/tours/sydney.jpg';
+import cairnsImg from '../assets/home/tours/cairns.jpg';
+import greatOceanRoadImg from '../assets/home/tours/great-ocean-road.jpg';
+import abuDhabiCityImg from '../assets/home/Abu-Dhabi-City-Tour.webp';
+import yasIslandImg from '../assets/home/Yas-Island-Guided-Tour.webp';
+import discoverVietnamImg from '../assets/home/Discover-vietnam.webp';
+import europeImg from '../assets/home/Europe.webp';
+import koreaImg from '../assets/home/Korea.webp';
+import { DEFAULT_SPECIAL_OFFER_IMAGE, specialOfferImage } from '../config/specialOffers';
+
+const TOUR_IMAGES = {
+    'hanoi-old-quarter-street-food': hanoiImg,
+    'ha-long-bay-overnight-cruise': halongImg,
+    'hoi-an-riverside-cooking-class': hoianImg,
+    'da-nang-marble-mountains-beaches': danangImg,
+    'mekong-delta-day-trip': saigonImg,
+    'hanoi-conference-mice-package': hanoiImg,
+    'tokyo-temples-and-traditions': tokyoImg,
+    'kyoto-luxury-geisha-cultural-tour': kyotoImg,
+    'osaka-street-food-nightlife-tour': osakaImg,
+    'tokyo-mice-corporate-incentive-tour': tokyoImg,
+    'mt-fuji-hakone-honeymoon-escape': tokyoImg,
+    'sydney-harbour-and-blue-mountains': sydneyImg,
+    'great-ocean-road-scenic-drive': greatOceanRoadImg,
+    'great-barrier-reef-sail-snorkel': cairnsImg,
+};
+
+const DEFAULT_TOUR_IMAGE = hanoiImg;
+
+function fallbackImage(base, fallback = DEFAULT_TOUR_IMAGE) {
+    return (e) => {
+        if (e && e.target && e.target.src !== fallback) e.target.src = fallback;
+    };
+}
 
 const VIP_BENEFITS = [
     {
@@ -50,27 +97,27 @@ const VIP_BENEFITS = [
     }
 ];
 
-const SPECIAL_OFFERS = [
-    { tag: "Stay 4 nights, pay for 3", title: "Emirates Palace Abu Dhabi", location: "Abu Dhabi, United Arab Emirates" },
-    { tag: "Stay 3 nights, pay for 2", title: "One&Only Aesthesis", location: "Glyfada, Greece" },
-    { tag: "Stay 4 nights, pay for 3", title: "One&Only One Za'abeel", location: "Dubai, United Arab Emirates" },
-    { tag: "Stay 4 nights, pay for 3", title: "Conrad Singapore Marina Bay", location: "Singapore, Singapore" },
-    { tag: "Stay 4 nights, pay for 3", title: "Rosewood Hotel Georgia", location: "Vancouver, Canada" },
-    { tag: "Stay 3 nights, pay for 2", title: "Corinthia Hotel London", location: "London, United Kingdom" },
-    { tag: "Stay 3 nights, pay for 2", title: "Fairmont Copley Plaza, Boston", location: "Boston, United States" },
-    { tag: "Stay 4 nights, pay for 3", title: "Shangri-La The Shard, London", location: "London, United Kingdom" },
-    { tag: "Stay 3 nights, pay for 2", title: "The Fifth Avenue Hotel", location: "New York, United States" },
-    { tag: "Stay 3 nights, pay for 2", title: "Sofitel Legend The Grand Amsterdam", location: "Amsterdam, Netherlands" },
-    { tag: "Stay 4 nights, pay for 3", title: "Conservatorium Amsterdam", location: "Amsterdam, Netherlands" }
+const STATIC_SPECIAL_OFFERS = [
+    { tag: "Stay 4 nights, pay for 3", title: "Emirates Palace Abu Dhabi", location: "Abu Dhabi, United Arab Emirates", image: yasIslandImg },
+    { tag: "Stay 3 nights, pay for 2", title: "One&Only Aesthesis", location: "Glyfada, Greece", image: europeImg },
+    { tag: "Stay 4 nights, pay for 3", title: "One&Only One Za'abeel", location: "Dubai, United Arab Emirates", image: abuDhabiCityImg },
+    { tag: "Stay 4 nights, pay for 3", title: "Conrad Singapore Marina Bay", location: "Singapore, Singapore", image: discoverVietnamImg },
+    { tag: "Stay 4 nights, pay for 3", title: "Rosewood Hotel Georgia", location: "Vancouver, Canada", image: sydneyImg },
+    { tag: "Stay 3 nights, pay for 2", title: "Corinthia Hotel London", location: "London, United Kingdom", image: kyotoImg },
+    { tag: "Stay 3 nights, pay for 2", title: "Fairmont Copley Plaza, Boston", location: "Boston, United States", image: cairnsImg },
+    { tag: "Stay 4 nights, pay for 3", title: "Shangri-La The Shard, London", location: "London, United Kingdom", image: europeImg },
+    { tag: "Stay 3 nights, pay for 2", title: "The Fifth Avenue Hotel", location: "New York, United States", image: hanoiImg },
+    { tag: "Stay 3 nights, pay for 2", title: "Sofitel Legend The Grand Amsterdam", location: "Amsterdam, Netherlands", image: koreaImg },
+    { tag: "Stay 4 nights, pay for 3", title: "Conservatorium Amsterdam", location: "Amsterdam, Netherlands", image: europeImg }
 ];
 
 const POPULAR_HOTELS = [
-    { title: "Shangri-La The Shard, London", location: "London, United Kingdom" },
-    { title: "Conrad Bangkok", location: "Bangkok, Thailand" },
-    { title: "InterContinental Cascais - Estoril", location: "Estoril, Portugal" },
-    { title: "Hyatt Regency Malta", location: "St. Julians, Malta" },
-    { title: "Thompson Madrid by Hyatt", location: "Madrid, Spain" },
-    { title: "Hotel das Cataratas, A Belmond Hotel, Iguassu F...", location: "Foz do Iguaçu, Brazil" }
+    { title: "Shangri-La The Shard, London", location: "London, United Kingdom", image: europeImg },
+    { title: "Conrad Bangkok", location: "Bangkok, Thailand", image: discoverVietnamImg },
+    { title: "InterContinental Cascais - Estoril", location: "Estoril, Portugal", image: sydneyImg },
+    { title: "Hyatt Regency Malta", location: "St. Julians, Malta", image: kyotoImg },
+    { title: "Thompson Madrid by Hyatt", location: "Madrid, Spain", image: abuDhabiCityImg },
+    { title: "Hotel das Cataratas, A Belmond Hotel, Iguassu F...", location: "Foz do Iguaçu, Brazil", image: cairnsImg }
 ];
 
 const TagIcon = () => (
@@ -89,6 +136,7 @@ const LocationIcon = () => (
 
 const Tours = () => {
     const [popularHotels, setPopularHotels] = useState(POPULAR_HOTELS);
+    const [specialOffers, setSpecialOffers] = useState(STATIC_SPECIAL_OFFERS);
 
     // Live CMS journeys — falls back to the static hotel list offline.
     useEffect(() => {
@@ -97,15 +145,37 @@ const Tours = () => {
         fetchTours({ pageSize: 100 })
             .then((data) => {
                 if (cancelled) return;
-                const items = (data?.items || []).filter((t) => t.hero_media?.url);
+                const items = (data?.items || []).filter(
+                    (t) => t.hero_media?.url || TOUR_IMAGES[t.slug]
+                );
                 if (!items.length) return;
                 setPopularHotels(
                     items.map((t) => ({
                         title: t.title,
                         location: t.destination ? `${t.destination.name}, ${t.destination.country}` : t.destination?.country || 'Journeys',
-                        image: resolveMediaUrl(t.hero_media.url),
+                        image: TOUR_IMAGES[t.slug] || (t.hero_media ? resolveMediaUrl(t.hero_media.url) : null),
                     }))
                 );
+            })
+            .catch(() => {});
+
+        return () => {
+            cancelled = true;
+        };
+    }, []);
+
+    // Live CMS special offers — falls back to the static list offline. Offers
+    // arrive ordered by display_order; each card's image resolves via
+    // specialOfferImage (bundled art keyed by slug, or an admin-set URL).
+    useEffect(() => {
+        let cancelled = false;
+
+        fetchSpecialOffers({ pageSize: 100 })
+            .then((data) => {
+                if (cancelled) return;
+                const items = data?.items || [];
+                if (!items.length) return;
+                setSpecialOffers(items);
             })
             .catch(() => {});
 
@@ -263,7 +333,7 @@ const Tours = () => {
                 <div className="w-full max-w-7xl">
                     {/* Top 2 Large Cards */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                        {SPECIAL_OFFERS.slice(0, 2).map((offer, index) => (
+                        {specialOffers.slice(0, 2).map((offer, index) => (
                             <motion.div 
                                 key={index} 
                                 initial={{ opacity: 0, y: 30 }}
@@ -273,9 +343,9 @@ const Tours = () => {
                                 whileHover={{ y: -6 }}
                                 className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col cursor-pointer group"
                             >
-                                {/* Gray Image Placeholder */}
-                                <div className="w-full h-64 md:h-80 bg-[#d3d3d3] overflow-hidden">
-                                    <div className="w-full h-full bg-[#d3d3d3] transition-transform duration-500 group-hover:scale-105" />
+                                {/* Card Image */}
+                                <div className="w-full h-64 md:h-80 overflow-hidden">
+                                    <img src={specialOfferImage(offer)} alt={offer.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" onError={fallbackImage(specialOfferImage(offer), DEFAULT_SPECIAL_OFFER_IMAGE)} />
                                 </div>
                                 <div className="p-6 flex flex-col flex-grow">
                                     <div className="text-[#3A5B74] text-[10px] md:text-xs font-bold mb-2 flex items-center">
@@ -292,7 +362,7 @@ const Tours = () => {
 
                     {/* Bottom Grid of 3 Cards per row */}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-                        {SPECIAL_OFFERS.slice(2).map((offer, index) => (
+                        {specialOffers.slice(2).map((offer, index) => (
                             <motion.div 
                                 key={index} 
                                 initial={{ opacity: 0, y: 25 }}
@@ -302,9 +372,9 @@ const Tours = () => {
                                 whileHover={{ y: -6 }}
                                 className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col cursor-pointer group"
                             >
-                                {/* Gray Image Placeholder */}
-                                <div className="w-full h-48 md:h-56 bg-[#d3d3d3] overflow-hidden">
-                                    <div className="w-full h-full bg-[#d3d3d3] transition-transform duration-500 group-hover:scale-105" />
+                                {/* Card Image */}
+                                <div className="w-full h-48 md:h-56 overflow-hidden">
+                                    <img src={specialOfferImage(offer)} alt={offer.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" onError={fallbackImage(specialOfferImage(offer), DEFAULT_SPECIAL_OFFER_IMAGE)} />
                                 </div>
                                 <div className="p-5 flex flex-col flex-grow">
                                     <div className="text-[#3A5B74] text-[10px] md:text-xs font-bold mb-2 flex items-center">
@@ -436,13 +506,9 @@ const Tours = () => {
                                 whileHover={{ y: -6 }}
                                 className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col cursor-pointer group"
                             >
-                                {/* Image or Gray Placeholder */}
-                                <div className="w-full h-56 bg-[#d3d3d3] overflow-hidden">
-                                    {hotel.image ? (
-                                        <img src={hotel.image} alt={hotel.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" />
-                                    ) : (
-                                        <div className="w-full h-full bg-[#d3d3d3] transition-transform duration-500 group-hover:scale-105" />
-                                    )}
+                                {/* Image */}
+                                <div className="w-full h-56 overflow-hidden">
+                                    <img src={hotel.image || DEFAULT_TOUR_IMAGE} alt={hotel.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" onError={fallbackImage(hotel.image)} />
                                 </div>
                                 <div className="p-5 flex flex-col flex-grow">
                                     <h3 className="text-gray-800 font-sans text-sm md:text-base mb-3 group-hover:text-[#00605F] transition-colors">{hotel.title}</h3>

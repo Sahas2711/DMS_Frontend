@@ -26,6 +26,7 @@ const DestinationDetail = lazy(() => import('./pages/DestinationDetail'));
 const Aboutus = lazy(() => import('./pages/Aboutus'));
 const Contactus = lazy(() => import('./pages/Contactus'));
 const Blogs = lazy(() => import('./pages/Blogs'));
+const BlogDetail = lazy(() => import('./pages/BlogDetail'));
 const Experiences = lazy(() => import('./pages/Experiences'));
 const RequestQuote = lazy(() => import('./pages/RequestQuote'));
 const BecomePartner = lazy(() => import('./pages/BecomePartner'));
@@ -47,6 +48,8 @@ const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 const AdminDestinations = lazy(() => import('./pages/admin/AdminDestinations'));
 const AdminTours = lazy(() => import('./pages/admin/AdminTours'));
 const AdminRoutes = lazy(() => import('./pages/admin/AdminRoutes'));
+const AdminBlogs = lazy(() => import('./pages/admin/AdminBlogs'));
+const AdminSpecialOffers = lazy(() => import('./pages/admin/AdminSpecialOffers'));
 const AdminMedia = lazy(() => import('./pages/admin/AdminMedia'));
 const AdminEnquiries = lazy(() => import('./pages/admin/AdminEnquiries'));
 const AdminBookings = lazy(() => import('./pages/admin/AdminBookings'));
@@ -172,6 +175,7 @@ function App() {
                                         <Route path="/about" element={<Aboutus />} />
                                         <Route path="/contact" element={<Contactus />} />
                                         <Route path="/blog" element={<Blogs />} />
+                                        <Route path="/blog/:slug" element={<BlogDetail />} />
                                         <Route path="/experiences" element={<Experiences />} />
                                         <Route path="/request-quote" element={<RequestQuote />} />
                                         <Route path="/become-a-partner" element={<BecomePartner />} />
@@ -196,6 +200,8 @@ function App() {
                                             <Route path="destinations" element={<AdminDestinations />} />
                                             <Route path="tours" element={<AdminTours />} />
                                             <Route path="routes" element={<AdminRoutes />} />
+                                            <Route path="posts" element={<AdminBlogs />} />
+                                            <Route path="special-offers" element={<AdminSpecialOffers />} />
                                             <Route path="media" element={<AdminMedia />} />
                                             <Route path="enquiries" element={<AdminEnquiries />} />
                                             <Route path="bookings" element={<AdminBookings />} />

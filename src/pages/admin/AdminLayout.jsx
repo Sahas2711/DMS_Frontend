@@ -5,6 +5,8 @@ import {
     Map,
     Compass,
     Route as RouteIcon,
+    Newspaper,
+    BadgePercent,
     Image,
     Inbox,
     CalendarCheck,
@@ -65,6 +67,8 @@ function AdminLayout() {
                 { to: '/admin/destinations', label: 'Destinations', icon: Map, perm: 'destinations.read' },
                 { to: '/admin/tours', label: 'Tours', icon: Compass, perm: 'tours.read' },
                 { to: '/admin/routes', label: 'Routes', icon: RouteIcon, perm: 'routes.read' },
+                { to: '/admin/posts', label: 'Blog Posts', icon: Newspaper, perm: 'posts.read' },
+                { to: '/admin/special-offers', label: 'Special Offers', icon: BadgePercent, perm: 'special-offers.read' },
                 { to: '/admin/media', label: 'Media', icon: Image, perm: 'media.read' },
                 {
                     to: '/admin/enquiries',

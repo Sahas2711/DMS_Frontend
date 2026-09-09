@@ -67,6 +67,28 @@ export async function fetchDestinationBySlug(slug) {
 }
 
 /**
+ * GET /posts — published blog posts. `category` is one of
+ * TRAVEL TIPS | DESTINATIONS | AIRPORT SERVICES | VIETNAM TRAVEL | TRAVEL GUIDES.
+ */
+export async function fetchPosts({ page = 1, pageSize = 100, category, sort = 'published_at' } = {}) {
+    return cachedGet(`/posts${toQuery({ page, page_size: pageSize, category, sort })}`);
+}
+
+/** Fetch a single published blog post by slug. */
+export async function fetchPostBySlug(slug) {
+    return cachedGet(`/posts/${encodeURIComponent(slug)}`);
+}
+
+/**
+ * GET /special-offers — published hotel special offers (public CMS).
+ * Resolves to { items, meta }. Always ordered by display_order ascending so
+ * the page renders in the configured sequence.
+ */
+export async function fetchSpecialOffers({ page = 1, pageSize = 100 } = {}) {
+    return cachedGet(`/special-offers${toQuery({ page, page_size: pageSize })}`);
+}
+
+/**
  * GET /routes — published journey routes (public CMS).
  * Resolves to { items, meta }. Sorted by display order so the Trip matcher
  * presents curated itineraries, newest configuration first.

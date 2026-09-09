@@ -156,7 +156,12 @@ function DestinationDetail() {
                                         className="group bg-cream hover:bg-champagne transition-colors rounded-2xl overflow-hidden border border-gray-100"
                                     >
                                         {tour.hero_media?.url && (
-                                            <img src={tour.hero_media.url} alt={tour.hero_media.alt_text || tour.title} loading="lazy" className="w-full h-44 object-cover" />
+                                            <MediaImage
+                                                src={tour.hero_media.url}
+                                                alt={tour.hero_media.alt_text || tour.title}
+                                                fallbackChar={tour.title?.charAt(0)}
+                                                className="w-full h-44 object-cover"
+                                            />
                                         )}
                                         <div className="p-5">
                                             <h3 className="text-navy font-serif text-lg font-bold group-hover:text-bronze transition-colors">{tour.title}</h3>
