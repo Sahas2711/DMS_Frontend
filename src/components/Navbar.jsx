@@ -260,7 +260,7 @@ const Navbar = () => {
                     </button>
 
                     {isLangDropdownOpen && (
-                        <div className="absolute right-0 top-full mt-2.5 w-52 bg-white text-gray-800 rounded-xl shadow-2xl py-2 overflow-hidden border border-gray-100 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                        <div translate="no" className="absolute right-0 top-full mt-2.5 w-52 bg-white text-gray-800 rounded-xl shadow-2xl py-2 overflow-hidden border border-gray-100 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                             <div className="px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-gray-400 border-b border-gray-100">
                                 Select Language
                             </div>
@@ -438,7 +438,7 @@ const Navbar = () => {
                                     <ChevronDownIcon className={isMobileLangDropdownOpen ? 'rotate-180' : ''} />
                                 </button>
                                 {isMobileLangDropdownOpen && (
-                                    <div className="absolute left-0 bottom-full mb-2 w-48 bg-white text-gray-800 rounded-xl shadow-2xl py-2 overflow-hidden border border-gray-100 z-50 animate-in fade-in duration-200">
+                                    <div translate="no" className="absolute left-0 bottom-full mb-2 w-48 bg-white text-gray-800 rounded-xl shadow-2xl py-2 overflow-hidden border border-gray-100 z-50 animate-in fade-in duration-200">
                                         {languages.map((lang) => (
                                             <button
                                                 key={lang.code}
