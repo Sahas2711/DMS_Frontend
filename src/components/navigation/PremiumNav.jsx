@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { DESTINATIONS, HERO_CAPABILITIES } from '../../pages/homeContent';
+import LanguageSwitcher from '../ui/LanguageSwitcher';
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -143,6 +144,7 @@ export default function PremiumNav() {
 
                     {/* CTAs */}
                     <div className="hidden items-center gap-5 lg:flex">
+                        <LanguageSwitcher variant="desktop" />
                         <Link
                             to="/request-quote"
                             className="link-underline py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/45 transition-colors duration-300 hover:text-gold"
@@ -270,6 +272,15 @@ export default function PremiumNav() {
                                         {c}
                                     </span>
                                 ))}
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5, delay: 0.55 }}
+                                className="mt-6"
+                            >
+                                <LanguageSwitcher variant="mobile" />
                             </motion.div>
 
                             <motion.div
