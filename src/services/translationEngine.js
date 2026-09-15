@@ -244,15 +244,22 @@ function restore() {
     if (typeof document !== 'undefined') document.documentElement.lang = SOURCE;
 }
 
-export async function apply(target) {
+export async function apply(target, force = false) {
     if (target === 'en') {
         stop();
         restore();
         current = null;
         return true;
     }
-    if (target === current) return true;
+    if (!force && target === current) return true;
     if (typeof document === 'undefined' || !document.body) return true;
+
+    // When switching between non-English languages, restore the original
+    // English text first so we translate from English, not from the
+    // previously-translated text (which would produce garbage).
+    if (current && current !== 'en') {
+        restore();
+    }
 
     const id = ++runId;
     current = target;

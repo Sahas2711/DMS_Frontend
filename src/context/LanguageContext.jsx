@@ -63,6 +63,19 @@ export const LanguageProvider = ({ children }) => {
         };
     }, [applyLang]);
 
+    // After React re-renders from setSelectedLang, its virtual DOM
+    // (English text) overwrites the translated real DOM.  This effect
+    // re-applies translations on the next frame so the user never sees
+    // the English flash.
+    useEffect(() => {
+        if (selectedLang.code !== 'en') {
+            const raf = requestAnimationFrame(() => {
+                translationEngine.apply(selectedLang.code, true);
+            });
+            return () => cancelAnimationFrame(raf);
+        }
+    }, [selectedLang]);
+
     const changeLanguage = useCallback(
         (language) => {
             const next = typeof language === 'string' ? LANGUAGES.find((l) => l.code === language) : language;
