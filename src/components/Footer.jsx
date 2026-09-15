@@ -1,118 +1,166 @@
 import { Link } from 'react-router-dom';
 import { SITE } from '../config/site';
 
-const Footer = () => {
+const DESTINATION_LINKS = [
+    { label: 'India', path: '/destination/india' },
+    { label: 'Vietnam', path: '/destination/vietnam' },
+    { label: 'Japan', path: '/destination/japan' },
+    { label: 'South Korea', path: '/destination/south-korea' },
+];
+
+const COMPANY_LINKS = [
+    { label: 'About Us', path: '/about' },
+    { label: 'Destinations', path: '/destination' },
+    { label: 'Experiences', path: '/experiences' },
+    { label: 'Itineraries', path: '/tours' },
+    { label: 'Journal', path: '/blog' },
+    { label: 'Contact', path: '/contact' },
+];
+
+const PARTNER_LINKS = [
+    { label: 'Become a Partner', path: '/become-a-partner' },
+    { label: 'Request a Quote', path: '/request-quote' },
+    { label: 'Travel Trade', path: '/travel-trade' },
+    { label: 'Privacy Policy', path: '/privacy-policy' },
+    { label: 'Terms of Use', path: '/terms' },
+];
+
+export default function Footer() {
+    const year = new Date().getFullYear();
+    const socials = [
+        { label: 'Facebook', href: SITE.social.facebook },
+        { label: 'Instagram', href: SITE.social.instagram },
+    ].filter((s) => s.href);
+
     return (
-        <footer className="bg-navy text-gray-300 pt-16 pb-8 px-6 md:px-12 lg:px-24 xl:px-40 text-sm">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
-                {/* Column 1: Brand Info */}
-                <div className="flex flex-col space-y-6">
-                    <h3 className="text-white text-2xl font-serif">{SITE.name}</h3>
-                    <p className="leading-relaxed">
-                        {SITE.name} is a global B2B DMC, crafting private journeys, MICE, group and luxury experiences for travel agents and tour operators across Vietnam, Japan and Australia.
-                    </p>
-                    <p className="italic text-gold">
-                        {SITE.tagline}
-                    </p>
-                </div>
+        <footer className="relative overflow-hidden bg-navy-deep text-white">
+            <div aria-hidden="true" className="h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
 
-                {/* Column 2: Quick Links */}
-                <div>
-                    <h4 className="text-white font-bold tracking-wider mb-6 text-xs uppercase">Quick Links</h4>
-                    <ul className="space-y-4">
-                        <li><Link to="/about" className="hover:text-white transition-colors">About Us</Link></li>
-                        <li><Link to="/tours" className="hover:text-white transition-colors">Tours</Link></li>
-                        <li><Link to="/destination" className="hover:text-white transition-colors">Destinations</Link></li>
-                        <li><Link to="/blog" className="hover:text-white transition-colors">Travel Blog</Link></li>
-                        <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
-                    </ul>
-                </div>
-
-                {/* Column 3: Services */}
-                <div>
-                    <h4 className="text-white font-bold tracking-wider mb-6 text-xs uppercase">Services</h4>
-                    <ul className="space-y-4">
-                        <li><Link to="/services/tailor-made-tours" className="hover:text-white transition-colors">Tailor-Made Tours</Link></li>
-                        <li><Link to="/services/private-tours" className="hover:text-white transition-colors">Private Tours</Link></li>
-                        <li><Link to="/services/airport-fast-track" className="hover:text-white transition-colors">Airport Fast Track</Link></li>
-                        <li><Link to="/services/ground-services" className="hover:text-white transition-colors">Ground Services</Link></li>
-                        <li><Link to="/request-quote" className="hover:text-white transition-colors">Request a Quote</Link></li>
-                    </ul>
-                </div>
-
-                {/* Column 4: Contact & Follow */}
-                <div className="flex flex-col space-y-6">
+            <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
+                {/* Masthead row */}
+                <div className="mb-14 flex flex-col gap-8 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
                     <div>
-                        <h4 className="text-white font-bold tracking-wider mb-6 text-xs uppercase">Contact</h4>
-                        <div className="space-y-3.5 text-xs text-gray-300">
-                            <p className="leading-relaxed">
-                                <span className="text-white font-semibold block mb-0.5">Registered Office:</span>
-                                {SITE.registeredAddress}
-                            </p>
-                            <p className="pt-1">
-                                <a href={`mailto:${SITE.email}`} className="hover:text-white transition-colors underline-offset-2 hover:underline">
+                        <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold/60">
+                            Asian Star Travel
+                        </p>
+                        <p className="max-w-md font-display text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.01em] text-white/90">
+                            The ground partner behind journeys across&nbsp;
+                            <span className="text-gold">India, Vietnam, Japan&nbsp;&amp;&nbsp;South&nbsp;Korea.</span>
+                        </p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <Link
+                            to="/request-quote"
+                            className="bg-gold px-6 py-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-navy-deep transition-colors duration-300 hover:bg-gold-light"
+                        >
+                            Request a Quote
+                        </Link>
+                        <Link
+                            to="/become-a-partner"
+                            className="border border-white/20 px-6 py-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70 transition-colors duration-300 hover:border-white/50 hover:text-white"
+                        >
+                            Become a Partner
+                        </Link>
+                    </div>
+                </div>
+
+                {/* Link columns */}
+                <div className="grid grid-cols-2 gap-10 border-t border-white/[0.06] pt-12 sm:grid-cols-3 lg:grid-cols-5">
+                    <div>
+                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                            Destinations
+                        </h4>
+                        <ul className="space-y-3">
+                            {DESTINATION_LINKS.map((l) => (
+                                <li key={l.path}>
+                                    <Link to={l.path} className="text-sm text-white/45 transition-colors duration-300 hover:text-gold">
+                                        {l.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                            Company
+                        </h4>
+                        <ul className="space-y-3">
+                            {COMPANY_LINKS.map((l) => (
+                                <li key={l.path}>
+                                    <Link to={l.path} className="text-sm text-white/45 transition-colors duration-300 hover:text-gold">
+                                        {l.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                            For Partners
+                        </h4>
+                        <ul className="space-y-3">
+                            {PARTNER_LINKS.map((l) => (
+                                <li key={l.path}>
+                                    <Link to={l.path} className="text-sm text-white/45 transition-colors duration-300 hover:text-gold">
+                                        {l.label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                            Contact
+                        </h4>
+                        <ul className="space-y-3 text-sm text-white/45">
+                            <li>
+                                <a href={`mailto:${SITE.email}`} className="transition-colors duration-300 hover:text-gold">
                                     {SITE.email}
                                 </a>
-                            </p>
-                            {SITE.teamContacts.length > 0 && (
-                                <ul className="pt-1 space-y-1.5">
-                                    {SITE.teamContacts.map((person) => (
-                                        <li key={person.email} className="flex items-baseline gap-2">
-                                            <span className="text-white font-semibold">{person.name}</span>
-                                            <a
-                                                href={`mailto:${person.email}`}
-                                                className="hover:text-white transition-colors underline-offset-2 hover:underline"
-                                            >
-                                                {person.email}
-                                            </a>
-                                        </li>
-                                    ))}
-                                </ul>
-                            )}
-                        </div>
+                            </li>
+                            {SITE.teamContacts.map((t) => (
+                                <li key={t.email}>
+                                    <a href={`mailto:${t.email}`} className="transition-colors duration-300 hover:text-gold">
+                                        {t.name}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-
-                    <div className="pt-4">
-                        <h4 className="text-white font-bold tracking-wider mb-4 text-xs uppercase">Follow Us</h4>
-                        <div className="flex flex-wrap gap-3">
-                            {SITE.social.facebook && (
+                    <div>
+                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                            Follow
+                        </h4>
+                        <div className="flex items-center gap-3">
+                            {socials.map((s) => (
                                 <a
-                                    href={SITE.social.facebook}
+                                    key={s.label}
+                                    href={s.href}
                                     target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-block px-6 py-2 rounded-full border border-white/20 hover:bg-white/10 transition-colors text-white text-xs"
+                                    rel="noreferrer"
+                                    aria-label={s.label}
+                                    className="grid h-9 w-9 place-items-center border border-white/10 text-[9px] font-semibold uppercase tracking-wider text-white/40 transition-colors duration-300 hover:border-gold/40 hover:text-gold"
                                 >
-                                    Facebook
-                                    <span className="sr-only"> (opens in a new tab)</span>
+                                    {s.label[0]}
                                 </a>
-                            )}
-                            {SITE.social.instagram && (
-                                <a
-                                    href={SITE.social.instagram}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-block px-6 py-2 rounded-full border border-white/20 hover:bg-white/10 transition-colors text-white text-xs"
-                                >
-                                    Instagram
-                                    <span className="sr-only"> (opens in a new tab)</span>
-                                </a>
-                            )}
+                            ))}
                         </div>
                     </div>
                 </div>
-            </div>
 
-            {/* Bottom Bar */}
-            <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-gray-400">
-                <p>Copyright {new Date().getFullYear()} &copy; {SITE.name}</p>
-                <div className="flex items-center gap-5">
-                    <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
-                    <Link to="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
-                    <Link to="/admin/login" className="hover:text-white transition-colors">Admin</Link>
+                {/* Legal row */}
+                <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-white/[0.06] pt-8 sm:flex-row sm:items-center">
+                    <p className="text-[10px] tracking-[0.14em] text-white/25">
+                        &copy; {year} Asian Star Travel. All rights reserved.
+                    </p>
+                    <p className="text-[10px] uppercase tracking-[0.24em] text-white/25">
+                        India &bull; Vietnam &bull; Japan &bull; South Korea
+                    </p>
                 </div>
+                <p className="mt-4 max-w-2xl text-[10px] leading-relaxed tracking-wide text-white/15">
+                    Registered office: {SITE.registeredAddress}
+                </p>
             </div>
         </footer>
     );
-};
-
-export default Footer;
+}

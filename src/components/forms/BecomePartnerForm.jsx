@@ -167,7 +167,7 @@ const BecomePartnerForm = () => {
                     value={formData.country}
                     onChange={handleChange}
                     error={errors.country}
-                    placeholder="e.g. Australia"
+                    placeholder="e.g. India, Japan, etc."
                     autoComplete="country-name"
                 />
                 <TextInput

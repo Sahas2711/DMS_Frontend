@@ -13,6 +13,7 @@ import Seo from '../../components/Seo';
 import { PAGE_META } from '../../config/site';
 
 gsap.registerPlugin(ScrollTrigger);
+window.__hasScrollTrigger = true; // tells App to refresh triggers on route change
 
 /**
  * "Your airport team" cards. Each icon is chosen to be readable at 20px and

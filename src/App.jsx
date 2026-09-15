@@ -1,14 +1,16 @@
-import { lazy, Suspense, useEffect, useRef } from 'react';
+import { lazy, Suspense, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
-import Navbar from './components/Navbar';
+import Navbar from './components/navigation/PremiumNav';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import RouteFallback from './components/RouteFallback';
 import CookieConsent from './components/CookieConsent';
 import AnalyticsProvider from './components/AnalyticsProvider';
 import { AuthProvider } from './context/AdminAuthContext';
+import { lenisRef } from './lib/lenisRef';
 import Home from './pages/Home';
 
 // Every route other than the landing page is code-split, so a visitor arriving
@@ -32,6 +34,7 @@ const RequestQuote = lazy(() => import('./pages/RequestQuote'));
 const BecomePartner = lazy(() => import('./pages/BecomePartner'));
 const TravelTrade = lazy(() => import('./pages/TravelTrade'));
 const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
+const CookiePolicy = lazy(() => import('./pages/CookiePolicy'));
 const Terms = lazy(() => import('./pages/Terms'));
 const Booking = lazy(() => import('./pages/Booking'));
 const Checkouts = lazy(() => import('./pages/Checkouts'));
@@ -64,6 +67,9 @@ const AdminAccount = lazy(() => import('./pages/admin/AdminAccount'));
 const ROUTE_ALIASES = [
     ['/itineraries', '/tours'],
     ['/itinerary', '/tours'],
+    // Legacy destinations paths — deep links now live under /destination/:slug.
+    ['/destinations', '/destination'],
+    ['/destinations/:slug', '/destination/:slug'],
     // Former consumer service sub-pages with no live page of their own hand off
     // to the Phase-1 enquiry workflow. (The canonical service pages below are
     // real routes now — see the Routes block.)
@@ -72,19 +78,24 @@ const ROUTE_ALIASES = [
     ['/services/fast-track', '/request-quote'],
     ['/services/services-airport-fast-track', '/request-quote'],
     ['/services/ground-services-india', '/request-quote'],
-    ['/destinations', '/destination'],
     ['/about-us', '/about'],
     ['/contact-us', '/contact'],
     ['/blogs', '/blog'],
+    // Legacy journal + partner paths kept working for old bookmarks.
+    ['/journal', '/blog'],
+    ['/journal/:slug', '/blog/:slug'],
+    ['/partner', '/become-a-partner'],
     // Alternate spellings of the live booking/checkout/trip flows.
     ['/bookings', '/booking'],
     ['/checkouts', '/checkout'],
     ['/trips', '/trip'],
+    // Airport fast-track flows are not in Phase 1 — redirect to enquiry workflow.
+    ['/booking', '/request-quote'],
+    ['/checkout', '/request-quote'],
 ];
 
 function SmoothScroll() {
     const { pathname } = useLocation();
-    const lenisRef = useRef(null);
 
     // The admin console is a tool and must scroll natively. Lenis must be
     // *destroyed* there, not just stopped: a stopped Lenis instance still
@@ -132,12 +143,91 @@ function SmoothScroll() {
         };
     }, [isAdmin]);
 
-    // Reset scroll position on route change (native; immediate)
+    // Reset scroll position on route change (native; immediate), then refresh
+    // ScrollTrigger — but only for pages that registered one. The flag is set
+    // by those lazy page chunks when they load, so GSAP is never fetched for
+    // the landing experience.
     useEffect(() => {
         window.scrollTo(0, 0);
+        if (!window.__hasScrollTrigger) return undefined;
+        let cancelled = false;
+        requestAnimationFrame(() => {
+            if (cancelled) return;
+            import('gsap/ScrollTrigger')
+                .then(({ ScrollTrigger }) => ScrollTrigger.refresh())
+                .catch(() => {});
+        });
+        return () => { cancelled = true; };
     }, [pathname]);
 
     return null;
+}
+
+function AnimatedRoutes() {
+    const location = useLocation();
+    const isAdmin = location.pathname.startsWith('/admin');
+
+    return (
+        <main id="main-content" className="flex-grow w-full max-w-full">
+            <ErrorBoundary>
+                <Suspense fallback={<RouteFallback />}>
+                    <AnimatePresence mode="wait">
+                        <Routes location={location} key={isAdmin ? 'admin' : location.pathname}>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/tours" element={<Tours />} />
+                            <Route path="/tours/:slug" element={<TourDetail />} />
+                            <Route path="/services" element={<Services />} />
+                            <Route path="/services/private-tours" element={<ServicesPrivateTours />} />
+                            <Route path="/services/tailor-made-tours" element={<ServicesTailorMadeTours />} />
+                            <Route path="/services/airport-fast-track" element={<ServicesAirportFastTrack />} />
+                            <Route path="/services/ground-services" element={<GroundServices />} />
+                            <Route path="/destination" element={<Destination />} />
+                            <Route path="/destination/:slug" element={<DestinationDetail />} />
+                            <Route path="/about" element={<Aboutus />} />
+                            <Route path="/contact" element={<Contactus />} />
+                            <Route path="/blog" element={<Blogs />} />
+                            <Route path="/blog/:slug" element={<BlogDetail />} />
+                            <Route path="/experiences" element={<Experiences />} />
+                            <Route path="/request-quote" element={<RequestQuote />} />
+                            <Route path="/become-a-partner" element={<BecomePartner />} />
+                            <Route path="/travel-trade" element={<TravelTrade />} />
+                                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                                        <Route path="/cookie-policy" element={<CookiePolicy />} />
+                                        <Route path="/terms" element={<Terms />} />
+                            <Route path="/booking" element={<Booking />} />
+                            <Route path="/checkout" element={<Checkouts />} />
+                            <Route path="/trip" element={<Trip />} />
+
+                            {ROUTE_ALIASES.map(([from, to]) => (
+                                <Route key={from} path={from} element={<Navigate to={to} replace />} />
+                            ))}
+
+                            <Route path="/admin/login" element={<AdminLogin />} />
+                            <Route path="/forgot-password" element={<ForgotPassword />} />
+                            <Route path="/reset-password" element={<ResetPassword />} />
+                            <Route path="/admin" element={<AdminLayout />}>
+                                <Route index element={<Navigate to="/admin/dashboard" replace />} />
+                                <Route path="dashboard" element={<AdminDashboard />} />
+                                <Route path="destinations" element={<AdminDestinations />} />
+                                <Route path="tours" element={<AdminTours />} />
+                                <Route path="routes" element={<AdminRoutes />} />
+                                <Route path="posts" element={<AdminBlogs />} />
+                                <Route path="special-offers" element={<AdminSpecialOffers />} />
+                                <Route path="media" element={<AdminMedia />} />
+                                <Route path="enquiries" element={<AdminEnquiries />} />
+                                <Route path="bookings" element={<AdminBookings />} />
+                                <Route path="users" element={<AdminUsers />} />
+                                <Route path="audit" element={<AdminAudit />} />
+                                <Route path="account" element={<AdminAccount />} />
+                            </Route>
+
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    </AnimatePresence>
+                </Suspense>
+            </ErrorBoundary>
+        </main>
+    );
 }
 
 function App() {
@@ -158,63 +248,7 @@ function App() {
 
                         <Navbar />
 
-                        <main id="main-content" className="flex-grow w-full max-w-full">
-                            <ErrorBoundary>
-                                <Suspense fallback={<RouteFallback />}>
-                                    <Routes>
-                                        <Route path="/" element={<Home />} />
-                                        <Route path="/tours" element={<Tours />} />
-                                        <Route path="/tours/:slug" element={<TourDetail />} />
-                                        <Route path="/services" element={<Services />} />
-                                        <Route path="/services/private-tours" element={<ServicesPrivateTours />} />
-                                        <Route path="/services/tailor-made-tours" element={<ServicesTailorMadeTours />} />
-                                        <Route path="/services/airport-fast-track" element={<ServicesAirportFastTrack />} />
-                                        <Route path="/services/ground-services" element={<GroundServices />} />
-                                        <Route path="/destination" element={<Destination />} />
-                                        <Route path="/destination/:slug" element={<DestinationDetail />} />
-                                        <Route path="/about" element={<Aboutus />} />
-                                        <Route path="/contact" element={<Contactus />} />
-                                        <Route path="/blog" element={<Blogs />} />
-                                        <Route path="/blog/:slug" element={<BlogDetail />} />
-                                        <Route path="/experiences" element={<Experiences />} />
-                                        <Route path="/request-quote" element={<RequestQuote />} />
-                                        <Route path="/become-a-partner" element={<BecomePartner />} />
-                                        <Route path="/travel-trade" element={<TravelTrade />} />
-                                        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                                        <Route path="/terms" element={<Terms />} />
-                                        <Route path="/booking" element={<Booking />} />
-                                        <Route path="/checkout" element={<Checkouts />} />
-                                        <Route path="/trip" element={<Trip />} />
-
-                                        {ROUTE_ALIASES.map(([from, to]) => (
-                                            <Route key={from} path={from} element={<Navigate to={to} replace />} />
-                                        ))}
-
-                                        <Route path="/admin/login" element={<AdminLogin />} />
-                                        {/* Public password-reset flow (linked from the emailed URL and the login page). */}
-                                        <Route path="/forgot-password" element={<ForgotPassword />} />
-                                        <Route path="/reset-password" element={<ResetPassword />} />
-                                        <Route path="/admin" element={<AdminLayout />}>
-                                            <Route index element={<Navigate to="/admin/dashboard" replace />} />
-                                            <Route path="dashboard" element={<AdminDashboard />} />
-                                            <Route path="destinations" element={<AdminDestinations />} />
-                                            <Route path="tours" element={<AdminTours />} />
-                                            <Route path="routes" element={<AdminRoutes />} />
-                                            <Route path="posts" element={<AdminBlogs />} />
-                                            <Route path="special-offers" element={<AdminSpecialOffers />} />
-                                            <Route path="media" element={<AdminMedia />} />
-                                            <Route path="enquiries" element={<AdminEnquiries />} />
-                                            <Route path="bookings" element={<AdminBookings />} />
-                                            <Route path="users" element={<AdminUsers />} />
-                                            <Route path="audit" element={<AdminAudit />} />
-                                            <Route path="account" element={<AdminAccount />} />
-                                        </Route>
-
-                                        <Route path="*" element={<NotFound />} />
-                                    </Routes>
-                                </Suspense>
-                            </ErrorBoundary>
-                        </main>
+                        <AnimatedRoutes />
 
                         <Footer />
                     </div>

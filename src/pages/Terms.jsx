@@ -17,7 +17,7 @@ const SECTIONS = [
     {
         heading: 'A B2B travel platform',
         body: [
-            'This website serves travel agents, agencies, tour operators and other travel trade partners. It markets destination management services across Vietnam, Japan and Australia.',
+            'This website serves travel agents, agencies, tour operators and other travel trade partners. It markets destination management services across India, Vietnam, Japan and South Korea.',
             'Nothing on this website is an offer or contract for travel services until we confirm a proposal in writing.',
         ],
     },

@@ -1,529 +1,313 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
-import { PAGE_META, SITE } from '../config/site';
+import { PAGE_META } from '../config/site';
 import { itemListSchema } from '../config/structuredData';
-import { fetchSpecialOffers, fetchTours, resolveMediaUrl } from '../services/api/cms';
-import toursHeroImg from '../assets/home/Tourspage-hero section.webp';
-import vipBgImg from '../assets/home/vip-benifits-bg.webp';
-import extraBenefitsImg from '../assets/home/extraordinary-benifits.webp';
+import { fetchTours, resolveMediaUrl } from '../services/api/cms';
+import { PageTransition } from '../components/editorial';
+import { usePrefersReducedMotion } from '../components/motion/animations';
 
-// VIP Benefit Icons
-import roomUpgradeIcon from '../assets/home/room-upgrade.png';
-import cashCreditIcon from '../assets/home/cash_credit.png';
-import complimentaryIcon from '../assets/home/complimentary.png';
-import loyaltyPointsIcon from '../assets/home/loyalty-points.png';
-import earlyCheckInIcon from '../assets/home/check_in-early.png';
-import lateCheckOutIcon from '../assets/home/check-in-late.png';
-
-// Bundled tour card imagery. The CMS seeds tours with external placeholder
-// sources (picsum.photos), which some deployments cannot reach. Rendering the
-// bundled copy keeps every card image on the same origin as the page — it can
-// never fail to load.
-import hanoiImg from '../assets/home/tours/hanoi.jpg';
+import maharashtraImg from '../assets/home/Maharashtra.webp';
 import halongImg from '../assets/home/tours/halong.jpg';
-import hoianImg from '../assets/home/tours/hoian.jpg';
-import danangImg from '../assets/home/tours/danang.jpg';
-import saigonImg from '../assets/home/tours/saigon.jpg';
-import tokyoImg from '../assets/home/tours/tokyo.jpg';
-import kyotoImg from '../assets/home/tours/kyoto.jpg';
 import osakaImg from '../assets/home/tours/osaka.jpg';
-import sydneyImg from '../assets/home/tours/sydney.jpg';
-import cairnsImg from '../assets/home/tours/cairns.jpg';
-import greatOceanRoadImg from '../assets/home/tours/great-ocean-road.jpg';
-import abuDhabiCityImg from '../assets/home/Abu-Dhabi-City-Tour.webp';
-import yasIslandImg from '../assets/home/Yas-Island-Guided-Tour.webp';
-import discoverVietnamImg from '../assets/home/Discover-vietnam.webp';
-import europeImg from '../assets/home/Europe.webp';
 import koreaImg from '../assets/home/Korea.webp';
-import { DEFAULT_SPECIAL_OFFER_IMAGE, specialOfferImage } from '../config/specialOffers';
+import keralaImg from '../assets/home/Kerala-Heritage.webp';
+import hoianImg from '../assets/home/tours/hoian.jpg';
+import kyotoImg from '../assets/home/tours/kyoto.jpg';
+import danangImg from '../assets/home/tours/danang.jpg';
+import heroImage from '../assets/home/tours/halong.jpg';
 
-const TOUR_IMAGES = {
-    'hanoi-old-quarter-street-food': hanoiImg,
-    'ha-long-bay-overnight-cruise': halongImg,
-    'hoi-an-riverside-cooking-class': hoianImg,
-    'da-nang-marble-mountains-beaches': danangImg,
-    'mekong-delta-day-trip': saigonImg,
-    'hanoi-conference-mice-package': hanoiImg,
-    'tokyo-temples-and-traditions': tokyoImg,
-    'kyoto-luxury-geisha-cultural-tour': kyotoImg,
-    'osaka-street-food-nightlife-tour': osakaImg,
-    'tokyo-mice-corporate-incentive-tour': tokyoImg,
-    'mt-fuji-hakone-honeymoon-escape': tokyoImg,
-    'sydney-harbour-and-blue-mountains': sydneyImg,
-    'great-ocean-road-scenic-drive': greatOceanRoadImg,
-    'great-barrier-reef-sail-snorkel': cairnsImg,
-};
-
-const DEFAULT_TOUR_IMAGE = hanoiImg;
-
-function fallbackImage(base, fallback = DEFAULT_TOUR_IMAGE) {
-    return (e) => {
-        if (e && e.target && e.target.src !== fallback) e.target.src = fallback;
-    };
-}
-
-const VIP_BENEFITS = [
+const FALLBACK_TOURS = [
     {
-        icon: roomUpgradeIcon,
-        title: "Room upgrade",
-        subtitle: "to a better category"
+        title: 'Golden Triangle & Rajasthan Heritage',
+        slug: 'golden-triangle-rajasthan',
+        summary: 'A 10-day journey through Delhi, Agra, Jaipur and the palaces of Rajasthan — where every day brings a new colour.',
+        duration: '10 Days / 9 Nights',
+        destination_name: 'India',
+        image: maharashtraImg,
+        imageAlt: 'Heritage architecture in Maharashtra, India',
+        category: 'Culture & Heritage',
     },
     {
-        icon: cashCreditIcon,
-        title: "$100 hotel credit",
-        subtitle: "for your stay"
+        title: 'Ha Long Bay & Hoi An Lantern Walk',
+        slug: 'ha-long-bay-hoi-an',
+        summary: 'Cruise emerald waters and wander lantern-lit streets — Vietnam at its most poetic.',
+        duration: '8 Days / 7 Nights',
+        destination_name: 'Vietnam',
+        image: halongImg,
+        imageAlt: 'Ha Long Bay limestone karsts, Vietnam',
+        category: 'Nature & Scenic',
     },
     {
-        icon: complimentaryIcon,
-        title: "Complimentary",
-        subtitle: "breakfast for two every day"
+        title: 'Kyoto Temples & Osaka Food Trail',
+        slug: 'kyoto-osaka-food',
+        summary: 'Ancient temples, tea ceremonies, and the best street food in Japan — a journey for the senses.',
+        duration: '9 Days / 8 Nights',
+        destination_name: 'Japan',
+        image: osakaImg,
+        imageAlt: 'Osaka street scene, Japan',
+        category: 'Food & Local Life',
     },
     {
-        icon: loyaltyPointsIcon,
-        title: "Earn Loyalty Points",
-        subtitle: "Hyatt, Bonvoy, Hilton, Shangri-La"
+        title: 'Seoul to Busan: Korean Discovery',
+        slug: 'seoul-busan-korean',
+        summary: 'From K-culture hotspots to coastal temples — the pulse of South Korea, curated.',
+        duration: '7 Days / 6 Nights',
+        destination_name: 'South Korea',
+        image: koreaImg,
+        imageAlt: 'Traditional Korean palace architecture',
+        category: 'Culture & Heritage',
     },
     {
-        icon: earlyCheckInIcon,
-        title: "Early Check-In",
-        subtitle: "to start your stay early"
+        title: 'Kerala Backwaters & Spice Hills',
+        slug: 'kerala-backwaters',
+        summary: 'Houseboat nights, spice plantations, and the tranquil green of Kerala.',
+        duration: '8 Days / 7 Nights',
+        destination_name: 'India',
+        image: keralaImg,
+        imageAlt: 'Kerala backwaters at golden hour, India',
+        category: 'Nature & Scenic',
     },
     {
-        icon: lateCheckOutIcon,
-        title: "Late Check-Out",
-        subtitle: "to extend your stay"
-    }
+        title: 'Sapa Trekking & Homestay',
+        slug: 'sapa-trekking',
+        summary: 'Trek through terraced rice fields and stay with local families in northern Vietnam.',
+        duration: '6 Days / 5 Nights',
+        destination_name: 'Vietnam',
+        image: hoianImg,
+        imageAlt: 'Lantern-lit streets of Hoi An, Vietnam',
+        category: 'Nature & Scenic',
+    },
+    {
+        title: 'Japan Rail & Ryokan',
+        slug: 'japan-rail-ryokan',
+        summary: 'Bullet trains, mountain ryokans, and the art of slow travel through Japan.',
+        duration: '11 Days / 10 Nights',
+        destination_name: 'Japan',
+        image: kyotoImg,
+        imageAlt: 'Kyoto temple rooftops, Japan',
+        category: 'Culture & Heritage',
+    },
+    {
+        title: 'Jeju Island & Gyeongju Heritage',
+        slug: 'jeju-gyeongju',
+        summary: 'Volcanic landscapes and ancient tombs — the quieter side of South Korea.',
+        duration: '6 Days / 5 Nights',
+        destination_name: 'South Korea',
+        image: danangImg,
+        imageAlt: 'Coastal Vietnam scenery',
+        category: 'Heritage & Culture',
+    },
 ];
 
-const STATIC_SPECIAL_OFFERS = [
-    { tag: "Stay 4 nights, pay for 3", title: "Emirates Palace Abu Dhabi", location: "Abu Dhabi, United Arab Emirates", image: yasIslandImg },
-    { tag: "Stay 3 nights, pay for 2", title: "One&Only Aesthesis", location: "Glyfada, Greece", image: europeImg },
-    { tag: "Stay 4 nights, pay for 3", title: "One&Only One Za'abeel", location: "Dubai, United Arab Emirates", image: abuDhabiCityImg },
-    { tag: "Stay 4 nights, pay for 3", title: "Conrad Singapore Marina Bay", location: "Singapore, Singapore", image: discoverVietnamImg },
-    { tag: "Stay 4 nights, pay for 3", title: "Rosewood Hotel Georgia", location: "Vancouver, Canada", image: sydneyImg },
-    { tag: "Stay 3 nights, pay for 2", title: "Corinthia Hotel London", location: "London, United Kingdom", image: kyotoImg },
-    { tag: "Stay 3 nights, pay for 2", title: "Fairmont Copley Plaza, Boston", location: "Boston, United States", image: cairnsImg },
-    { tag: "Stay 4 nights, pay for 3", title: "Shangri-La The Shard, London", location: "London, United Kingdom", image: europeImg },
-    { tag: "Stay 3 nights, pay for 2", title: "The Fifth Avenue Hotel", location: "New York, United States", image: hanoiImg },
-    { tag: "Stay 3 nights, pay for 2", title: "Sofitel Legend The Grand Amsterdam", location: "Amsterdam, Netherlands", image: koreaImg },
-    { tag: "Stay 4 nights, pay for 3", title: "Conservatorium Amsterdam", location: "Amsterdam, Netherlands", image: europeImg }
+const CATEGORIES = [
+    { label: 'All', value: 'all' },
+    { label: 'India', value: 'india' },
+    { label: 'Vietnam', value: 'vietnam' },
+    { label: 'Japan', value: 'japan' },
+    { label: 'South Korea', value: 'south-korea' },
 ];
-
-const POPULAR_HOTELS = [
-    { title: "Shangri-La The Shard, London", location: "London, United Kingdom", image: europeImg },
-    { title: "Conrad Bangkok", location: "Bangkok, Thailand", image: discoverVietnamImg },
-    { title: "InterContinental Cascais - Estoril", location: "Estoril, Portugal", image: sydneyImg },
-    { title: "Hyatt Regency Malta", location: "St. Julians, Malta", image: kyotoImg },
-    { title: "Thompson Madrid by Hyatt", location: "Madrid, Spain", image: abuDhabiCityImg },
-    { title: "Hotel das Cataratas, A Belmond Hotel, Iguassu F...", location: "Foz do Iguaçu, Brazil", image: cairnsImg }
-];
-
-const TagIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-3.5 h-3.5 mr-1.5">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M6 7.5h.008v.008H6V7.5z" />
-    </svg>
-);
-
-const LocationIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3.5 h-3.5 mr-1.5">
-        <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
-        <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
-    </svg>
-);
 
 const Tours = () => {
-    const [popularHotels, setPopularHotels] = useState(POPULAR_HOTELS);
-    const [specialOffers, setSpecialOffers] = useState(STATIC_SPECIAL_OFFERS);
+    const [tours, setTours] = useState(FALLBACK_TOURS);
+    const [activeFilter, setActiveFilter] = useState('all');
+    const prefersReducedMotion = usePrefersReducedMotion();
 
-    // Live CMS journeys — falls back to the static hotel list offline.
     useEffect(() => {
         let cancelled = false;
-
         fetchTours({ pageSize: 100 })
             .then((data) => {
                 if (cancelled) return;
-                const items = (data?.items || []).filter(
-                    (t) => t.hero_media?.url || TOUR_IMAGES[t.slug]
-                );
-                if (!items.length) return;
-                setPopularHotels(
-                    items.map((t) => ({
-                        title: t.title,
-                        location: t.destination ? `${t.destination.name}, ${t.destination.country}` : t.destination?.country || 'Journeys',
-                        image: TOUR_IMAGES[t.slug] || (t.hero_media ? resolveMediaUrl(t.hero_media.url) : null),
-                    }))
-                );
-            })
-            .catch(() => {});
-
-        return () => {
-            cancelled = true;
-        };
-    }, []);
-
-    // Live CMS special offers — falls back to the static list offline. Offers
-    // arrive ordered by display_order; each card's image resolves via
-    // specialOfferImage (bundled art keyed by slug, or an admin-set URL).
-    useEffect(() => {
-        let cancelled = false;
-
-        fetchSpecialOffers({ pageSize: 100 })
-            .then((data) => {
-                if (cancelled) return;
                 const items = data?.items || [];
-                if (!items.length) return;
-                setSpecialOffers(items);
+                if (items.length >= 3) {
+                    setTours(
+                        items.map((t) => ({
+                            title: t.title,
+                            slug: t.slug,
+                            summary: t.summary || '',
+                            duration: t.duration || '',
+                            destination_name: t.destination_name || '',
+                            image: t.hero_media?.url
+                                ? resolveMediaUrl(t.hero_media.url)
+                                : (FALLBACK_TOURS.find((f) => f.slug === t.slug)?.image || FALLBACK_TOURS[0].image),
+                            imageAlt: t.hero_media?.alt_text || t.title,
+                            category: t.category || '',
+                        }))
+                    );
+                }
             })
             .catch(() => {});
-
-        return () => {
-            cancelled = true;
-        };
+        return () => { cancelled = true; };
     }, []);
+
+    const filteredTours =
+        activeFilter === 'all'
+            ? tours
+            : tours.filter((t) => {
+                const destSlug = t.destination_name?.toLowerCase().replace(/\s+/g, '-');
+                return destSlug === activeFilter;
+            });
 
     return (
-        <div className="w-full flex flex-col">
-            <Seo {...PAGE_META['/tours']} path="/tours" />
-            <JsonLd data={[itemListSchema(popularHotels)]} />
+        <PageTransition>
+            <div className="w-full flex flex-col">
+                <Seo {...PAGE_META['/tours']} path="/tours" />
+                <JsonLd data={[itemListSchema(tours)]} />
 
-            {/* Hero Section */}
-            <section className="relative w-full h-[60vh] md:h-[75vh] lg:min-h-screen flex items-center justify-center overflow-hidden">
-                {/* Background Image */}
-                <img
-                    src={toursHeroImg}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                    fetchPriority="high"
-                    decoding="async"
-                />
-
-                {/* Dark/Blue Overlay to match screenshot tint and improve text readability */}
-                <div className="absolute inset-0 bg-navy/30 z-0" aria-hidden="true"></div>
-
-                {/* Content */}
-                <div className="relative z-10 flex flex-col items-center text-center px-6 -mt-16 md:-mt-24">
-                    <h1 className="text-white text-4xl md:text-6xl lg:text-7xl font-serif tracking-widest mb-4">
-                        {SITE.wordmark}
-                    </h1>
-
-                    <h2 className="text-white text-xl md:text-3xl font-serif tracking-wide mb-6">
-                        Tours
-                    </h2>
-
-                    {/* Gold Separator Line */}
-                    <div className="w-64 md:w-96 h-[1px] bg-gold mb-6 opacity-80"></div>
-
-                    <p className="text-gray-100 text-xs md:text-sm tracking-wider font-light">
-                        Hotels we love with extraordinary benefits
-                    </p>
-                </div>
-            </section>
-
-            {/* VIP Benefits Section */}
-            <section className="w-full bg-[#F8F6F0] py-20 px-6 md:px-12 lg:px-24 xl:px-40 flex justify-center">
-                <motion.div 
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="w-full max-w-7xl relative rounded-[2rem] overflow-hidden shadow-xl"
-                >
-                    {/* Background Image */}
+                {/* ── Arrival ── */}
+                <section className="relative h-[50vh] sm:h-[65vh] lg:min-h-[80vh] flex items-end overflow-hidden">
                     <img
-                        src={vipBgImg}
-                        alt="VIP Benefits Background"
-                        className="absolute inset-0 w-full h-full object-cover z-0"
-                        loading="lazy"
+                        src={heroImage}
+                        alt="Ha Long Bay limestone karsts, Vietnam"
+                        className="absolute inset-0 w-full h-full object-cover"
+                        fetchPriority="high"
+                        loading="eager"
                         decoding="async"
                     />
-
-                    {/* Subtle Overlay to ensure text readability */}
-                    <div className="absolute inset-0 bg-black/20 z-0"></div>
-
-                    {/* Content */}
-                    <div className="relative z-10 p-8 md:p-14 lg:p-20 flex flex-col items-start text-left">
-                        <motion.h2 
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
-                            className="text-white text-3xl md:text-4xl lg:text-5xl font-serif mb-6 drop-shadow-sm"
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy-deep)]/85 via-[var(--color-navy)]/25 to-transparent" />
+                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 pb-12 sm:pb-16 lg:pb-20">
+                        <motion.div
+                            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
-                            VIP benefits for Premium Members*
-                        </motion.h2>
+                            <p className="eyebrow text-[var(--color-gold)]/80 mb-4">
+                                Curated Journeys — 01 to 08
+                            </p>
+                            <h1 className="font-display text-[clamp(2.5rem,7vw,5rem)] leading-[0.92] tracking-[-0.03em] text-white mb-4">
+                                Start with a story.
+                            </h1>
+                            <p className="text-white/50 text-base sm:text-lg max-w-xl leading-relaxed font-body">
+                                Sample itineraries across India, Vietnam, Japan and South Korea.
+                                Every journey is customisable — tell us what you need.
+                            </p>
+                        </motion.div>
+                    </div>
+                </section>
 
-                        <motion.div 
-                            initial={{ scaleX: 0, originX: 0 }}
-                            whileInView={{ scaleX: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="w-16 h-[2px] bg-gold mb-6"
-                        />
-
-                        <motion.p 
-                            initial={{ opacity: 0, y: 15 }}
+                {/* ── Filters + Journey index ── */}
+                <section className="py-20 sm:py-28 lg:py-36 bg-[var(--color-ivory)]">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                        {/* Destination filter — editorial tabs */}
+                        <motion.div
+                            initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.25 }}
-                            className="text-white text-sm md:text-base lg:text-lg mb-12 opacity-95 drop-shadow-sm max-w-2xl"
+                            viewport={{ once: true, amount: 0.3 }}
+                            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                            className="flex flex-wrap gap-x-8 gap-y-3 mb-12 lg:mb-16 border-b border-[var(--color-border-subtle)]"
+                            role="group"
+                            aria-label="Filter journeys by destination"
                         >
-                            Our exclusive {SITE.name} VIP rate offers you extraordinary benefits at no extra cost
-                        </motion.p>
+                            {CATEGORIES.map((cat) => {
+                                const isActive = activeFilter === cat.value;
+                                return (
+                                    <button
+                                        key={cat.value}
+                                        onClick={() => setActiveFilter(cat.value)}
+                                        aria-pressed={isActive}
+                                        className={`relative pb-4 text-[11px] font-semibold tracking-[0.18em] uppercase transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] focus-visible:-outline-offset-4 ${isActive ? 'text-[var(--color-navy)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-navy)]'}`}
+                                    >
+                                        {cat.label}
+                                        <span
+                                            aria-hidden="true"
+                                            className={`absolute left-0 bottom-0 h-px w-full bg-[var(--color-gold)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left ${isActive ? 'scale-x-100' : 'scale-x-0'}`}
+                                        />
+                                    </button>
+                                );
+                            })}
+                        </motion.div>
 
-                        {/* Benefit Cards */}
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6 w-full mb-12">
-                            {VIP_BENEFITS.map((benefit, index) => (
-                                <motion.div 
-                                    key={index} 
-                                    initial={{ opacity: 0, y: 25 }}
+                        {/* Journeys grid — numbered editorial cards */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12 lg:gap-x-8">
+                            {filteredTours.map((tour, index) => (
+                                <motion.div
+                                    key={tour.slug}
+                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
                                     whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.5, delay: 0.15 + index * 0.08, ease: "easeOut" }}
-                                    whileHover={{ y: -6, scale: 1.02 }}
-                                    className="bg-[#F2DFCB] rounded-2xl p-5 flex flex-col items-center text-center shadow-md hover:shadow-2xl transition-shadow duration-300 cursor-pointer group"
+                                    viewport={{ once: true, amount: 0.15 }}
+                                    transition={{
+                                        duration: 0.6,
+                                        delay: index * 0.06,
+                                        ease: [0.16, 1, 0.3, 1],
+                                    }}
                                 >
-                                    <motion.img 
-                                        src={benefit.icon} 
-                                        alt={benefit.title} 
-                                        className="w-12 h-12 object-contain mb-5 transition-transform duration-300 group-hover:scale-110" 
-                                    />
-                                    <h3 className="text-[#3A5B74] font-medium text-xs md:text-sm mb-2">{benefit.title}</h3>
-                                    <p className="text-gray-600 text-[10px] md:text-xs leading-snug">{benefit.subtitle}</p>
+                                    <Link to={`/tours/${tour.slug}`} className="group block">
+                                        <div className="relative aspect-[3/4] overflow-hidden mb-5">
+                                            <img
+                                                src={tour.image}
+                                                alt={tour.imageAlt || tour.title}
+                                                className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
+                                                loading="lazy"
+                                                decoding="async"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy-deep)]/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                            <span
+                                                aria-hidden="true"
+                                                className="absolute bottom-3 right-3 font-display italic text-3xl text-white/90 drop-shadow-[0_1px_10px_rgba(8,22,52,0.5)]"
+                                            >
+                                                {String(index + 1).padStart(2, '0')}
+                                            </span>
+                                        </div>
+                                        {tour.category && (
+                                            <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--color-bronze)]/70 font-medium mb-1.5 block">
+                                                {tour.category}
+                                            </span>
+                                        )}
+                                        <h3 className="font-display text-lg sm:text-xl text-[var(--color-navy)] leading-tight mb-1.5 group-hover:text-[var(--color-gold)] transition-colors duration-300">
+                                            {tour.title}
+                                        </h3>
+                                        <div className="flex items-center gap-3 text-sm text-[var(--color-text-muted)]">
+                                            {tour.destination_name && <span>{tour.destination_name}</span>}
+                                            {tour.duration && (
+                                                <>
+                                                    <span className="w-1 h-1 rounded-full bg-[var(--color-gold)]/60" aria-hidden="true" />
+                                                    <span>{tour.duration}</span>
+                                                </>
+                                            )}
+                                        </div>
+                                        {tour.summary && (
+                                            <p className="text-[var(--color-text-secondary)] text-xs leading-relaxed mt-2.5 line-clamp-2 font-body">
+                                                {tour.summary}
+                                            </p>
+                                        )}
+                                    </Link>
                                 </motion.div>
                             ))}
                         </div>
 
-                        <motion.p 
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.6 }}
-                            className="text-white text-[10px] md:text-xs max-w-4xl opacity-90"
-                        >
-                            *VIP benefits are available to {SITE.name} Premium Members. Benefits vary by hotel and may be subject to availability
-                        </motion.p>
-                    </div>
-                </motion.div>
-            </section>
+                        {/* Empty state — filter with no matches */}
+                        {filteredTours.length === 0 && (
+                            <p className="text-center text-[var(--color-text-secondary)] py-16 font-body">
+                                No journeys listed for this destination yet — ask us; we operate there.
+                            </p>
+                        )}
 
-            {/* Special Offers Section */}
-            <section className="w-full bg-white py-20 px-6 md:px-12 lg:px-24 xl:px-40 flex flex-col items-center">
-                <motion.div 
-                    initial={{ opacity: 0, y: 25 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-12 flex flex-col items-center"
-                >
-                    <h2 className="text-[#2c3e50] text-4xl md:text-5xl font-serif mb-4">
-                        Special Offers
-                    </h2>
-                    <motion.div 
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="w-16 h-[1px] bg-gold"
-                    />
-                </motion.div>
-
-                <div className="w-full max-w-7xl">
-                    {/* Top 2 Large Cards */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                        {specialOffers.slice(0, 2).map((offer, index) => (
-                            <motion.div 
-                                key={index} 
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.2 }}
-                                transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
-                                whileHover={{ y: -6 }}
-                                className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col cursor-pointer group"
-                            >
-                                {/* Card Image */}
-                                <div className="w-full h-64 md:h-80 overflow-hidden">
-                                    <img src={specialOfferImage(offer)} alt={offer.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" onError={fallbackImage(specialOfferImage(offer), DEFAULT_SPECIAL_OFFER_IMAGE)} />
-                                </div>
-                                <div className="p-6 flex flex-col flex-grow">
-                                    <div className="text-[#3A5B74] text-[10px] md:text-xs font-bold mb-2 flex items-center">
-                                        <TagIcon /> {offer.tag}
-                                    </div>
-                                    <h3 className="text-gray-900 font-serif font-medium text-lg md:text-xl mb-3 group-hover:text-[#00605F] transition-colors">{offer.title}</h3>
-                                    <div className="text-gray-500 text-xs flex items-center mt-auto">
-                                        <LocationIcon /> {offer.location}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-
-                    {/* Bottom Grid of 3 Cards per row */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-                        {specialOffers.slice(2).map((offer, index) => (
-                            <motion.div 
-                                key={index} 
-                                initial={{ opacity: 0, y: 25 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.15 }}
-                                transition={{ duration: 0.5, delay: (index % 3) * 0.1, ease: "easeOut" }}
-                                whileHover={{ y: -6 }}
-                                className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-200 flex flex-col cursor-pointer group"
-                            >
-                                {/* Card Image */}
-                                <div className="w-full h-48 md:h-56 overflow-hidden">
-                                    <img src={specialOfferImage(offer)} alt={offer.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" onError={fallbackImage(specialOfferImage(offer), DEFAULT_SPECIAL_OFFER_IMAGE)} />
-                                </div>
-                                <div className="p-5 flex flex-col flex-grow">
-                                    <div className="text-[#3A5B74] text-[10px] md:text-xs font-bold mb-2 flex items-center">
-                                        <TagIcon /> {offer.tag}
-                                    </div>
-                                    <h3 className="text-gray-900 font-serif font-medium text-base md:text-lg mb-3 group-hover:text-[#00605F] transition-colors">{offer.title}</h3>
-                                    <div className="text-gray-500 text-[10px] md:text-xs flex items-center mt-auto">
-                                        <LocationIcon /> {offer.location}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-
-                    {/* See All Button */}
-                    <div className="flex justify-center w-full">
-                        <motion.button 
-                            initial={{ opacity: 0, y: 15 }}
+                        {/* CTA — navy band */}
+                        <motion.div
+                            initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.5 }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.96 }}
-                            className="bg-navy hover:bg-[#11264f] transition-colors text-white text-xs font-bold tracking-widest uppercase py-3.5 px-8 rounded-full shadow-md cursor-pointer"
+                            viewport={{ once: true, amount: 0.3 }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                            className="mt-20 sm:mt-24 bg-[var(--color-navy)] px-8 sm:px-12 py-14 sm:py-16 text-center"
                         >
-                            SEE ALL SPECIAL OFFERS
-                        </motion.button>
+                            <p className="eyebrow text-[var(--color-gold)]/70 mb-4 justify-center">Bespoke Journeys</p>
+                            <h2 className="font-display text-[clamp(1.6rem,3.5vw,2.6rem)] leading-[1.0] tracking-[-0.02em] text-white mb-4">
+                                Looking for something specific? We design it from scratch.
+                            </h2>
+                            <p className="text-white/40 text-sm mb-8 max-w-md mx-auto leading-relaxed font-body">
+                                Send your brief and receive a tailored proposal within one business day.
+                            </p>
+                            <Link to="/request-quote" className="btn btn--md btn--gold">
+                                Request a Custom Journey
+                                <span aria-hidden="true">→</span>
+                            </Link>
+                        </motion.div>
                     </div>
-                </div>
-            </section>
-
-            {/* Extraordinary Benefits CTA Section */}
-            <section className="w-full bg-[#F8F6F0] py-20 px-6 md:px-12 lg:px-24 xl:px-40 flex justify-center">
-                <motion.div 
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="w-full max-w-7xl relative rounded-[2rem] overflow-hidden shadow-lg h-[400px] flex items-center"
-                >
-                    {/* Background Image */}
-                    <img
-                        src={extraBenefitsImg}
-                        alt="Extraordinary Benefits"
-                        className="absolute inset-0 w-full h-full object-cover z-0"
-                        loading="lazy"
-                        decoding="async"
-                    />
-
-                    {/* Gradient overlay for text readability (darker on left) */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent z-0"></div>
-
-                    {/* Content */}
-                    <div className="relative z-10 p-8 md:p-14 lg:p-20 flex flex-col items-start text-left max-w-2xl">
-                        <motion.h2 
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.1 }}
-                            className="text-white text-3xl md:text-5xl font-serif mb-6 drop-shadow-sm leading-tight"
-                        >
-                            Sign up for extraordinary benefits
-                        </motion.h2>
-
-                        {/* Coral Separator Line */}
-                        <motion.div 
-                            initial={{ scaleX: 0, originX: 0 }}
-                            whileInView={{ scaleX: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.2 }}
-                            className="w-24 h-[2px] bg-[#FF7F50] mb-6"
-                        />
-
-                        <motion.p 
-                            initial={{ opacity: 0, y: 15 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.25 }}
-                            className="text-white text-sm md:text-base lg:text-lg mb-10 opacity-95 drop-shadow-sm"
-                        >
-                            Enjoy the world's best hotels with our extraordinary benefits
-                        </motion.p>
-
-                        <motion.button 
-                            initial={{ opacity: 0, y: 15 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.6, delay: 0.35 }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.96 }}
-                            className="bg-[#FF7F50] hover:bg-[#e66c40] transition-colors text-white text-xs font-bold tracking-widest uppercase py-3.5 px-8 rounded-full shadow-md cursor-pointer"
-                        >
-                            CREATE YOUR ACCOUNT
-                        </motion.button>
-                    </div>
-                </motion.div>
-            </section>
-
-            {/* Popular Hotels Section */}
-            <section className="w-full bg-[#F8F6F0] py-20 px-6 md:px-12 lg:px-24 xl:px-40 flex flex-col items-center">
-                <motion.div 
-                    initial={{ opacity: 0, y: 25 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6 }}
-                    className="text-center mb-12 flex flex-col items-center"
-                >
-                    <h2 className="text-[#2c3e50] text-4xl md:text-5xl font-serif mb-4">
-                        Popular Hotels
-                    </h2>
-                    <motion.div 
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="w-16 h-[1px] bg-gold"
-                    />
-                </motion.div>
-
-                <div className="w-full max-w-7xl">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {popularHotels.map((hotel, index) => (
-                            <motion.div 
-                                key={index} 
-                                initial={{ opacity: 0, y: 25 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.15 }}
-                                transition={{ duration: 0.5, delay: (index % 3) * 0.1, ease: "easeOut" }}
-                                whileHover={{ y: -6 }}
-                                className="bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col cursor-pointer group"
-                            >
-                                {/* Image */}
-                                <div className="w-full h-56 overflow-hidden">
-                                    <img src={hotel.image || DEFAULT_TOUR_IMAGE} alt={hotel.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" decoding="async" onError={fallbackImage(hotel.image)} />
-                                </div>
-                                <div className="p-5 flex flex-col flex-grow">
-                                    <h3 className="text-gray-800 font-sans text-sm md:text-base mb-3 group-hover:text-[#00605F] transition-colors">{hotel.title}</h3>
-                                    <div className="text-gray-500 text-[10px] md:text-xs flex items-center mt-auto">
-                                        <LocationIcon /> {hotel.location}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-
-        </div>
+                </section>
+            </div>
+        </PageTransition>
     );
 };
 

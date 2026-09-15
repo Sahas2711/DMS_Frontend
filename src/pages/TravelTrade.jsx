@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
-import heroImage from '../assets/aboutus/our-story-image.webp';
+import { motion } from 'framer-motion';
+import heroImage from '../assets/home/hero-image-home.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
+import { PageTransition } from '../components/editorial';
+import { usePrefersReducedMotion } from '../components/motion/animations';
 
 const TRADE_STEPS = [
     {
@@ -28,100 +31,204 @@ const TRADE_STEPS = [
 ];
 
 const TRADE_SUPPORT = [
-    { title: 'Net & trade rates', description: 'Clear pricing structures built for resale.' },
-    { title: 'Groups & series', description: 'Departures, coach logistics and multi-lingual guides.' },
-    { title: 'MICE desk', description: 'Venues, gala dinners and incentive programmes.' },
-    { title: 'On-trip support', description: 'Dedicated support while your clients are on the road.' },
+    { title: 'Net & Trade Pricing', description: 'Transparent rates designed for tour operators and travel agencies.' },
+    { title: '24/7 Ground Support', description: 'On-call operations team during every trip — your clients are never alone.' },
+    { title: 'Co-branded Materials', description: 'Custom itineraries, PDFs and proposals under your brand.' },
+    { title: 'Dedicated Partner Manager', description: 'A single point of contact who knows your business.' },
 ];
 
-const TravelTrade = () => (
-    <div className="w-full bg-white">
-        <Seo {...PAGE_META['/travel-trade']} path="/travel-trade" image={heroImage} />
+const PARTNER_TYPES = [
+    'Tour Operators',
+    'Travel Agencies',
+    'Inbound DMCs',
+    'MICE Planners',
+    'Luxury Concierge',
+    'Corporate Travel',
+];
 
-        <PageHero image={heroImage} alt="" title="Travel Trade" eyebrow="Travel Trade" uppercase />
+const TravelTrade = () => {
+    const prefersReducedMotion = usePrefersReducedMotion();
 
-        {/* Intro */}
-        <section className="w-full bg-white py-16 md:py-24 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">
-            <div className="w-full max-w-7xl grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
-                <div className="lg:col-span-6 flex flex-col text-left">
-                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-bronze uppercase mb-3 block">
-                        B2B PARTNER
-                    </span>
-                    <h2 className="text-navy text-3xl md:text-4xl lg:text-[40px] font-serif font-normal leading-[1.2] mb-5">
-                        Your local team across Vietnam, Japan &amp; Australia
-                    </h2>
-                    <p className="text-steel text-sm md:text-base leading-relaxed mb-6">
-                        We are a destination management company — the people behind the scenes who
-                        turn your itineraries into reality. Licensed and staffed by local
-                        specialists, we handle hotels, transport, guiding and every detail in
-                        between, so you can focus on selling.
-                    </p>
-                    <ul className="w-full grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {TRADE_SUPPORT.map((item) => (
-                            <li key={item.title} className="bg-cream rounded-2xl p-5 border border-gray-100 text-left">
-                                <h3 className="text-navy text-sm font-bold mb-1.5">{item.title}</h3>
-                                <p className="text-steel text-xs leading-relaxed">{item.description}</p>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+    return (
+        <PageTransition>
+            <div className="w-full bg-white">
+                <Seo {...PAGE_META['/travel-trade']} path="/travel-trade" />
 
-                <div className="lg:col-span-6 bg-ivory rounded-3xl p-8 md:p-12 border border-gray-100 flex flex-col gap-8">
-                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-bronze uppercase block text-left">
-                        HOW IT WORKS
-                    </span>
-                    <ol className="flex flex-col gap-7 text-left">
-                        {TRADE_STEPS.map((step) => (
-                            <li key={step.number} className="flex items-start gap-5">
-                                <span className="w-11 h-11 rounded-full bg-champagne border border-bronze/30 text-bronze font-serif text-lg font-bold flex items-center justify-center shrink-0">
-                                    {step.number}
-                                </span>
-                                <div>
-                                    <h3 className="text-navy text-base font-bold mb-1">{step.title}</h3>
-                                    <p className="text-steel text-sm leading-relaxed">{step.description}</p>
+                <PageHero
+                    image={heroImage}
+                    alt="Travel trade partnership"
+                    title="Travel Trade"
+                    eyebrow="Travel Trade"
+                    uppercase
+                />
+
+                {/* Intro */}
+                <section className="py-24 sm:py-32 lg:py-40 bg-[var(--color-ivory)]">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+                            <motion.div
+                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                            >
+                                <p className="eyebrow text-[var(--color-bronze)]/60 mb-5">
+                                    Partner With Us
+                                </p>
+                                <h1 className="font-display text-[clamp(2.2rem,5vw,4rem)] leading-[0.92] tracking-[-0.03em] text-[var(--color-navy)] mb-8">
+                                    A Destination Partner{' '}
+                                    <span className="text-[var(--color-gold)]">You Can Build With.</span>
+                                </h1>
+                                <p className="font-body text-[var(--color-text-secondary)] text-base sm:text-lg leading-relaxed mb-10">
+                                    Your clients expect memorable travel. You need a partner who understands
+                                    deadlines, details and the importance of getting every moving part right.
+                                    AST works with travel agencies and tour operators to develop practical,
+                                    distinctive and well-supported programmes across Asia.
+                                </p>
+                                <div className="flex flex-wrap gap-4">
+                                    <Link to="/become-a-partner" className="btn btn--md btn--gold">
+                                        Become a Partner
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                                            <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                        </svg>
+                                    </Link>
+                                    <Link to="/request-quote" className="btn btn--md btn--outline">
+                                        Request a Quote
+                                    </Link>
                                 </div>
-                            </li>
-                        ))}
-                    </ol>
-                </div>
-            </div>
-        </section>
+                            </motion.div>
 
-        {/* CTAs */}
-        <section className="w-full bg-ivory py-16 md:py-20 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center border-t border-gray-100/80">
-            <div className="w-full max-w-7xl grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="bg-navy rounded-3xl p-8 md:p-10 text-left">
-                    <h3 className="text-white text-2xl md:text-3xl font-serif font-normal mb-3">
-                        Ready to request a quote?
-                    </h3>
-                    <p className="text-gray-300 text-sm leading-relaxed mb-7">
-                        Send the brief and receive a tailored proposal within one business day.
-                    </p>
-                    <Link
-                        to="/request-quote"
-                        className="btn btn--gold btn--lg"
-                    >
-                        Request a Quote
-                    </Link>
-                </div>
-                <div className="bg-white rounded-3xl p-8 md:p-10 border border-gray-100 text-left shadow-sm">
-                    <h3 className="text-navy text-2xl md:text-3xl font-serif font-normal mb-3">
-                        Want to work with us regularly?
-                    </h3>
-                    <p className="text-steel text-sm leading-relaxed mb-7">
-                        Join the partner network for trade rates, a dedicated account manager and
-                        priority support.
-                    </p>
-                    <Link
-                        to="/become-a-partner"
-                        className="btn btn--wine btn--lg"
-                    >
-                        Become a Partner
-                    </Link>
-                </div>
+                            <motion.div
+                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                            >
+                                <div className="grid grid-cols-2 gap-4">
+                                    {PARTNER_TYPES.map((type) => (
+                                        <div
+                                            key={type}
+                                            className="p-5 border border-[var(--color-navy)]/6 text-center hover:border-[var(--color-gold)]/30 transition-colors duration-300"
+                                        >
+                                            <span className="font-display text-base text-[var(--color-navy)]">{type}</span>
+                                        </div>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* How it works */}
+                <section className="py-24 sm:py-32 lg:py-40 bg-[var(--color-cream)]">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                        <motion.div
+                            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.3 }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                            className="mb-16 lg:mb-20"
+                        >
+                            <p className="eyebrow text-[var(--color-bronze)]/60 mb-4">How It Works</p>
+                            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.92] tracking-[-0.03em] text-[var(--color-navy)]">
+                                From Brief to Delivery.{' '}
+                                <span className="text-[var(--color-gold)]">Seamlessly.</span>
+                            </h2>
+                        </motion.div>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
+                            {TRADE_STEPS.map((step, index) => (
+                                <motion.div
+                                    key={step.number}
+                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, amount: 0.2 }}
+                                    transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                                    className="bg-white p-8 sm:p-10 border border-[var(--color-navy)]/5"
+                                >
+                                    <span className="text-[var(--color-gold)]/40 text-[11px] font-semibold tracking-[0.2em] block mb-4">
+                                        {step.number}
+                                    </span>
+                                    <h3 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-3 leading-[1.15]">
+                                        {step.title}
+                                    </h3>
+                                    <p className="text-[var(--color-text-secondary)] text-sm sm:text-base leading-relaxed font-body">
+                                        {step.description}
+                                    </p>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+
+                {/* Support */}
+                <section className="py-24 sm:py-32 lg:py-40 bg-[#081634]">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+                            <motion.div
+                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                            >
+                                <p className="eyebrow text-[#c5a869]/70 mb-5">Partner Support</p>
+                                <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.92] tracking-[-0.03em] text-white mb-8">
+                                    What We Provide.
+                                </h2>
+                            </motion.div>
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 lg:gap-12">
+                                {TRADE_SUPPORT.map((item, index) => (
+                                    <motion.div
+                                        key={item.title}
+                                        initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, amount: 0.2 }}
+                                        transition={{ duration: 0.7, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                                    >
+                                        <h3 className="font-display text-xl sm:text-2xl text-white mb-3 leading-[1.15]">
+                                            {item.title}
+                                        </h3>
+                                        <p className="text-white/35 text-sm sm:text-base leading-relaxed font-body">
+                                            {item.description}
+                                        </p>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* CTA */}
+                <section className="py-24 sm:py-32 lg:py-40 bg-[var(--color-ivory)]">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 text-center">
+                        <motion.div
+                            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.3 }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                        >
+                            <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] leading-[0.95] tracking-[-0.02em] text-[var(--color-navy)] mb-5">
+                                Ready to Work Together?
+                            </h2>
+                            <p className="text-[var(--color-text-secondary)] text-base mb-10 max-w-lg mx-auto leading-relaxed font-body">
+                                Tell us about your business and the destinations you sell.
+                                We'll show you how we can support your growth.
+                            </p>
+                            <div className="flex flex-wrap justify-center gap-4">
+                                <Link to="/request-quote" className="btn btn--md btn--gold">
+                                    Request a Quote
+                                </Link>
+                                <Link to="/become-a-partner" className="btn btn--md btn--outline">
+                                    Become a Partner
+                                </Link>
+                            </div>
+                        </motion.div>
+                    </div>
+                </section>
             </div>
-        </section>
-    </div>
-);
+        </PageTransition>
+    );
+};
 
 export default TravelTrade;

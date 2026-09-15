@@ -180,7 +180,7 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
                 <button
                     type="button"
                     onClick={reset}
-                    className="mt-2 bg-[#731E2A] hover:bg-[#5C1822] text-white font-bold py-3 px-6 rounded-lg text-xs tracking-wider uppercase transition-colors"
+                    className="btn btn--md btn--navy mt-2"
                 >
                     Send another request
                 </button>
@@ -290,7 +290,7 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
                     value={formData.destination}
                     onChange={handleChange}
                     error={errors.destination}
-                    placeholder="e.g. Vietnam / Japan / Australia"
+                    placeholder="e.g. India / Vietnam / Japan / South Korea"
                 />
                 <TextInput
                     id="travel_dates_start"
@@ -418,7 +418,7 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
                     value={formData.experiences_interests}
                     onChange={handleChange}
                     error={errors.experiences_interests}
-                    placeholder="e.g. Culture & heritage, food tours, halong cruise, onsen, Great Barrier Reef..."
+                    placeholder="e.g. Culture & heritage, food tours, Halong Bay cruise, Kyoto tea ceremony, Jeju Island..."
                 />
                 <TextArea
                     id="must_see"

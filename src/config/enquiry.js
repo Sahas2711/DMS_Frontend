@@ -64,7 +64,7 @@ export const EXPERIENCE_CATEGORIES = [
         title: 'Groups',
         tagline: 'Escorted & shared journeys',
         description:
-            'Reliable group logistics across Vietnam, Japan and Australia — from departure briefing to the last transfer home.',
+            'Reliable group logistics across India, Vietnam, Japan and South Korea — from departure briefing to the last transfer home.',
         points: ['Coach & rail logistics', 'Multi-lingual escort guides', 'Group dining & entry planning'],
     },
     {
@@ -94,7 +94,8 @@ export const EXPERIENCE_CATEGORIES = [
 ];
 
 export const LAUNCH_COUNTRIES = [
+    { name: 'India', slug: 'india', flag: '🇮🇳', description: 'Rajasthan, Kerala, Ladakh, Goa and the Himalayan north.' },
     { name: 'Vietnam', slug: 'vietnam', flag: '🇻🇳', description: 'Ha Long Bay, Hanoi, Hoi An, Ho Chi Minh City & the Mekong.' },
     { name: 'Japan', slug: 'japan', flag: '🇯🇵', description: 'Tokyo, Kyoto, Osaka, Hiroshima and the Hokkaido winter.' },
-    { name: 'Australia', slug: 'australia', flag: '🇦🇺', description: 'Sydney, Melbourne, Cairns and the Great Barrier Reef.' },
+    { name: 'South Korea', slug: 'south-korea', flag: '🇰🇷', description: 'Seoul, Busan, Jeju Island and Gyeongju.' },
 ];

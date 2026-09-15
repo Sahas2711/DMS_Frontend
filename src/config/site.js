@@ -10,9 +10,9 @@ export const SITE = {
     name: 'Asian Star Travel',
     /** Wordmark shown in page heroes — letter-spaced uppercase treatment. */
     wordmark: 'ASIAN STAR TRAVEL',
-    tagline: 'Your Trusted B2B DMC across Vietnam, Japan & Australia',
+    tagline: 'Your Trusted Asia DMC Partner',
     description:
-        'Asian Star Travel is a global B2B DMC, crafting private journeys, FIT and group programs, MICE, honeymoon and luxury experiences for travel agents and tour operators across Vietnam, Japan and Australia.',
+        'Asian Star Travel is a B2B destination management company crafting private journeys, FIT and group programs, MICE, honeymoon and luxury experiences across India, Vietnam, Japan and South Korea.',
     email: 'info@asianstartravels.com',
     /** Public telephone (E.164) — used in contact page structured data. */
     telephone: '+842438289999',
@@ -51,23 +51,23 @@ export const SITE = {
 /** Per-route metadata. Keys match the canonical route paths in App.jsx. */
 export const PAGE_META = {
     '/': {
-        title: `${SITE.name} — B2B DMC Partner for Vietnam, Japan & Australia`,
+        title: `${SITE.name} — B2B DMC Partner for India, Vietnam, Japan & South Korea`,
         description: SITE.description,
     },
     '/tours': {
-        title: `Journeys & Experiences | ${SITE.name}`,
+        title: `Curated Journeys | ${SITE.name}`,
         description:
-            'Tours and experiences across Vietnam, Japan and Australia — FIT, groups, MICE, honeymoon and luxury journeys for travel agents and their clients.',
+            'Curated journeys and experiences across India, Vietnam, Japan and South Korea — FIT, groups, MICE, honeymoon and luxury travel for agents and their clients.',
     },
     '/experiences': {
         title: `Experiences | ${SITE.name}`,
         description:
-            'FIT, Groups, MICE, Honeymoon and Luxury — the travel experiences Asian Star Travel designs across Vietnam, Japan and Australia.',
+            'FIT, Groups, MICE, Honeymoon and Luxury — the travel experiences Asian Star Travel designs across India, Vietnam, Japan and South Korea.',
     },
     '/services': {
         title: `Services | ${SITE.name}`,
         description:
-            'Tailor-made tours, private transfers, airport fast track and full ground services across Vietnam, Japan and Australia — operated by a B2B DMC.',
+            'Tailor-made tours, private transfers, ground services and full DMC support across India, Vietnam, Japan and South Korea.',
     },
     '/request-quote': {
         title: `Request a Quote | ${SITE.name}`,
@@ -88,20 +88,24 @@ export const PAGE_META = {
         title: `Terms of Use | ${SITE.name}`,
         description: 'The terms that govern your use of the Asian Star Travel website.',
     },
+    '/cookie-policy': {
+        title: `Cookie Policy | ${SITE.name}`,
+        description: 'How Asian Star Travel uses cookies on our website.',
+    },
     '/destination': {
         title: `Destinations | ${SITE.name}`,
         description:
-            'Launch destinations: Vietnam, Japan and Australia. Explore cities, regions and the experiences our DMC designs for travel agents.',
+            'Four destinations — India, Vietnam, Japan and South Korea. Explore cities, regions and the experiences our DMC designs for travel agents.',
     },
     '/about': {
         title: `About Us | ${SITE.name}`,
         description:
-            'A global B2B DMC — the ground partner travel agents trust across Vietnam, Japan and Australia.',
+            'A global B2B DMC — the ground partner travel agents trust across India, Vietnam, Japan and South Korea.',
     },
     '/contact': {
         title: `Contact Us | ${SITE.name}`,
         description:
-            'Talk to our B2B team about FIT and group programs, MICE support, or how to become a partner. Dedicated trade support across Vietnam, Japan and Australia.',
+            'Talk to our B2B team about FIT and group programs, MICE support, or how to become a partner. Dedicated trade support across India, Vietnam, Japan and South Korea.',
     },
     '/blog': {
         title: `Travel Journal | ${SITE.name}`,
@@ -115,7 +119,7 @@ export const PAGE_META = {
     '/booking': {
         title: `Book Your Journey | ${SITE.name}`,
         description:
-            'Request your bespoke Vietnam, Japan or Australia journey — preferred rates for agents and their travelers.',
+            'Request your bespoke journey across India, Vietnam, Japan and South Korea — preferred rates for agents and their travelers.',
     },
     '/checkout': {
         title: `Checkout | ${SITE.name}`,
@@ -127,18 +131,14 @@ export const PAGE_META = {
     },
     '/services/private-tours': {
         title: `Private Tours | ${SITE.name}`,
-        description: 'Private, tailor-made tours across Vietnam — flexible pacing, dedicated guide and vehicle for you and your clients.',
+        description: 'Private, tailor-made tours across India, Vietnam, Japan and South Korea — flexible pacing, dedicated guide and vehicle.',
     },
     '/services/tailor-made-tours': {
         title: `Tailor-Made Tours | ${SITE.name}`,
         description: 'Fully customizable journeys designed around client preferences, timeline and travel style.',
     },
-    '/services/airport-fast-track': {
-        title: `Airport Fast Track | ${SITE.name}`,
-        description: 'Meet-and-greet and fast-track airport assistance across Vietnam\'s international airports.',
-    },
     '/services/ground-services': {
         title: `Ground Services | ${SITE.name}`,
-        description: 'Private transfers, experienced drivers and 24/7 ground support across Vietnam.',
+        description: 'Private transfers, experienced drivers and 24/7 ground support across our destinations.',
     },
 };

@@ -5,8 +5,10 @@
 export const POST_CATEGORIES = [
     { value: 'TRAVEL TIPS', label: 'Travel Tips' },
     { value: 'DESTINATIONS', label: 'Destinations' },
-    { value: 'AIRPORT SERVICES', label: 'Airport Services' },
+    { value: 'INDIA TRAVEL', label: 'India Travel' },
     { value: 'VIETNAM TRAVEL', label: 'Vietnam Travel' },
+    { value: 'JAPAN TRAVEL', label: 'Japan Travel' },
+    { value: 'SOUTH KOREA TRAVEL', label: 'South Korea Travel' },
     { value: 'TRAVEL GUIDES', label: 'Travel Guides' },
 ];
 

@@ -1,19 +1,26 @@
-/* Fonts are loaded from index.html with preconnect + preload. A second
-   @import here fetched the same families again and blocked rendering while
-   the CSS parser waited on it. */
 @import "tailwindcss";
 
 @theme {
-    --font-serif: 'Playfair Display', Georgia, serif;
-    --font-heading: 'Playfair Display', Georgia, serif;
+    /* Display: Fraunces — a contemporary editorial serif with optical sizing.
+       Headlines set tight (-0.02em) at display sizes; the soft-serif
+       personality reads 'luxury publication', not 'startup template'. */
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-heading: 'Fraunces', Georgia, serif;
+    --font-display: 'Fraunces', Georgia, serif;
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    /* Motion tokens — one easing vocabulary across every section. */
+    --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-cinematic: cubic-bezier(0.45, 0, 0.15, 1);
+    --dur-fast: 0.3s;
+    --dur-slow: 0.8s;
 
-    /* Brand palette — prefer bg-navy / text-gold / border-bronze over
-       repeating arbitrary hex values across hundreds of class names. */
     --color-navy: #081634;
+    --color-navy-deep: #050e22;
     --color-navy-light: #1a2e4c;
     --color-gold: #c5a869;
+    --color-gold-light: #d4bc88;
+    --color-gold-muted: #b8a070;
     --color-bronze: #8c7a53;
     --color-ink: #101828;
     --color-steel: #556987;
@@ -22,81 +29,46 @@
     --color-ivory: #fbf9f4;
     --color-champagne: #faf3df;
     --color-stone: #efece6;
+    --color-warm-white: #fdfcfa;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #5a5a5a;
+    --color-text-muted: #8a8a8a;
+    --color-border-subtle: #e8e4dc;
 }
 
-/*
- * Eyebrow label used above section headings across the marketing pages
- * (10-11px, letterspaced, uppercase, bronze). Keeps the four-class incantation
- * in one place.
- */
-.eyebrow {
-    font-size: 10px;
-    line-height: 1.4;
-    font-weight: 700;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--color-bronze);
-}
-
-@media (min-width: 768px) {
-    .eyebrow {
-        font-size: 11px;
-    }
-}
-
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
+/* ─── Base Reset ─── */
+*, *::before, *::after { box-sizing: border-box; }
 
 :root {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-weight: 400;
     font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-html,
-body,
-#root {
+html, body, #root {
     width: 100%;
     max-width: 100%;
-    /* `clip` prevents horizontal overflow without creating a scroll
-       container, which `hidden` does and which breaks both native momentum
-       scroll and Lenis on some engines (esp. iOS/Safari). Fallback first, so
-       older browsers without `clip` still get `hidden`. */
     overflow-x: hidden;
     overflow-x: clip;
     position: relative;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    /* Native smooth scrolling only when Lenis is not driving the scroller.
-       Lenis manages its own rAF lerp; combining the two fights and can stall
-       the page. Lenis marks <html> with a `lenis` class while active. */
-    html:not(.lenis) {
-        scroll-behavior: smooth;
-    }
+    html:not(.lenis) { scroll-behavior: smooth; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
+    html { scroll-behavior: auto; }
 }
 
-html,
-body {
+html, body {
     overscroll-behavior-x: none;
     -webkit-overflow-scrolling: touch;
     touch-action: pan-y;
 }
 
-/* GPU hardware acceleration to eliminate micro-stutters and tear during scroll */
-img,
-video,
-canvas,
-svg {
+img, video, canvas, svg {
     transform: translateZ(0);
     backface-visibility: hidden;
 }
@@ -106,12 +78,7 @@ img {
     user-select: none;
 }
 
-html,
-body,
-input,
-select,
-textarea,
-button {
+html, body, input, select, textarea, button {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -120,49 +87,57 @@ button {
 body {
     top: 0px !important;
     position: static !important;
+    background: var(--color-warm-white);
+    color: var(--color-text-primary);
 }
 
-/* All Headings: Playfair Display, Regular 400 */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-    font-family: 'Playfair Display', Georgia, serif;
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Fraunces', Georgia, serif;
     font-style: normal;
+    font-optical-sizing: auto;
 }
 
-/* Hide Google Translate Default Banner, Toolbar and Tooltips */
-.goog-te-banner-frame.skiptranslate,
-.goog-te-banner-frame,
-#goog-gt-tt,
-.goog-te-balloon-frame,
-.goog-te-spinner-pos {
-    display: none !important;
-    visibility: hidden !important;
+/* Display sizes pull Fraunces' optical axis down to 144 for sharper
+   high-contrast strokes; body-size serif text stays at the default axis. */
+.display-xl { font-optical-sizing: auto; font-variation-settings: 'opsz' 144; }
+
+/* Editorial underline — draws from the left on hover; respects focus. */
+.link-underline {
+    position: relative;
+}
+.link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.5s var(--ease-editorial);
+}
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+    transform: scaleX(1);
 }
 
-.goog-te-gadget {
-    display: none !important;
+/* Thin scrollbar only on the homepage's dark canvas; keeps admin untouched. */
+.no-scrollbar { scrollbar-width: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* ─── Eyebrow ─── */
+.eyebrow {
+    font-size: 10px;
+    line-height: 1.4;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--color-bronze);
 }
+@media (min-width: 768px) { .eyebrow { font-size: 11px; } }
 
-.skiptranslate {
-    display: none !important;
-}
-
-.goog-text-highlight {
-    background: none !important;
-    box-shadow: none !important;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   Public button system.
-   Opt-in classes (.btn) used by the marketing pages and forms.
-   Dimensions never change on click/hover/active/loading: fixed
-   line-height, nowrap, consistent padding, colour-only transitions.
-   ───────────────────────────────────────────────────────────── */
-
+/* ─── Button System ─── */
 .btn {
     display: inline-flex;
     align-items: center;
@@ -170,104 +145,93 @@ h6 {
     gap: 0.5rem;
     white-space: nowrap;
     line-height: 1.2;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    border-radius: 9999px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
     cursor: pointer;
-    transition: background-color 0.2s ease, border-color 0.2s ease,
-        color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     text-align: center;
     text-decoration: none;
 }
+.btn:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
 
-.btn:focus-visible {
-    outline: 2px solid var(--color-bronze);
-    outline-offset: 2px;
-}
+.btn--sm { padding: 0.5rem 1.25rem; font-size: 11px; min-height: 2rem; border-radius: 0; }
+.btn--md { padding: 0.75rem 1.75rem; font-size: 12px; min-height: 2.75rem; border-radius: 0; }
+.btn--lg { padding: 1rem 2.5rem; font-size: 13px; min-height: 3.25rem; border-radius: 0; }
 
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-}
+.btn--gold { background: var(--color-gold); color: #fff; }
+.btn--gold:hover { background: var(--color-gold-light); }
+.btn--navy { background: var(--color-navy); color: #fff; }
+.btn--navy:hover { background: var(--color-navy-light); }
+.btn--outline { background: transparent; color: var(--color-navy); border: 1px solid var(--color-navy); }
+.btn--outline:hover { background: var(--color-navy); color: #fff; }
+.btn--outline-white { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3); }
+.btn--outline-white:hover { background: #fff; color: var(--color-navy); border-color: #fff; }
+.btn--ghost { background: transparent; color: var(--color-navy); border: none; padding-left: 0; padding-right: 0; }
+.btn--ghost:hover { color: var(--color-gold); }
 
-.btn--sm {
-    padding: 0.45rem 1.1rem;
-    font-size: 11px;
-    min-height: 2rem;
-}
-
-.btn--md {
-    padding: 0.62rem 1.4rem;
-    font-size: 13px;
-    min-height: 2.4rem;
-}
-
-.btn--lg {
-    padding: 0.82rem 2rem;
-    font-size: 14px;
-    min-height: 2.9rem;
-}
-
-.btn--gold {
-    background: var(--color-gold);
-    color: #081634;
-}
-.btn--gold:hover {
-    background: #b59758;
-}
-
-.btn--navy {
-    background: var(--color-navy);
-    color: #fff;
-}
-.btn--navy:hover {
-    background: #0a1f4a;
-}
-
-.btn--wine {
-    background: #731e2a;
-    color: #fff;
-}
-.btn--wine:hover {
-    background: #5c1822;
-}
-
-.btn--amber-cta {
-    background: #eab308;
-    color: #081634;
-}
-.btn--amber-cta:hover {
-    background: #facc15;
-}
-
-.btn--ghost {
-    background: #fff;
-    color: var(--color-navy);
-    border: 1px solid #d1d5db;
-}
-.btn--ghost:hover {
-    border-color: var(--color-bronze);
-    color: var(--color-bronze);
-}
-
-.btn--ghost-white {
-    background: transparent;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.55);
-}
-.btn--ghost-white:hover {
-    background: #fff;
-    color: var(--color-navy);
-    border-color: #fff;
-}
-
-.btn--block {
-    width: 100%;
-}
-
-/* Focus-visible rings for interactive elements that don't have their own. */
 button:focus-visible:not(.btn):not([class*='focus-visible']) {
-    outline: 2px solid var(--color-bronze);
-    outline-offset: 2px;
+    outline: 2px solid var(--color-gold); outline-offset: 2px;
 }
+
+/* ─── Premium Link ─── */
+.link-premium {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-navy);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+.link-premium:hover { color: var(--color-gold); }
+.link-premium .link-arrow { transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.link-premium:hover .link-arrow { transform: translateX(4px); }
+
+/* ─── Custom Scrollbar ─── */
+@media (min-width: 1024px) {
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--color-stone); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--color-bronze); }
+}
+
+/* ─── Horizontal Scroll ─── */
+.horizontal-scroll-wrapper {
+    display: flex;
+    gap: 2rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 2rem;
+}
+.horizontal-scroll-wrapper::-webkit-scrollbar { display: none; }
+.horizontal-scroll-item { flex: 0 0 auto; scroll-snap-align: start; }
+
+/* ─── Scrollbar Hide Utility ─── */
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ─── Reduced Motion ─── */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ─── TopographicField fallback swap ───
+   The canvas is the default layer; when WebGL is unavailable (or reduced
+   motion is requested) the effect sets data-fallback on the host *before*
+   the loop would start, which swaps in the static SVG. Avoids setState. */
+[data-fallback='true'] > canvas { display: none !important; }
+[data-fallback='true'] > svg { display: block !important; }

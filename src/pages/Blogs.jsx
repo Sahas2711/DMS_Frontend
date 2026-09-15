@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import heroImage from '../assets/blogs/blogs-hero-image.webp';
-import seamlessHanoiTransitImg from '../assets/blogs/SEAMLESS-HANOI-TRANSIT.webp';
-import PageHero from '../components/PageHero';
+import { motion } from 'framer-motion';
 import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
 import { PAGE_META } from '../config/site';
@@ -10,16 +8,10 @@ import { POST_CATEGORIES } from '../config/posts';
 import { postImage } from '../config/postImages';
 import { itemListSchema } from '../config/structuredData';
 import { fetchPosts } from '../services/api/cms';
+import { PageTransition } from '../components/editorial';
+import { usePrefersReducedMotion } from '../components/motion/animations';
 
-const PhotoIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-bronze">
-        <path strokeLinecap="round" strokeLinejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 0 0 1.5-1.5V6a1.5 1.5 0 0 0-1.5-1.5H3.75A1.5 1.5 0 0 0 2.25 6v12a1.5 1.5 0 0 0 1.5 1.5Zm10.5-11.25h.008v.008h-.008V8.25Zm.375 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Z" />
-    </svg>
-);
-
-// The seeded posts ship without a cover_image_url; map their slugs to the
-// bundled cover art the static journal historically used. Newly created CMS
-// posts render their own cover_image_url (media library or absolute URL).
+import heroImage from '../assets/blogs/travel-journal-section-image.webp';
 
 function formatDate(value) {
     if (!value) return '';
@@ -31,7 +23,24 @@ function formatDate(value) {
 
 const CATEGORIES = ['All', ...POST_CATEGORIES.map((c) => c.label)];
 
+/** Shared rise reveal — the page's only motion vocabulary. */
+const Rise = ({ children, delay = 0, className = '' }) => {
+    const prefersReducedMotion = usePrefersReducedMotion();
+    return (
+        <motion.div
+            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
+            className={className}
+        >
+            {children}
+        </motion.div>
+    );
+};
+
 const Blogs = () => {
+    const prefersReducedMotion = usePrefersReducedMotion();
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
@@ -78,7 +87,6 @@ const Blogs = () => {
 
     const featured = filteredArticles.find((p) => p.is_featured) || filteredArticles[0] || null;
     const editorsPick =
-        filteredArticles.find((p) => p.category === 'AIRPORT SERVICES' && (!featured || p.public_id !== featured.public_id)) ||
         filteredArticles.find((p) => (!featured || p.public_id !== featured.public_id)) ||
         null;
     const featuredId = featured?.public_id;
@@ -88,309 +96,271 @@ const Blogs = () => {
     );
 
     return (
-        <div className="w-full bg-[#FFFFFF]">
-            <Seo {...PAGE_META['/blog']} path="/blog" />
-            <JsonLd data={[itemListSchema(posts)]} />
+        <PageTransition>
+            <div className="w-full bg-white">
+                <Seo {...PAGE_META['/blog']} path="/blog" />
+                <JsonLd data={[itemListSchema(posts)]} />
 
-            <PageHero image={heroImage} alt="" eyebrow="Travel Blog" uppercase />
-
-            {/* Travel Journal / Travel Inspiration & Expert Tips Section */}
-            <section className="w-full pt-16 md:pt-20 pb-8 md:pb-12 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center bg-[#FFFFFF]">
-                <div className="w-full max-w-7xl flex flex-col items-center">
-
-                    {/* Eyebrow Badge */}
-                    <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-champagne border border-[#EDE4D0] text-bronze text-[11px] font-bold tracking-widest uppercase mb-4">
-                        <span className="w-1.5 h-1.5 rounded-full bg-bronze"></span>
-                        TRAVEL JOURNAL
-                    </div>
-
-                    {/* Section Title */}
-                    <h2 className="text-navy text-3xl md:text-4xl lg:text-[46px] font-serif font-normal text-center leading-[1.2] mb-4">
-                        Travel Inspiration &amp; Expert Tips
-                    </h2>
-
-                    {/* Subtitle */}
-                    <p className="text-steel text-sm md:text-base text-center max-w-xl mx-auto mb-10 md:mb-12 leading-relaxed">
-                        Discover travel guides, airport tips, destinations and useful insights for a smoother journey across Southeast Asia and beyond.
-                    </p>
-
-                    {/* Featured Cover Story Visual */}
+                {/* ── Feature story — full-bleed ── */}
+                <section className="relative w-full min-h-[70vh] lg:min-h-[85vh] flex items-end overflow-hidden">
                     {featured ? (
-                        <Link
-                            to={`/blog/${featured.slug}`}
-                            className="relative w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl min-h-[380px] md:min-h-[480px] lg:min-h-[540px] flex flex-col justify-end p-6 sm:p-8 md:p-12 group cursor-pointer"
-                        >
-                            <img
-                                src={postImage(featured)}
-                                alt={featured.title}
-                                className="absolute inset-0 w-full h-full object-cover z-0 group-hover:scale-105 transition-transform duration-700"
-                                loading="lazy"
-                                decoding="async"
-                            />
-
-                            <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/30 to-transparent z-0"></div>
-
-                            <div className="relative z-10 w-full flex flex-col md:flex-row md:items-end justify-between gap-6">
-                                <div className="flex flex-col items-start text-left">
-                                    <span className="inline-block text-[9px] sm:text-[10px] font-bold tracking-widest text-[#E3CA90] bg-navy/60 backdrop-blur-sm px-3.5 py-1 rounded-full uppercase mb-3 border border-[#E3CA90]/30">
-                                        {(featured.tag || featured.category).replace(/_/g, ' ')}
-                                    </span>
-                                    <h3 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-[38px] font-serif font-normal leading-[1.2] max-w-2xl drop-shadow-md">
-                                        {featured.title}
-                                    </h3>
-                                    <span className="mt-3 text-[11px] text-white/80">
-                                        {featured.excerpt}
-                                    </span>
-                                </div>
-
-                                <div className="bg-white/95 backdrop-blur-md rounded-xl md:rounded-2xl p-3.5 sm:p-4 shadow-xl border border-white/60 flex items-center gap-3 flex-shrink-0 self-start md:self-end">
-                                    <div className="w-9 h-9 rounded-lg bg-champagne flex items-center justify-center flex-shrink-0">
-                                        <PhotoIcon />
-                                    </div>
-                                    <div className="flex flex-col text-left">
-                                        <span className="text-[9px] sm:text-[10px] font-bold text-bronze tracking-widest uppercase">
-                                            READ THE STORY
-                                        </span>
-                                        <span className="text-xs sm:text-sm font-bold text-navy">
-                                            {featured.read_time_minutes ? `${featured.read_time_minutes} min read` : formatDate(featured.published_at)}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </Link>
-                    ) : (
-                        <div className="w-full rounded-2xl md:rounded-3xl bg-cream border border-gray-100 min-h-[380px] flex items-center justify-center">
-                            {loading ? (
-                                <span className="text-steel text-sm">Preparing the travel journal…</span>
-                            ) : (
-                                <span className="text-steel text-sm">{error || 'No published stories yet — check back soon.'}</span>
-                            )}
-                        </div>
-                    )}
-
-                </div>
-            </section>
-
-            {/* Editor's Dispatch & Latest Articles Section */}
-            <section className="w-full bg-[#F3F2EE] pt-8 md:pt-10 pb-20 md:pb-28 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center border-t border-gray-200/60">
-                <div className="w-full max-w-7xl flex flex-col items-center">
-
-                    {/* Category Filter Pills */}
-                    <div className="w-full flex items-center gap-2.5 sm:gap-3 overflow-x-auto pb-1 mb-6 md:mb-8 text-left">
-                        {CATEGORIES.map((cat) => {
-                            const isActive = selectedCategory === cat;
-                            return (
-                                <button
-                                    key={cat}
-                                    type="button"
-                                    onClick={() => setSelectedCategory(cat)}
-                                    className={`px-5 py-2 rounded-full text-xs md:text-sm font-medium transition-all duration-200 whitespace-nowrap cursor-pointer ${
-                                        isActive
-                                            ? 'bg-[#7A5C1E] text-white shadow-sm'
-                                            : 'bg-[#EAE7DF] hover:bg-[#DDD9CF] text-[#475467]'
-                                    }`}
-                                >
-                                    {cat}
-                                </button>
-                            );
-                        })}
-                    </div>
-
-                    {error && !posts.length && (
-                        <div className="w-full bg-white rounded-2xl border border-red-200 p-8 text-center mb-12">
-                            <p className="text-steel text-sm">{error}</p>
-                            <button
-                                type="button"
-                                onClick={() => { setLoading(true); load(1, false); }}
-                                className="mt-4 inline-flex items-center gap-2 px-5 py-2 rounded-full bg-navy text-white text-xs font-semibold transition-colors"
+                        <>
+                            <Link
+                                to={`/blog/${featured.slug}`}
+                                className="absolute inset-0 z-0"
+                                tabIndex={-1}
+                                aria-hidden="true"
                             >
-                                Retry
-                            </button>
-                        </div>
-                    )}
-
-                    {/* Top Featured Card: Editor's Dispatch */}
-                    {editorsPick && (
-                        <div className="w-full bg-white rounded-2xl md:rounded-3xl overflow-hidden shadow-xl border border-gray-100/80 grid grid-cols-1 lg:grid-cols-12 mb-16 md:mb-20 group">
-                            <div className="lg:col-span-6 relative overflow-hidden min-h-[300px] lg:min-h-[420px]">
                                 <img
-                                    src={postImage(editorsPick)}
-                                    alt={editorsPick.title}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                    loading="lazy"
+                                    src={postImage(featured)}
+                                    alt=""
+                                    className="w-full h-full object-cover"
+                                    fetchPriority="high"
+                                    loading="eager"
                                     decoding="async"
                                 />
-                                <div className="absolute top-5 left-5 bg-navy/90 backdrop-blur-sm text-white text-[9px] md:text-[10px] font-bold tracking-widest px-3 py-1 rounded-full uppercase border border-white/20">
-                                    EDITOR'S DISPATCH
-                                </div>
-                            </div>
+                            </Link>
+                            <div className="absolute inset-0 z-0 bg-gradient-to-t from-[var(--color-navy-deep)]/90 via-[var(--color-navy)]/40 to-[var(--color-navy)]/10" />
 
-                            <div className="lg:col-span-6 p-8 md:p-12 lg:p-14 flex flex-col justify-between text-left">
-                                <div>
-                                    <div className="flex items-center justify-between text-xs mb-3">
-                                        <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-bronze uppercase">
-                                            {editorsPick.category.replace(/_/g, ' ')}
-                                        </span>
-                                        <span className="text-gray-400 flex items-center gap-1.5 text-xs">
-                                            🕒 {formatDate(editorsPick.published_at)} · {editorsPick.read_time_minutes ? `${editorsPick.read_time_minutes} min read` : 'Read'}
-                                        </span>
-                                    </div>
-
-                                    <h3 className="text-navy text-2xl md:text-3xl lg:text-[34px] font-serif font-normal leading-[1.2] my-4">
-                                        {editorsPick.title}
-                                    </h3>
-
-                                    <p className="text-steel text-xs md:text-sm leading-relaxed mb-8">
-                                        {editorsPick.excerpt}
-                                    </p>
-                                </div>
-
-                                <div className="flex items-center justify-between pt-6 border-t border-gray-100 mt-auto">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-9 h-9 rounded-full bg-champagne flex items-center justify-center text-bronze font-bold text-xs">
-                                            {(editorsPick.author || editorsPick.category).split(' ').map((w) => w[0]).join('').slice(0, 3).toUpperCase()}
-                                        </div>
-                                        <div className="flex flex-col text-left">
-                                            <span className="text-xs font-bold text-navy">
-                                                {editorsPick.author || 'Asian Star Travel'}
-                                            </span>
-                                            <span className="text-[10px] text-gray-400">
-                                                {editorsPick.author_role || editorsPick.tag || 'Travel Journal'}
-                                            </span>
-                                        </div>
-                                    </div>
-
-                                    <Link
-                                        to={`/blog/${editorsPick.slug}`}
-                                        className="text-xs font-semibold text-navy hover:text-bronze flex items-center gap-1.5 transition-colors group-hover:gap-2.5"
-                                    >
-                                        Read Article
-                                        <span>→</span>
+                            <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 pb-14 sm:pb-20">
+                                <motion.div
+                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+                                    className="max-w-3xl"
+                                >
+                                    <p className="eyebrow text-[var(--color-gold)]/80 mb-5">The Travel Journal</p>
+                                    {featured.tag && (
+                                        <p className="text-[10px] font-semibold tracking-[0.25em] uppercase text-white/50 mb-4">
+                                            {featured.tag.replace(/_/g, ' ')} — Feature Story
+                                        </p>
+                                    )}
+                                    <Link to={`/blog/${featured.slug}`} className="group block">
+                                        <h1 className="font-display text-[clamp(2.2rem,5.5vw,4.5rem)] leading-[0.95] tracking-[-0.03em] text-white mb-6 group-hover:text-[var(--color-gold)] transition-colors duration-500">
+                                            {featured.title}
+                                        </h1>
                                     </Link>
-                                </div>
+                                    {featured.excerpt && (
+                                        <p className="text-white/50 text-base sm:text-lg leading-relaxed max-w-xl mb-8 line-clamp-2 font-body">
+                                            {featured.excerpt}
+                                        </p>
+                                    )}
+                                    <div className="flex flex-wrap items-center gap-5">
+                                        <Link to={`/blog/${featured.slug}`} className="btn btn--md btn--gold">
+                                            Read the Story
+                                            <span aria-hidden="true">→</span>
+                                        </Link>
+                                        <span className="text-[11px] tracking-[0.15em] uppercase text-white/40">
+                                            {featured.read_time_minutes
+                                                ? `${featured.read_time_minutes} min read`
+                                                : formatDate(featured.published_at)}
+                                        </span>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        </>
+                    ) : (
+                        /* Loading / empty / error state for the feature */
+                        <div className="w-full bg-[var(--color-navy-deep)] min-h-[50vh] flex items-center justify-center px-6">
+                            <div className="text-center" aria-busy={loading}>
+                                <p className="eyebrow text-[var(--color-gold)]/70 mb-4 justify-center">The Travel Journal</p>
+                                <p className="font-display text-white/80 text-xl sm:text-2xl italic">
+                                    {loading
+                                        ? 'Preparing the travel journal…'
+                                        : error || 'No published stories yet — check back soon.'}
+                                </p>
+                                {!loading && error && (
+                                    <button
+                                        type="button"
+                                        onClick={() => { setLoading(true); load(1, false); }}
+                                        className="btn btn--md btn--gold mt-8"
+                                    >
+                                        Retry
+                                    </button>
+                                )}
                             </div>
                         </div>
                     )}
+                </section>
 
-                    {/* Middle Section Header */}
-                    <div className="w-full flex flex-col md:flex-row md:items-end justify-between mb-8 md:mb-10 text-left">
-                        <div>
-                            <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-bronze uppercase mb-2 block">
-                                SELECTED STORIES
+                {/* ── Editorial index ── */}
+                <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 px-5 sm:px-8 lg:px-16">
+                    <div className="max-w-[1400px] mx-auto">
+                        {/* Category filter — editorial text tabs */}
+                        <Rise className="flex items-end justify-between gap-6 flex-wrap mb-8">
+                            <div>
+                                <p className="eyebrow mb-3">The Index</p>
+                                <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] leading-[0.95] tracking-[-0.02em] text-[var(--color-navy)]">
+                                    Dispatches from the ground.
+                                </h2>
+                            </div>
+                            <span className="text-xs text-[var(--color-text-muted)]">
+                                Showing {filteredArticles.length} of {Math.max(total, posts.length)} stories
                             </span>
-                            <h2 className="text-navy text-3xl md:text-4xl font-serif font-normal">
-                                Latest Articles &amp; Insights
-                            </h2>
-                        </div>
-                        <span className="text-xs text-gray-500 mt-2 md:mt-0">
-                            Showing {filteredArticles.length} of {Math.max(total, posts.length)} dispatches
-                        </span>
-                    </div>
+                        </Rise>
 
-                    {/* 3 Articles Grid */}
-                    {gridArticles.length === 0 && !loading ? (
-                        <div className="w-full bg-white rounded-2xl border border-gray-100 p-10 text-center text-steel text-sm">
-                            No stories in this category yet.
+                        <div className="flex flex-wrap gap-x-8 gap-y-2 border-y border-[var(--color-border-subtle)] mb-12 lg:mb-16" role="group" aria-label="Filter stories by category">
+                            {CATEGORIES.map((cat) => {
+                                const isActive = selectedCategory === cat;
+                                return (
+                                    <button
+                                        key={cat}
+                                        type="button"
+                                        onClick={() => setSelectedCategory(cat)}
+                                        aria-pressed={isActive}
+                                        className={`relative py-4 text-[11px] font-semibold tracking-[0.18em] uppercase transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] focus-visible:-outline-offset-4 ${isActive ? 'text-[var(--color-navy)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-navy)]'}`}
+                                    >
+                                        {cat}
+                                        <span
+                                            aria-hidden="true"
+                                            className={`absolute left-0 bottom-0 h-px w-full bg-[var(--color-gold)] transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left ${isActive ? 'scale-x-100' : 'scale-x-0'}`}
+                                        />
+                                    </button>
+                                );
+                            })}
                         </div>
-                    ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7 w-full mb-12 md:mb-14">
-                            {gridArticles.map((article) => (
+
+                        {/* Editor's dispatch — split feature */}
+                        {editorsPick && (
+                            <Rise className="mb-16 lg:mb-20">
                                 <Link
-                                    key={article.public_id}
-                                    to={`/blog/${article.slug}`}
-                                    className="bg-white rounded-2xl md:rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col group"
+                                    to={`/blog/${editorsPick.slug}`}
+                                    className="group grid grid-cols-1 lg:grid-cols-12 bg-white border border-[var(--color-border-subtle)]"
                                 >
-                                    <div className="relative aspect-[16/10] overflow-hidden">
+                                    <div className="lg:col-span-6 relative overflow-hidden aspect-[16/10] lg:aspect-auto lg:min-h-[420px]">
                                         <img
-                                            src={postImage(article)}
-                                            alt={article.title}
-                                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                            src={postImage(editorsPick)}
+                                            alt={editorsPick.title}
+                                            className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
                                             loading="lazy"
                                             decoding="async"
                                         />
-                                        <span className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-navy text-[9px] font-bold tracking-wider px-3 py-1 rounded-full uppercase shadow-sm">
-                                            {article.category.replace(/_/g, ' ')}
+                                        <span className="absolute top-5 left-5 bg-[var(--color-navy)]/85 backdrop-blur-sm text-[var(--color-gold)] text-[9px] font-semibold tracking-[0.25em] uppercase px-3 py-1.5">
+                                            Editor's Dispatch
                                         </span>
                                     </div>
 
-                                    <div className="p-6 md:p-7 flex flex-col justify-between flex-grow text-left">
-                                        <div>
-                                            <span className="text-[11px] text-gray-400 block mb-2">
-                                                📅 {formatDate(article.published_at)} · {article.read_time_minutes ? `${article.read_time_minutes} min read` : 'Read'}
+                                    <div className="lg:col-span-6 p-8 md:p-12 lg:p-14 flex flex-col">
+                                        <p className="eyebrow mb-5">
+                                            {editorsPick.category?.replace(/_/g, ' ')} — {formatDate(editorsPick.published_at)}
+                                        </p>
+                                        <h3 className="font-display text-2xl md:text-3xl lg:text-[2.4rem] leading-[1.05] tracking-[-0.02em] text-[var(--color-navy)] mb-6 group-hover:text-[var(--color-gold)] transition-colors duration-300">
+                                            {editorsPick.title}
+                                        </h3>
+                                        <p className="text-[var(--color-text-secondary)] text-sm md:text-base leading-relaxed mb-10">
+                                            {editorsPick.excerpt}
+                                        </p>
+                                        <div className="mt-auto pt-6 border-t border-[var(--color-border-subtle)] flex items-center justify-between">
+                                            <span className="text-xs text-[var(--color-text-muted)]">
+                                                {editorsPick.author || 'Asian Star Travel'}
+                                                {editorsPick.read_time_minutes ? ` · ${editorsPick.read_time_minutes} min read` : ''}
                                             </span>
-                                            <h3 className="text-navy text-base md:text-lg font-serif font-bold mb-3 leading-snug">
-                                                {article.title}
-                                            </h3>
-                                            <p className="text-steel text-xs leading-relaxed mb-6">
-                                                {article.excerpt}
-                                            </p>
-                                        </div>
-
-                                        <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
-                                            <span className="text-[11px] text-gray-400">
-                                                {article.author ? `By ${article.author}` : 'Asian Star Travel'}
-                                            </span>
-                                            <span className="text-xs font-semibold text-bronze hover:text-navy flex items-center gap-1 transition-colors">
-                                                Read More
-                                                <span>→</span>
+                                            <span className="link-premium text-[var(--color-navy)] group-hover:text-[var(--color-gold)] transition-colors">
+                                                Read Article
+                                                <span className="link-arrow" aria-hidden="true">→</span>
                                             </span>
                                         </div>
                                     </div>
                                 </Link>
-                            ))}
-                        </div>
-                    )}
+                            </Rise>
+                        )}
 
-                    {/* Bottom Load Button */}
-                    {hasMore && (
-                        <button
-                            type="button"
-                            onClick={loadMore}
-                            disabled={loadMorePending}
-                            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#EBE9E2] hover:bg-[#E0DDD4] text-navy text-xs font-semibold transition-colors shadow-sm disabled:opacity-60"
-                        >
-                            <span>{loadMorePending ? '⏳' : '🔄'}</span>
-                            {loadMorePending ? 'Loading…' : 'Load Prior Dispatches'}
-                        </button>
-                    )}
+                        {/* Secondary stories — numbered editorial grid */}
+                        {gridArticles.length === 0 && !loading ? (
+                            <div className="bg-white border border-[var(--color-border-subtle)] p-12 text-center">
+                                <p className="font-display italic text-[var(--color-navy)]/70 text-lg mb-2">
+                                    {error ? 'The journal could not be loaded.' : 'No stories in this category yet.'}
+                                </p>
+                                {error && (
+                                    <button
+                                        type="button"
+                                        onClick={() => { setLoading(true); load(1, false); }}
+                                        className="btn btn--sm btn--navy mt-4"
+                                    >
+                                        Retry
+                                    </button>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14 mb-14">
+                                {gridArticles.map((article, index) => (
+                                    <Rise key={article.public_id} delay={(index % 3) * 0.08}>
+                                        <Link to={`/blog/${article.slug}`} className="group block">
+                                            <div className="relative aspect-[16/10] overflow-hidden mb-5">
+                                                <img
+                                                    src={postImage(article)}
+                                                    alt={article.title}
+                                                    className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                />
+                                                <span
+                                                    aria-hidden="true"
+                                                    className="absolute bottom-3 right-3 font-display italic text-3xl text-white/90 drop-shadow-[0_1px_10px_rgba(8,22,52,0.5)]"
+                                                >
+                                                    {String(index + 1).padStart(2, '0')}
+                                                </span>
+                                            </div>
+                                            <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-[var(--color-bronze)]/70 mb-2">
+                                                {article.category?.replace(/_/g, ' ')} · {formatDate(article.published_at)}
+                                            </p>
+                                            <h3 className="font-display text-lg md:text-xl text-[var(--color-navy)] leading-snug mb-2.5 group-hover:text-[var(--color-gold)] transition-colors duration-300">
+                                                {article.title}
+                                            </h3>
+                                            <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed line-clamp-2 mb-3">
+                                                {article.excerpt}
+                                            </p>
+                                            <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[var(--color-navy)]/40 group-hover:text-[var(--color-gold)] transition-colors duration-300">
+                                                Read More →
+                                            </span>
+                                        </Link>
+                                    </Rise>
+                                ))}
+                            </div>
+                        )}
 
-                </div>
-            </section>
+                        {/* Load more — text button */}
+                        {hasMore && (
+                            <div className="text-center">
+                                <button
+                                    type="button"
+                                    onClick={loadMore}
+                                    disabled={loadMorePending}
+                                    className="link-premium text-[var(--color-navy)] hover:text-[var(--color-gold)] disabled:opacity-50 disabled:pointer-events-none"
+                                >
+                                    {loadMorePending ? 'Loading…' : 'Load Prior Dispatches'}
+                                    <span className="link-arrow" aria-hidden="true">↓</span>
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </section>
 
-            {/* Seamless Hanoi Transit CTA Banner Section */}
-            <section className="relative w-full overflow-hidden min-h-[380px] md:min-h-[440px] flex items-center justify-center">
-                <img
-                    src={seamlessHanoiTransitImg}
-                    alt="Seamless Hanoi Transit"
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                    loading="lazy"
-                    decoding="async"
-                />
-
-                <div className="absolute inset-0 bg-navy/40 z-0"></div>
-
-                <div className="relative z-10 w-full max-w-4xl mx-auto px-6 py-16 md:py-20 flex flex-col items-center text-center">
-                    <span className="text-[10px] md:text-[11px] font-bold tracking-[0.2em] text-[#E3CA90] uppercase mb-3 block">
-                        SEAMLESS HANOI TRANSIT
-                    </span>
-
-                    <h2 className="text-white text-3xl md:text-5xl lg:text-6xl font-serif font-normal leading-tight mb-4 drop-shadow-md">
-                        Hanoi Airport, Made Easy.
-                    </h2>
-
-                    <p className="text-gray-200 text-xs sm:text-sm md:text-base max-w-lg mb-8 leading-relaxed drop-shadow-sm">
-                        Book your Fast Track assistance today and experience effortless airport hospitality.
-                    </p>
-
-                    <Link
-                        to="/services/airport-fast-track"
-                        className="inline-flex items-center justify-center bg-[#E5B869] hover:bg-[#D4A758] text-navy font-bold text-xs md:text-sm px-8 py-3.5 rounded-lg uppercase tracking-wider transition-all shadow-lg hover:shadow-xl hover:scale-105 active:scale-95"
-                    >
-                        BOOK NOW
-                    </Link>
-                </div>
-            </section>
-        </div>
+                {/* ── Trade CTA ── */}
+                <section className="w-full bg-[var(--color-navy)] py-24 sm:py-32 px-5 sm:px-8 lg:px-16">
+                    <div className="max-w-[1400px] mx-auto text-center">
+                        <Rise>
+                            <p className="eyebrow text-[var(--color-gold)]/70 mb-5 justify-center">Travel Trade</p>
+                            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.95] tracking-[-0.02em] text-white mb-6">
+                                Ready to partner with us?
+                            </h2>
+                            <p className="text-white/40 text-sm sm:text-base max-w-lg mx-auto mb-10 leading-relaxed font-body">
+                                Trade rates, dedicated support and reliable ground handling across India,
+                                Vietnam, Japan and South Korea.
+                            </p>
+                            <div className="flex flex-wrap justify-center gap-4">
+                                <Link to="/request-quote" className="btn btn--md btn--gold">
+                                    Request a Quote
+                                </Link>
+                                <Link to="/become-a-partner" className="btn btn--md btn--outline-white">
+                                    Become a Partner
+                                </Link>
+                            </div>
+                        </Rise>
+                    </div>
+                </section>
+            </div>
+        </PageTransition>
     );
 };
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, Calendar, Clock } from 'lucide-react';
+import { motion, useScroll, useSpring } from 'framer-motion';
 import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
 import { SITE } from '../config/site';
@@ -9,6 +9,8 @@ import { postImage } from '../config/postImages';
 import { blogPostingSchema, breadcrumbListSchema } from '../config/structuredData';
 import { fetchPostBySlug } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
+import { PageTransition } from '../components/editorial';
+import { usePrefersReducedMotion } from '../components/motion/animations';
 
 const noSeo = {
     meta_title: '',
@@ -34,6 +36,12 @@ function formatDate(value) {
 function BlogDetail() {
     const { slug } = useParams();
     const [state, setState] = useState({ status: 'loading', post: null, error: null });
+    const prefersReducedMotion = usePrefersReducedMotion();
+
+    // Reading progress — a functional hairline, not decoration. Spring keeps
+    // it in sync without layout thrash; static bar under reduced motion.
+    const { scrollYProgress } = useScroll();
+    const progress = useSpring(scrollYProgress, { stiffness: 140, damping: 30, mass: 0.4 });
 
     useEffect(() => {
         let cancelled = false;
@@ -56,23 +64,25 @@ function BlogDetail() {
     if (state.status === 'loading') {
         return (
             <div className="min-h-[60vh] flex items-center justify-center" aria-busy="true">
-                <div className="text-navy text-sm font-semibold tracking-wider uppercase">Loading story…</div>
+                <div className="text-[var(--color-navy)] text-sm font-semibold tracking-wider uppercase">Loading story…</div>
             </div>
         );
     }
 
     if (state.status === 'error') {
         return (
-            <div className="min-h-[60vh] bg-cream flex items-center justify-center px-6">
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 max-w-md text-center">
-                    <Seo title="Story not found" noIndex path={`/blog/${slug}`} />
-                    <h1 className="text-navy font-serif text-2xl font-bold mb-2">Story not available</h1>
-                    <p className="text-steel text-sm leading-relaxed mb-5">{state.error}</p>
-                    <Link to="/blog" className="btn btn--wine btn--md">
-                        <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Back to the journal
-                    </Link>
+            <PageTransition>
+                <div className="min-h-[60vh] bg-[var(--color-cream)] flex items-center justify-center px-6">
+                    <div className="bg-white border border-[var(--color-border-subtle)] p-10 max-w-md text-center">
+                        <Seo title="Story not found" noIndex path={`/blog/${slug}`} />
+                        <h1 className="text-[var(--color-navy)] font-display text-2xl mb-2">Story not available</h1>
+                        <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed mb-6">{state.error}</p>
+                        <Link to="/blog" className="btn btn--md btn--navy">
+                            ← Back to the journal
+                        </Link>
+                    </div>
                 </div>
-            </div>
+            </PageTransition>
         );
     }
 
@@ -85,107 +95,146 @@ function BlogDetail() {
     const paragraphs = (post.body || '').split(/\n\s*\n/).map((p) => p.trim()).filter(Boolean);
 
     return (
-        <div className="w-full flex flex-col bg-[#FFFFFF]">
-            <Seo
-                title={metaTitle}
-                description={description}
-                path={canonical}
-                image={seo.og_image_url || (cover && !cover.startsWith('data:') ? cover : undefined)}
-                noIndex={Boolean(seo.robots && seo.robots.toLowerCase().includes('noindex'))}
-                robots={seo.robots || undefined}
-                ogTitle={seo.og_title || undefined}
-                ogDescription={seo.og_description || undefined}
-                twitterTitle={seo.twitter_title || undefined}
-                twitterDescription={seo.twitter_description || undefined}
-                twitterImage={seo.twitter_image_url || undefined}
-            />
-            <JsonLd
-                data={[
-                    breadcrumbListSchema([
-                        { name: 'Home', url: '/' },
-                        { name: 'Travel Journal', url: '/blog' },
-                        { name: post.title, url: canonical },
-                    ]),
-                    blogPostingSchema({ post, seo, canonical, image: cover }),
-                ]}
-            />
-
-            {/* Back link */}
-            <div className="w-full max-w-4xl mx-auto px-6 md:px-8 pt-10 md:pt-14 text-left">
-                <Link to="/blog" className="inline-flex items-center gap-2 text-xs font-semibold text-navy hover:text-bronze transition-colors uppercase tracking-wider">
-                    <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Travel Journal
-                </Link>
-            </div>
-
-            {/* Hero */}
-            <section className="relative w-full h-[46vh] md:h-[58vh] flex items-center justify-center overflow-hidden">
-                <img
-                    src={cover}
-                    alt={post.title}
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                    loading="lazy"
-                    decoding="async"
+        <PageTransition>
+            <div className="w-full flex flex-col bg-white">
+                <Seo
+                    title={metaTitle}
+                    description={description}
+                    path={canonical}
+                    image={seo.og_image_url || (cover && !cover.startsWith('data:') ? cover : undefined)}
+                    noIndex={Boolean(seo.robots && seo.robots.toLowerCase().includes('noindex'))}
+                    robots={seo.robots || undefined}
+                    ogTitle={seo.og_title || undefined}
+                    ogDescription={seo.og_description || undefined}
+                    twitterTitle={seo.twitter_title || undefined}
+                    twitterDescription={seo.twitter_description || undefined}
+                    twitterImage={seo.twitter_image_url || undefined}
                 />
-                <div className="absolute inset-0 bg-navy/50 z-0" aria-hidden="true" />
-                <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl">
-                    <span className="text-[11px] font-bold tracking-[0.2em] uppercase bg-white/90 text-navy px-3 py-1 rounded-full mb-4">
-                        {post.tag || POST_CATEGORY_LABEL[post.category] || post.category}
-                    </span>
-                    <h1 className="text-white text-3xl md:text-5xl font-serif tracking-wide leading-tight">{post.title}</h1>
-                    <div className="w-24 h-px bg-gold my-5" aria-hidden="true" />
-                    <div className="flex flex-wrap items-center justify-center gap-4 text-gray-100 text-sm">
-                        <span className="inline-flex items-center gap-1.5">
-                            <Calendar className="h-4 w-4 text-gold" aria-hidden="true" />
-                            {formatDate(post.published_at)}
-                        </span>
-                        {post.read_time_minutes && (
-                            <span className="inline-flex items-center gap-1.5">
-                                <Clock className="h-4 w-4 text-gold" aria-hidden="true" />
-                                {post.read_time_minutes} min read
-                            </span>
-                        )}
-                        {post.author && <span>{post.author}</span>}
-                    </div>
+                <JsonLd
+                    data={[
+                        breadcrumbListSchema([
+                            { name: 'Home', url: '/' },
+                            { name: 'Travel Journal', url: '/blog' },
+                            { name: post.title, url: canonical },
+                        ]),
+                        blogPostingSchema({ post, seo, canonical, image: cover }),
+                    ]}
+                />
+
+                {/* Reading progress hairline */}
+                <motion.div
+                    aria-hidden="true"
+                    className="fixed top-0 left-0 right-0 h-[2px] bg-[var(--color-gold)] z-50 origin-left"
+                    style={prefersReducedMotion ? { scaleX: 0 } : { scaleX: progress }}
+                />
+
+                {/* Back link */}
+                <div className="w-full max-w-[720px] mx-auto px-5 sm:px-8 pt-10 md:pt-14 text-left">
+                    <Link
+                        to="/blog"
+                        className="inline-flex items-center gap-2 text-[11px] font-semibold text-[var(--color-navy)]/50 hover:text-[var(--color-gold)] transition-colors uppercase tracking-[0.18em]"
+                    >
+                        ← Travel Journal
+                    </Link>
                 </div>
-            </section>
 
-            {/* Body */}
-            <section className="w-full pt-12 md:pt-16 pb-20 md:pb-28 px-6 md:px-8 flex justify-center">
-                <div className="w-full max-w-3xl text-left">
-                    {post.excerpt && (
-                        <p className="text-lg md:text-xl text-navy font-serif leading-relaxed mb-8">
-                            {post.excerpt}
+                {/* Title block — typography-first, above the image */}
+                <header className="w-full max-w-[720px] mx-auto px-5 sm:px-8 pt-8 md:pt-10 pb-10 md:pb-14 text-left">
+                    <motion.div
+                        initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                        <p className="eyebrow mb-5">
+                            {post.tag || POST_CATEGORY_LABEL[post.category] || post.category}
+                            {post.published_at ? ` — ${formatDate(post.published_at)}` : ''}
                         </p>
-                    )}
-                    {paragraphs.length > 0 ? (
-                        paragraphs.map((paragraph, i) => (
-                            <p key={i} className="text-steel text-sm md:text-base leading-[1.9] mb-6">
-                                {paragraph}
-                            </p>
-                        ))
-                    ) : (
-                        <p className="text-steel text-sm md:text-base leading-[1.9]">
-                            This story is still being written — check back soon for the full dispatch.
-                        </p>
-                    )}
-
-                    <div className="border-t border-gray-100 mt-10 pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-champagne flex items-center justify-center text-bronze font-bold text-sm">
-                                {(post.author || post.category).split(' ').map((w) => w[0]).join('').slice(0, 3).toUpperCase()}
-                            </div>
-                            <div className="flex flex-col text-left">
-                                <span className="text-sm font-bold text-navy">{post.author || 'Asian Star Travel'}</span>
-                                <span className="text-xs text-gray-400">{post.author_role || POST_CATEGORY_LABEL[post.category] || post.category}</span>
-                            </div>
+                        <h1 className="font-display text-[clamp(2rem,4.6vw,3.6rem)] leading-[1.02] tracking-[-0.025em] text-[var(--color-navy)] mb-8">
+                            {post.title}
+                        </h1>
+                        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-[var(--color-text-muted)] uppercase tracking-[0.15em]">
+                            {post.author && <span className="text-[var(--color-navy)] font-semibold">{post.author}</span>}
+                            {post.read_time_minutes && <span>{post.read_time_minutes} min read</span>}
                         </div>
-                        <Link to="/blog" className="text-xs font-semibold text-bronze hover:text-navy transition-colors uppercase tracking-wider">
-                            ← Back to the journal
+                    </motion.div>
+                </header>
+
+                {/* Lead image */}
+                <figure className="w-full max-w-[1100px] mx-auto px-5 sm:px-8">
+                    <motion.div
+                        initial={prefersReducedMotion ? {} : { opacity: 0, scale: 1.03 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                    >
+                        <img
+                            src={cover}
+                            alt={post.title}
+                            className="w-full aspect-[16/9] object-cover"
+                            fetchPriority="high"
+                            loading="eager"
+                            decoding="async"
+                        />
+                    </motion.div>
+                </figure>
+
+                {/* Body — single readable measure */}
+                <section className="w-full pt-14 md:pt-20 pb-20 md:pb-28 px-5 sm:px-8 flex justify-center">
+                    <div className="w-full max-w-[720px] text-left">
+                        {post.excerpt && (
+                            <p className="font-display italic text-[clamp(1.15rem,2vw,1.45rem)] leading-[1.5] text-[var(--color-navy)]/90 mb-10">
+                                {post.excerpt}
+                            </p>
+                        )}
+                        <div className="font-body text-[var(--color-text-secondary)] text-[15px] md:text-base leading-[1.9] space-y-6">
+                            {paragraphs.length > 0 ? (
+                                paragraphs.map((paragraph, i) => <p key={i}>{paragraph}</p>)
+                            ) : (
+                                <p>This story is still being written — check back soon for the full dispatch.</p>
+                            )}
+                        </div>
+
+                        {/* Author footer */}
+                        <div className="border-t border-[var(--color-border-subtle)] mt-14 pt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                            <div className="flex items-center gap-4">
+                                <span
+                                    aria-hidden="true"
+                                    className="w-11 h-11 grid place-items-center bg-[var(--color-champagne)] text-[var(--color-bronze)] font-display text-sm"
+                                >
+                                    {(post.author || post.category).split(' ').map((w) => w[0]).join('').slice(0, 2).toUpperCase()}
+                                </span>
+                                <div>
+                                    <span className="block text-sm font-semibold text-[var(--color-navy)]">
+                                        {post.author || 'Asian Star Travel'}
+                                    </span>
+                                    <span className="block text-xs text-[var(--color-text-muted)]">
+                                        {post.author_role || POST_CATEGORY_LABEL[post.category] || post.category}
+                                    </span>
+                                </div>
+                            </div>
+                            <Link to="/blog" className="link-premium text-[var(--color-navy)]/60 hover:text-[var(--color-gold)]">
+                                Back to the journal
+                                <span className="link-arrow" aria-hidden="true">→</span>
+                            </Link>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Continue reading */}
+                <section className="w-full bg-[var(--color-navy)] py-20 sm:py-24 px-5 sm:px-8">
+                    <div className="max-w-[1400px] mx-auto text-center">
+                        <p className="eyebrow text-[var(--color-gold)]/70 mb-4 justify-center">The Travel Journal</p>
+                        <h2 className="font-display text-[clamp(1.6rem,3.5vw,2.6rem)] leading-[1.0] tracking-[-0.02em] text-white mb-8">
+                            More dispatches from the ground.
+                        </h2>
+                        <Link to="/blog" className="btn btn--md btn--gold">
+                            Browse the Journal
+                            <span aria-hidden="true">→</span>
                         </Link>
                     </div>
-                </div>
-            </section>
-        </div>
+                </section>
+            </div>
+        </PageTransition>
     );
 }
 

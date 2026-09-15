@@ -68,7 +68,7 @@ export async function fetchDestinationBySlug(slug) {
 
 /**
  * GET /posts — published blog posts. `category` is one of
- * TRAVEL TIPS | DESTINATIONS | AIRPORT SERVICES | VIETNAM TRAVEL | TRAVEL GUIDES.
+ * TRAVEL TIPS | DESTINATIONS | INDIA TRAVEL | VIETNAM TRAVEL | JAPAN TRAVEL | SOUTH KOREA TRAVEL | TRAVEL GUIDES.
  */
 export async function fetchPosts({ page = 1, pageSize = 100, category, sort = 'published_at' } = {}) {
     return cachedGet(`/posts${toQuery({ page, page_size: pageSize, category, sort })}`);

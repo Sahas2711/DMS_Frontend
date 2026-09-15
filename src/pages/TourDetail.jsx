@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { ArrowLeft, Calendar, Check } from 'lucide-react';
+import { motion } from 'framer-motion';
 import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
 import { SITE } from '../config/site';
 import { breadcrumbListSchema, touristTripSchema } from '../config/structuredData';
-import { fetchTourBySlug } from '../services/api/cms';
+import { fetchTourBySlug, resolveMediaUrl } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 import { TRIP_TYPE_BY_VALUE } from '../config/enquiry';
-import MediaImage from '../components/cms/MediaImage';
+import { PageTransition } from '../components/editorial';
+import { usePrefersReducedMotion } from '../components/motion/animations';
+
+// Bundled fallback imagery — no external hotlinks (project image policy).
+import halongFallback from '../assets/home/tours/halong.jpg';
 
 const noSeo = {
     meta_title: '',
@@ -26,6 +30,7 @@ const noSeo = {
 function TourDetail() {
     const { slug } = useParams();
     const [state, setState] = useState({ status: 'loading', tour: null, error: null });
+    const prefersReducedMotion = usePrefersReducedMotion();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -46,29 +51,31 @@ function TourDetail() {
     if (state.status === 'loading') {
         return (
             <div className="min-h-[60vh] flex items-center justify-center" aria-busy="true">
-                <div className="text-navy text-sm font-semibold tracking-wider uppercase">Loading journey…</div>
+                <div className="text-[var(--color-navy)] text-sm font-semibold tracking-wider uppercase">Loading journey…</div>
             </div>
         );
     }
 
     if (state.status === 'error') {
         return (
-            <div className="min-h-[60vh] bg-cream flex items-center justify-center px-6">
-                <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-8 max-w-md text-center">
-                    <Seo title="Journey not found" noIndex path={`/tours/${slug}`} />
-                    <h1 className="text-navy font-serif text-2xl font-bold mb-2">Journey not available</h1>
-                    <p className="text-steel text-sm leading-relaxed mb-5">{state.error}</p>
-                    <Link to="/tours" className="btn btn--wine btn--md">
-                        <ArrowLeft className="h-4 w-4" aria-hidden="true" /> Browse all journeys
-                    </Link>
+            <PageTransition>
+                <div className="min-h-[60vh] bg-[var(--color-cream)] flex items-center justify-center px-6">
+                    <div className="bg-white p-8 max-w-md text-center">
+                        <Seo title="Journey not found" noIndex path={`/tours/${slug}`} />
+                        <h1 className="text-[var(--color-navy)] font-display text-2xl mb-2">Journey not available</h1>
+                        <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed mb-5 font-body">{state.error}</p>
+                        <Link to="/tours" className="inline-flex items-center gap-2 px-5 py-3 bg-[var(--color-navy)] text-white text-sm font-medium tracking-wide hover:bg-[var(--color-navy)]/90 transition-all duration-300">
+                            Browse all journeys
+                        </Link>
+                    </div>
                 </div>
-            </div>
+            </PageTransition>
         );
     }
 
     const tour = state.tour;
     const seo = tour.seo_metadata || noSeo;
-    const heroImage = tour.hero_media?.url;
+    const heroImage = tour.hero_media?.url ? resolveMediaUrl(tour.hero_media.url) : halongFallback;
     const description = seo.meta_description || tour.summary || SITE.description;
     const canonical = seo.canonical_url || `/tours/${tour.slug}`;
     const metaTitle = seo.meta_title || `${tour.title} — ${SITE.name}`;
@@ -76,113 +83,178 @@ function TourDetail() {
     const nights = tour.duration_nights;
 
     return (
-        <div className="w-full flex flex-col">
-            <Seo
-                title={metaTitle}
-                description={description}
-                path={canonical}
-                image={seo.og_image_url || heroImage}
-                noIndex={Boolean(seo.robots && seo.robots.toLowerCase().includes('noindex'))}
-                robots={seo.robots || undefined}
-                ogTitle={seo.og_title || undefined}
-                ogDescription={seo.og_description || undefined}
-                twitterTitle={seo.twitter_title || undefined}
-                twitterDescription={seo.twitter_description || undefined}
-                twitterImage={seo.twitter_image_url || undefined}
-            />
-            <JsonLd
-                data={[
-                    breadcrumbListSchema([
-                        { name: 'Home', url: '/' },
-                        { name: 'Journeys & Experiences', url: '/tours' },
-                        { name: tour.title, url: canonical },
-                    ]),
-                    touristTripSchema({ tour, seo, canonical }),
-                ]}
-            />
-
-            {/* Hero */}
-            <section className="relative w-full h-[50vh] md:h-[60vh] flex items-center justify-center overflow-hidden">
-                <MediaImage
-                    src={heroImage}
-                    alt={tour.hero_media?.alt_text || tour.title}
-                    fallbackChar={tour.title?.charAt(0)}
-                    className="absolute inset-0 w-full h-full object-cover z-0"
+        <PageTransition>
+            <div className="w-full flex flex-col">
+                <Seo
+                    title={metaTitle}
+                    description={description}
+                    path={canonical}
+                    image={seo.og_image_url || heroImage}
+                    noIndex={Boolean(seo.robots && seo.robots.toLowerCase().includes('noindex'))}
+                    robots={seo.robots || undefined}
+                    ogTitle={seo.og_title || undefined}
+                    ogDescription={seo.og_description || undefined}
+                    twitterTitle={seo.twitter_title || undefined}
+                    twitterDescription={seo.twitter_description || undefined}
+                    twitterImage={seo.twitter_image_url || undefined}
                 />
-                <div className="absolute inset-0 bg-navy/40 z-0" aria-hidden="true" />
-                <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-4xl">
-                    <span className="text-[11px] font-bold tracking-[0.2em] uppercase bg-white/90 text-navy px-3 py-1 rounded-full mb-4">
-                        {TRIP_TYPE_BY_VALUE[tour.category] || tour.category}
-                    </span>
-                    <h1 className="text-white text-3xl md:text-5xl font-serif tracking-wide mb-4">{tour.title}</h1>
-                    <div className="w-24 h-px bg-gold mb-5" aria-hidden="true" />
-                    <div className="flex flex-wrap items-center justify-center gap-4 text-gray-100 text-sm">
-                        {days && (
-                            <span className="inline-flex items-center gap-1.5">
-                                <Calendar className="h-4 w-4 text-gold" aria-hidden="true" />
-                                {nights ? `${days} days / ${nights} nights` : `${days} days`}
-                            </span>
-                        )}
-                        {tour.destination && (
-                            <Link to={`/destination/${tour.destination.slug}`} className="inline-flex items-center gap-1.5 hover:text-white underline underline-offset-2">
-                                {tour.destination.country} · {tour.destination.name}
-                            </Link>
-                        )}
-                    </div>
-                </div>
-            </section>
+                <JsonLd
+                    data={[
+                        breadcrumbListSchema([
+                            { name: 'Home', url: '/' },
+                            { name: 'Curated Journeys', url: '/tours' },
+                            { name: tour.title, url: canonical },
+                        ]),
+                        touristTripSchema({ tour, seo, canonical }),
+                    ]}
+                />
 
-            {/* Body */}
-            <section className="w-full bg-white py-14 md:py-20 px-6 md:px-12 lg:px-20 xl:px-32 flex justify-center">
-                <div className="w-full max-w-4xl flex flex-col gap-10">
-                    <Link to="/tours" className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-steel hover:text-navy transition-colors self-start">
-                        <ArrowLeft className="h-4 w-4" aria-hidden="true" /> All journeys
-                    </Link>
+                {/* Cinematic hero */}
+                <section className="relative h-[60vh] sm:h-[70vh] flex items-end overflow-hidden">
+                    <img
+                        src={heroImage}
+                        alt={tour.hero_media?.alt_text || tour.title}
+                        className="absolute inset-0 w-full h-full object-cover"
+                        fetchPriority="high"
+                        loading="eager"
+                        decoding="async"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#081634]/80 via-[#081634]/20 to-transparent" />
 
-                    {tour.summary && (
-                        <p className="text-navy text-lg md:text-xl font-serif leading-relaxed">{tour.summary}</p>
-                    )}
-
-                    {tour.highlights && tour.highlights.length > 0 && (
-                        <div>
-                            <h2 className="text-navy font-serif text-2xl mb-5">Why clients love it</h2>
-                            <ul className="space-y-3">
-                                {tour.highlights.map((h, i) => (
-                                    <li key={i} className="flex items-start gap-3 text-steel">
-                                        <span className="mt-0.5 inline-flex h-5 w-5 items-center justify-center rounded-full bg-champagne text-bronze shrink-0">
-                                            <Check className="h-3.5 w-3.5" aria-hidden="true" />
-                                        </span>
-                                        {h}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-
-                    {tour.description && (
-                        <div className="prose prose-lg prose-gray max-w-none">
-                            {tour.description.split('\n\n').map((para, i) => (
-                                <p key={i} className="text-steel leading-relaxed mb-5">{para}</p>
-                            ))}
-                        </div>
-                    )}
-
-                    {/* CTA */}
-                    <div className="bg-cream border border-bronze/20 rounded-2xl p-8 text-center">
-                        <h2 className="text-navy font-serif text-2xl mb-2">Plan this journey for your clients</h2>
-                        <p className="text-steel text-sm mb-6 max-w-lg mx-auto leading-relaxed">
-                            This sample can be tailored around dates, hotel tiers and travel style. Send us your brief and our specialists will design the itinerary.
-                        </p>
-                        <Link
-                            to={`/request-quote?trip_type=${tour.category}`}
-                            className="btn btn--wine btn--lg"
+                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 pb-12 sm:pb-16 lg:pb-20">
+                        <motion.div
+                            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
-                            Request a quote
-                        </Link>
+                            <Link
+                                to="/tours"
+                                className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.15em] uppercase text-white/60 hover:text-white transition-colors duration-300 mb-6"
+                            >
+                                &larr; All Journeys
+                            </Link>
+
+                            {tour.category && (
+                                <span className="inline-block text-[10px] tracking-[0.25em] uppercase text-[#c5a869]/80 font-medium mb-3">
+                                    {TRIP_TYPE_BY_VALUE[tour.category] || tour.category}
+                                </span>
+                            )}
+
+                            <h1 className="font-display text-[clamp(2rem,5vw,4rem)] leading-[0.92] tracking-[-0.03em] text-white mb-4">
+                                {tour.title}
+                            </h1>
+
+                            <div className="flex flex-wrap items-center gap-4 text-white/60 text-sm font-body">
+                                {days && (
+                                    <span>
+                                        {nights ? `${days} days / ${nights} nights` : `${days} days`}
+                                    </span>
+                                )}
+                                {tour.destination && (
+                                    <>
+                                        <span className="w-1 h-1 rounded-full bg-white/30" />
+                                        <Link
+                                            to={`/destination/${tour.destination.slug}`}
+                                            className="hover:text-white underline underline-offset-2 transition-colors duration-300"
+                                        >
+                                            {tour.destination.name}
+                                        </Link>
+                                    </>
+                                )}
+                            </div>
+                        </motion.div>
                     </div>
-                </div>
-            </section>
-        </div>
+                </section>
+
+                {/* Body */}
+                <section className="py-20 sm:py-28 lg:py-36 bg-white">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                        <div className="max-w-4xl mx-auto">
+                            {/* Summary */}
+                            {tour.summary && (
+                                <motion.p
+                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, amount: 0.3 }}
+                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                    className="text-[var(--color-navy)] text-lg sm:text-xl font-display leading-relaxed mb-12"
+                                >
+                                    {tour.summary}
+                                </motion.p>
+                            )}
+
+                            {/* Highlights */}
+                            {tour.highlights && tour.highlights.length > 0 && (
+                                <motion.div
+                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, amount: 0.3 }}
+                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                    className="mb-12"
+                                >
+                                    <h2 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-6">
+                                        Highlights
+                                    </h2>
+                                    <ul className="space-y-3">
+                                        {tour.highlights.map((h, i) => (
+                                            <li key={i} className="flex items-start gap-3 text-[var(--color-text-secondary)] font-body">
+                                                <span className="mt-1 w-5 h-5 rounded-full bg-[var(--color-cream)] flex items-center justify-center shrink-0">
+                                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" strokeWidth="2">
+                                                        <path d="M5 13l4 4L19 7" />
+                                                    </svg>
+                                                </span>
+                                                {h}
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </motion.div>
+                            )}
+
+                            {/* Description */}
+                            {tour.description && (
+                                <motion.div
+                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, amount: 0.2 }}
+                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                    className="mb-12"
+                                >
+                                    {tour.description.split('\n\n').map((para, i) => (
+                                        <p key={i} className="text-[var(--color-text-secondary)] leading-[1.8] mb-5 font-body">
+                                            {para}
+                                        </p>
+                                    ))}
+                                </motion.div>
+                            )}
+
+                            {/* CTA */}
+                            <motion.div
+                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.3 }}
+                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                className="bg-[var(--color-navy)] p-8 sm:p-10 text-center"
+                            >
+                                <h2 className="font-display text-xl sm:text-2xl text-white mb-3">
+                                    Plan this journey for your clients
+                                </h2>
+                                <p className="text-white/40 text-sm mb-6 max-w-lg mx-auto leading-relaxed font-body">
+                                    This sample can be tailored around dates, hotel tiers and travel style.
+                                    Send us your brief and our specialists will design the itinerary.
+                                </p>
+                                <Link
+                                    to={`/request-quote?trip_type=${tour.category}`}
+                                    className="btn btn--md btn--gold"
+                                >
+                                    Request a Quote
+                                    <span aria-hidden="true">→</span>
+                                </Link>
+                            </motion.div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </PageTransition>
     );
 }
 

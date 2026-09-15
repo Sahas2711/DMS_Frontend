@@ -12,6 +12,7 @@ import Seo from '../../components/Seo';
 import { PAGE_META } from '../../config/site';
 
 gsap.registerPlugin(ScrollTrigger);
+window.__hasScrollTrigger = true; // tells App to refresh triggers on route change
 
 const AnimatedCounter = ({ value, duration = 2, decimals = 0, prefix = "", suffix = "" }) => {
     const [count, setCount] = useState(0);

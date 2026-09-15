@@ -94,14 +94,14 @@ const Services = () => (
                     </h2>
                     <p className="text-steel text-sm md:text-base leading-relaxed mb-6">
                         From tailor-made tour design to airport fast track and private transfers,
-                        our local teams handle every detail across Vietnam, Japan and Australia \u2014
+                        our local teams handle every detail across India, Vietnam, Japan and South Korea \u2014
                         so your clients only feel the difference.
                     </p>
                     <div className="flex flex-wrap gap-4">
                         <Link to="/request-quote" className="btn btn--gold btn--lg">
                             Request a Quote
                         </Link>
-                        <Link to="/tours" className="btn btn--wine btn--lg">
+                        <Link to="/tours" className="btn btn--outline btn--lg">
                             Browse Tours
                         </Link>
                     </div>
@@ -199,7 +199,7 @@ const Services = () => (
                         Join the partner network for trade rates, a dedicated account manager and
                         priority support.
                     </p>
-                    <Link to="/become-a-partner" className="btn btn--wine btn--lg">
+                    <Link to="/become-a-partner" className="btn btn--outline btn--lg">
                         Become a Partner
                     </Link>
                 </div>
