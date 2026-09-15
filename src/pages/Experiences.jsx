@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Seo from '../components/Seo';
 import { EXPERIENCE_CATEGORIES } from '../config/enquiry';
 import { PAGE_META } from '../config/site';
-import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
+import { PageTransition, Rise } from '../components/editorial';
 
 import heroImage from '../assets/home/hero-image-home.webp';
 import fitImage from '../assets/home/tours/hoian.jpg';
@@ -30,25 +29,10 @@ const DESTINATIONS = [
     { name: 'South Korea', slug: 'south-korea' },
 ];
 
-/** Shared rise reveal — the page's only motion vocabulary. */
-const Rise = ({ children, delay = 0, className = '' }) => {
-    const prefersReducedMotion = usePrefersReducedMotion();
-    return (
-        <motion.div
-            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
-};
-
 const Experiences = () => {
     const [active, setActive] = useState(EXPERIENCE_CATEGORIES[0]?.value);
     const activeCategory = EXPERIENCE_CATEGORIES.find((c) => c.value === active) || EXPERIENCE_CATEGORIES[0];
+    const prefersReducedMotion = useReducedMotion();
 
     return (
         <PageTransition>
@@ -67,9 +51,9 @@ const Experiences = () => {
                         decoding="async"
                     />
                     <div className="absolute inset-0 bg-[var(--color-navy-deep)]/55" aria-hidden="true" />
-                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
                         <motion.div
-                            initial={{ opacity: 0, y: 24 }}
+                            initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                         >
@@ -87,7 +71,7 @@ const Experiences = () => {
                 </section>
 
                 {/* ── Typography-as-interface index ── */}
-                <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-16">
+                <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
                     <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
 
                         {/* Index rows */}
@@ -215,7 +199,7 @@ const Experiences = () => {
                 </section>
 
                 {/* ── Destinations — waypoint strip ── */}
-                <section className="w-full bg-[var(--color-navy)] py-20 sm:py-28 px-5 sm:px-8 lg:px-16">
+                <section className="w-full bg-[var(--color-navy)] py-20 sm:py-28 px-5 sm:px-8 lg:px-12">
                     <div className="max-w-[1400px] mx-auto">
                         <Rise className="mb-12">
                             <p className="eyebrow text-[var(--color-gold)]/70 mb-4">Explore by Destination</p>

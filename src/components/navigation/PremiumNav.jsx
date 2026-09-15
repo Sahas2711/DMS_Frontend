@@ -104,7 +104,7 @@ export default function PremiumNav() {
             >
                 <nav
                     aria-label="Primary"
-                    className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:h-[76px] lg:px-12"
+                    className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:h-16 lg:px-12"
                 >
                     {/* Wordmark */}
                     <Link to="/" className="group flex items-center gap-3" aria-label="Asian Star Travel — home">

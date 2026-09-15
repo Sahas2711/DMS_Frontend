@@ -1,11 +1,9 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import heroImage from '../assets/home/hero-image-home.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
-import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
+import { PageTransition, Rise } from '../components/editorial';
 
 const TRADE_STEPS = [
     {
@@ -47,8 +45,6 @@ const PARTNER_TYPES = [
 ];
 
 const TravelTrade = () => {
-    const prefersReducedMotion = usePrefersReducedMotion();
-
     return (
         <PageTransition>
             <div className="w-full bg-white">
@@ -63,15 +59,10 @@ const TravelTrade = () => {
                 />
 
                 {/* Intro */}
-                <section className="py-24 sm:py-32 lg:py-40 bg-[var(--color-ivory)]">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                <section className="py-20 sm:py-28 lg:py-36 bg-[var(--color-ivory)]">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-                            <motion.div
-                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            >
+                            <Rise>
                                 <p className="eyebrow text-[var(--color-bronze)]/60 mb-5">
                                     Partner With Us
                                 </p>
@@ -96,14 +87,9 @@ const TravelTrade = () => {
                                         Request a Quote
                                     </Link>
                                 </div>
-                            </motion.div>
+                            </Rise>
 
-                            <motion.div
-                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.8, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
-                            >
+                            <Rise delay={0.15}>
                                 <div className="grid grid-cols-2 gap-4">
                                     {PARTNER_TYPES.map((type) => (
                                         <div
@@ -114,85 +100,63 @@ const TravelTrade = () => {
                                         </div>
                                     ))}
                                 </div>
-                            </motion.div>
+                            </Rise>
                         </div>
                     </div>
                 </section>
 
                 {/* How it works */}
-                <section className="py-24 sm:py-32 lg:py-40 bg-[var(--color-cream)]">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
-                        <motion.div
-                            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            className="mb-16 lg:mb-20"
-                        >
+                <section className="py-20 sm:py-28 lg:py-36 bg-[var(--color-cream)]">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+                        <Rise className="mb-16 lg:mb-20">
                             <p className="eyebrow text-[var(--color-bronze)]/60 mb-4">How It Works</p>
                             <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.92] tracking-[-0.03em] text-[var(--color-navy)]">
                                 From Brief to Delivery.{' '}
                                 <span className="text-[var(--color-gold)]">Seamlessly.</span>
                             </h2>
-                        </motion.div>
+                        </Rise>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
                             {TRADE_STEPS.map((step, index) => (
-                                <motion.div
-                                    key={step.number}
-                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, amount: 0.2 }}
-                                    transition={{ duration: 0.7, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                                    className="bg-white p-8 sm:p-10 border border-[var(--color-navy)]/5"
-                                >
-                                    <span className="text-[var(--color-gold)]/40 text-[11px] font-semibold tracking-[0.2em] block mb-4">
-                                        {step.number}
-                                    </span>
-                                    <h3 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-3 leading-[1.15]">
-                                        {step.title}
-                                    </h3>
-                                    <p className="text-[var(--color-text-secondary)] text-sm sm:text-base leading-relaxed font-body">
-                                        {step.description}
-                                    </p>
-                                </motion.div>
+                                <Rise key={step.number} delay={index * 0.1}>
+                                    <div className="bg-white p-8 sm:p-10 border border-[var(--color-navy)]/5">
+                                        <span className="text-[var(--color-gold)]/40 text-[11px] font-semibold tracking-[0.2em] block mb-4">
+                                            {step.number}
+                                        </span>
+                                        <h3 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-3 leading-[1.15]">
+                                            {step.title}
+                                        </h3>
+                                        <p className="text-[var(--color-text-secondary)] text-sm sm:text-base leading-relaxed font-body">
+                                            {step.description}
+                                        </p>
+                                    </div>
+                                </Rise>
                             ))}
                         </div>
                     </div>
                 </section>
 
                 {/* Support */}
-                <section className="py-24 sm:py-32 lg:py-40 bg-[#081634]">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                <section className="py-20 sm:py-28 lg:py-36 bg-[var(--color-navy)]">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-                            <motion.div
-                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                            >
-                                <p className="eyebrow text-[#c5a869]/70 mb-5">Partner Support</p>
+                            <Rise>
+                                <p className="eyebrow text-[var(--color-gold)]/70 mb-5">Partner Support</p>
                                 <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.92] tracking-[-0.03em] text-white mb-8">
                                     What We Provide.
                                 </h2>
-                            </motion.div>
+                            </Rise>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 lg:gap-12">
                                 {TRADE_SUPPORT.map((item, index) => (
-                                    <motion.div
-                                        key={item.title}
-                                        initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
-                                        whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true, amount: 0.2 }}
-                                        transition={{ duration: 0.7, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
-                                    >
+                                    <Rise key={item.title} delay={index * 0.08}>
                                         <h3 className="font-display text-xl sm:text-2xl text-white mb-3 leading-[1.15]">
                                             {item.title}
                                         </h3>
                                         <p className="text-white/35 text-sm sm:text-base leading-relaxed font-body">
                                             {item.description}
                                         </p>
-                                    </motion.div>
+                                    </Rise>
                                 ))}
                             </div>
                         </div>
@@ -200,14 +164,9 @@ const TravelTrade = () => {
                 </section>
 
                 {/* CTA */}
-                <section className="py-24 sm:py-32 lg:py-40 bg-[var(--color-ivory)]">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 text-center">
-                        <motion.div
-                            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                        >
+                <section className="py-20 sm:py-28 lg:py-36 bg-[var(--color-ivory)]">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 text-center">
+                        <Rise>
                             <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] leading-[0.95] tracking-[-0.02em] text-[var(--color-navy)] mb-5">
                                 Ready to Work Together?
                             </h2>
@@ -223,7 +182,7 @@ const TravelTrade = () => {
                                     Become a Partner
                                 </Link>
                             </div>
-                        </motion.div>
+                        </Rise>
                     </div>
                 </section>
             </div>

@@ -4,26 +4,8 @@ import mapImage from '../assets/contactus/map-image-contactus.webp';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
 import ContactForm from '../components/forms/ContactForm';
-import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
+import { PageTransition, Rise } from '../components/editorial';
 
-/** Shared rise reveal — the page's only motion vocabulary. */
-const Rise = ({ children, delay = 0, className = '' }) => {
-    const prefersReducedMotion = usePrefersReducedMotion();
-    return (
-        <motion.div
-            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
-};
-
-/* Verified channels — links and values carried from the previous page. */
 const CHANNELS = [
     {
         tag: '01',
@@ -48,7 +30,6 @@ const CHANNELS = [
     },
 ];
 
-/* Verified office facts (previous page copy — nothing invented). */
 const OFFICES = [
     {
         code: 'SGN',
@@ -76,7 +57,7 @@ const Contactus = () => (
             <Seo {...PAGE_META['/contact']} path="/contact" />
 
             {/* ── Arrival ── */}
-            <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-[80vh] flex items-center overflow-hidden">
+            <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center overflow-hidden">
                 <img
                     src={heroImage}
                     alt=""
@@ -87,7 +68,7 @@ const Contactus = () => (
                     decoding="async"
                 />
                 <div className="absolute inset-0 bg-[var(--color-navy-deep)]/55" aria-hidden="true" />
-                <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
                     <motion.div
                         initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -106,8 +87,8 @@ const Contactus = () => (
                 </div>
             </section>
 
-            {/* ── Instant channels — typographic ledger ── */}
-            <section className="w-full bg-[var(--color-ivory)] py-24 sm:py-32 px-5 sm:px-8 lg:px-16">
+            {/* ── Instant channels ── */}
+            <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
                 <div className="max-w-[1400px] mx-auto">
                     <Rise className="max-w-2xl mb-14">
                         <p className="eyebrow mb-4">Instant Connections</p>
@@ -151,9 +132,8 @@ const Contactus = () => (
             </section>
 
             {/* ── Direct contacts + enquiry form ── */}
-            <section className="w-full bg-white py-24 sm:py-32 px-5 sm:px-8 lg:px-16 border-t border-[var(--color-border-subtle)]">
+            <section className="w-full bg-white py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12 border-t border-[var(--color-border-subtle)]">
                 <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-                    {/* Left — direct concierge details */}
                     <Rise className="lg:col-span-5">
                         <p className="eyebrow mb-4">Immediate Concierge</p>
                         <h2 className="font-display text-[clamp(1.9rem,4vw,3rem)] leading-[0.95] tracking-[-0.02em] text-[var(--color-navy)] mb-6">
@@ -184,7 +164,7 @@ const Contactus = () => (
 
                             <div className="border-t border-[var(--color-border-subtle)] pt-6">
                                 <dt className="text-[10px] font-semibold tracking-[0.2em] text-[var(--color-text-muted)] uppercase mb-2">
-                                    24/7 VIP Assistance
+                                    VIP Assistance
                                 </dt>
                                 <dd>
                                     <a
@@ -238,7 +218,6 @@ const Contactus = () => (
                         </div>
                     </Rise>
 
-                    {/* Right — form (backend contract untouched) */}
                     <Rise delay={0.1} className="lg:col-span-7">
                         <div className="bg-[var(--color-ivory)] border border-[var(--color-border-subtle)] shadow-xl p-6 md:p-10">
                             <p className="eyebrow mb-3">Bespoke Inquiry</p>
@@ -267,7 +246,7 @@ const Contactus = () => (
                 />
                 <div className="absolute inset-0 bg-[var(--color-navy-deep)]/80" aria-hidden="true" />
 
-                <div className="relative z-10 max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 py-24 sm:py-32">
+                <div className="relative z-10 max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 py-20 sm:py-28 lg:py-36">
                     <Rise className="mb-12">
                         <p className="eyebrow text-[var(--color-gold)]/70 mb-4">Physical Presence</p>
                         <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.95] tracking-[-0.02em] text-white">
@@ -309,12 +288,12 @@ const Contactus = () => (
             </section>
 
             {/* ── Closing strip ── */}
-            <section className="w-full bg-[var(--color-cream)] py-20 sm:py-24 px-5 sm:px-8 lg:px-16">
+            <section className="w-full bg-[var(--color-cream)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
                 <div className="max-w-[1400px] mx-auto text-center">
                     <Rise>
                         <p className="eyebrow mb-4 justify-center">Peace of Mind</p>
                         <p className="font-display text-[clamp(1.5rem,3.2vw,2.4rem)] leading-[1.1] tracking-[-0.02em] text-[var(--color-navy)] max-w-2xl mx-auto italic">
-                            “Handling every detail locally, from the first inquiry to the final departure.”
+                            "Handling every detail locally, from the first inquiry to the final departure."
                         </p>
                     </Rise>
                 </div>

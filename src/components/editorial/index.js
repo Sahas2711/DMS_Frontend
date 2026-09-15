@@ -8,3 +8,4 @@ export { default as JourneyCard } from './JourneyCard';
 export { default as DestinationCard } from './DestinationCard';
 export { default as EditorialStory } from './EditorialStory';
 export { default as EditorialCTA } from './EditorialCTA';
+export { default as Rise } from './Rise';

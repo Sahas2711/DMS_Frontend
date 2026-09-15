@@ -20,7 +20,7 @@ const CookiePolicy = () => {
                 />
 
                 <section className="py-20 sm:py-28 lg:py-36 bg-white">
-                    <div className="max-w-3xl mx-auto px-5 sm:px-8 lg:px-16">
+                    <div className="max-w-3xl mx-auto px-5 sm:px-8 lg:px-12">
                         <p className="text-[var(--color-text-muted)] text-sm font-body mb-8">
                             Last updated: {new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                         </p>

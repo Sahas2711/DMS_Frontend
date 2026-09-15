@@ -6,8 +6,7 @@ import JsonLd from '../components/JsonLd';
 import { PAGE_META } from '../config/site';
 import { itemListSchema } from '../config/structuredData';
 import { fetchDestinations, resolveMediaUrl } from '../services/api/cms';
-import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
+import { PageTransition, Rise } from '../components/editorial';
 
 import indiaImg from '../assets/home/Kerala-Heritage.webp';
 import vietnamImg from '../assets/home/tours/hanoi.jpg';
@@ -70,22 +69,6 @@ const FALLBACK_DESTINATIONS = [
 
 const DESTINATION_SLUGS = FALLBACK_DESTINATIONS.map((d) => d.slug);
 
-/** Shared rise reveal — the page's only motion vocabulary. */
-const Rise = ({ children, delay = 0, className = '' }) => {
-    const prefersReducedMotion = usePrefersReducedMotion();
-    return (
-        <motion.div
-            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
-};
-
 const Destination = () => {
     const [destinations, setDestinations] = useState(FALLBACK_DESTINATIONS);
 
@@ -93,8 +76,6 @@ const Destination = () => {
         let cancelled = false;
         fetchDestinations({ pageSize: 20 }).then((res) => {
             if (cancelled || !res?.items?.length) return;
-            // CMS wins for copy and hero media; verified fallback content fills
-            // regions, experiences and metadata the CMS does not provide.
             const mapped = res.items
                 .filter((d) => DESTINATION_SLUGS.includes(d.slug))
                 .map((d) => {
@@ -134,7 +115,7 @@ const Destination = () => {
                         decoding="async"
                     />
                     <div className="absolute inset-0 bg-[var(--color-navy-deep)]/55" aria-hidden="true" />
-                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
                         <motion.div
                             initial={{ opacity: 0, y: 24 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -155,7 +136,7 @@ const Destination = () => {
 
                 {/* ── Geographic route strip ── */}
                 <nav aria-label="Destinations index" className="w-full bg-white border-b border-[var(--color-border-subtle)]">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
                         <ul className="flex flex-col sm:flex-row sm:items-stretch divide-y sm:divide-y-0 sm:divide-x divide-[var(--color-border-subtle)]">
                             {destinations.map((dest) => (
                                 <li key={dest.slug} className="flex-1">
@@ -183,7 +164,7 @@ const Destination = () => {
                         <section
                             key={dest.slug}
                             id={`chapter-${dest.slug}`}
-                            className={`w-full scroll-mt-20 ${index % 2 === 0 ? 'bg-[var(--color-ivory)]' : 'bg-white'} py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-16`}
+                            className={`w-full scroll-mt-20 ${index % 2 === 0 ? 'bg-[var(--color-ivory)]' : 'bg-white'} py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12`}
                         >
                             <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
                                 {/* Image column */}
@@ -256,7 +237,7 @@ const Destination = () => {
                 })}
 
                 {/* ── B2B CTA ── */}
-                <section className="w-full bg-[var(--color-navy)] py-24 sm:py-32 px-5 sm:px-8 lg:px-16">
+                <section className="w-full bg-[var(--color-navy)] py-24 sm:py-32 px-5 sm:px-8 lg:px-12">
                     <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
                         <Rise className="lg:col-span-7">
                             <p className="eyebrow text-[var(--color-gold)]/70 mb-4">Not Sure Which Destination?</p>

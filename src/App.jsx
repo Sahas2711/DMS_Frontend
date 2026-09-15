@@ -143,21 +143,9 @@ function SmoothScroll() {
         };
     }, [isAdmin]);
 
-    // Reset scroll position on route change (native; immediate), then refresh
-    // ScrollTrigger — but only for pages that registered one. The flag is set
-    // by those lazy page chunks when they load, so GSAP is never fetched for
-    // the landing experience.
+    // Reset scroll position on route change (native; immediate).
     useEffect(() => {
         window.scrollTo(0, 0);
-        if (!window.__hasScrollTrigger) return undefined;
-        let cancelled = false;
-        requestAnimationFrame(() => {
-            if (cancelled) return;
-            import('gsap/ScrollTrigger')
-                .then(({ ScrollTrigger }) => ScrollTrigger.refresh())
-                .catch(() => {});
-        });
-        return () => { cancelled = true; };
     }, [pathname]);
 
     return null;

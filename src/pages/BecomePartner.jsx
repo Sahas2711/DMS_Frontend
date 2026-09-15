@@ -4,29 +4,8 @@ import heroImage from '../assets/home/hero-image-home.webp';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
 import BecomePartnerForm from '../components/forms/BecomePartnerForm';
-import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
+import { PageTransition, Rise } from '../components/editorial';
 
-/** Shared rise reveal — the page's only motion vocabulary. */
-const Rise = ({ children, delay = 0, className = '' }) => {
-    const prefersReducedMotion = usePrefersReducedMotion();
-    return (
-        <motion.div
-            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
-};
-
-/**
- * The four real differentiators (mirrored from the homepage capabilities and
- * TravelTrade copy — no invented metrics, awards or client names).
- */
 const DIFFERENTIATORS = [
     {
         number: '01',
@@ -46,19 +25,17 @@ const DIFFERENTIATORS = [
     {
         number: '04',
         title: 'Operational Precision',
-        body: 'Meticulous planning and 24/7 ground support — the kind of detail only an on-the-ground operator can provide.',
+        body: 'Meticulous planning and on-call ground support — the kind of detail only an on-the-ground operator can provide.',
     },
 ];
 
-/** Verified support pillars (TravelTrade.jsx copy). */
 const SUPPORT = [
     { title: 'Net & Trade Pricing', description: 'Transparent rates designed for tour operators and travel agencies.' },
-    { title: '24/7 Ground Support', description: 'On-call operations team during every trip — your clients are never alone.' },
+    { title: 'Ground Support', description: 'On-call operations team during every trip — your clients are never alone.' },
     { title: 'Co-branded Materials', description: 'Custom itineraries, PDFs and proposals under your brand.' },
     { title: 'Dedicated Partner Manager', description: 'A single point of contact who knows your business.' },
 ];
 
-/** Verified partner types (TravelTrade.jsx copy). */
 const PARTNER_TYPES = [
     'Tour Operators',
     'Travel Agencies',
@@ -85,7 +62,7 @@ const BecomePartner = () => (
                     decoding="async"
                 />
                 <div className="absolute inset-0 bg-[var(--color-navy-deep)]/55" aria-hidden="true" />
-                <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
                     <motion.div
                         initial={{ opacity: 0, y: 24 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -113,7 +90,7 @@ const BecomePartner = () => (
             </section>
 
             {/* ── Why Asian Star Travel — the four differentiators as a ledger ── */}
-            <section className="w-full bg-[var(--color-ivory)] py-24 sm:py-32 lg:py-40 px-5 sm:px-8 lg:px-16">
+            <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
                 <div className="max-w-[1400px] mx-auto">
                     <Rise className="max-w-3xl mb-16 lg:mb-20">
                         <p className="eyebrow mb-5">Why Asian Star Travel</p>
@@ -148,7 +125,7 @@ const BecomePartner = () => (
             </section>
 
             {/* ── Who we work with + How we support — navy chapter ── */}
-            <section className="w-full bg-[var(--color-navy)] py-24 sm:py-32 lg:py-40 px-5 sm:px-8 lg:px-16">
+            <section className="w-full bg-[var(--color-navy)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
                 <div className="max-w-[1400px] mx-auto">
                     <Rise className="mb-14 lg:mb-16">
                         <p className="eyebrow text-[var(--color-gold)]/70 mb-4">How We Support Partners</p>
@@ -158,7 +135,6 @@ const BecomePartner = () => (
                     </Rise>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-                        {/* Partner types — typographic index */}
                         <Rise className="lg:col-span-5">
                             <h3 className="font-display text-lg text-white/60 mb-6">Who we work with</h3>
                             <ul className="border-t border-white/10">
@@ -171,7 +147,6 @@ const BecomePartner = () => (
                             </ul>
                         </Rise>
 
-                        {/* Support pillars */}
                         <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-10 lg:gap-12">
                             {SUPPORT.map((item, index) => (
                                 <Rise key={item.title} delay={index * 0.08}>
@@ -189,7 +164,7 @@ const BecomePartner = () => (
             </section>
 
             {/* ── What to expect — four-step strip ── */}
-            <section className="w-full bg-[var(--color-cream)] py-24 sm:py-32 px-5 sm:px-8 lg:px-16">
+            <section className="w-full bg-[var(--color-cream)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
                 <div className="max-w-[1400px] mx-auto">
                     <Rise className="mb-12">
                         <p className="eyebrow mb-4">What to Expect</p>
@@ -218,8 +193,8 @@ const BecomePartner = () => (
                 </div>
             </section>
 
-            {/* ── Partner application form — contract untouched ── */}
-            <section id="partner-form" className="w-full bg-white py-24 sm:py-32 px-5 sm:px-8 lg:px-16 scroll-mt-24">
+            {/* ── Partner application form ── */}
+            <section id="partner-form" className="w-full bg-white py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12 scroll-mt-24">
                 <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
                     <Rise className="lg:col-span-5">
                         <p className="eyebrow mb-4">Partner Application</p>

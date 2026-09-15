@@ -16,11 +16,7 @@ const packageOf = (id) => {
 
 const VENDOR_CHUNKS = {
   'vendor-react': ['react', 'react-dom', 'react-router', 'react-router-dom', 'scheduler'],
-  // framer-motion and gsap are kept apart: the homepage needs framer-motion,
-  // while gsap is only used by the service pages and should stay off the
-  // critical path.
   'vendor-motion': ['framer-motion', 'motion-dom', 'motion-utils'],
-  'vendor-gsap': ['gsap'],
   'vendor-scroll': ['lenis'],
   'vendor-icons': ['lucide-react'],
 }

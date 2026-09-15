@@ -8,8 +8,7 @@ import { POST_CATEGORIES } from '../config/posts';
 import { postImage } from '../config/postImages';
 import { itemListSchema } from '../config/structuredData';
 import { fetchPosts } from '../services/api/cms';
-import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
+import { PageTransition, Rise } from '../components/editorial';
 
 function formatDate(value) {
     if (!value) return '';
@@ -21,24 +20,7 @@ function formatDate(value) {
 
 const CATEGORIES = ['All', ...POST_CATEGORIES.map((c) => c.label)];
 
-/** Shared rise reveal — the page's only motion vocabulary. */
-const Rise = ({ children, delay = 0, className = '' }) => {
-    const prefersReducedMotion = usePrefersReducedMotion();
-    return (
-        <motion.div
-            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.25 }}
-            transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
-};
-
 const Blogs = () => {
-    const prefersReducedMotion = usePrefersReducedMotion();
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(1);
@@ -120,9 +102,9 @@ const Blogs = () => {
                             </Link>
                             <div className="absolute inset-0 z-0 bg-gradient-to-t from-[var(--color-navy-deep)]/90 via-[var(--color-navy)]/40 to-[var(--color-navy)]/10" />
 
-                            <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 pb-14 sm:pb-20">
+                            <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 pb-14 sm:pb-20">
                                 <motion.div
-                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
+                                    initial={{ opacity: 0, y: 30 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                                     className="max-w-3xl"
@@ -182,8 +164,8 @@ const Blogs = () => {
                 </section>
 
                 {/* ── Editorial index ── */}
-                <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 px-5 sm:px-8 lg:px-16">
-                    <div className="max-w-[1400px] mx-auto">
+                <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 lg:py-36">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
                         {/* Category filter — editorial text tabs */}
                         <Rise className="flex items-end justify-between gap-6 flex-wrap mb-8">
                             <div>
@@ -335,8 +317,8 @@ const Blogs = () => {
                 </section>
 
                 {/* ── Trade CTA ── */}
-                <section className="w-full bg-[var(--color-navy)] py-24 sm:py-32 px-5 sm:px-8 lg:px-16">
-                    <div className="max-w-[1400px] mx-auto text-center">
+                <section className="w-full bg-[var(--color-navy)] py-20 sm:py-28 lg:py-36">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 text-center">
                         <Rise>
                             <p className="eyebrow text-[var(--color-gold)]/70 mb-5 justify-center">Travel Trade</p>
                             <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.95] tracking-[-0.02em] text-white mb-6">

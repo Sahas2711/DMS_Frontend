@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
 import { SITE } from '../config/site';
@@ -9,7 +9,6 @@ import { fetchTourBySlug, resolveMediaUrl } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 import { TRIP_TYPE_BY_VALUE } from '../config/enquiry';
 import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
 
 // Bundled fallback imagery — no external hotlinks (project image policy).
 import halongFallback from '../assets/home/tours/halong.jpg';
@@ -30,7 +29,7 @@ const noSeo = {
 function TourDetail() {
     const { slug } = useParams();
     const [state, setState] = useState({ status: 'loading', tour: null, error: null });
-    const prefersReducedMotion = usePrefersReducedMotion();
+    const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -110,7 +109,7 @@ function TourDetail() {
                 />
 
                 {/* Cinematic hero */}
-                <section className="relative h-[60vh] sm:h-[70vh] flex items-end overflow-hidden">
+                <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center overflow-hidden">
                     <img
                         src={heroImage}
                         alt={tour.hero_media?.alt_text || tour.title}
@@ -121,7 +120,7 @@ function TourDetail() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#081634]/80 via-[#081634]/20 to-transparent" />
 
-                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 pb-12 sm:pb-16 lg:pb-20">
+                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 pb-12 sm:pb-16 lg:pb-20">
                         <motion.div
                             initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -168,7 +167,7 @@ function TourDetail() {
 
                 {/* Body */}
                 <section className="py-20 sm:py-28 lg:py-36 bg-white">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
                         <div className="max-w-4xl mx-auto">
                             {/* Summary */}
                             {tour.summary && (

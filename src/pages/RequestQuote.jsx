@@ -4,8 +4,7 @@ import heroImage from '../assets/home/plan-your-trip.webp';
 import Seo from '../components/Seo';
 import RequestQuoteForm from '../components/forms/RequestQuoteForm';
 import { PAGE_META } from '../config/site';
-import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
+import { PageTransition, Rise } from '../components/editorial';
 
 const PROCESS = [
     {
@@ -28,15 +27,14 @@ const PROCESS = [
 const RequestQuote = () => {
     const [searchParams] = useSearchParams();
     const tripType = searchParams.get('trip_type') || '';
-    const prefersReducedMotion = usePrefersReducedMotion();
 
     return (
         <PageTransition>
             <div className="w-full bg-white">
                 <Seo {...PAGE_META['/request-quote']} path="/request-quote" noIndex image={heroImage} />
 
-                {/* ── Arrival — compact cinematic header (conversion page stays direct) ── */}
-                <section className="relative w-full h-[46vh] md:h-[56vh] flex items-end overflow-hidden">
+                {/* ── Arrival ── */}
+                <section className="relative w-full h-[50vh] md:h-[65vh] flex items-end overflow-hidden">
                     <img
                         src={heroImage}
                         alt=""
@@ -47,9 +45,9 @@ const RequestQuote = () => {
                         decoding="async"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy-deep)]/90 via-[var(--color-navy)]/45 to-[var(--color-navy)]/20" />
-                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 pb-12 sm:pb-16">
+                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 pb-12 sm:pb-16">
                         <motion.div
-                            initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                            initial={{ opacity: 0, y: 24 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
@@ -66,16 +64,10 @@ const RequestQuote = () => {
                 </section>
 
                 {/* ── Process + form ── */}
-                <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 px-5 sm:px-8 lg:px-16">
+                <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
                     <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
-                        {/* Context column — sticky on desktop */}
                         <div className="lg:col-span-4 lg:sticky lg:top-28">
-                            <motion.div
-                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                            >
+                            <Rise>
                                 <p className="eyebrow mb-6">What Happens Next</p>
                                 <ol className="border-t border-[var(--color-border-subtle)]">
                                     {PROCESS.map((item) => (
@@ -109,20 +101,15 @@ const RequestQuote = () => {
                                     Responses usually arrive within one business day. No payment is
                                     taken at this stage.
                                 </p>
-                            </motion.div>
+                            </Rise>
                         </div>
 
-                        {/* Form — untouched contract */}
                         <div className="lg:col-span-8">
-                            <motion.div
-                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.1 }}
-                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                className="bg-white border border-[var(--color-border-subtle)] shadow-xl p-6 md:p-10"
-                            >
-                                <RequestQuoteForm initialTripType={tripType} />
-                            </motion.div>
+                            <Rise delay={0.1}>
+                                <div className="bg-white border border-[var(--color-border-subtle)] shadow-xl p-6 md:p-10">
+                                    <RequestQuoteForm initialTripType={tripType} />
+                                </div>
+                            </Rise>
                         </div>
                     </div>
                 </section>

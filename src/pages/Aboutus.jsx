@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import heroImage from '../assets/aboutus/Aboutus-hero-image.webp';
 import aboutSectionImg from '../assets/aboutus/aboutus-section.webp';
 import ourStoryImg from '../assets/aboutus/our-story-image.webp';
@@ -10,46 +10,18 @@ import regionalReachImg from '../assets/aboutus/REGIONAL-REACH-section-image.web
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
-import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
-
-/**
- * Shared reveal transition — one easing vocabulary, motion-guarded.
- * (Framer replaces the page's previous GSAP instance so the site keeps a
- * single animation engine on non-home routes.)
- */
-const rise = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0 },
-};
+import { PageTransition, Rise } from '../components/editorial';
 
 const riseImg = {
     hidden: { opacity: 0, scale: 1.06 },
     visible: { opacity: 1, scale: 1 },
 };
 
-const Rise = ({ children, delay = 0, className = '' }) => {
-    const prefersReducedMotion = usePrefersReducedMotion();
-    return (
-        <motion.div
-            initial={prefersReducedMotion ? {} : 'hidden'}
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            variants={rise}
-            transition={{ duration: 0.8, delay, ease: [0.16, 1, 0.3, 1] }}
-            className={className}
-        >
-            {children}
-        </motion.div>
-    );
-};
-
-/** Cinematic image reveal: mask wipe + settle, motion-guarded. */
 const RevealImage = ({ src, alt, className = '', imgClassName = '', children }) => {
-    const prefersReducedMotion = usePrefersReducedMotion();
+    const reduce = useReducedMotion();
     return (
         <motion.div
-            initial={prefersReducedMotion ? {} : 'hidden'}
+            initial={reduce ? {} : 'hidden'}
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
             variants={riseImg}
@@ -61,8 +33,6 @@ const RevealImage = ({ src, alt, className = '', imgClassName = '', children }) 
         </motion.div>
     );
 };
-
-/* ── Verified content (site.js / existing copy — nothing invented) ── */
 
 const DESTINATIONS = [
     { number: '01', name: 'India', note: 'Heritage, wild landscapes and living traditions.' },
@@ -124,11 +94,10 @@ const Aboutus = () => (
         <div className="w-full">
             <Seo {...PAGE_META['/about']} path="/about" />
 
-            {/* ── Arrival: full-bleed hero ── */}
             <PageHero image={heroImage} alt="" title="About Us" eyebrow="The ground partner behind Asia" uppercase />
 
             {/* ── Chapter 01 — Who We Are: editorial split ── */}
-            <section className="w-full bg-[var(--color-ivory)] py-24 sm:py-32 lg:py-40 px-5 sm:px-8 lg:px-16">
+            <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
                 <div className="max-w-[1400px] mx-auto">
                     <Rise className="max-w-3xl mb-16 lg:mb-20">
                         <p className="eyebrow mb-5">Who We Are</p>
@@ -144,7 +113,6 @@ const Aboutus = () => (
                     </Rise>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-                        {/* Image column with floating ops card */}
                         <div className="lg:col-span-6">
                             <RevealImage
                                 src={aboutSectionImg}
@@ -171,7 +139,6 @@ const Aboutus = () => (
                             </RevealImage>
                         </div>
 
-                        {/* Text column with verified operational facts */}
                         <Rise delay={0.12} className="lg:col-span-6 lg:pl-4">
                             <p className="font-body text-[var(--color-text-secondary)] text-base leading-relaxed mb-8 max-w-lg">
                                 We work with independent travelers and with overseas agencies and tour operators
@@ -179,7 +146,6 @@ const Aboutus = () => (
                                 local teams in every destination.
                             </p>
 
-                            {/* Verified operational metas only (footer/site.js facts) */}
                             <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-[var(--color-border-subtle)]">
                                 <div>
                                     <span className="text-[10px] font-semibold tracking-[0.2em] text-[var(--color-text-muted)] uppercase block mb-1.5">
@@ -216,7 +182,7 @@ const Aboutus = () => (
             </section>
 
             {/* ── Chapter 02 — Our Story: inverted split with quote ── */}
-            <section id="our-story" className="w-full bg-white py-24 sm:py-32 lg:py-40 px-5 sm:px-8 lg:px-16 scroll-mt-24">
+            <section id="our-story" className="w-full bg-white py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12 scroll-mt-24">
                 <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
                     <Rise className="lg:col-span-5 order-2 lg:order-1">
                         <RevealImage
@@ -247,7 +213,7 @@ const Aboutus = () => (
 
                         <figure className="bg-[var(--color-champagne)] border-l-2 border-[var(--color-gold)] p-6 max-w-xl">
                             <blockquote className="font-display text-base sm:text-lg text-[var(--color-navy)] leading-snug italic">
-                                “Handling every detail locally, from the first inquiry to the final departure.”
+                                "Handling every detail locally, from the first inquiry to the final departure."
                             </blockquote>
                             <figcaption className="mt-3 text-[11px] tracking-[0.15em] uppercase text-[var(--color-text-muted)]">
                                 Direct dispatch from our operational desks across Asia
@@ -258,7 +224,7 @@ const Aboutus = () => (
             </section>
 
             {/* ── Chapter 03 — What we operate: numbered editorial rows ── */}
-            <section className="w-full bg-[var(--color-ivory)] py-24 sm:py-32 lg:py-40 px-5 sm:px-8 lg:px-16">
+            <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
                 <div className="max-w-[1400px] mx-auto">
                     <Rise className="mb-14 lg:mb-16">
                         <p className="eyebrow mb-4">Our Services</p>
@@ -317,7 +283,7 @@ const Aboutus = () => (
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-[var(--color-navy-deep)]/95 via-[var(--color-navy)]/80 to-[var(--color-navy)]/30" />
 
-                <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 py-20 md:py-28">
+                <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 py-20 md:py-28">
                     <Rise className="max-w-2xl">
                         <p className="eyebrow text-[var(--color-gold)]/80 mb-5">Regional Reach</p>
                         <h2 className="font-display text-[clamp(2.2rem,5vw,4rem)] leading-[0.95] tracking-[-0.03em] text-white mb-6">
@@ -328,7 +294,6 @@ const Aboutus = () => (
                             level of care wherever they are.
                         </p>
 
-                        {/* Waypoint strip — editorial index, not cards */}
                         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-10 gap-y-0 mb-10 border-t border-white/10">
                             {DESTINATIONS.map((dest) => (
                                 <li key={dest.name} className="border-b border-white/10">
@@ -363,8 +328,8 @@ const Aboutus = () => (
                 </div>
             </section>
 
-            {/* ── Chapter 04 — Who we serve: numbered grid, old cards retired ── */}
-            <section className="w-full bg-white py-24 sm:py-32 lg:py-40 px-5 sm:px-8 lg:px-16">
+            {/* ── Chapter 04 — Who we serve: numbered grid ── */}
+            <section className="w-full bg-white py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
                 <div className="max-w-[1400px] mx-auto">
                     <Rise className="mb-14 lg:mb-16">
                         <p className="eyebrow mb-4">Who We Serve</p>
@@ -397,7 +362,7 @@ const Aboutus = () => (
             </section>
 
             {/* ── Closing CTA ── */}
-            <section className="w-full bg-[var(--color-cream)] py-24 sm:py-32 px-5 sm:px-8 lg:px-16">
+            <section className="w-full bg-[var(--color-cream)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
                 <div className="max-w-[1400px] mx-auto text-center">
                     <Rise>
                         <h2 className="font-display text-[clamp(1.9rem,4.5vw,3.2rem)] leading-[0.98] tracking-[-0.02em] text-[var(--color-navy)] mb-6">

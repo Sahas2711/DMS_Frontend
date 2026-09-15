@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { motion, useScroll, useSpring } from 'framer-motion';
+import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion';
 import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
 import { SITE } from '../config/site';
@@ -10,7 +10,6 @@ import { blogPostingSchema, breadcrumbListSchema } from '../config/structuredDat
 import { fetchPostBySlug } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
 
 const noSeo = {
     meta_title: '',
@@ -36,7 +35,7 @@ function formatDate(value) {
 function BlogDetail() {
     const { slug } = useParams();
     const [state, setState] = useState({ status: 'loading', post: null, error: null });
-    const prefersReducedMotion = usePrefersReducedMotion();
+    const prefersReducedMotion = useReducedMotion();
 
     // Reading progress — a functional hairline, not decoration. Spring keeps
     // it in sync without layout thrash; static bar under reduced motion.
@@ -221,8 +220,8 @@ function BlogDetail() {
                 </section>
 
                 {/* Continue reading */}
-                <section className="w-full bg-[var(--color-navy)] py-20 sm:py-24 px-5 sm:px-8">
-                    <div className="max-w-[1400px] mx-auto text-center">
+                <section className="w-full bg-[var(--color-navy)] py-20 sm:py-28 lg:py-36">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 text-center">
                         <p className="eyebrow text-[var(--color-gold)]/70 mb-4 justify-center">The Travel Journal</p>
                         <h2 className="font-display text-[clamp(1.6rem,3.5vw,2.6rem)] leading-[1.0] tracking-[-0.02em] text-white mb-8">
                             More dispatches from the ground.

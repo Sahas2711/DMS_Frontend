@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
 import { PAGE_META } from '../config/site';
 import { itemListSchema } from '../config/structuredData';
 import { fetchTours, resolveMediaUrl } from '../services/api/cms';
 import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
 
 import maharashtraImg from '../assets/home/Maharashtra.webp';
 import halongImg from '../assets/home/tours/halong.jpg';
@@ -113,7 +112,7 @@ const CATEGORIES = [
 const Tours = () => {
     const [tours, setTours] = useState(FALLBACK_TOURS);
     const [activeFilter, setActiveFilter] = useState('all');
-    const prefersReducedMotion = usePrefersReducedMotion();
+    const prefersReducedMotion = useReducedMotion();
 
     useEffect(() => {
         let cancelled = false;
@@ -157,7 +156,7 @@ const Tours = () => {
                 <JsonLd data={[itemListSchema(tours)]} />
 
                 {/* ── Arrival ── */}
-                <section className="relative h-[50vh] sm:h-[65vh] lg:min-h-[80vh] flex items-end overflow-hidden">
+                <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center overflow-hidden">
                     <img
                         src={heroImage}
                         alt="Ha Long Bay limestone karsts, Vietnam"
@@ -167,7 +166,7 @@ const Tours = () => {
                         decoding="async"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy-deep)]/85 via-[var(--color-navy)]/25 to-transparent" />
-                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 pb-12 sm:pb-16 lg:pb-20">
+                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 pb-12 sm:pb-16 lg:pb-20">
                         <motion.div
                             initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
@@ -189,7 +188,7 @@ const Tours = () => {
 
                 {/* ── Filters + Journey index ── */}
                 <section className="py-20 sm:py-28 lg:py-36 bg-[var(--color-ivory)]">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
                         {/* Destination filter — editorial tabs */}
                         <motion.div
                             initial={prefersReducedMotion ? {} : { opacity: 0, y: 20 }}

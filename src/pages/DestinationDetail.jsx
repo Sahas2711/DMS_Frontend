@@ -10,8 +10,7 @@ import {
 } from '../config/structuredData';
 import { fetchDestinationBySlug, fetchTours, resolveMediaUrl } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
-import { PageTransition } from '../components/editorial';
-import { usePrefersReducedMotion } from '../components/motion/animations';
+import { PageTransition, Rise } from '../components/editorial';
 
 // Bundled destination imagery — no external hotlinks (project image policy).
 import indiaFallback from '../assets/home/Kerala-Heritage.webp';
@@ -51,7 +50,6 @@ function DestinationDetail() {
     const { slug } = useParams();
     const [state, setState] = useState({ status: 'loading', destination: null, error: null });
     const [tours, setTours] = useState([]);
-    const prefersReducedMotion = usePrefersReducedMotion();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -136,7 +134,7 @@ function DestinationDetail() {
                 />
 
                 {/* Cinematic hero */}
-                <section className="relative w-full h-[60vh] sm:h-[70vh] flex items-end overflow-hidden">
+                <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-end overflow-hidden">
                     <img
                         src={heroImage}
                         alt={dest.hero_media?.alt_text || dest.name}
@@ -145,11 +143,11 @@ function DestinationDetail() {
                         loading="eager"
                         decoding="async"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#081634]/80 via-[#081634]/20 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy-deep)]/80 via-[var(--color-navy-deep)]/20 to-transparent" />
 
-                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16 pb-12 sm:pb-16 lg:pb-20">
+                    <div className="relative z-10 w-full max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 pb-12 sm:pb-16 lg:pb-20">
                         <motion.div
-                            initial={prefersReducedMotion ? {} : { opacity: 0, y: 30 }}
+                            initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
@@ -173,33 +171,21 @@ function DestinationDetail() {
 
                 {/* Body */}
                 <section className="py-20 sm:py-28 lg:py-36 bg-white">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-16">
+                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
                         <div className="max-w-4xl mx-auto">
                             {dest.description && (
-                                <motion.div
-                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, amount: 0.3 }}
-                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                    className="mb-16"
-                                >
+                                <Rise className="mb-16">
                                     {dest.description.split('\n\n').map((para, i) => (
                                         <p key={i} className="text-[var(--color-text-secondary)] leading-[1.8] mb-5 font-body text-base sm:text-lg">
                                             {para}
                                         </p>
                                     ))}
-                                </motion.div>
+                                </Rise>
                             )}
 
                             {/* Regions — geographic waypoint index (verified fallback data) */}
                             {regions.length > 0 && (
-                                <motion.div
-                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, amount: 0.2 }}
-                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                    className="mb-16"
-                                >
+                                <Rise className="mb-16">
                                     <p className="eyebrow mb-4">Regions We Operate</p>
                                     <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-[var(--color-border-subtle)] border border-[var(--color-border-subtle)]">
                                         {regions.map((region) => (
@@ -208,17 +194,12 @@ function DestinationDetail() {
                                             </li>
                                         ))}
                                     </ul>
-                                </motion.div>
+                                </Rise>
                             )}
 
                             {/* Sample journeys */}
                             {tours.length > 0 && (
-                                <motion.div
-                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, amount: 0.2 }}
-                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                >
+                                <Rise>
                                     <p className="text-[10px] sm:text-xs font-medium tracking-[0.25em] uppercase text-[var(--color-text-muted)] mb-4">
                                         Sample Journeys
                                     </p>
@@ -255,17 +236,11 @@ function DestinationDetail() {
                                             </Link>
                                         ))}
                                     </div>
-                                </motion.div>
+                                </Rise>
                             )}
 
                             {/* CTA */}
-                            <motion.div
-                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                className="mt-16 bg-[var(--color-navy)] p-8 sm:p-10 text-center"
-                            >
+                            <Rise className="mt-16 bg-[var(--color-navy)] p-8 sm:p-10 text-center">
                                 <h2 className="font-display text-xl sm:text-2xl text-white mb-3">
                                     Design a journey to {dest.name}
                                 </h2>
@@ -281,7 +256,7 @@ function DestinationDetail() {
                                         <path d="M7 17L17 7M17 7H7M17 7V17" />
                                     </svg>
                                 </Link>
-                            </motion.div>
+                            </Rise>
                         </div>
                     </div>
                 </section>
