@@ -9,6 +9,10 @@ import { EASE_EDITORIAL } from '../motionTokens';
    Typography IS the interface: oversized serif rows fill the scene and
    the photograph floats free, tracking the cursor between rows (desktop)
    or docking as a tap-to-change plate (mobile). No cards.
+
+   Static-first: all rows always visible. Active row highlighted.
+   Ghost image is a desktop enhancement — never required for usability.
+   Contrast: inactive text ≥ 4.8:1 on bg-ivory (WCAG AA).
    ═══════════════════════════════════════════════════════════════════ */
 
 export default function ExperienceScene() {
@@ -35,26 +39,20 @@ export default function ExperienceScene() {
             className="relative overflow-hidden bg-ivory text-navy"
         >
             <div className="relative mx-auto max-w-[1500px] px-5 pb-24 pt-24 sm:px-8 lg:px-12 lg:pb-36 lg:pt-32">
-                {/* Scene header — statement, not label */}
+                {/* Scene header — always visible, no whileInView */}
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                     <div>
-                        <motion.p
-                            initial={{ opacity: 0 }}
-                            whileInView={{ opacity: 1 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8 }}
-                            className="mb-6 flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-bronze"
-                        >
+                        <p className="mb-6 flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-bronze">
                             <span aria-hidden="true" className="h-px w-10 bg-gold/60" />
                             Travel styles
-                        </motion.p>
+                        </p>
                         <h2 className="font-display text-[clamp(2.4rem,6vw,5.2rem)] leading-[0.98] tracking-[-0.03em] text-navy">
                             One place,
                             <br />
                             <span className="italic text-navy/55">six ways in.</span>
                         </h2>
                     </div>
-                    <p className="max-w-xs text-[13px] leading-[1.8] text-navy/55">
+                    <p className="max-w-xs text-[13px] leading-[1.8] text-navy/60">
                         Every programme is built around an interest, a pace and a priority —
                         never a template.
                     </p>
@@ -68,7 +66,7 @@ export default function ExperienceScene() {
                     onMouseEnter={() => setHovering(true)}
                     onMouseLeave={() => setHovering(false)}
                 >
-                    {/* Floating photograph that follows the cursor (desktop) */}
+                    {/* Floating photograph that follows the cursor (desktop only) */}
                     <div
                         ref={ghostRef}
                         aria-hidden="true"
@@ -102,7 +100,6 @@ export default function ExperienceScene() {
                                     index={i}
                                     active={i === active}
                                     onSelect={() => setActive(i)}
-                                    reduce={reduce}
                                 />
                             </li>
                         ))}
@@ -172,6 +169,7 @@ export default function ExperienceScene() {
     );
 }
 
+/* ── Style row: accessible without hover ── */
 function StyleRow({ item, index, active, onSelect }) {
     return (
         <button
@@ -183,34 +181,38 @@ function StyleRow({ item, index, active, onSelect }) {
             className="group block w-full py-6 text-left lg:py-8"
         >
             <div className="flex items-baseline gap-5 sm:gap-8">
+                {/* Index number — small text needs ≥ 4.8:1 contrast */}
                 <span
                     className={`font-display text-[12px] tracking-[0.2em] transition-colors duration-500 ${
-                        active ? 'text-bronze' : 'text-navy/30'
+                        active ? 'text-bronze' : 'text-navy/70'
                     }`}
                 >
                     {String(index + 1).padStart(2, '0')}
                 </span>
+                {/* Style name — large text needs ≥ 3:1 contrast */}
                 <span
                     className={`font-display text-[clamp(1.7rem,4.2vw,3.4rem)] leading-none tracking-[-0.02em] transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                        active ? 'translate-x-3 text-navy' : 'text-navy/35 group-hover:translate-x-1.5 group-hover:text-navy/65'
+                        active ? 'translate-x-3 text-navy' : 'text-navy/50 group-hover:translate-x-1.5 group-hover:text-navy/80'
                     }`}
                 >
                     {item.name}
                 </span>
+                {/* Decorative line */}
                 <span
                     aria-hidden="true"
                     className={`ml-auto hidden h-px self-center transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] sm:block ${
-                        active ? 'w-32 bg-bronze/70' : 'w-8 bg-navy/15'
+                        active ? 'w-32 bg-bronze/70' : 'w-8 bg-navy/20'
                     }`}
                 />
             </div>
-            {/* Supporting line always rendered (a11y), brightens when active */}
-            <motion.p
-                initial={false}                animate={{ opacity: active ? 0.85 : 0.3 }}
-                transition={{ duration: 0.4 }}
-                className="ml-12 mt-2 max-w-xl text-[12px] leading-relaxed text-navy/55 sm:ml-16">
+            {/* Supporting line — small text needs ≥ 4.8:1 contrast */}
+            <p
+                className={`ml-12 mt-2 max-w-xl text-[12px] leading-relaxed transition-opacity duration-400 sm:ml-16 ${
+                    active ? 'text-navy/80' : 'text-navy/50'
+                }`}
+            >
                 {item.line}
-            </motion.p>
+            </p>
         </button>
     );
 }

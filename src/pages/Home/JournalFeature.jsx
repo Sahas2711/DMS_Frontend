@@ -9,6 +9,9 @@ import { EASE_EDITORIAL } from '../motionTokens';
    edge, the headline sits ON the image with a kicker chip and a route
    arrow, and two secondary stories run as asymmetric offset rows below
    (no identical cards). Closes on a quiet field-note line.
+
+   Static-first: heading/content visible immediately when section
+   enters viewport. Cover image loads eagerly to prevent white flash.
    ═══════════════════════════════════════════════════════════════════ */
 
 export default function JournalFeature() {
@@ -27,20 +30,16 @@ export default function JournalFeature() {
                     viewport={{ once: true }}
                     transition={{ duration: 2.2, ease: EASE_EDITORIAL }}
                     className="h-full w-full object-cover"
-                    loading="lazy"
+                    loading="eager"
+                    fetchPriority="high"
                     decoding="async"
                 />
                 <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-navy-deep/85 via-navy-deep/15 to-navy-deep/30" />
 
-                {/* Kicker + headline ON the cover */}
+                {/* Kicker + headline ON the cover — always visible, no whileInView */}
                 <div className="absolute inset-x-0 bottom-0">
                     <div className="mx-auto max-w-[1500px] px-5 pb-12 sm:px-8 lg:px-12 lg:pb-16">
-                        <motion.div
-                            initial={{ opacity: 0, y: 24 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: '-10% 0px' }}
-                            transition={{ duration: 0.9, ease: EASE_EDITORIAL }}
-                        >
+                        <div>
                             <p className="flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold">
                                 <span aria-hidden="true" className="h-px w-10 bg-gold/60" />
                                 {feature.kicker} — {feature.date}
@@ -60,7 +59,7 @@ export default function JournalFeature() {
                                     <path d="M5 12h14M12 5l7 7-7 7" />
                                 </svg>
                             </Link>
-                        </motion.div>
+                        </div>
                     </div>
                 </div>
             </div>

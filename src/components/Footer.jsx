@@ -36,7 +36,7 @@ export default function Footer() {
         <footer className="relative overflow-hidden bg-navy-deep text-white">
             <div aria-hidden="true" className="h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
 
-            <div className="mx-auto max-w-[1440px] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
+            <div className="mx-auto max-w-[1500px] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
                 {/* Masthead row */}
                 <div className="mb-14 flex flex-col gap-8 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
                     <div>

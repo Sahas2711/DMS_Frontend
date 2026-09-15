@@ -33,16 +33,10 @@ export default function EditorialIntro() {
         <section ref={ref} aria-label="Editorial statement" className="relative overflow-hidden bg-ivory text-navy">
             {/* ── Statement part ─────────────────────────────────────── */}
             <div className="relative mx-auto max-w-[1500px] px-5 pb-10 pt-24 sm:px-8 lg:px-12 lg:pt-36">
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="mb-8 flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-bronze"
-                >
+                <p className="mb-8 flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-bronze">
                     <span aria-hidden="true" className="h-px w-10 bg-gold/50" />
                     Beyond the surface
-                </motion.p>
+                </p>
 
                 <motion.h2
                     style={{ y: reduce ? 0 : statementY }}

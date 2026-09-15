@@ -11,7 +11,9 @@ import TopographicField from './TopographicField';
    The journey ends where work begins: the topographic field breathes
    over a photographic base, a route line draws toward the conversion
    moment, and the position statement lands in oversized two-tone serif.
-   Built on the client's own B2B positioning.
+
+   Static-first: heading and CTAs visible without animation.
+   Reduced height (80vh) to avoid excessive blank space above content.
    ═══════════════════════════════════════════════════════════════════ */
 
 export default function FinalCTA() {
@@ -26,7 +28,7 @@ export default function FinalCTA() {
         <section
             ref={ref}
             aria-label="Start a partnership"
-            className="relative flex min-h-[95svh] items-end overflow-hidden bg-navy-deep text-white"
+            className="relative flex min-h-[80vh] items-end overflow-hidden bg-navy-deep text-white"
         >
             {/* Photographic base with parallax */}
             <motion.div style={{ y: imgY }} className="absolute inset-0" aria-hidden="true">
@@ -45,18 +47,12 @@ export default function FinalCTA() {
                 <TopographicField />
             </motion.div>
 
-            {/* Content */}
-            <div className="relative z-10 mx-auto w-full max-w-[1500px] px-5 pb-16 pt-32 sm:px-8 lg:px-12 lg:pb-24">
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8 }}
-                    className="mb-8 flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold/80"
-                >
+            {/* Content — heading always visible */}
+            <div className="relative z-10 mx-auto w-full max-w-[1500px] px-5 pb-16 pt-24 sm:px-8 lg:px-12 lg:pb-24 lg:pt-32">
+                <p className="mb-8 flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold/80">
                     <span aria-hidden="true" className="h-px w-10 bg-gold/60" />
                     Your brief. Our ground.
-                </motion.p>
+                </p>
 
                 <h2 className="display-xl font-display text-[clamp(2.8rem,7vw,6.8rem)] leading-[0.95] tracking-[-0.03em]">
                     <RevealText>Your clients expect</RevealText>
@@ -111,20 +107,12 @@ export default function FinalCTA() {
                     </Link>
                 </motion.div>
 
-                {/* Quiet trade-coordination footnote */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.9, delay: 0.9 }}
-                    className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[9px] uppercase tracking-[0.26em] text-white/30"
-                >
-                    <span>24/7 ground support</span>
-                    <span aria-hidden="true" className="h-[3px] w-[3px] rotate-45 bg-gold/50" />
+                {/* Trade-coordination footnote — no unverified 24/7 claim */}
+                <p className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-2 text-[9px] uppercase tracking-[0.26em] text-white/30">
                     <span>One trade desk</span>
                     <span aria-hidden="true" className="h-[3px] w-[3px] rotate-45 bg-gold/50" />
                     <span>India · Vietnam · Japan · South Korea</span>
-                </motion.p>
+                </p>
             </div>
         </section>
     );

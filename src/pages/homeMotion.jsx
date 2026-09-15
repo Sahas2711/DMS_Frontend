@@ -10,7 +10,8 @@ import { EASE_EDITORIAL } from './motionTokens';
    no second RAF loop, no duplicated reveal code per section.
    ═══════════════════════════════════════════════════════════════════ */
 
-/** Serif line that rises out of an overflow mask on first view. */
+/** Serif line that rises out of an overflow mask on first view.
+    Static-first: reduced-motion shows content immediately (no opacity:0 gate). */
 export function RevealText({ children, as = 'span', delay = 0, duration = 1.1, className = '' }) {
     const reduce = useReducedMotion();
     const Tag = motion[as] || motion.span;
@@ -18,10 +19,10 @@ export function RevealText({ children, as = 'span', delay = 0, duration = 1.1, c
         <span className="block overflow-hidden">
             <Tag
                 className={`block ${className}`}
-                initial={reduce ? { opacity: 0 } : { y: '110%' }}
-                whileInView={reduce ? { opacity: 1 } : { y: '0%' }}
+                initial={reduce ? undefined : { y: '110%' }}
+                whileInView={reduce ? undefined : { y: '0%' }}
                 viewport={{ once: true, margin: '-8% 0px' }}
-                transition={{ duration: reduce ? 0.4 : duration, delay: reduce ? 0 : delay, ease: EASE_EDITORIAL }}
+                transition={{ duration: reduce ? 0 : duration, delay: reduce ? 0 : delay, ease: EASE_EDITORIAL }}
             >
                 {children}
             </Tag>
@@ -29,17 +30,18 @@ export function RevealText({ children, as = 'span', delay = 0, duration = 1.1, c
     );
 }
 
-/** Image inside an overflow-hidden frame; wipes open on first view. */
+/** Image inside an overflow-hidden frame; wipes open on first view.
+    Static-first: reduced-motion shows content immediately. */
 export function ImageReveal({ src, alt = '', className = '', imgClassName = '', delay = 0, priority = false, ratio }) {
     const reduce = useReducedMotion();
     return (
         <motion.div
             className={`overflow-hidden ${className}`}
             style={ratio ? { aspectRatio: ratio } : undefined}
-            initial={reduce ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)' }}
-            whileInView={reduce ? { opacity: 1 } : { clipPath: 'inset(0 0 0% 0)' }}
+            initial={reduce ? undefined : { clipPath: 'inset(0 0 100% 0)' }}
+            whileInView={reduce ? undefined : { clipPath: 'inset(0 0 0% 0)' }}
             viewport={{ once: true, margin: '-8% 0px' }}
-            transition={{ duration: reduce ? 0.4 : 1.3, delay: reduce ? 0 : delay, ease: EASE_EDITORIAL }}
+            transition={{ duration: reduce ? 0 : 1.3, delay: reduce ? 0 : delay, ease: EASE_EDITORIAL }}
         >
             <img
                 src={src}
