@@ -11,8 +11,6 @@ import { fetchPosts } from '../services/api/cms';
 import { PageTransition } from '../components/editorial';
 import { usePrefersReducedMotion } from '../components/motion/animations';
 
-import heroImage from '../assets/blogs/travel-journal-section-image.webp';
-
 function formatDate(value) {
     if (!value) return '';
     const d = new Date(value);

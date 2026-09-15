@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { useInView } from 'framer-motion';
 
 /* ─── Hooks ─── */
 

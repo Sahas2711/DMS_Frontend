@@ -47,10 +47,8 @@ const Rise = ({ children, delay = 0, className = '' }) => {
 };
 
 const Experiences = () => {
-    const prefersReducedMotion = usePrefersReducedMotion();
     const [active, setActive] = useState(EXPERIENCE_CATEGORIES[0]?.value);
     const activeCategory = EXPERIENCE_CATEGORIES.find((c) => c.value === active) || EXPERIENCE_CATEGORIES[0];
-    const activeImage = CATEGORY_IMAGES[activeCategory.value];
 
     return (
         <PageTransition>

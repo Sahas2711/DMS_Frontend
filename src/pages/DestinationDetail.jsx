@@ -191,6 +191,26 @@ function DestinationDetail() {
                                 </motion.div>
                             )}
 
+                            {/* Regions — geographic waypoint index (verified fallback data) */}
+                            {regions.length > 0 && (
+                                <motion.div
+                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, amount: 0.2 }}
+                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                    className="mb-16"
+                                >
+                                    <p className="eyebrow mb-4">Regions We Operate</p>
+                                    <ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-[var(--color-border-subtle)] border border-[var(--color-border-subtle)]">
+                                        {regions.map((region) => (
+                                            <li key={region} className="bg-white px-4 py-5 text-center">
+                                                <span className="font-display text-sm sm:text-base text-[var(--color-navy)]">{region}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </motion.div>
+                            )}
+
                             {/* Sample journeys */}
                             {tours.length > 0 && (
                                 <motion.div
