@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useEffect, memo } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
@@ -260,4 +260,4 @@ function App() {
     );
 }
 
-export default App;
+export default memo(App);

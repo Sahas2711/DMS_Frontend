@@ -29,7 +29,7 @@ export default function LanguageSwitcher({ variant = 'desktop' }) {
     const isDesktop = variant === 'desktop';
 
     return (
-        <div ref={ref} className="relative">
+        <div ref={ref} className="relative" translate="no">
             <button
                 type="button"
                 onClick={() => setOpen((v) => !v)}
