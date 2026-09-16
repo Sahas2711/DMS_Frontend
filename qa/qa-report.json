@@ -1,0 +1,270 @@
+{
+  "desktop": {
+    "scrollSnapshots": [
+      {
+        "step": 0,
+        "scrollY": 1400,
+        "max": 13678
+      },
+      {
+        "step": 1,
+        "scrollY": 2800,
+        "max": 13678
+      },
+      {
+        "step": 2,
+        "scrollY": 4200,
+        "max": 13678
+      },
+      {
+        "step": 3,
+        "scrollY": 5600,
+        "max": 13678
+      },
+      {
+        "step": 4,
+        "scrollY": 7000,
+        "max": 13678
+      },
+      {
+        "step": 5,
+        "scrollY": 8400,
+        "max": 13678
+      },
+      {
+        "step": 6,
+        "scrollY": 9800,
+        "max": 13678
+      },
+      {
+        "step": 7,
+        "scrollY": 11200,
+        "max": 13678
+      },
+      {
+        "step": 8,
+        "scrollY": 12600,
+        "max": 13678
+      },
+      {
+        "step": 9,
+        "scrollY": 13678,
+        "max": 13678
+      }
+    ],
+    "shots": [
+      "desktop-00",
+      "desktop-01",
+      "desktop-02",
+      "desktop-03",
+      "desktop-04",
+      "desktop-05",
+      "desktop-06",
+      "desktop-07",
+      "desktop-08",
+      "desktop-09"
+    ],
+    "layout": {
+      "title": "Asian Star Travel — B2B DMC Partner for India, Vietnam, Japan & South Korea",
+      "h1": "Asian Star Travel — B2B DMC partner for India, Vietnam, Japan and South KoreaASIA,handled.",
+      "headings": [
+        "H1: Asian Star Travel — B2B DMC partner for India, Vietnam, Japan and South KoreaASI",
+        "H2: Asia is notone story.",
+        "H2: One place,six ways in.",
+        "H2: Local knowledge.Global standards.",
+        "H2: Itineraries that move through meaning.",
+        "H2: The Art of Slow Travel in Japan",
+        "H2: Your clients expectmemorable. We handle the rest."
+      ],
+      "horizontalOverflow": 0,
+      "docHeight": 14482,
+      "navLinks": [
+        "/",
+        "/destination",
+        "/experiences",
+        "/tours",
+        "/blog",
+        "/about",
+        "/contact",
+        "/request-quote",
+        "/become-a-partner"
+      ],
+      "brokenImages": [],
+      "imgCount": 16,
+      "buttons": 12
+    },
+    "lcp": {},
+    "resources": {
+      "count": 24,
+      "bytes": 3000290,
+      "biggest": [
+        {
+          "n": "Kerala-Heritage-CHdzMf-T.webp",
+          "kb": 227
+        },
+        {
+          "n": "Maharashtra-CrbOElAP.webp",
+          "kb": 150
+        },
+        {
+          "n": "Telangana-uTa6SDrS.webp",
+          "kb": 350
+        },
+        {
+          "n": "Korea-CunizpXF.webp",
+          "kb": 301
+        },
+        {
+          "n": "Asam-D0lfkqc0.webp",
+          "kb": 352
+        },
+        {
+          "n": "travel-journal-section-image-418iBKhI.webp",
+          "kb": 407
+        },
+        {
+          "n": "DESTINATIONS-BkkoER-4.webp",
+          "kb": 324
+        },
+        {
+          "n": "Himachal-Pradesh-C97-9bkt.webp",
+          "kb": 399
+        }
+      ]
+    }
+  },
+  "mobile": {
+    "scrollSnapshots": [
+      {
+        "step": 0,
+        "scrollY": 700,
+        "max": 13958
+      },
+      {
+        "step": 1,
+        "scrollY": 1400,
+        "max": 13958
+      },
+      {
+        "step": 2,
+        "scrollY": 2100,
+        "max": 13958
+      },
+      {
+        "step": 3,
+        "scrollY": 2800,
+        "max": 13958
+      },
+      {
+        "step": 4,
+        "scrollY": 3500,
+        "max": 13958
+      },
+      {
+        "step": 5,
+        "scrollY": 4200,
+        "max": 13958
+      },
+      {
+        "step": 6,
+        "scrollY": 4900,
+        "max": 13958
+      },
+      {
+        "step": 7,
+        "scrollY": 5600,
+        "max": 13958
+      },
+      {
+        "step": 8,
+        "scrollY": 6300,
+        "max": 13958
+      },
+      {
+        "step": 9,
+        "scrollY": 7000,
+        "max": 13958
+      },
+      {
+        "step": 10,
+        "scrollY": 7700,
+        "max": 13958
+      },
+      {
+        "step": 11,
+        "scrollY": 8400,
+        "max": 13958
+      },
+      {
+        "step": 12,
+        "scrollY": 9100,
+        "max": 13958
+      },
+      {
+        "step": 13,
+        "scrollY": 9800,
+        "max": 13958
+      },
+      {
+        "step": 14,
+        "scrollY": 10500,
+        "max": 13958
+      },
+      {
+        "step": 15,
+        "scrollY": 11200,
+        "max": 13958
+      },
+      {
+        "step": 16,
+        "scrollY": 11900,
+        "max": 13958
+      },
+      {
+        "step": 17,
+        "scrollY": 12600,
+        "max": 13958
+      },
+      {
+        "step": 18,
+        "scrollY": 13300,
+        "max": 13958
+      },
+      {
+        "step": 19,
+        "scrollY": 13958,
+        "max": 13958
+      }
+    ],
+    "shots": [
+      "mobile-00",
+      "mobile-01",
+      "mobile-02",
+      "mobile-03",
+      "mobile-04",
+      "mobile-05",
+      "mobile-06",
+      "mobile-07",
+      "mobile-08",
+      "mobile-09",
+      "mobile-10",
+      "mobile-11",
+      "mobile-12",
+      "mobile-13",
+      "mobile-14",
+      "mobile-15",
+      "mobile-16",
+      "mobile-17",
+      "mobile-18",
+      "mobile-19"
+    ],
+    "layout": {
+      "horizontalOverflow": 0,
+      "docHeight": 14802,
+      "title": "Asian Star Travel — B2B DMC Partner for India, Vietnam, Japan & South Korea",
+      "h1": "Asian Star Travel — B2B DMC partner for India, Vietnam, Japan and South KoreaASIA,handled."
+    }
+  },
+  "consoleMsgs": [],
+  "exceptions": []
+}

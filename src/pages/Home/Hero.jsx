@@ -15,7 +15,6 @@ import {
 
 import {
     DESTINATIONS,
-    HERO_CAPABILITIES,
 } from '../homeContent';
 
 import { EASE_EDITORIAL } from '../motionTokens';
@@ -491,7 +490,7 @@ export default function Hero() {
     "
 >
     {/* Left metadata */}
-    {/* <span
+    <span
         className="
             text-[9px]
             font-semibold
@@ -502,7 +501,7 @@ export default function Hero() {
         "
     >
         B2B Destination Management
-    </span> */}
+    </span>
 
     {/* Right destination coordinates */}
     <div
@@ -524,7 +523,7 @@ export default function Hero() {
                 text-gold/70
             "
         >
-            {/* {destination.name} */}
+            {destination.name}
         </span>
 
         <AnimatePresence

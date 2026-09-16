@@ -69,7 +69,9 @@ export const LanguageProvider = ({ children }) => {
     const [selectedLang, setSelectedLang] =
         useState(readStoredLanguage);
 
-    const [ready, setReady] = useState(false);
+    const [ready, setReady] = useState(
+        () => readStoredLanguage().code === 'en'
+    );
 
     const [failed, setFailed] = useState(false);
 
@@ -172,15 +174,8 @@ export const LanguageProvider = ({ children }) => {
 
         const initialLanguage = readStoredLanguage();
 
-        /*
-         * Make sure React state matches the stored value.
-         */
-        setSelectedLang(initialLanguage);
-
-        if (initialLanguage.code === 'en') {
-            setReady(true);
-        } else {
-            applyLanguage(initialLanguage);
+        if (initialLanguage.code !== 'en') {
+            queueMicrotask(() => applyLanguage(initialLanguage));
         }
 
         return () => {
