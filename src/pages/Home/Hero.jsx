@@ -482,79 +482,95 @@ export default function Hero() {
                     TOP META
                 ═════════════════════════════════════════════════ */}
 
-                <div
-                    className="
-                        flex
-                        shrink-0
-                        items-center
-                        justify-between
-                    "
-                >
+<div
+    className="
+        flex
+        shrink-0
+        items-start
+        justify-between
+    "
+>
+    {/* Left metadata */}
+    {/* <span
+        className="
+            text-[9px]
+            font-semibold
+            uppercase
+            tracking-[0.34em]
+            text-white/70
+            sm:text-[10px]
+        "
+    >
+        B2B Destination Management
+    </span> */}
 
-                    <span
-                        className="
-                            text-[9px]
-                            font-semibold
-                            uppercase
-                            tracking-[0.34em]
-                            text-white/70
-                            sm:text-[10px]
-                        "
-                    >
-                        B2B Destination Management
-                    </span>
+    {/* Right destination coordinates */}
+    <div
+        className="
+            flex
+            flex-col
+            items-end
+            gap-2
+            pt-7
+            sm:pt-8
+        "
+    >
+        <span
+            className="
+                text-[8px]
+                font-semibold
+                uppercase
+                tracking-[0.28em]
+                text-gold/70
+            "
+        >
+            {/* {destination.name} */}
+        </span>
 
-
-                    <AnimatePresence
-                        initial={false}
-                        mode="wait"
-                    >
-                        <motion.span
-                            key={destination.id}
-
-                            initial={
-                                reduce
-                                    ? false
-                                    : {
-                                          opacity: 0,
-                                          y: 5,
-                                      }
-                            }
-
-                            animate={{
-                                opacity: 1,
-                                y: 0,
-                            }}
-
-                            exit={
-                                reduce
-                                    ? undefined
-                                    : {
-                                          opacity: 0,
-                                          y: -5,
-                                      }
-                            }
-
-                            transition={{
-                                duration: 0.35,
-                                ease: EASE_EDITORIAL,
-                            }}
-
-                            className="
-                                hidden
-                                text-[9px]
-                                uppercase
-                                tracking-[0.3em]
-                                text-white/45
-                                sm:block
-                            "
-                        >
-                            {destination.coordinates ??
-                                '21.0278° N — 105.8342° E'}
-                        </motion.span>
-                    </AnimatePresence>
-
-                </div>
+        <AnimatePresence
+            initial={false}
+            mode="wait"
+        >
+            <motion.span
+                key={destination.id}
+                initial={
+                    reduce
+                        ? false
+                        : {
+                              opacity: 0,
+                              y: 8,
+                          }
+                }
+                animate={{
+                    opacity: 1,
+                    y: 0,
+                }}
+                exit={
+                    reduce
+                        ? undefined
+                        : {
+                              opacity: 0,
+                              y: -8,
+                          }
+                }
+                transition={{
+                    duration: 0.35,
+                    ease: EASE_EDITORIAL,
+                }}
+                className="
+                    text-[8px]
+                    uppercase
+                    tracking-[0.3em]
+                    text-white/45
+                    sm:text-[9px]
+                "
+            >
+                {destination.coordinates ??
+                    '21.0278° N — 105.8342° E'}
+            </motion.span>
+        </AnimatePresence>
+    </div>
+</div>
 
 
                 {/* ═════════════════════════════════════════════════
