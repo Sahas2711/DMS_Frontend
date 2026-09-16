@@ -998,7 +998,49 @@ function scheduleMutationTranslation() {
             current !== 'en' &&
             !translationRunning
         ) {
-            apply(current);
+            /*
+             * Check if any new nodes need translation
+             * before starting a full translateBody pass.
+             */
+            const nodes =
+                collectTextNodes(
+                    document.body
+                );
+
+            let hasNew = false;
+
+            for (const node of nodes) {
+                const record =
+                    ensureTextRecord(node);
+
+                if (
+                    record.lang !== current &&
+                    record.orig != null
+                ) {
+                    hasNew = true;
+                    break;
+                }
+            }
+
+            if (!hasNew) {
+                return;
+            }
+
+            const id = ++runId;
+
+            translationRunning = true;
+
+            translateBody(current, id)
+                .then(() => {
+                    if (id === runId) {
+                        translationRunning = false;
+                    }
+                })
+                .catch(() => {
+                    if (id === runId) {
+                        translationRunning = false;
+                    }
+                });
         }
     }, DEBOUNCE_MS);
 }
@@ -1235,4 +1277,20 @@ export function stop() {
     translationRunning = false;
 
     stopObserver();
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   PUBLIC RESET (test helper)
+   ═══════════════════════════════════════════════════════════════ */
+
+export function reset() {
+    stop();
+
+    cache.clear();
+    textRecords.clear();
+    attrRecords.clear();
+
+    current = 'en';
+    runId = 0;
 }

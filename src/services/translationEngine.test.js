@@ -31,8 +31,8 @@ describe('translationEngine', () => {
     let engine;
 
     beforeEach(async () => {
-        vi.resetModules();
         engine = await import('./translationEngine');
+        engine.reset();
         document.body.innerHTML = BASE_HTML;
         document.documentElement.lang = 'en';
     });
@@ -83,7 +83,7 @@ describe('translationEngine', () => {
         expect(document.querySelector('h1').textContent).toBe('JA|Hello');
 
         await engine.apply('ko');
-        expect(document.querySelector('h1').textContent).toBe('KO|JA|Hello');
+        expect(document.querySelector('h1').textContent).toBe('KO|Hello');
 
         await engine.apply('en');
         expect(document.querySelector('h1').textContent).toBe('Hello');
