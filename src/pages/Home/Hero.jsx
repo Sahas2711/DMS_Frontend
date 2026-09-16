@@ -490,7 +490,7 @@ export default function Hero() {
     "
 >
     {/* Left metadata */}
-    <span
+    {/* <span
         className="
             text-[9px]
             font-semibold
@@ -500,8 +500,8 @@ export default function Hero() {
             sm:text-[10px]
         "
     >
-        B2B Destination Management
-    </span>
+    //    B2B Destination Management
+    </span> */}
 
     {/* Right destination coordinates */}
     <div
@@ -514,7 +514,7 @@ export default function Hero() {
             sm:pt-8
         "
     >
-        <span
+        {/* <span
             className="
                 text-[8px]
                 font-semibold
@@ -524,7 +524,7 @@ export default function Hero() {
             "
         >
             {destination.name}
-        </span>
+        </span> */}
 
         <AnimatePresence
             initial={false}
