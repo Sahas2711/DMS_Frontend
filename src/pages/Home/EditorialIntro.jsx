@@ -1,113 +1,734 @@
-import { useRef } from 'react';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { HOME_IMAGES } from '../homeContent';
-import { RevealText } from '../homeMotion';
-import { EASE_EDITORIAL } from '../motionTokens';
 import { RouteLine } from './RoutePath';
 
-/* ═══════════════════════════════════════════════════════════════════
-   EDITORIAL INTRO — "ASIA REVEALS ITSELF"
-   Ivory whitespace, then an oversized two-line serif statement that a
-   FULL-BLEED photographic band crosses through — the type overlaps the
-   image instead of sitting above it. A thin route line draws beneath
-   the statement; honest facts sit as one quiet route-strip, not a
-   boxed facts grid.
-   ═══════════════════════════════════════════════════════════════════ */
+/*
+ * ═══════════════════════════════════════════════════════════════════
+ * EDITORIAL INTRO — CINEMATIC / COMPACT
+ *
+ * Design intent:
+ * - Headline is one visual line on desktop
+ * - Supporting copy sits beside the headline
+ * - Image begins quickly after the header
+ * - Image is the dominant visual element
+ * - No unnecessary viewport-height whitespace
+ * - Animation enhances the composition without hiding content
+ * - Mobile becomes an intentional vertical composition
+ * ═══════════════════════════════════════════════════════════════════
+ */
 
 const FACTS = [
-    { value: 'India · Vietnam · Japan · South Korea', label: 'Destinations we operate' },
-    { value: 'FIT · Groups · MICE', label: 'Programme types' },
-    { value: 'One trade desk', label: 'From first brief to final transfer' },
+    {
+        value: 'India · Vietnam · Japan · South Korea',
+        label: 'Destinations we operate',
+    },
+    {
+        value: 'FIT · Groups · MICE',
+        label: 'Programme types',
+    },
+    {
+        value: 'One trade desk',
+        label: 'From first brief to final transfer',
+    },
 ];
+
+const EASE = [0.16, 1, 0.3, 1];
 
 export default function EditorialIntro() {
     const reduce = useReducedMotion();
-    const ref = useRef(null);
-    const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
-
-    const bandX = useTransform(scrollYProgress, [0, 1], reduce ? ['0%', '0%'] : ['-14%', '10%']);
-    const bandScale = useTransform(scrollYProgress, [0, 0.5, 1], reduce ? [1, 1, 1] : [1.12, 1.04, 1.1]);
-    const statementY = useTransform(scrollYProgress, [0.2, 0.7], reduce ? [0, 0] : [40, -40]);
 
     return (
-        <section ref={ref} aria-label="Editorial statement" className="relative overflow-hidden bg-ivory text-navy">
-            {/* ── Statement part ─────────────────────────────────────── */}
-            <div className="relative mx-auto max-w-[1500px] px-5 pb-10 pt-24 sm:px-8 lg:px-12 lg:pt-36">
-                <p className="mb-8 flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-bronze">
-                    <span aria-hidden="true" className="h-px w-10 bg-gold/50" />
-                    Beyond the surface
-                </p>
+        <section
+            aria-label="Editorial statement"
+            className="
+                relative
+                overflow-hidden
+                bg-ivory
+                text-navy
+            "
+        >
+            {/* ═════════════════════════════════════════════════════
+                HEADER
+            ═════════════════════════════════════════════════════ */}
 
-                <motion.h2
-                    style={{ y: reduce ? 0 : statementY }}
-                    className="relative z-10 font-display text-[clamp(2.9rem,7.5vw,7.5rem)] leading-[0.98] tracking-[-0.035em]"
+            <div
+                className="
+                    mx-auto
+                    max-w-[1600px]
+                    px-5
+                    pt-14
+                    sm:px-8
+                    sm:pt-16
+                    lg:px-12
+                    lg:pt-20
+                "
+            >
+                {/* Section label */}
+
+                <motion.div
+                    initial={
+                        reduce
+                            ? false
+                            : {
+                                  opacity: 0,
+                                  x: -15,
+                              }
+                    }
+                    whileInView={
+                        reduce
+                            ? undefined
+                            : {
+                                  opacity: 1,
+                                  x: 0,
+                              }
+                    }
+                    viewport={{
+                        once: true,
+                        amount: 0.3,
+                    }}
+                    transition={{
+                        duration: 0.6,
+                        ease: EASE,
+                    }}
+                    className="
+                        flex
+                        items-center
+                        gap-4
+                    "
                 >
-                    <RevealText delay={0}>Asia is not</RevealText>
-                    <RevealText delay={0.12} className="pl-[10%]">
-                        one story<span className="text-gold">.</span>
-                    </RevealText>
-                </motion.h2>
+                    <span
+                        aria-hidden="true"
+                        className="
+                            h-px
+                            w-10
+                            bg-gold/60
+                        "
+                    />
 
-                {/* Route line draws under the statement */}
-                <div className="mt-10 max-w-[520px]">
-                    <RouteLine tone="navy" />
+                    <span
+                        className="
+                            text-[10px]
+                            font-semibold
+                            uppercase
+                            tracking-[0.32em]
+                            text-bronze
+                        "
+                    >
+                        Beyond the surface
+                    </span>
+                </motion.div>
+
+                {/* ═════════════════════════════════════════════════
+                    MAIN EDITORIAL ROW
+
+                    Desktop:
+                    headline ←→ supporting copy
+
+                    Mobile:
+                    headline
+                    supporting copy
+                ═════════════════════════════════════════════════ */}
+
+                <div
+                    className="
+                        mt-6
+                        grid
+                        items-end
+                        gap-7
+                        lg:grid-cols-[minmax(0,1fr)_320px]
+                        lg:gap-16
+                    "
+                >
+                    {/* HEADLINE */}
+
+                    <h2
+                        className="
+                            whitespace-nowrap
+                            font-display
+                            text-[clamp(3rem,6.5vw,7.5rem)]
+                            leading-[0.88]
+                            tracking-[-0.055em]
+                            max-[1100px]:text-[clamp(2.7rem,5.8vw,5.5rem)]
+                            max-[767px]:whitespace-normal
+                            max-[767px]:text-[clamp(3.1rem,14vw,5.8rem)]
+                        "
+                    >
+                        <motion.span
+                            initial={
+                                reduce
+                                    ? false
+                                    : {
+                                          opacity: 0,
+                                          x: -25,
+                                      }
+                            }
+                            whileInView={
+                                reduce
+                                    ? undefined
+                                    : {
+                                          opacity: 1,
+                                          x: 0,
+                                      }
+                            }
+                            viewport={{
+                                once: true,
+                                amount: 0.3,
+                            }}
+                            transition={{
+                                duration: 0.85,
+                                ease: EASE,
+                            }}
+                        >
+                            Asia is not
+                        </motion.span>
+
+                        {/* SPACE IS INTENTIONAL */}
+                        {' '}
+
+                        <motion.span
+                            initial={
+                                reduce
+                                    ? false
+                                    : {
+                                          opacity: 0,
+                                          x: 25,
+                                      }
+                            }
+                            whileInView={
+                                reduce
+                                    ? undefined
+                                    : {
+                                          opacity: 1,
+                                          x: 0,
+                                      }
+                            }
+                            viewport={{
+                                once: true,
+                                amount: 0.3,
+                            }}
+                            transition={{
+                                duration: 0.85,
+                                delay: reduce ? 0 : 0.08,
+                                ease: EASE,
+                            }}
+                            className="inline-block"
+                        >
+                            one story
+                            <span className="text-gold">
+                                .
+                            </span>
+                        </motion.span>
+                    </h2>
+
+                    {/* SUPPORTING COPY */}
+
+                    <motion.p
+                        initial={
+                            reduce
+                                ? false
+                                : {
+                                      opacity: 0,
+                                      y: 15,
+                                  }
+                        }
+                        whileInView={
+                            reduce
+                                ? undefined
+                                : {
+                                      opacity: 1,
+                                      y: 0,
+                                  }
+                        }
+                        viewport={{
+                            once: true,
+                            amount: 0.3,
+                        }}
+                        transition={{
+                            duration: 0.7,
+                            delay: reduce ? 0 : 0.18,
+                            ease: EASE,
+                        }}
+                        className="
+                            max-w-[320px]
+                            text-[13px]
+                            leading-[1.8]
+                            text-navy/60
+                            lg:pb-1
+                        "
+                    >
+                        Every destination has its own rhythm,
+                        character and way of moving. We build
+                        programmes around the details that make
+                        each place feel real.
+                    </motion.p>
                 </div>
+
+                {/* ═════════════════════════════════════════════════
+                    ROUTE LINE
+                ═════════════════════════════════════════════════ */}
+
+                <motion.div
+                    initial={
+                        reduce
+                            ? false
+                            : {
+                                  opacity: 0,
+                                  scaleX: 0,
+                              }
+                    }
+                    whileInView={
+                        reduce
+                            ? undefined
+                            : {
+                                  opacity: 1,
+                                  scaleX: 1,
+                              }
+                    }
+                    viewport={{
+                        once: true,
+                        amount: 0.5,
+                    }}
+                    transition={{
+                        duration: 0.9,
+                        delay: reduce ? 0 : 0.15,
+                        ease: EASE,
+                    }}
+                    style={{
+                        transformOrigin: 'left center',
+                    }}
+                    className="
+                        mt-6
+                        w-full
+                        max-w-[640px]
+                    "
+                >
+                    <RouteLine tone="navy" />
+                </motion.div>
             </div>
 
-            {/* ── Full-bleed photographic band, type crosses it ──────── */}
-            <div className="relative mt-6 h-[54vh] overflow-hidden sm:h-[62vh] lg:mt-2 lg:h-[76vh]">
-                <motion.div style={{ x: bandX, scale: bandScale }} className="absolute inset-y-0 left-0 w-[130%]">
+            {/* ═════════════════════════════════════════════════════
+                LARGE CINEMATIC IMAGE
+            ═════════════════════════════════════════════════════ */}
+
+            <CinematicImage reduce={reduce} />
+
+            {/* ═════════════════════════════════════════════════════
+                FACT STRIP
+            ═════════════════════════════════════════════════════ */}
+
+            <FactStrip reduce={reduce} />
+        </section>
+    );
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   CINEMATIC IMAGE
+   ═══════════════════════════════════════════════════════════════════ */
+
+function CinematicImage({ reduce }) {
+    return (
+        <div
+            className="
+                mx-auto
+                max-w-[1600px]
+                px-5
+                pt-6
+                sm:px-8
+                sm:pt-8
+                lg:px-12
+                lg:pt-9
+            "
+        >
+            <motion.div
+                initial={
+                    reduce
+                        ? false
+                        : {
+                              opacity: 0,
+                              y: 25,
+                          }
+                }
+                whileInView={
+                    reduce
+                        ? undefined
+                        : {
+                              opacity: 1,
+                              y: 0,
+                          }
+                }
+                viewport={{
+                    once: true,
+                    amount: 0.08,
+                }}
+                transition={{
+                    duration: 0.9,
+                    ease: EASE,
+                }}
+                className="
+                    group
+                    relative
+                    h-[58vh]
+                    min-h-[420px]
+                    max-h-[760px]
+                    overflow-hidden
+                    sm:h-[62vh]
+                    lg:h-[68vh]
+                "
+            >
+                {/* IMAGE */}
+
+                <motion.div
+                    initial={
+                        reduce
+                            ? false
+                            : {
+                                  scale: 1.1,
+                              }
+                    }
+                    whileInView={
+                        reduce
+                            ? undefined
+                            : {
+                                  scale: 1,
+                              }
+                    }
+                    viewport={{
+                        once: true,
+                        amount: 0.08,
+                    }}
+                    transition={{
+                        duration: 1.8,
+                        ease: EASE,
+                    }}
+                    className="
+                        absolute
+                        inset-0
+                        will-change-transform
+                    "
+                >
                     <img
                         src={HOME_IMAGES.india.editorial}
                         alt="Heritage architecture in Telangana, India"
-                        className="h-full w-full object-cover"
+                        className="
+                            h-full
+                            w-full
+                            object-cover
+                            transition-transform
+                            duration-[1800ms]
+                            ease-[cubic-bezier(0.16,1,0.3,1)]
+                            group-hover:scale-[1.025]
+                        "
                         loading="lazy"
                         decoding="async"
                     />
                 </motion.div>
-                <div aria-hidden="true" className="absolute inset-0 bg-navy-deep/25" />
 
-                {/* The statement's second act rides ON the band */}
-                <div className="absolute inset-0 flex items-center">
-                    <p className="mx-auto w-full max-w-[1500px] px-5 font-display text-[clamp(1.5rem,3.4vw,3.1rem)] italic leading-snug tracking-[-0.015em] text-white sm:px-8 lg:px-12">
-                        <RevealText delay={0.25}>
-                            Every country has its own rhythm — we build journeys
-                        </RevealText>
-                        <RevealText delay={0.4} className="text-gold">
-                            around feeling it, not just seeing it.
-                        </RevealText>
-                    </p>
+                {/* CINEMATIC GRADIENT */}
+
+                <div
+                    aria-hidden="true"
+                    className="
+                        absolute
+                        inset-0
+                        bg-gradient-to-t
+                        from-navy-deep/85
+                        via-navy-deep/15
+                        to-transparent
+                    "
+                />
+
+                {/* LEFT DEPTH */}
+
+                <div
+                    aria-hidden="true"
+                    className="
+                        absolute
+                        inset-0
+                        bg-gradient-to-r
+                        from-navy-deep/30
+                        via-transparent
+                        to-transparent
+                    "
+                />
+
+                {/* ═══════════════════════════════════════════════
+                    IMAGE TOP LABEL
+                ═══════════════════════════════════════════════ */}
+
+                <div
+                    className="
+                        absolute
+                        left-5
+                        top-5
+                        flex
+                        items-center
+                        gap-3
+                        sm:left-7
+                        sm:top-7
+                        lg:left-9
+                        lg:top-9
+                    "
+                >
+                    <span
+                        className="
+                            font-display
+                            text-[12px]
+                            tracking-[0.2em]
+                            text-white
+                        "
+                    >
+                        01
+                    </span>
+
+                    <span
+                        aria-hidden="true"
+                        className="
+                            h-px
+                            w-8
+                            bg-gold
+                        "
+                    />
+
+                    <span
+                        className="
+                            text-[9px]
+                            font-semibold
+                            uppercase
+                            tracking-[0.25em]
+                            text-white/75
+                        "
+                    >
+                        India
+                    </span>
                 </div>
 
-                {/* Floating field note on the band */}
-                <motion.p
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.8 }}
-                    className="absolute bottom-5 right-5 max-w-[220px] border-l border-gold/50 pl-3 text-[10px] uppercase leading-relaxed tracking-[0.2em] text-white/70 sm:right-8 lg:bottom-8 lg:right-12"
-                >
-                    Planned from the ground — from first brief to final transfer
-                </motion.p>
-            </div>
+                {/* ═══════════════════════════════════════════════
+                    RIGHT FIELD NOTE
+                ═══════════════════════════════════════════════ */}
 
-            {/* ── Facts as a quiet route strip ───────────────────────── */}
-            <div className="mx-auto max-w-[1500px] px-5 pb-24 pt-14 sm:px-8 lg:px-12 lg:pb-32">
-                <motion.ol
-                    initial={{ opacity: 0, y: 18 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: '-10% 0px' }}
-                    transition={{ duration: 0.9, ease: EASE_EDITORIAL }}
-                    className="flex flex-col gap-6 border-l-2 border-gold/60 pl-6 sm:flex-row sm:gap-0 sm:pl-0 sm:[&>li]:flex-1"
+                <div
+                    className="
+                        absolute
+                        right-5
+                        top-5
+                        hidden
+                        max-w-[200px]
+                        border-l
+                        border-gold/60
+                        pl-3
+                        text-[8px]
+                        uppercase
+                        leading-[1.7]
+                        tracking-[0.2em]
+                        text-white/75
+                        sm:block
+                        sm:right-7
+                        sm:top-7
+                        lg:right-9
+                        lg:top-9
+                    "
                 >
-                    {FACTS.map((f) => (
-                        <li key={f.label} className="sm:pl-8">
-                            <p className="text-[13px] font-semibold leading-snug tracking-wide text-navy">{f.value}</p>
-                            <p className="mt-1.5 text-[10px] uppercase tracking-[0.2em] text-bronze/80">{f.label}</p>
-                        </li>
-                    ))}
-                </motion.ol>
-            </div>
-        </section>
+                    Planned from the ground —
+                    from first brief to final transfer.
+                </div>
+
+                {/* ═══════════════════════════════════════════════
+                    LARGE IMAGE MESSAGE
+                ═══════════════════════════════════════════════ */}
+
+                <motion.div
+                    initial={
+                        reduce
+                            ? false
+                            : {
+                                  opacity: 0,
+                                  y: 30,
+                              }
+                    }
+                    whileInView={
+                        reduce
+                            ? undefined
+                            : {
+                                  opacity: 1,
+                                  y: 0,
+                              }
+                    }
+                    viewport={{
+                        once: true,
+                        amount: 0.2,
+                    }}
+                    transition={{
+                        duration: 0.9,
+                        delay: reduce ? 0 : 0.18,
+                        ease: EASE,
+                    }}
+                    className="
+                        absolute
+                        bottom-7
+                        left-5
+                        right-5
+                        sm:bottom-9
+                        sm:left-7
+                        sm:right-7
+                        lg:bottom-12
+                        lg:left-9
+                        lg:right-9
+                    "
+                >
+                    <p
+                        className="
+                            max-w-[1000px]
+                            font-display
+                            text-[clamp(1.7rem,3.5vw,3.8rem)]
+                            italic
+                            leading-[1.02]
+                            tracking-[-0.03em]
+                            text-white
+                        "
+                    >
+                        Every country has its own rhythm —
+                        <br className="hidden md:block" />
+
+                        <span className="text-gold">
+                            we build journeys around feeling it,
+                        </span>{' '}
+                        not just seeing it.
+                    </p>
+                </motion.div>
+
+                {/* LOCATION */}
+
+                <span
+                    className="
+                        absolute
+                        bottom-4
+                        right-5
+                        text-[8px]
+                        uppercase
+                        tracking-[0.2em]
+                        text-white/45
+                        sm:bottom-6
+                        sm:right-7
+                    "
+                >
+                    Telangana · India
+                </span>
+            </motion.div>
+        </div>
+    );
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   FACT STRIP
+   ═══════════════════════════════════════════════════════════════════ */
+
+function FactStrip({ reduce }) {
+    return (
+        <div
+            className="
+                mx-auto
+                max-w-[1600px]
+                px-5
+                pb-14
+                pt-7
+                sm:px-8
+                lg:px-12
+                lg:pb-16
+                lg:pt-8
+            "
+        >
+            <ol
+                className="
+                    grid
+                    grid-cols-1
+                    border-t
+                    border-navy/15
+                    sm:grid-cols-3
+                "
+            >
+                {FACTS.map((fact, index) => (
+                    <motion.li
+                        key={fact.label}
+                        initial={
+                            reduce
+                                ? false
+                                : {
+                                      opacity: 0,
+                                      y: 10,
+                                  }
+                        }
+                        whileInView={
+                            reduce
+                                ? undefined
+                                : {
+                                      opacity: 1,
+                                      y: 0,
+                                  }
+                        }
+                        viewport={{
+                            once: true,
+                            amount: 0.25,
+                        }}
+                        transition={{
+                            duration: 0.5,
+                            delay: reduce
+                                ? 0
+                                : index * 0.07,
+                            ease: EASE,
+                        }}
+                        className="
+                            relative
+                            border-b
+                            border-navy/15
+                            py-5
+                            sm:border-b-0
+                            sm:border-r
+                            sm:px-7
+                            sm:first:pl-0
+                            sm:last:border-r-0
+                        "
+                    >
+                        <span
+                            aria-hidden="true"
+                            className="
+                                absolute
+                                left-0
+                                top-0
+                                h-px
+                                w-8
+                                bg-gold
+                                sm:left-7
+                            "
+                        />
+
+                        <p
+                            className="
+                                text-[12px]
+                                font-semibold
+                                leading-[1.5]
+                                tracking-wide
+                                text-navy
+                            "
+                        >
+                            {fact.value}
+                        </p>
+
+                        <p
+                            className="
+                                mt-1.5
+                                text-[9px]
+                                uppercase
+                                tracking-[0.2em]
+                                text-bronze/75
+                            "
+                        >
+                            {fact.label}
+                        </p>
+                    </motion.li>
+                ))}
+            </ol>
+        </div>
     );
 }

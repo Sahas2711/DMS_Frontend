@@ -82,7 +82,7 @@ export const DESTINATIONS = [
         ],
         image: HOME_IMAGES.india.cover,
         imageAlt: 'Kerala heritage — traditional houseboat on the backwaters, India',
-        route: '/destination/india',
+        route: '/destination/delhi',
         heroRatio: 'portrait',
     },
     {
@@ -100,7 +100,7 @@ export const DESTINATIONS = [
         ],
         image: HOME_IMAGES.vietnam.cover,
         imageAlt: 'Hanoi old quarter, Vietnam',
-        route: '/destination/vietnam',
+        route: '/destination/ha-long-bay',
         heroRatio: 'landscape',
     },
     {
@@ -118,7 +118,7 @@ export const DESTINATIONS = [
         ],
         image: HOME_IMAGES.japan.cover,
         imageAlt: 'Kyoto temple rooftops, Japan',
-        route: '/destination/japan',
+        route: '/destination/tokyo',
         heroRatio: 'landscape',
     },
     {
@@ -136,7 +136,7 @@ export const DESTINATIONS = [
         ],
         image: HOME_IMAGES['south-korea'].cover,
         imageAlt: 'South Korea — traditional palace architecture',
-        route: '/destination/south-korea',
+        route: '/destination/seoul',
         heroRatio: 'portrait',
     },
 ];
@@ -193,15 +193,15 @@ export const TRAVEL_STYLES = [
         image: HOME_IMAGES.india.gallery[0], // Darjeeling
         imageAlt: 'Mountain light in Darjeeling, India',
     },
-    {
-        id: 'wellness',
-        name: 'Wellness',
-        line: 'Rituals, retreats, hot springs — and the space to breathe.',
-        detail: 'Onsen circuits, ashram mornings and coastal silence, at a pace that restores.',
-        tripType: 'LUXURY',
-        image: HOME_IMAGES.india.gallery[1], // Himachal
-        imageAlt: 'Mountain valley in Himachal Pradesh, India',
-    },
+    // {
+    //     id: 'wellness',
+    //     name: 'Wellness',
+    //     line: 'Rituals, retreats, hot springs — and the space to breathe.',
+    //     detail: 'Onsen circuits, ashram mornings and coastal silence, at a pace that restores.',
+    //     tripType: 'LUXURY',
+    //     image: HOME_IMAGES.india.gallery[1], // Himachal
+    //     imageAlt: 'Mountain valley in Himachal Pradesh, India',
+    // },
 ];
 
 /**

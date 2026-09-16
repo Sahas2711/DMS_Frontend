@@ -1,154 +1,84 @@
-import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { JOURNEYS } from '../homeContent';
-import { EASE_EDITORIAL } from '../motionTokens';
 
 /* ═══════════════════════════════════════════════════════════════════
-   JOURNEY RAIL — "THE ITINERARY"
-   Desktop: the scene pins and scroll drives the rail laterally. A thin
-   route line runs the FULL width of the track behind photographs of
-   equal aspect ratio — the journeys read as stops along one route.
-   Diamond nodes and coordinates sit in the gaps between plates.
-   Mobile: snap rail.
-
-   Geometry:
-     total rail width = sum(card widths) + sum(gaps)
-     scroll distance  = total rail width - viewport width
-     progress 0→1    maps to movement 0→-distance
+   JOURNEY RAIL — STATIC FIRST FOUNDATION
+   
+   Rules:
+   1. No scroll-dependent horizontal movement
+   2. Natural document flow for mobile
+   3. All cards visible immediately
+   4. No fixed heights causing blank space
+   5. Consistent aspect ratios for all images
    ═══════════════════════════════════════════════════════════════════ */
 
 export default function JourneyRail() {
-    const reduce = useReducedMotion();
-    const sectionRef = useRef(null);
-    const trackRef = useRef(null);
-
-    const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end end'] });
-
-    const [distance, setDistance] = useState(0);
-    useEffect(() => {
-        const measure = () => {
-            const track = trackRef.current;
-            if (!track) return;
-            setDistance(Math.max(0, track.scrollWidth - window.innerWidth));
-        };
-        measure();
-        window.addEventListener('resize', measure);
-        return () => window.removeEventListener('resize', measure);
-    }, []);
-
-    const x = useTransform(scrollYProgress, [0.05, 0.95], ['0px', `${-distance}px`]);
-
     return (
-        <section
-            ref={sectionRef}
-            aria-label="Curated journeys"
-            className="relative bg-stone"
-            style={{ height: reduce ? undefined : `${JOURNEYS.length * 60 + 40}vh` }}
-        >
-            <div className={reduce ? '' : 'sticky top-0 flex h-screen flex-col justify-center overflow-hidden'}>
-                {/* Header — always visible, no whileInView */}
-                <div className="mx-auto w-full max-w-[1500px] px-5 sm:px-8 lg:px-12">
-                    <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-                        <div>
-                            <p className="mb-5 flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-bronze">
-                                <span aria-hidden="true" className="h-px w-10 bg-gold/60" />
-                                Curated journeys
-                            </p>
-                            <h2 className="font-display text-[clamp(2.2rem,5.5vw,4.6rem)] leading-[0.98] tracking-[-0.03em] text-navy">
-                                Itineraries that move
-                                <br className="hidden sm:block" />
-                                <span className="italic text-navy/55"> through meaning.</span>
-                            </h2>
-                        </div>
-                        <Link
-                            to="/tours"
-                            className="group inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-navy transition-colors duration-300 hover:text-bronze"
-                        >
-                            View all itineraries
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true" className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1.5">
-                                <path d="M5 12h14M12 5l7 7-7 7" />
-                            </svg>
-                        </Link>
+        <section aria-label="Curated journeys" className="relative bg-stone">
+            <div className="mx-auto max-w-[1500px] px-5 py-24 sm:px-8 lg:px-12 lg:py-36">
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                        <p className="mb-5 flex items-center gap-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-bronze">
+                            <span aria-hidden="true" className="h-px w-10 bg-gold/60" />
+                            Curated journeys
+                        </p>
+                        <h2 className="font-display text-[clamp(2.2rem,5.5vw,4.6rem)] leading-[0.98] tracking-[-0.03em] text-navy">
+                            Itineraries that move
+                            <br className="hidden sm:block" />
+                            <span className="italic text-navy/55"> through meaning.</span>
+                        </h2>
                     </div>
-                </div>
-
-                {/* Rail */}
-                <div className="relative mt-12 lg:mt-16">
-                    {/* THE ROUTE — one continuous line behind every plate (desktop) */}
-                    <div aria-hidden="true" className="absolute left-0 right-0 top-[45%] hidden lg:block">
-                        <div className="h-px w-full bg-navy/20" />
-                        <div className="mx-auto flex w-full max-w-[1500px] justify-between px-12">
-                            {['DEL', 'HAN', 'TYO', 'ICN', 'COK', 'HAN'].map((c, i) => (
-                                <span key={i} className="relative -top-[7px] flex flex-col items-center">
-                                    <span className="h-[6px] w-[6px] rotate-45 border border-bronze bg-stone" />
-                                    <span className="mt-2 font-mono text-[8px] tracking-[0.2em] text-navy/35">{c}</span>
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-
-                    <motion.div
-                        ref={trackRef}
-                        style={reduce ? undefined : { x }}
-                        className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto px-5 sm:px-8 lg:snap-none lg:gap-0 lg:overflow-visible lg:px-12"
+                    <Link
+                        to="/tours"
+                        className="group inline-flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-navy transition-colors duration-300 hover:text-bronze"
                     >
-                        {JOURNEYS.map((j, i) => (
-                            <JourneyPlate key={j.slug} journey={j} index={i} reduce={reduce} />
-                        ))}
-                        {/* End plate — conversion handoff */}
-                        <div className="flex w-[80vw] flex-none snap-end items-center sm:w-[50vw] lg:w-[34vw] lg:pl-10">
-                            <div>
-                                <p className="font-display text-[clamp(1.5rem,2.4vw,2.2rem)] leading-snug text-navy">
-                                    Every journey here
-                                    <br />
-                                    <span className="italic text-navy/55">started as a brief.</span>
-                                </p>
-                                <Link
-                                    to="/request-quote"
-                                    className="mt-7 inline-flex items-center gap-3 bg-navy px-7 py-3.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-navy-light"
-                                >
-                                    Send yours
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                                        <path d="M5 12h14M12 5l7 7-7 7" />
-                                    </svg>
-                                </Link>
-                            </div>
-                        </div>
-                    </motion.div>
+                        View all itineraries
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true" className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1.5">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                        </svg>
+                    </Link>
                 </div>
 
-                {/* Progress hairline (desktop) */}
-                {!reduce && (
-                    <div className="mx-auto mt-10 hidden h-px w-full max-w-[1500px] px-12 lg:block">
-                        <motion.div
-                            aria-hidden="true"
-                            style={{ scaleX: scrollYProgress }}
-                            className="h-px origin-left bg-bronze/50"
-                        />
+                {/* Journey grid */}
+                <div className="mt-12 lg:mt-20">
+                    <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                        {JOURNEYS.slice(0, 6).map((journey, index) => (
+                            <JourneyCard key={journey.slug} journey={journey} index={index} />
+                        ))}
                     </div>
-                )}
+
+                    {/* End plate — conversion handoff */}
+                    <div className="mt-16 border-t border-navy/20 pt-16">
+                        <div className="max-w-2xl">
+                            <p className="font-display text-[clamp(1.5rem,2.4vw,2.2rem)] leading-snug text-navy">
+                                Every journey here
+                                <br />
+                                <span className="italic text-navy/55">started as a brief.</span>
+                            </p>
+                            <Link
+                                to="/request-quote"
+                                className="mt-7 inline-flex items-center gap-3 bg-navy px-7 py-3.5 text-[10px] font-semibold uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:bg-navy-light"
+                            >
+                                Send yours
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                                    <path d="M5 12h14M12 5l7 7-7 7" />
+                                </svg>
+                            </Link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     );
 }
 
-/* ── Journey plate: consistent geometry, no text-under-image ──
-   All cards use the same aspect ratio (4/5 portrait).
-   Title sits BELOW the image, never overlapping.
-   Explicit z-index layers prevent stacking collisions. */
-function JourneyPlate({ journey, index, reduce }) {
+/* ── Journey card: consistent geometry ── */
+function JourneyCard({ journey, index }) {
     return (
-        <motion.article
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 30 }}
-            whileInView={reduce ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-5% 0px' }}
-            transition={{ duration: 0.75, delay: Math.min(index * 0.05, 0.25), ease: EASE_EDITORIAL }}
-            className="group w-[82vw] flex-none snap-start sm:w-[60vw] lg:relative lg:w-[clamp(400px,32vw,520px)] lg:px-0"
-        >
+        <article className="group">
             <Link to={`/tours/${journey.slug}`} className="block">
-                {/* Image — consistent 4/5 aspect ratio on all cards */}
-                <div className="relative z-10 overflow-hidden aspect-[4/5]">
+                {/* Image — consistent 4/5 aspect ratio */}
+                <div className="relative overflow-hidden aspect-[4/5]">
                     <img
                         src={journey.image}
                         alt={journey.imageAlt}
@@ -157,38 +87,42 @@ function JourneyPlate({ journey, index, reduce }) {
                         decoding="async"
                     />
                     <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-navy-deep/45 via-transparent to-transparent opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+                    
                     {/* Duration plate */}
-                    <p className="absolute bottom-0 left-0 z-20 bg-stone px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-navy">
+                    <p className="absolute bottom-0 left-0 bg-stone px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-navy">
                         {journey.days}
                     </p>
+                    
                     {/* Index number */}
-                    <p className="absolute right-4 top-3 z-20 font-display text-[13px] tracking-[0.14em] text-white/80">
+                    <p className="absolute right-4 top-3 font-display text-[13px] tracking-[0.14em] text-white/80">
                         {String(index + 1).padStart(2, '0')}
                     </p>
                 </div>
 
-                {/* Title — BELOW the image, never overlapping */}
-                <div className="relative z-20 mt-4 px-5 lg:px-0">
-                    <h3 className="font-display text-[clamp(1.5rem,2.4vw,2.2rem)] leading-[1.02] tracking-[-0.02em] text-navy transition-colors duration-300 group-hover:text-bronze">
+                {/* Title */}
+                <div className="mt-4">
+                    <h3 className="font-display text-[clamp(1.4rem,2vw,1.8rem)] leading-[1.02] tracking-[-0.02em] text-navy transition-colors duration-300 group-hover:text-bronze">
                         {journey.title}
                     </h3>
                 </div>
 
                 {/* Route stops */}
-                <p className="relative z-20 mt-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 px-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-navy/55 lg:px-0">
+                <p className="mt-3 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-navy/60">
                     {journey.route.map((stop, i) => (
                         <span key={stop} className="flex items-center gap-2.5">
                             {i > 0 && <span aria-hidden="true" className="h-[4px] w-[4px] rotate-45 border border-bronze/70" />}
                             {stop}
                         </span>
                     ))}
-                    <span className="ml-2 font-mono text-[9px] tracking-[0.16em] text-navy/30">
+                    <span className="ml-2 font-mono text-[9px] tracking-[0.16em] text-navy/40">
                         {journey.destination}
                     </span>
                 </p>
 
-                <p className="relative z-20 mt-3 max-w-md px-5 text-[13px] leading-[1.75] text-navy/60 lg:px-0">{journey.copy}</p>
+                <p className="mt-3 max-w-md text-[13px] leading-[1.75] text-navy/60">
+                    {journey.copy}
+                </p>
             </Link>
-        </motion.article>
+        </article>
     );
 }

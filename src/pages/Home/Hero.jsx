@@ -1,283 +1,1186 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from 'react';
+
 import { Link } from 'react-router-dom';
-import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
-import { DESTINATIONS, HERO_CAPABILITIES } from '../homeContent';
-import { EASE_EDITORIAL, EASE_CINEMATIC } from '../motionTokens';
+
+import {
+    AnimatePresence,
+    motion,
+    useReducedMotion,
+} from 'framer-motion';
+
+import {
+    DESTINATIONS,
+    HERO_CAPABILITIES,
+} from '../homeContent';
+
+import { EASE_EDITORIAL } from '../motionTokens';
+
 import { AsiaRouteMap } from './RoutePath';
 
-/* ═══════════════════════════════════════════════════════════════════
-   HERO — "ARRIVAL"  ·  full-bleed cinematic
-   The photograph IS the background — edge to edge — while typography
-   sits directly on it, breaking out of any column. The signature
-   interaction: an abstract Asia route map draws itself in the lower
-   right as the page loads, and the hero's destination selector doubles
-   as the route: the active waypoint sits on the drawn line.
-   ═══════════════════════════════════════════════════════════════════ */
 
-const HOLD_MS = 7000;
+/*
+╔═══════════════════════════════════════════════════════════════════╗
+║                         ASIAN STAR HERO                           ║
+║                                                                   ║
+║  Automatic destination story                                      ║
+║                                                                   ║
+║  India → Vietnam → Japan → South Korea → India                    ║
+║                                                                   ║
+║  Every 2 seconds                                                   ║
+║                                                                   ║
+║  IMAGE                                                            ║
+║    ↓                                                              ║
+║  DESTINATION                                                       ║
+║    ↓                                                              ║
+║  TAGLINE                                                          ║
+║    ↓                                                              ║
+║  DESTINATION RAIL                                                  ║
+║                                                                   ║
+║  No scroll-dependent layout.                                      ║
+║  No hover pause.                                                  ║
+║  No content overlap.                                              ║
+╚═══════════════════════════════════════════════════════════════════╝
+*/
+
+
+/* ─────────────────────────────────────────────────────────────────
+   CHANGE DESTINATION EVERY 2 SECONDS
+───────────────────────────────────────────────────────────────── */
+
+const HOLD_MS = 2000;
+
+const SWIPE_THRESHOLD = 56;
+
+
+/* ─────────────────────────────────────────────────────────────────
+   IMAGE ANIMATION
+───────────────────────────────────────────────────────────────── */
+
+const IMAGE_VARIANTS = {
+    enter: {
+        opacity: 0,
+        scale: 1.045,
+    },
+
+    center: {
+        opacity: 1,
+        scale: 1,
+    },
+
+    exit: {
+        opacity: 0,
+        scale: 1.015,
+    },
+};
+
+const IMAGE_TRANSITION = {
+    duration: 0.9,
+    ease: EASE_EDITORIAL,
+};
+
+
+/* ─────────────────────────────────────────────────────────────────
+   TEXT ANIMATION
+───────────────────────────────────────────────────────────────── */
+
+const CONTENT_VARIANTS = {
+    enter: {
+        opacity: 0,
+        y: 18,
+    },
+
+    center: {
+        opacity: 1,
+        y: 0,
+    },
+
+    exit: {
+        opacity: 0,
+        y: -14,
+    },
+};
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════════════ */
 
 export default function Hero() {
     const reduce = useReducedMotion();
-    const sectionRef = useRef(null);
+
     const [active, setActive] = useState(0);
-    const [paused, setPaused] = useState(false);
+
     const touchX = useRef(null);
 
-    const dest = DESTINATIONS[active];
+    const total = DESTINATIONS.length;
 
-    /* Autoplay holds only while visible; pauses on hover/tab-hide. */
-    useEffect(() => {
-        if (reduce || paused || document.hidden) return undefined;
-        const id = window.setInterval(() => setActive((p) => (p + 1) % DESTINATIONS.length), HOLD_MS);
-        return () => window.clearInterval(id);
-    }, [reduce, paused, active]);
+    const destination = DESTINATIONS[active];
 
-    /* Keyboard left/right moves between destinations. */
+
+    /* ═══════════════════════════════════════════════════════════════
+       PRELOAD ALL DESTINATION IMAGES
+
+       This is important because the transition happens every
+       2 seconds. We don't want the animation waiting for network.
+    ═══════════════════════════════════════════════════════════════ */
+
     useEffect(() => {
-        const onKey = (e) => {
-            if (e.key === 'ArrowRight') setActive((p) => (p + 1) % DESTINATIONS.length);
-            if (e.key === 'ArrowLeft') setActive((p) => (p - 1 + DESTINATIONS.length) % DESTINATIONS.length);
-        };
-        window.addEventListener('keydown', onKey);
-        return () => window.removeEventListener('keydown', onKey);
+        DESTINATIONS.forEach((item) => {
+            if (!item.image) return;
+
+            const image = new Image();
+
+            image.decoding = 'async';
+            image.src = item.image;
+        });
     }, []);
 
-    const onTouchStart = useCallback((e) => { touchX.current = e.touches[0].clientX; }, []);
-    const onTouchEnd = useCallback((e) => {
-        if (touchX.current == null) return;
-        const dx = touchX.current - e.changedTouches[0].clientX;
-        if (Math.abs(dx) > 56) {
-            setActive((p) => (dx > 0 ? p + 1 : p - 1 + DESTINATIONS.length) % DESTINATIONS.length);
+
+    /* ═══════════════════════════════════════════════════════════════
+       CHANGE DESTINATION
+    ═══════════════════════════════════════════════════════════════ */
+
+    const goTo = useCallback(
+        (index) => {
+            if (!total) return;
+
+            const next =
+                ((index % total) + total) % total;
+
+            setActive(next);
+        },
+        [total]
+    );
+
+
+    const nextDestination = useCallback(() => {
+        setActive((current) => (
+            (current + 1) % total
+        ));
+    }, [total]);
+
+
+    const previousDestination = useCallback(() => {
+        setActive((current) => (
+            (current - 1 + total) % total
+        ));
+    }, [total]);
+
+
+    /* ═══════════════════════════════════════════════════════════════
+       AUTOMATIC 2 SECOND ROTATION
+
+       IMPORTANT:
+       This intentionally does NOT depend on `active`.
+
+       Therefore there is exactly one timer continuously rotating
+       through the destinations.
+    ═══════════════════════════════════════════════════════════════ */
+
+    useEffect(() => {
+        if (
+            reduce ||
+            total <= 1
+        ) {
+            return undefined;
         }
-        touchX.current = null;
+
+        const timer = window.setInterval(() => {
+            setActive((current) => (
+                (current + 1) % total
+            ));
+        }, HOLD_MS);
+
+        return () => {
+            window.clearInterval(timer);
+        };
+    }, [reduce, total]);
+
+
+    /* ═══════════════════════════════════════════════════════════════
+       KEYBOARD NAVIGATION
+    ═══════════════════════════════════════════════════════════════ */
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            const target = event.target;
+
+            if (
+                target instanceof HTMLElement &&
+                (
+                    target.isContentEditable ||
+                    target.tagName === 'INPUT' ||
+                    target.tagName === 'TEXTAREA' ||
+                    target.tagName === 'SELECT'
+                )
+            ) {
+                return;
+            }
+
+            if (event.key === 'ArrowRight') {
+                event.preventDefault();
+                nextDestination();
+            }
+
+            if (event.key === 'ArrowLeft') {
+                event.preventDefault();
+                previousDestination();
+            }
+        };
+
+        window.addEventListener(
+            'keydown',
+            handleKeyDown
+        );
+
+        return () => {
+            window.removeEventListener(
+                'keydown',
+                handleKeyDown
+            );
+        };
+    }, [
+        nextDestination,
+        previousDestination,
+    ]);
+
+
+    /* ═══════════════════════════════════════════════════════════════
+       MOBILE SWIPE
+    ═══════════════════════════════════════════════════════════════ */
+
+    const handleTouchStart = useCallback((event) => {
+        touchX.current =
+            event.touches?.[0]?.clientX ?? null;
     }, []);
 
-    /* Entrance choreography is declared declaratively: initial -> animate with
-       per-element transition delays (no gate state). An `entered ? X : {}` gate
-       would skip the animation when animate is briefly an empty object. */
-    /* Scroll exit: type lifts, image deepens — the page "moves on". */
-    const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start start', 'end start'] });
-    const contentY = useTransform(scrollYProgress, [0, 0.7], ['0%', '18%']);
-    const contentOpacity = useTransform(scrollYProgress, [0, 0.55], [1, 0]);
-    const imgScale = useTransform(scrollYProgress, [0, 1], [1, reduce ? 1 : 1.12]);
-    const mapY = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '-30%']);
 
-    const goTo = (i) => setActive(i);
+    const handleTouchEnd = useCallback(
+        (event) => {
+            if (touchX.current == null) {
+                return;
+            }
+
+            const endX =
+                event.changedTouches?.[0]?.clientX;
+
+            if (typeof endX !== 'number') {
+                touchX.current = null;
+                return;
+            }
+
+            const distance =
+                touchX.current - endX;
+
+            if (
+                Math.abs(distance) >
+                SWIPE_THRESHOLD
+            ) {
+                if (distance > 0) {
+                    nextDestination();
+                } else {
+                    previousDestination();
+                }
+            }
+
+            touchX.current = null;
+        },
+        [
+            nextDestination,
+            previousDestination,
+        ]
+    );
+
+
+    if (!destination) {
+        return null;
+    }
+
 
     return (
         <section
-            ref={sectionRef}
             aria-label="Asian Star Travel — B2B DMC for India, Vietnam, Japan and South Korea"
-            className="relative flex min-h-[640px] flex-col overflow-hidden bg-navy-deep lg:h-[100svh] lg:min-h-[720px]"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
+
+            className="
+                relative
+                min-h-[760px]
+                overflow-hidden
+                bg-navy-deep
+                text-white
+
+                lg:h-[calc(100svh-84px)]
+                lg:min-h-[760px]
+            "
+
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
         >
-            {/* ── FULL-BLEED PHOTOGRAPH (the background) ─────────────── */}
-            <div className="absolute inset-0" aria-live="polite">
-                <AnimatePresence initial={false}>
+
+            {/* ═══════════════════════════════════════════════════════
+                BACKGROUND IMAGE
+            ═══════════════════════════════════════════════════════ */}
+
+            <div
+                className="
+                    absolute
+                    inset-0
+                    overflow-hidden
+                "
+                aria-hidden="true"
+            >
+
+                <AnimatePresence
+                    initial={false}
+                    mode="sync"
+                >
+
                     <motion.div
-                        key={dest.id}
-                        className="absolute inset-0"
-                        initial={reduce ? { opacity: 0 } : { clipPath: 'inset(0 0 0 100%)' }}
-                        animate={reduce ? { opacity: 1 } : { clipPath: 'inset(0 0 0 0%)' }}
-                        exit={reduce ? { opacity: 0 } : { opacity: 0.3, scale: 1.03, transition: { duration: 1.0, ease: EASE_CINEMATIC } }}
-                        transition={{ duration: 1.2, ease: EASE_EDITORIAL }}
+                        key={destination.id}
+
+                        variants={
+                            reduce
+                                ? undefined
+                                : IMAGE_VARIANTS
+                        }
+
+                        initial={
+                            reduce
+                                ? {
+                                      opacity: 1,
+                                      scale: 1,
+                                  }
+                                : 'enter'
+                        }
+
+                        animate={
+                            reduce
+                                ? {
+                                      opacity: 1,
+                                      scale: 1,
+                                  }
+                                : 'center'
+                        }
+
+                        exit={
+                            reduce
+                                ? {
+                                      opacity: 0,
+                                  }
+                                : 'exit'
+                        }
+
+                        transition={
+                            reduce
+                                ? {
+                                      duration: 0,
+                                  }
+                                : IMAGE_TRANSITION
+                        }
+
+                        className="
+                            absolute
+                            inset-0
+                            will-change-transform
+                        "
                     >
-                        <motion.img
-                            src={dest.image}
-                            alt={dest.imageAlt}
-                            className="h-full w-full object-cover"
-                            style={{ scale: imgScale }}
-                            initial={reduce ? undefined : { scale: 1.15 }}
-                            animate={reduce ? undefined : { scale: 1.02 }}
-                            transition={{ duration: reduce ? 0 : 8, ease: 'linear' }}
+
+                        <img
+                            src={destination.image}
+                            alt=""
+                            className="
+                                h-full
+                                w-full
+                                object-cover
+                            "
                             decoding="async"
-                            fetchPriority={active === 0 ? 'high' : 'auto'}
-                            loading={active === 0 ? 'eager' : 'lazy'}
+                            loading="eager"
                         />
+
                     </motion.div>
+
                 </AnimatePresence>
 
-                {/* Cinematic scrims — heavier left for type legibility */}
-                <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-navy-deep/85 via-navy-deep/40 to-navy-deep/20" />
-                <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/25 to-navy-deep/30" />
+
+                {/* Main dark treatment */}
+
+                <div
+                    className="
+                        absolute
+                        inset-0
+                        bg-gradient-to-r
+                        from-navy-deep/90
+                        via-navy-deep/48
+                        to-navy-deep/15
+                    "
+                />
+
+
+                {/* Bottom readability */}
+
+                <div
+                    className="
+                        absolute
+                        inset-0
+                        bg-gradient-to-t
+                        from-navy-deep
+                        via-navy-deep/20
+                        to-navy-deep/30
+                    "
+                />
+
+
+                {/* Very subtle vignette */}
+
+                <div
+                    className="
+                        absolute
+                        inset-0
+                        bg-[radial-gradient(circle_at_65%_45%,transparent_0%,rgba(3,12,32,0.05)_50%,rgba(3,12,32,0.35)_100%)]
+                    "
+                />
+
             </div>
 
-            {/* ── TYPOGRAPHY FIELD (over the image, not beside it) ───── */}
-            <motion.div
-                style={{ y: reduce ? 0 : contentY, opacity: reduce ? 1 : contentOpacity }}
-                className="relative z-10 flex h-full flex-1 flex-col justify-between px-5 pb-8 pt-24 sm:px-8 lg:h-full lg:px-12 lg:pb-9 lg:pt-[80px]"
+
+            {/* ═══════════════════════════════════════════════════════
+                CONTENT
+
+                IMPORTANT:
+                There is now enough top spacing so the navbar can
+                never collide with the coordinates/meta.
+            ═══════════════════════════════════════════════════════ */}
+
+            <div
+                className="
+                    relative
+                    z-10
+                    flex
+                    min-h-[760px]
+                    flex-col
+
+                    px-5
+                    pb-6
+                    pt-28
+
+                    sm:px-8
+                    sm:pt-28
+
+                    lg:h-full
+                    lg:min-h-0
+                    lg:px-12
+                    lg:pb-7
+                    lg:pt-8
+                "
             >
-                {/* Micro header */}
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.9, delay: 0.9 }}
-                    className="flex items-center justify-between"
+
+                {/* ═════════════════════════════════════════════════
+                    TOP META
+                ═════════════════════════════════════════════════ */}
+
+                <div
+                    className="
+                        flex
+                        shrink-0
+                        items-center
+                        justify-between
+                    "
                 >
-                    <span className="text-[9px] font-semibold uppercase tracking-[0.34em] text-white/35 sm:text-[10px]">
+
+                    <span
+                        className="
+                            text-[9px]
+                            font-semibold
+                            uppercase
+                            tracking-[0.34em]
+                            text-white/70
+                            sm:text-[10px]
+                        "
+                    >
                         B2B Destination Management
                     </span>
-                    <span className="hidden text-[9px] uppercase tracking-[0.3em] text-white/25 sm:block">
-                        21.0278° N — 105.8342° E
-                    </span>
-                </motion.div>
 
-                {/* Headline — oversized, overlapping the photo edge */}
-                <div className="mt-10 lg:mt-0">
-                    <h1 className="relative">
-                        <span className="sr-only">
-                            Asian Star Travel — B2B DMC partner for India, Vietnam, Japan and South Korea
-                        </span>
-                        <span aria-hidden="true" className="block overflow-hidden">
-                            <motion.span
-                                className="display-xl block font-display text-[clamp(4rem,12.5vw,11.5rem)] leading-[0.84] tracking-[-0.04em] text-white"
-                                initial={reduce ? { opacity: 0 } : { y: '112%' }}
-                                animate={reduce ? { opacity: 1 } : { y: '0%' }}
-                                transition={{ duration: 1.25, delay: 0.2, ease: EASE_EDITORIAL }}
+
+                    <AnimatePresence
+                        initial={false}
+                        mode="wait"
+                    >
+                        <motion.span
+                            key={destination.id}
+
+                            initial={
+                                reduce
+                                    ? false
+                                    : {
+                                          opacity: 0,
+                                          y: 5,
+                                      }
+                            }
+
+                            animate={{
+                                opacity: 1,
+                                y: 0,
+                            }}
+
+                            exit={
+                                reduce
+                                    ? undefined
+                                    : {
+                                          opacity: 0,
+                                          y: -5,
+                                      }
+                            }
+
+                            transition={{
+                                duration: 0.35,
+                                ease: EASE_EDITORIAL,
+                            }}
+
+                            className="
+                                hidden
+                                text-[9px]
+                                uppercase
+                                tracking-[0.3em]
+                                text-white/45
+                                sm:block
+                            "
+                        >
+                            {destination.coordinates ??
+                                '21.0278° N — 105.8342° E'}
+                        </motion.span>
+                    </AnimatePresence>
+
+                </div>
+
+
+                {/* ═════════════════════════════════════════════════
+                    MAIN HERO CONTENT
+                ═════════════════════════════════════════════════ */}
+
+                <div
+                    className="
+                        flex
+                        flex-1
+                        flex-col
+                        justify-center
+
+                        lg:pb-5
+                    "
+                >
+
+                    {/* Destination indicator */}
+
+                    <AnimatePresence
+                        initial={false}
+                        mode="wait"
+                    >
+
+                        <motion.div
+                            key={`indicator-${destination.id}`}
+
+                            variants={CONTENT_VARIANTS}
+
+                            initial={
+                                reduce
+                                    ? false
+                                    : 'enter'
+                            }
+
+                            animate="center"
+
+                            exit={
+                                reduce
+                                    ? undefined
+                                    : 'exit'
+                            }
+
+                            transition={{
+                                duration: 0.55,
+                                ease: EASE_EDITORIAL,
+                            }}
+
+                            className="
+                                mb-4
+                                flex
+                                items-center
+                                gap-4
+                            "
+                        >
+
+                            <span
+                                className="
+                                    font-display
+                                    text-[12px]
+                                    tracking-[0.2em]
+                                    text-gold
+                                "
                             >
-                                ASIA,
-                            </motion.span>
-                        </span>
-                        <span aria-hidden="true" className="block overflow-hidden pl-[6%]">
-                            <motion.span
-                                className="display-xl block font-display text-[clamp(4rem,12.5vw,11.5rem)] italic leading-[0.92] tracking-[-0.03em] text-gold"
-                                initial={reduce ? { opacity: 0 } : { y: '112%' }}
-                                animate={reduce ? { opacity: 1 } : { y: '0%' }}
-                                transition={{ duration: 1.25, delay: 0.42, ease: EASE_EDITORIAL }}
+                                {destination.number}
+                            </span>
+
+
+                            <span
+                                aria-hidden="true"
+                                className="
+                                    h-px
+                                    w-12
+                                    bg-gold/60
+                                "
+                            />
+
+
+                            <span
+                                className="
+                                    text-[9px]
+                                    font-semibold
+                                    uppercase
+                                    tracking-[0.28em]
+                                    text-white/65
+                                "
                             >
-                                handled.
-                            </motion.span>
+                                {destination.name}
+                            </span>
+
+                        </motion.div>
+
+                    </AnimatePresence>
+
+
+                    {/* ═════════════════════════════════════════════
+                        MAIN HEADLINE
+                    ═════════════════════════════════════════════ */}
+
+                    <h1
+                        className="
+                            font-display
+                            leading-[0.78]
+                            tracking-[-0.055em]
+                        "
+                    >
+
+                        <span
+                            className="
+                                block
+                                text-[clamp(4rem,10vw,10.5rem)]
+                                text-white
+                            "
+                        >
+                            ASIA,
                         </span>
+
+
+                        <span
+                            className="
+                                block
+                                pl-[6%]
+                                text-[clamp(4rem,10vw,10.5rem)]
+                                italic
+                                text-gold
+                            "
+                        >
+                            handled.
+                        </span>
+
                     </h1>
 
-                    <motion.div
-                        initial={{ opacity: 0, y: 16 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.9, delay: 0.95, ease: EASE_EDITORIAL }}
-                        className="mt-8 flex flex-col gap-7 lg:mt-10 lg:flex-row lg:items-end lg:gap-12"
+
+                    {/* ═════════════════════════════════════════════
+                        DESTINATION TAGLINE
+
+                        This changes every 2 seconds with the image.
+                    ═════════════════════════════════════════════ */}
+
+                    <div
+                        className="
+                            relative
+                            mt-5
+                            min-h-[30px]
+                            overflow-hidden
+                        "
                     >
-                        <p className="max-w-md text-[13px] leading-[1.85] text-white/55 sm:text-sm">
-                            Private journeys, group programmes and MICE across India, Vietnam,
-                            Japan and South Korea — designed for travel professionals who
-                            need deadlines met and details handled.
+
+                        <AnimatePresence
+                            initial={false}
+                            mode="wait"
+                        >
+
+                            <motion.p
+                                key={`tagline-${destination.id}`}
+
+                                initial={
+                                    reduce
+                                        ? false
+                                        : {
+                                              opacity: 0,
+                                              y: 14,
+                                          }
+                                }
+
+                                animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                }}
+
+                                exit={
+                                    reduce
+                                        ? undefined
+                                        : {
+                                              opacity: 0,
+                                              y: -12,
+                                          }
+                                }
+
+                                transition={{
+                                    duration: 0.55,
+                                    ease: EASE_EDITORIAL,
+                                }}
+
+                                className="
+                                    font-display
+                                    text-[clamp(1rem,1.8vw,1.5rem)]
+                                    italic
+                                    text-gold/90
+                                "
+                            >
+                                {destination.tagline}
+                            </motion.p>
+
+                        </AnimatePresence>
+
+                    </div>
+
+
+                    {/* ═════════════════════════════════════════════
+                        DESCRIPTION + BUTTONS
+
+                        FIX:
+                        Previously these were vertically colliding.
+
+                        Now they are explicitly separated.
+                    ═════════════════════════════════════════════ */}
+
+                    <div
+                        className="
+                            mt-5
+                            grid
+                            gap-6
+
+                            lg:grid-cols-[minmax(0,500px)_auto]
+                            lg:items-center
+                            lg:gap-12
+                        "
+                    >
+
+                        <p
+                            className="
+                                max-w-[500px]
+                                text-[13px]
+                                leading-[1.8]
+                                text-white/70
+                                sm:text-sm
+                            "
+                        >
+                            Private journeys, group programmes and
+                            MICE across India, Vietnam, Japan and
+                            South Korea — designed for travel
+                            professionals who need deadlines met
+                            and details handled.
                         </p>
-                        <div className="flex flex-wrap items-center gap-4">
+
+
+                        <div
+                            className="
+                                flex
+                                flex-wrap
+                                items-center
+                                gap-3
+                            "
+                        >
+
                             <Link
                                 to="/request-quote"
-                                className="group inline-flex items-center gap-3 bg-gold px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-navy-deep transition-colors duration-300 hover:bg-gold-light"
+                                className="
+                                    group
+                                    inline-flex
+                                    items-center
+                                    justify-center
+                                    gap-3
+                                    bg-gold
+                                    px-7
+                                    py-3.5
+                                    text-[11px]
+                                    font-semibold
+                                    uppercase
+                                    tracking-[0.2em]
+                                    text-navy-deep
+                                    transition-colors
+                                    duration-300
+                                    hover:bg-gold-light
+                                "
                             >
                                 Request a Quote
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true" className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1">
+
+                                <svg
+                                    width="15"
+                                    height="15"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.6"
+                                    aria-hidden="true"
+                                    className="
+                                        transition-transform
+                                        duration-500
+                                        ease-[cubic-bezier(0.16,1,0.3,1)]
+                                        group-hover:translate-x-1
+                                    "
+                                >
                                     <path d="M5 12h14M12 5l7 7-7 7" />
                                 </svg>
                             </Link>
+
+
                             <Link
                                 to="/become-a-partner"
-                                className="border border-white/25 px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/85 transition-colors duration-300 hover:border-gold/60 hover:text-gold"
+                                className="
+                                    inline-flex
+                                    items-center
+                                    justify-center
+                                    border
+                                    border-white/35
+                                    px-7
+                                    py-3.5
+                                    text-[11px]
+                                    font-semibold
+                                    uppercase
+                                    tracking-[0.2em]
+                                    text-white/90
+                                    transition-colors
+                                    duration-300
+                                    hover:border-gold/70
+                                    hover:text-gold
+                                "
                             >
                                 Become a Partner
                             </Link>
-                        </div>
-                    </motion.div>
-                </div>
 
-                {/* ── BOTTOM RAIL: route selector + route map ─────────── */}
-                <motion.div
-                    initial={{ opacity: 0, y: 18 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1.0, delay: 1.15, ease: EASE_EDITORIAL }}
-                    className="mt-10 flex flex-col gap-6 lg:mt-0 lg:flex-row lg:items-end lg:justify-between"
-                >
-                    {/* Destination selector — the hero route */}
-                    <div className="w-full max-w-xl">
-                        <div role="tablist" aria-label="Choose a destination" className="flex gap-1.5 sm:gap-3">
-                            {DESTINATIONS.map((d, i) => (
-                                <button
-                                    key={d.id}
-                                    type="button"
-                                    role="tab"
-                                    aria-selected={i === active}
-                                    aria-label={d.name}
-                                    onClick={() => goTo(i)}
-                                    className="group relative flex-1 py-2"
-                                >
-                                    <span
-                                        aria-hidden="true"
-                                        className={`block h-px w-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] ${
-                                            i === active ? 'bg-gold' : 'bg-white/25 group-hover:bg-white/50'
-                                        }`}
-                                    />
-                                    <span
-                                        aria-hidden="true"
-                                        className={`absolute left-0 top-1/2 h-[5px] w-[5px] -translate-y-1/2 rotate-45 border transition-colors duration-500 ${
-                                            i === active ? 'border-gold bg-gold' : 'border-white/40 bg-transparent group-hover:border-white/70'
-                                        }`}
-                                    />
-                                    <span
-                                        className={`mt-3 block text-left text-[9px] font-semibold uppercase tracking-[0.22em] transition-colors duration-500 sm:text-[10px] ${
-                                            i === active ? 'text-white' : 'text-white/35 group-hover:text-white/65'
-                                        }`}
-                                    >
-                                        {d.number} {d.name}
-                                    </span>
-                                </button>
-                            ))}
                         </div>
 
-                        {/* Active destination info strip */}
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={dest.id}
-                                initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
-                                transition={{ duration: 0.5, ease: EASE_EDITORIAL }}
-                                className="mt-5 flex items-baseline justify-between gap-4 border-t border-white/10 pt-3"
-                            >
-                                <p className="font-display text-sm italic text-white/70">{dest.tagline}</p>
-                                <p className="hidden text-[9px] uppercase tracking-[0.26em] text-white/30 sm:block">
-                                    {dest.meta[1]?.value}
-                                </p>
-                            </motion.div>
-                        </AnimatePresence>
                     </div>
 
-                    {/* Signature: abstract Asia route map (desktop only) */}
-                    <motion.div
-                        style={{ y: reduce ? 0 : mapY }}
-                        className="hidden w-[300px] shrink-0 xl:block"
+                </div>
+
+
+                {/* ═════════════════════════════════════════════════
+                    BOTTOM DESTINATION RAIL
+
+                    This is deliberately separated from the main
+                    content so it can never collide with the CTA.
+                ═════════════════════════════════════════════════ */}
+
+                <div
+                    className="
+                        shrink-0
+                        border-t
+                        border-white/15
+                        pt-4
+                    "
+                >
+
+                    <div
+                        className="
+                            flex
+                            items-end
+                            justify-between
+                            gap-8
+                        "
                     >
-                        <AsiaRouteMap className="h-auto w-full opacity-90" />
-                    </motion.div>
 
-                    {/* Capability tags replace map on smaller desktops */}
-                    <ul aria-label="Programme types" className="hidden flex-wrap gap-x-5 gap-y-2 xl:hidden lg:flex">
-                        {HERO_CAPABILITIES.map((c) => (
-                            <li key={c} className="border-t border-white/15 pt-1.5 text-[9px] font-semibold uppercase tracking-[0.26em] text-white/35">
-                                {c}
-                            </li>
-                        ))}
-                    </ul>
-                </motion.div>
-            </motion.div>
+                        {/* Destination rail */}
 
-            {/* Scroll cue — vertical, right edge */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.9, delay: 1.5 }}
-                className="absolute right-6 top-1/2 z-10 hidden -translate-y-1/2 flex-col items-center gap-3 lg:flex"
+                        <div
+                            className="
+                                w-full
+                                max-w-[760px]
+                            "
+                        >
+
+                            <div
+                                role="tablist"
+                                aria-label="Choose a destination"
+
+                                className="
+                                    grid
+                                    grid-cols-4
+                                    gap-2
+                                    sm:gap-4
+                                "
+                            >
+
+                                {DESTINATIONS.map(
+                                    (item, index) => {
+                                        const selected =
+                                            index === active;
+
+                                        return (
+                                            <button
+                                                key={item.id}
+
+                                                type="button"
+
+                                                role="tab"
+
+                                                aria-selected={
+                                                    selected
+                                                }
+
+                                                aria-label={
+                                                    `Show ${item.name}`
+                                                }
+
+                                                onClick={() =>
+                                                    goTo(index)
+                                                }
+
+                                                className="
+                                                    group
+                                                    relative
+                                                    min-w-0
+                                                    py-2
+                                                    text-left
+                                                "
+                                            >
+
+                                                {/* Active line */}
+
+                                                <span
+                                                    aria-hidden="true"
+                                                    className={`
+                                                        block
+                                                        h-px
+                                                        w-full
+                                                        transition-all
+                                                        duration-500
+                                                        ${
+                                                            selected
+                                                                ? 'bg-gold'
+                                                                : 'bg-white/25 group-hover:bg-white/50'
+                                                        }
+                                                    `}
+                                                />
+
+
+                                                {/* Diamond waypoint */}
+
+                                                <span
+                                                    aria-hidden="true"
+                                                    className={`
+                                                        absolute
+                                                        left-0
+                                                        top-1/2
+                                                        h-[6px]
+                                                        w-[6px]
+                                                        -translate-y-1/2
+                                                        rotate-45
+                                                        border
+                                                        transition-all
+                                                        duration-500
+                                                        ${
+                                                            selected
+                                                                ? 'border-gold bg-gold'
+                                                                : 'border-white/45 bg-transparent group-hover:border-white/70'
+                                                        }
+                                                    `}
+                                                />
+
+
+                                                <span
+                                                    className={`
+                                                        mt-3
+                                                        block
+                                                        truncate
+                                                        text-[8px]
+                                                        font-semibold
+                                                        uppercase
+                                                        tracking-[0.18em]
+                                                        transition-colors
+                                                        duration-500
+                                                        sm:text-[9px]
+                                                        ${
+                                                            selected
+                                                                ? 'text-white'
+                                                                : 'text-white/45 group-hover:text-white/70'
+                                                        }
+                                                    `}
+                                                >
+                                                    {item.number}{' '}
+                                                    {item.name}
+                                                </span>
+
+                                            </button>
+                                        );
+                                    }
+                                )}
+
+                            </div>
+
+
+                            {/* Active destination information */}
+
+                            <div
+                                className="
+                                    mt-1
+                                    flex
+                                    min-h-[25px]
+                                    items-center
+                                    justify-between
+                                    gap-4
+                                "
+                            >
+
+                                <AnimatePresence
+                                    initial={false}
+                                    mode="wait"
+                                >
+
+                                    <motion.p
+                                        key={`rail-${destination.id}`}
+
+                                        initial={
+                                            reduce
+                                                ? false
+                                                : {
+                                                      opacity: 0,
+                                                      x: -8,
+                                                  }
+                                        }
+
+                                        animate={{
+                                            opacity: 1,
+                                            x: 0,
+                                        }}
+
+                                        exit={
+                                            reduce
+                                                ? undefined
+                                                : {
+                                                      opacity: 0,
+                                                      x: 8,
+                                                  }
+                                        }
+
+                                        transition={{
+                                            duration: 0.4,
+                                            ease: EASE_EDITORIAL,
+                                        }}
+
+                                        className="
+                                            font-display
+                                            text-xs
+                                            italic
+                                            text-white/70
+                                        "
+                                    >
+                                        {destination.tagline}
+                                    </motion.p>
+
+                                </AnimatePresence>
+
+
+                                <span
+                                    className="
+                                        hidden
+                                        text-[8px]
+                                        uppercase
+                                        tracking-[0.24em]
+                                        text-white/35
+                                        sm:block
+                                    "
+                                >
+                                    {destination.meta?.[1]?.value ?? ''}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        {/* Route map */}
+
+                        <div
+                            className="
+                                hidden
+                                w-[220px]
+                                shrink-0
+                                opacity-80
+                                xl:block
+                                2xl:w-[260px]
+                            "
+                        >
+                            <AsiaRouteMap
+                                className="
+                                    h-auto
+                                    w-full
+                                "
+                            />
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            {/* ═══════════════════════════════════════════════════════
+                SCROLL INDICATOR
+            ═══════════════════════════════════════════════════════ */}
+
+            <div
+                className="
+                    absolute
+                    right-5
+                    top-1/2
+                    z-20
+                    hidden
+                    -translate-y-1/2
+                    flex-col
+                    items-center
+                    gap-3
+                    lg:flex
+                "
                 aria-hidden="true"
             >
-                <motion.span
-                    animate={reduce ? {} : { y: [0, 8, 0] }}
-                    transition={reduce ? {} : { duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-                    className="block h-14 w-px bg-gradient-to-b from-gold/60 to-transparent"
+
+                <span
+                    className="
+                        block
+                        h-14
+                        w-px
+                        bg-gradient-to-b
+                        from-gold/70
+                        to-transparent
+                    "
                 />
-            </motion.div>
+
+                <span
+                    className="
+                        text-[7px]
+                        uppercase
+                        tracking-[0.25em]
+                        text-white/35
+                        [writing-mode:vertical-rl]
+                    "
+                >
+                    Scroll
+                </span>
+
+            </div>
+
         </section>
     );
 }

@@ -2,10 +2,10 @@ import { Link } from 'react-router-dom';
 import { SITE } from '../config/site';
 
 const DESTINATION_LINKS = [
-    { label: 'India', path: '/destination/india' },
-    { label: 'Vietnam', path: '/destination/vietnam' },
-    { label: 'Japan', path: '/destination/japan' },
-    { label: 'South Korea', path: '/destination/south-korea' },
+    { label: 'India', path: '/destination/delhi' },
+    { label: 'Vietnam', path: '/destination/ha-long-bay' },
+    { label: 'Japan', path: '/destination/tokyo' },
+    { label: 'South Korea', path: '/destination/seoul' },
 ];
 
 const COMPANY_LINKS = [

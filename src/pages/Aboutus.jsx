@@ -35,10 +35,10 @@ const RevealImage = ({ src, alt, className = '', imgClassName = '', children }) 
 };
 
 const DESTINATIONS = [
-    { number: '01', name: 'India', note: 'Heritage, wild landscapes and living traditions.' },
-    { number: '02', name: 'Vietnam', note: 'The long coast — from Hanoi to the Mekong Delta.' },
-    { number: '03', name: 'Japan', note: 'Precision, craft and quiet detail.' },
-    { number: '04', name: 'South Korea', note: 'Palace culture meeting contemporary design.' },
+    { number: '01', name: 'India', slug: 'delhi', note: 'Heritage, wild landscapes and living traditions.' },
+    { number: '02', name: 'Vietnam', slug: 'ha-long-bay', note: 'The long coast — from Hanoi to the Mekong Delta.' },
+    { number: '03', name: 'Japan', slug: 'tokyo', note: 'Precision, craft and quiet detail.' },
+    { number: '04', name: 'South Korea', slug: 'seoul', note: 'Palace culture meeting contemporary design.' },
 ];
 
 const SERVICES = [
@@ -298,7 +298,7 @@ const Aboutus = () => (
                             {DESTINATIONS.map((dest) => (
                                 <li key={dest.name} className="border-b border-white/10">
                                     <Link
-                                        to={`/destination/${dest.name.toLowerCase().replace(/\s+/g, '-')}`}
+                                        to={`/destination/${dest.slug}`}
                                         className="group flex items-baseline gap-4 py-4"
                                     >
                                         <span className="font-display text-[11px] tracking-[0.2em] text-[var(--color-gold)]/70">

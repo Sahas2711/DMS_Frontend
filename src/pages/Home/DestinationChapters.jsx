@@ -1,18 +1,33 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { DESTINATIONS } from '../homeContent';
-import { EASE_EDITORIAL, EASE_CINEMATIC } from '../motionTokens';
-import { GhostNumeral, Coordinate } from './RoutePath';
+import { Coordinate } from './RoutePath';
 
-/* ═══════════════════════════════════════════════════════════════════
-   DESTINATION CHAPTERS — "THE ROUTE"
-   Full-screen immersion: each chapter is the whole viewport. Destination
-   names set at 16vw sit BEHIND the region route rail and OVER the
-   photograph; a ghost numeral anchors the composition; an edge chapter
-   rail shows the journey's position. Scroll = travelling the route.
-   Mobile: vertical story panels with the same art direction.
-   ═══════════════════════════════════════════════════════════════════ */
+/*
+ * ═══════════════════════════════════════════════════════════════════
+ * DESTINATION CHAPTERS — HORIZONTAL EDITORIAL RAIL
+ *
+ * IMPORTANT:
+ * - No giant sticky scroll scene
+ * - No artificial section-height calculation
+ * - No hard-coded transform percentages
+ * - No blank viewport regions
+ * - Native horizontal rail
+ * - Each destination is a complete visual composition
+ *
+ * Desktop:
+ *   image | destination information
+ *
+ * Mobile:
+ *   horizontal snap cards
+ *
+ * Interaction:
+ *   - arrow controls
+ *   - native horizontal scrolling
+ *   - keyboard accessible
+ *   - progress indicator
+ * ═══════════════════════════════════════════════════════════════════
+ */
 
 const COORDS = {
     india: '20.59° N — 78.96° E',
@@ -22,307 +37,745 @@ const COORDS = {
 };
 
 export default function DestinationChapters() {
-    const reduce = useReducedMotion();
-    const isDesktop = useIsDesktop();
-    const sectionRef = useRef(null);
+    const railRef = useRef(null);
+    const [activeIndex, setActiveIndex] = useState(0);
 
-    const [progress, setProgress] = useState(0);
-    useEffect(() => {
-        if (!isDesktop || reduce) return undefined;
-        let raf = 0;
-        const measure = () => {
-            raf = 0;
-            const el = sectionRef.current;
-            if (!el) return;
-            const rect = el.getBoundingClientRect();
-            const scrollable = rect.height - window.innerHeight;
-            if (scrollable <= 0) return;
-            const p = Math.min(1, Math.max(0, -rect.top / scrollable));
-            setProgress(p);
-        };
-        const onScroll = () => { if (!raf) raf = requestAnimationFrame(measure); };
-        measure();
-        window.addEventListener('scroll', onScroll, { passive: true });
-        window.addEventListener('resize', onScroll);
-        return () => {
-            if (raf) cancelAnimationFrame(raf);
-            window.removeEventListener('scroll', onScroll);
-            window.removeEventListener('resize', onScroll);
-        };
-    }, [isDesktop, reduce]);
+    const scrollToDestination = (index) => {
+        const rail = railRef.current;
 
-    const total = DESTINATIONS.length;
-    const active = Math.min(total - 1, Math.floor(progress * total * 0.999));
-    const dest = DESTINATIONS[active];
+        if (!rail) return;
 
-    /* ── MOBILE: vertical story ── */
-    if (!isDesktop) {
-        return (
-            <section aria-label="Destinations" className="relative bg-navy-deep">
-                <MobileHeader />
-                <div className="flex flex-col">
-                    {DESTINATIONS.map((d) => (
-                        <MobileChapter key={d.id} dest={d} />
-                    ))}
-                </div>
-            </section>
+        const cards = rail.querySelectorAll(
+            '[data-destination-card]'
         );
-    }
 
-    /* ── DESKTOP: full-screen chapter scene ── */
+        const card = cards[index];
+
+        if (!card) return;
+
+        rail.scrollTo({
+            left:
+                card.offsetLeft -
+                rail.offsetLeft,
+            behavior: 'smooth',
+        });
+
+        setActiveIndex(index);
+    };
+
+    const handleScroll = () => {
+        const rail = railRef.current;
+
+        if (!rail) return;
+
+        const cards = rail.querySelectorAll(
+            '[data-destination-card]'
+        );
+
+        if (!cards.length) return;
+
+        const railCenter =
+            rail.scrollLeft +
+            rail.clientWidth / 2;
+
+        let closestIndex = 0;
+        let closestDistance = Infinity;
+
+        cards.forEach((card, index) => {
+            const cardCenter =
+                card.offsetLeft +
+                card.offsetWidth / 2;
+
+            const distance = Math.abs(
+                railCenter - cardCenter
+            );
+
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestIndex = index;
+            }
+        });
+
+        setActiveIndex(closestIndex);
+    };
+
+    const previous = () => {
+        scrollToDestination(
+            Math.max(0, activeIndex - 1)
+        );
+    };
+
+    const next = () => {
+        scrollToDestination(
+            Math.min(
+                DESTINATIONS.length - 1,
+                activeIndex + 1
+            )
+        );
+    };
+
     return (
         <section
-            ref={sectionRef}
             aria-label="Destinations"
-            className="relative bg-navy-deep"
-            style={{ height: `${total * 100}vh` }}
+            className="
+                relative
+                overflow-hidden
+                bg-navy-deep
+                text-white
+            "
         >
-            <div className="sticky top-0 h-screen overflow-hidden">
-                {/* ── Photography: full-bleed, mask-wipe between chapters ── */}
-                <div className="absolute inset-0" aria-live="polite">
-                    <AnimatePresence initial={false}>
-                        <motion.div
-                            key={dest.id}
-                            className="absolute inset-0"
-                            initial={reduce ? { opacity: 0 } : { clipPath: 'inset(0 0 0 100%)' }}
-                            animate={reduce ? { opacity: 1 } : { clipPath: 'inset(0 0 0 0%)' }}
-                            exit={reduce ? { opacity: 0 } : { opacity: 0.3, scale: 1.04, transition: { duration: 0.85, ease: EASE_CINEMATIC } }}
-                            transition={{ duration: 1.1, ease: EASE_EDITORIAL }}
-                        >
-                            <motion.img
-                                src={dest.image}
-                                alt={dest.imageAlt}
-                                className="h-full w-full object-cover"
-                                initial={reduce ? undefined : { scale: 1.12 }}
-                                animate={reduce ? undefined : { scale: 1.02 }}
-                                transition={{ duration: 1.6, ease: EASE_EDITORIAL }}
-                                loading="lazy"
-                                decoding="async"
+            {/* ═══════════════════════════════════════════
+                HEADER
+            ═══════════════════════════════════════════ */}
+
+            <header
+                className="
+                    mx-auto
+                    max-w-[1500px]
+                    px-5
+                    pb-10
+                    pt-24
+                    sm:px-8
+                    lg:px-12
+                    lg:pb-12
+                    lg:pt-32
+                "
+            >
+                <div
+                    className="
+                        flex
+                        flex-col
+                        gap-8
+                        lg:flex-row
+                        lg:items-end
+                        lg:justify-between
+                    "
+                >
+                    <div>
+                        <div className="flex items-center gap-4">
+                            <span
+                                aria-hidden="true"
+                                className="
+                                    h-px
+                                    w-10
+                                    bg-gold/50
+                                "
                             />
-                        </motion.div>
-                    </AnimatePresence>
-                    <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-navy-deep/80 via-navy-deep/25 to-navy-deep/45" />
-                    <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-transparent to-navy-deep/35" />
+
+                            <span
+                                className="
+                                    text-[10px]
+                                    font-semibold
+                                    uppercase
+                                    tracking-[0.3em]
+                                    text-gold/80
+                                    sm:text-[11px]
+                                "
+                            >
+                                Destinations
+                            </span>
+                        </div>
+
+                        <h2
+                            className="
+                                mt-5
+                                font-display
+                                text-[clamp(2.7rem,6vw,5.8rem)]
+                                leading-[0.92]
+                                tracking-[-0.035em]
+                            "
+                        >
+                            Four countries.
+                            <br />
+
+                            <span className="italic text-white/50">
+                                One ground partner.
+                            </span>
+                        </h2>
+                    </div>
+
+                    <p
+                        className="
+                            max-w-sm
+                            text-[13px]
+                            leading-[1.85]
+                            text-white/55
+                        "
+                    >
+                        Destination expertise and carefully
+                        coordinated programmes across India,
+                        Vietnam, Japan and South Korea.
+                    </p>
+                </div>
+            </header>
+
+            {/* ═══════════════════════════════════════════
+                DESTINATION RAIL
+            ═══════════════════════════════════════════ */}
+
+            <div className="relative">
+                {/* Left fade */}
+                <div
+                    aria-hidden="true"
+                    className="
+                        pointer-events-none
+                        absolute
+                        bottom-0
+                        left-0
+                        top-0
+                        z-20
+                        hidden
+                        w-16
+                        bg-gradient-to-r
+                        from-navy-deep
+                        to-transparent
+                        lg:block
+                    "
+                />
+
+                {/* Right fade */}
+                <div
+                    aria-hidden="true"
+                    className="
+                        pointer-events-none
+                        absolute
+                        bottom-0
+                        right-0
+                        top-0
+                        z-20
+                        hidden
+                        w-24
+                        bg-gradient-to-l
+                        from-navy-deep
+                        to-transparent
+                        lg:block
+                    "
+                />
+
+                <div
+                    ref={railRef}
+                    onScroll={handleScroll}
+                    className="
+                        flex
+                        gap-6
+                        overflow-x-auto
+                        overscroll-x-contain
+                        px-5
+                        pb-5
+                        pt-2
+                        snap-x
+                        snap-mandatory
+                        scroll-smooth
+                        sm:gap-8
+                        sm:px-8
+                        lg:gap-12
+                        lg:px-[6vw]
+                        lg:pb-8
+                        [-ms-overflow-style:none]
+                        [scrollbar-width:none]
+                        [&::-webkit-scrollbar]:hidden
+                    "
+                >
+                    {DESTINATIONS.map((dest, index) => (
+                        <DestinationCard
+                            key={dest.id}
+                            dest={dest}
+                            index={index}
+                        />
+                    ))}
+
+                    {/* End breathing room */}
+                    <div
+                        aria-hidden="true"
+                        className="
+                            w-[5vw]
+                            shrink-0
+                        "
+                    />
+                </div>
+            </div>
+
+            {/* ═══════════════════════════════════════════
+                RAIL CONTROLS
+            ═══════════════════════════════════════════ */}
+
+            <div
+                className="
+                    mx-auto
+                    flex
+                    max-w-[1500px]
+                    items-center
+                    justify-between
+                    gap-6
+                    px-5
+                    pb-20
+                    pt-7
+                    sm:px-8
+                    lg:px-12
+                    lg:pb-28
+                "
+            >
+                {/* Progress */}
+                <div
+                    className="
+                        flex
+                        flex-1
+                        items-center
+                        gap-3
+                    "
+                >
+                    {DESTINATIONS.map((dest, index) => (
+                        <button
+                            key={dest.id}
+                            type="button"
+                            aria-label={`Go to ${dest.name}`}
+                            aria-current={
+                                activeIndex === index
+                                    ? 'true'
+                                    : undefined
+                            }
+                            onClick={() =>
+                                scrollToDestination(index)
+                            }
+                            className="
+                                group
+                                flex
+                                flex-1
+                                items-center
+                                gap-2
+                            "
+                        >
+                            <span
+                                className={`
+                                    block
+                                    h-px
+                                    w-full
+                                    transition-all
+                                    duration-500
+                                    ${
+                                        activeIndex === index
+                                            ? 'bg-gold'
+                                            : 'bg-white/15 group-hover:bg-white/35'
+                                    }
+                                `}
+                            />
+
+                            <span
+                                className={`
+                                    hidden
+                                    text-[9px]
+                                    tracking-[0.18em]
+                                    sm:block
+                                    ${
+                                        activeIndex === index
+                                            ? 'text-gold'
+                                            : 'text-white/25'
+                                    }
+                                `}
+                            >
+                                {String(index + 1).padStart(
+                                    2,
+                                    '0'
+                                )}
+                            </span>
+                        </button>
+                    ))}
                 </div>
 
-                {/* ── Ghost numeral ── */}
-                <GhostNumeral className="absolute -right-6 top-1/2 -translate-y-1/2 font-display text-[42vh] italic text-white">
-                    {dest.number}
-                </GhostNumeral>
+                {/* Navigation */}
+                <div className="flex items-center gap-2">
+                    <button
+                        type="button"
+                        onClick={previous}
+                        disabled={activeIndex === 0}
+                        aria-label="Previous destination"
+                        className="
+                            flex
+                            h-10
+                            w-10
+                            items-center
+                            justify-center
+                            border
+                            border-white/15
+                            text-white/70
+                            transition-all
+                            duration-300
+                            hover:border-gold/60
+                            hover:text-gold
+                            disabled:pointer-events-none
+                            disabled:opacity-25
+                        "
+                    >
+                        <span aria-hidden="true">←</span>
+                    </button>
 
-                {/* ── Chapter typography layer ── */}
-                <div className="relative z-10 flex h-full flex-col justify-between px-12 pb-10 pt-24">
-                    <AnimatePresence mode="wait">
-                        <motion.div
-                            key={dest.id}
-                            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 40 }}
-                            animate={reduce ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-                            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -28 }}
-                            transition={{ duration: 0.6, ease: EASE_EDITORIAL }}
-                            className="max-w-3xl"
-                        >
-                            <div className="flex items-center gap-4">
-                                <span className="font-display text-[13px] tracking-[0.2em] text-gold">{dest.number}</span>
-                                <span aria-hidden="true" className="h-px w-14 bg-gold/50" />
-                                <Coordinate text={COORDS[dest.id]} className="text-white/50" />
-                            </div>
-                            {/* Giant name — the composition itself */}
-                            <h3 className="display-xl -ml-1 font-display text-[clamp(3.6rem,10vw,9.5rem)] leading-[0.9] tracking-[-0.035em] text-white">
-                                {dest.name}
-                            </h3>
-                            <p className="mt-2 font-display text-[clamp(1.1rem,1.8vw,1.5rem)] italic text-white/60">
-                                {dest.tagline}
-                            </p>
-                        </motion.div>
-                    </AnimatePresence>
-
-                    {/* ── Bottom zone: region route + copy + link ── */}
-                    <div className="grid grid-cols-12 items-end gap-8">
-                        {/* Region route rail */}
-                        <div className="col-span-4">
-                            <AnimatePresence mode="wait">
-                                <motion.div
-                                    key={dest.id}
-                                    initial={reduce ? { opacity: 0 } : { opacity: 0, x: -16 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    exit={reduce ? { opacity: 0 } : { opacity: 0, x: -10 }}
-                                    transition={{ duration: 0.5, ease: EASE_EDITORIAL }}
-                                    className="flex gap-5"
-                                >
-                                    <RouteRailMini stops={dest.regions} progress={((progress * total) % 1)} />
-                                    <ul className="flex flex-col gap-3 pt-1">
-                                        {dest.regions.map((r, i) => (
-                                            <li
-                                                key={r}
-                                                className={`text-[11px] font-semibold uppercase tracking-[0.18em] transition-colors duration-500 ${
-                                                    i === 0 ? 'text-gold' : 'text-white/45'
-                                                }`}
-                                            >
-                                                {r}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </motion.div>
-                            </AnimatePresence>
-                        </div>
-
-                        {/* Copy + link */}
-                        <div className="col-span-5 col-start-6">
-                            <AnimatePresence mode="wait">
-                                <motion.div
-                                    key={dest.id}
-                                    initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
-                                    transition={{ duration: 0.55, ease: EASE_EDITORIAL }}
-                                >
-                                    <p className="max-w-md text-[13px] leading-[1.85] text-white/55">
-                                        {dest.copy}
-                                    </p>
-                                    <div className="mt-5 flex flex-wrap items-center gap-x-8 gap-y-3">
-                                        {dest.meta.map((m) => (
-                                            <div key={m.label}>
-                                                <p className="text-[9px] uppercase tracking-[0.24em] text-white/30">{m.label}</p>
-                                                <p className="mt-0.5 text-[12px] font-medium text-white/75">{m.value}</p>
-                                            </div>
-                                        ))}
-                                    </div>
-                                    <Link
-                                        to={dest.route}
-                                        className="group mt-7 inline-flex items-center gap-3 border-b border-gold/40 pb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:border-gold hover:text-gold"
-                                    >
-                                        Discover {dest.name}
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" aria-hidden="true" className="transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1.5">
-                                            <path d="M5 12h14M12 5l7 7-7 7" />
-                                        </svg>
-                                    </Link>
-                                </motion.div>
-                            </AnimatePresence>
-                        </div>
-
-                        {/* Edge chapter rail */}
-                        <div className="col-span-3 col-start-10 flex items-end justify-end gap-3" aria-hidden="true">
-                            {DESTINATIONS.map((d, i) => (
-                                <div key={d.id} className="flex flex-col items-center gap-2">
-                                    <span className={`text-[9px] tracking-[0.14em] transition-colors duration-500 ${i === active ? 'text-gold' : 'text-white/25'}`}>
-                                        {d.number}
-                                    </span>
-                                    <span className={`w-px transition-all duration-500 ${i === active ? 'h-10 bg-gold' : 'h-5 bg-white/20'}`} />
-                                </div>
-                            ))}
-                        </div>
-                    </div>
+                    <button
+                        type="button"
+                        onClick={next}
+                        disabled={
+                            activeIndex ===
+                            DESTINATIONS.length - 1
+                        }
+                        aria-label="Next destination"
+                        className="
+                            flex
+                            h-10
+                            w-10
+                            items-center
+                            justify-center
+                            border
+                            border-white/15
+                            text-white/70
+                            transition-all
+                            duration-300
+                            hover:border-gold/60
+                            hover:text-gold
+                            disabled:pointer-events-none
+                            disabled:opacity-25
+                        "
+                    >
+                        <span aria-hidden="true">→</span>
+                    </button>
                 </div>
             </div>
         </section>
     );
 }
 
-/* ── Mini route rail for the region list ── */
-function RouteRailMini({ stops, progress }) {
-    return (
-        <div className="relative w-px self-stretch bg-white/12" aria-hidden="true">
-            <motion.span
-                className="absolute left-0 top-0 w-px bg-gold"
-                style={{ height: `${Math.round(Math.min(1, Math.max(0, progress)) * 100)}%` }}
-            />
-            {stops.map((s, i) => (
-                <span
-                    key={s}
-                    className="absolute left-0 h-[5px] w-[5px] -translate-x-1/2 rotate-45 border border-gold/60 bg-navy-deep"
-                    style={{ top: `${(i / Math.max(1, stops.length - 1)) * 100}%` }}
-                />
-            ))}
-        </div>
-    );
-}
 
-/* ── Mobile header ── */
-function MobileHeader() {
-    return (
-        <div className="px-5 pt-20 sm:px-8">
-            <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-10% 0px' }}
-                transition={{ duration: 0.7, ease: EASE_EDITORIAL }}
-                className="flex items-center gap-4"
-            >
-                <span aria-hidden="true" className="h-px w-10 bg-gold/40" />
-                <span className="text-[10px] font-semibold uppercase tracking-[0.3em] text-gold/70 sm:text-[11px]">
-                    Destinations
-                </span>
-            </motion.div>
-            <h2 className="mt-5 font-display text-[clamp(2rem,9vw,3.4rem)] leading-[1.02] tracking-[-0.02em] text-white">
-                Four countries.
-                <br />
-                One ground partner.
-            </h2>
-        </div>
-    );
-}
+/* ═══════════════════════════════════════════════════════════════
+   DESTINATION CARD
+   ═══════════════════════════════════════════════════════════════ */
 
-/* ── Mobile chapter panel ── */
-function MobileChapter({ dest }) {
-    const reduce = useReducedMotion();
+function DestinationCard({ dest, index }) {
     return (
-        <motion.article
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 30 }}
-            whileInView={reduce ? { opacity: 1, y: 0 } : { opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-12% 0px' }}
-            transition={{ duration: 0.85, ease: EASE_EDITORIAL }}
-            className="relative mt-14"
+        <article
+            data-destination-card
+            className="
+                group
+                relative
+                grid
+                h-[min(66vh,620px)]
+                w-[88vw]
+                max-w-[1180px]
+                shrink-0
+                snap-center
+                grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]
+                overflow-hidden
+                bg-[#0c1528]
+                lg:w-[82vw]
+                xl:w-[78vw]
+            "
         >
-            {/* Image plate with the name pulled over its edge */}
-            <div className="relative">
-                <div className="relative overflow-hidden">
-                    <img
-                        src={dest.image}
-                        alt={dest.imageAlt}
-                        className="aspect-[4/5] w-full object-cover sm:aspect-[16/10]"
-                        loading="lazy"
-                        decoding="async"
+            {/* ═══════════════════════════════════════
+                IMAGE
+            ═══════════════════════════════════════ */}
+
+            <Link
+                to={dest.route}
+                aria-label={`Discover ${dest.name}`}
+                className="
+                    relative
+                    block
+                    h-full
+                    min-h-0
+                    overflow-hidden
+                    focus-visible:outline
+                    focus-visible:outline-2
+                    focus-visible:outline-offset-[-3px]
+                    focus-visible:outline-gold
+                "
+            >
+                <img
+                    src={dest.image}
+                    alt={dest.imageAlt}
+                    loading={index === 0 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    className="
+                        h-full
+                        w-full
+                        object-cover
+                        transition-transform
+                        duration-[1400ms]
+                        ease-[cubic-bezier(0.16,1,0.3,1)]
+                        group-hover:scale-[1.045]
+                    "
+                />
+
+                {/* Image treatment */}
+                <div
+                    aria-hidden="true"
+                    className="
+                        absolute
+                        inset-0
+                        bg-gradient-to-r
+                        from-transparent
+                        via-transparent
+                        to-navy-deep/40
+                    "
+                />
+
+                <div
+                    aria-hidden="true"
+                    className="
+                        absolute
+                        inset-0
+                        bg-gradient-to-t
+                        from-navy-deep/65
+                        via-transparent
+                        to-transparent
+                    "
+                />
+
+                {/* Number */}
+                <span
+                    className="
+                        absolute
+                        left-6
+                        top-6
+                        font-display
+                        text-[11px]
+                        tracking-[0.2em]
+                        text-white/80
+                        sm:left-8
+                        sm:top-8
+                    "
+                >
+                    {dest.number}
+                </span>
+
+                {/* Coordinate */}
+                <div
+                    className="
+                        absolute
+                        bottom-6
+                        left-6
+                        sm:bottom-8
+                        sm:left-8
+                    "
+                >
+                    <Coordinate
+                        text={COORDS[dest.id]}
+                        className="text-white/60"
                     />
-                    <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-navy-deep via-navy-deep/10 to-transparent" />
                 </div>
-                {/* Name overlaps the plate's bottom edge */}
-                <h3 className="display-xl -mt-[0.62em] px-5 font-display text-[clamp(3.2rem,15vw,5.5rem)] leading-[0.85] tracking-[-0.03em] text-white sm:px-8">
+            </Link>
+
+            {/* ═══════════════════════════════════════
+                CONTENT
+            ═══════════════════════════════════════ */}
+
+            <div
+                className="
+                    relative
+                    flex
+                    min-w-0
+                    flex-col
+                    justify-center
+                    px-7
+                    py-8
+                    sm:px-10
+                    sm:py-10
+                    lg:px-12
+                    xl:px-16
+                "
+            >
+                {/* Small route marker */}
+                <div className="flex items-center gap-4">
+                    <span
+                        className="
+                            font-display
+                            text-[11px]
+                            tracking-[0.2em]
+                            text-gold
+                        "
+                    >
+                        {dest.number}
+                    </span>
+
+                    <span
+                        aria-hidden="true"
+                        className="
+                            h-px
+                            w-10
+                            bg-gold/45
+                        "
+                    />
+
+                    <Coordinate
+                        text={COORDS[dest.id]}
+                        className="text-white/35"
+                    />
+                </div>
+
+                {/* Name */}
+                <h3
+                    className="
+                        mt-6
+                        font-display
+                        text-[clamp(3.1rem,5.5vw,6.2rem)]
+                        leading-[0.82]
+                        tracking-[-0.045em]
+                        text-white
+                    "
+                >
                     {dest.name}
                 </h3>
-                <p className="mt-1 px-5 font-display text-base italic text-gold/85 sm:px-8">{dest.tagline}</p>
-            </div>
 
-            <div className="px-5 sm:px-8">
-                <p className="mt-4 max-w-md text-[13px] leading-[1.8] text-white/50">{dest.copy}</p>
-                <div className="mt-4 flex flex-wrap gap-x-2 gap-y-1">
-                    {dest.regions.map((r, i) => (
-                        <span key={r} className={`text-[10px] uppercase tracking-[0.18em] ${i === 0 ? 'text-gold' : 'text-white/35'}`}>
-                            {r}{i < dest.regions.length - 1 && <span className="text-gold/40"> ·</span>}
+                {/* Tagline */}
+                <p
+                    className="
+                        mt-4
+                        font-display
+                        text-[clamp(1rem,1.5vw,1.35rem)]
+                        italic
+                        leading-tight
+                        text-gold/80
+                    "
+                >
+                    {dest.tagline}
+                </p>
+
+                {/* Copy */}
+                <p
+                    className="
+                        mt-5
+                        max-w-md
+                        text-[12px]
+                        leading-[1.85]
+                        text-white/55
+                    "
+                >
+                    {dest.copy}
+                </p>
+
+                {/* Regions */}
+                <div
+                    className="
+                        mt-6
+                        flex
+                        flex-wrap
+                        gap-x-4
+                        gap-y-2
+                    "
+                >
+                    {dest.regions.map((region, regionIndex) => (
+                        <span
+                            key={region}
+                            className={`
+                                text-[9px]
+                                uppercase
+                                tracking-[0.18em]
+                                ${
+                                    regionIndex === 0
+                                        ? 'text-gold'
+                                        : 'text-white/40'
+                                }
+                            `}
+                        >
+                            {region}
                         </span>
                     ))}
                 </div>
+
+                {/* Meta */}
+                <div
+                    className="
+                        mt-6
+                        grid
+                        grid-cols-2
+                        gap-x-5
+                        gap-y-4
+                        border-t
+                        border-white/10
+                        pt-5
+                    "
+                >
+                    {dest.meta.map((meta) => (
+                        <div key={meta.label}>
+                            <p
+                                className="
+                                    text-[8px]
+                                    uppercase
+                                    tracking-[0.2em]
+                                    text-white/30
+                                "
+                            >
+                                {meta.label}
+                            </p>
+
+                            <p
+                                className="
+                                    mt-1
+                                    text-[10px]
+                                    text-white/70
+                                "
+                            >
+                                {meta.value}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* CTA */}
                 <Link
                     to={dest.route}
-                    className="mt-5 inline-flex items-center gap-2 border-b border-gold/40 pb-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/80 transition-colors duration-300 hover:border-gold hover:text-gold"
+                    className="
+                        group/link
+                        mt-7
+                        inline-flex
+                        w-fit
+                        items-center
+                        gap-3
+                        border-b
+                        border-gold/40
+                        pb-1.5
+                        text-[10px]
+                        font-semibold
+                        uppercase
+                        tracking-[0.2em]
+                        text-white
+                        transition-colors
+                        duration-300
+                        hover:border-gold
+                        hover:text-gold
+                        focus-visible:outline
+                        focus-visible:outline-2
+                        focus-visible:outline-offset-4
+                        focus-visible:outline-gold
+                    "
                 >
                     Discover {dest.name}
-                    <span aria-hidden="true">&rarr;</span>
-                </Link>
-            </div>
-        </motion.article>
-    );
-}
 
-/* ── Desktop media query hook ── */
-function useIsDesktop() {
-    const [isDesktop, setIsDesktop] = useState(
-        () => typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches
+                    <span
+                        aria-hidden="true"
+                        className="
+                            transition-transform
+                            duration-500
+                            group-hover/link:translate-x-1.5
+                        "
+                    >
+                        →
+                    </span>
+                </Link>
+
+                {/* Decorative index */}
+                <span
+                    aria-hidden="true"
+                    className="
+                        pointer-events-none
+                        absolute
+                        bottom-[-0.12em]
+                        right-4
+                        font-display
+                        text-[clamp(5rem,12vw,12rem)]
+                        leading-none
+                        text-white/[0.025]
+                    "
+                >
+                    {String(index + 1).padStart(2, '0')}
+                </span>
+            </div>
+        </article>
     );
-    useEffect(() => {
-        const mq = window.matchMedia('(min-width: 1024px)');
-        const onChange = (e) => setIsDesktop(e.matches);
-        mq.addEventListener('change', onChange);
-        return () => mq.removeEventListener('change', onChange);
-    }, []);
-    return isDesktop;
 }
