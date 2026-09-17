@@ -1,7 +1,3 @@
-import { Link } from 'react-router-dom';
-import { HOME_IMAGES } from '../homeContent';
-import TopographicField from './TopographicField';
-
 /* ═══════════════════════════════════════════════════════════════════
    FINAL CTA — STATIC FIRST FOUNDATION
    
