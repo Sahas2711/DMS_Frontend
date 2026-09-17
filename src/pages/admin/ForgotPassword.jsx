@@ -39,6 +39,13 @@ function ForgotPassword() {
             <Seo title="Forgot Password — Asian Star Travel" noIndex path="/forgot-password" />
             <div className="w-full max-w-md">
                 <Link to="/" className="block text-center mb-8">
+                    <img
+                        src="/logo.jpeg"
+                        alt="Asian Star Travel"
+                        className="mx-auto h-14 w-auto mb-3"
+                        width="148"
+                        height="125"
+                    />
                     <span className="text-navy font-serif text-3xl font-bold">Asian Star Travel</span>
                     <span className="block text-[10px] tracking-[0.25em] uppercase text-bronze mt-1.5">
                         Admin Console

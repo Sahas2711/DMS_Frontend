@@ -39,14 +39,25 @@ export default function Footer() {
             <div className="mx-auto max-w-[1500px] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
                 {/* Masthead row */}
                 <div className="mb-14 flex flex-col gap-8 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
-                    <div>
-                        <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold/60">
-                            Asian Star Travel
-                        </p>
-                        <p className="max-w-md font-display text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.01em] text-white/90">
-                            The ground partner behind journeys across&nbsp;
-                            <span className="text-gold">India, Vietnam, Japan&nbsp;&amp;&nbsp;South&nbsp;Korea.</span>
-                        </p>
+                    <div className="flex items-start gap-5">
+                        <img
+                            src="/logo.jpeg"
+                            alt="Asian Star Travel"
+                            className="h-14 w-auto shrink-0 self-start"
+                            width="148"
+                            height="125"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                        <div>
+                            <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold/60">
+                                Asian Star Travel
+                            </p>
+                            <p className="max-w-md font-display text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.01em] text-white/90">
+                                The ground partner behind journeys across&nbsp;
+                                <span className="text-gold">India, Vietnam, Japan&nbsp;&amp;&nbsp;South&nbsp;Korea.</span>
+                            </p>
+                        </div>
                     </div>
                     <div className="flex items-center gap-3">
                         <Link

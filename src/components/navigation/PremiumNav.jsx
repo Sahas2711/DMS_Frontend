@@ -108,14 +108,13 @@ export default function PremiumNav() {
                 >
                     {/* Wordmark */}
                     <Link to="/" className="group flex items-center gap-3" aria-label="Asian Star Travel — home">
-                        <span
-                            aria-hidden="true"
-                            className="grid h-8 w-8 place-items-center bg-gold transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:rotate-45"
-                        >
-                            <svg viewBox="0 0 24 24" className="h-4 w-4 text-navy-deep" fill="currentColor">
-                                <path d="M12 2l1.8 6.5L20 10l-6.2 1.5L12 18l-1.8-6.5L4 10l6.2-1.5L12 2z" />
-                            </svg>
-                        </span>
+                        <img
+                            src="/logo.jpeg"
+                            alt="Asian Star Travel"
+                            className="h-8 w-auto transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                            width="108"
+                            height="92"
+                        />
                         <span className="leading-none">
                             <span className="block text-[11px] font-semibold uppercase tracking-[0.32em] text-white/85">
                                 Asian Star

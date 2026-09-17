@@ -134,6 +134,13 @@ function AdminLayout() {
             {/* Desktop sidebar */}
             <aside className="hidden lg:flex flex-col w-64 shrink-0 bg-white border-r border-gray-100 sticky top-0 h-screen">
                 <Link to="/admin/dashboard" className="px-6 py-6 border-b border-gray-100 block">
+                    <img
+                        src="/logo.jpeg"
+                        alt="Asian Star Travel"
+                        className="h-10 w-auto mb-2"
+                        width="108"
+                        height="92"
+                    />
                     <span className="text-navy font-serif text-xl font-bold">Asian Star Travel</span>
                     <span className="block text-[10px] tracking-[0.2em] uppercase text-bronze mt-1">Admin Console</span>
                 </Link>
@@ -152,7 +159,16 @@ function AdminLayout() {
                     <div className="fixed inset-0 bg-navy/50" aria-hidden="true" onClick={() => setMenuOpen(false)} />
                     <aside className="fixed inset-y-0 left-0 w-72 bg-white shadow-2xl flex flex-col z-10">
                         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
-                            <span className="text-navy font-serif text-lg font-bold">Asian Star Travel</span>
+                            <div>
+                                <img
+                                    src="/logo.jpeg"
+                                    alt="Asian Star Travel"
+                                    className="h-8 w-auto mb-1"
+                                    width="86"
+                                    height="73"
+                                />
+                                <span className="text-navy font-serif text-lg font-bold">Asian Star Travel</span>
+                            </div>
                             <button type="button" ref={drawerCloseRef} onClick={() => setMenuOpen(false)} aria-label="Close menu" className="text-gray-400 hover:text-navy">
                                 <X className="h-5 w-5" aria-hidden="true" />
                             </button>

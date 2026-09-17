@@ -17,7 +17,7 @@ export const SITE = {
     /** Public telephone (E.164) — used in contact page structured data. */
     telephone: '+842438289999',
     /** Relative path to the brand logo asset — used in Organization schema. */
-    logo: '/favicon.svg',
+    logo: '/logo.jpeg',
     locale: 'en_US',
     /** Set to the production origin before deploying (used for canonical + OG URLs). */
     url: 'https://www.asianstartravel.vn',
