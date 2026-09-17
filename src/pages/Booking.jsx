@@ -1,9 +1,9 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import heroImage from '../assets/bookings/booking-hero-image.webp';
-import inboundTransitImg from '../assets/bookings/INBOUND-TRANSIT.webp';
-import outboundTransitImg from '../assets/bookings/OUTBOUND-TRANSIT.webp';
-import seamlessHanoiTransitImg from '../assets/bookings/SEAMLESS-HANOI-TRANSIT.webp';
+const heroImage = '/images/bookings/booking-hero-image.webp';
+const inboundTransitImg = '/images/bookings/INBOUND-TRANSIT.webp';
+const outboundTransitImg = '/images/bookings/OUTBOUND-TRANSIT.webp';
+const seamlessHanoiTransitImg = '/images/bookings/SEAMLESS-HANOI-TRANSIT.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';

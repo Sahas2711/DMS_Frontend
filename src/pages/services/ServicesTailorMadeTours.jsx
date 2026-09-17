@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
-import servicesHeroImg from '../../assets/services/servicespage-heroimg.webp';
-import travelYourWayImg from '../../assets/services/travel-your-way.webp';
-import beautifulWeekendImg from '../../assets/services/beautiful-weekend.webp';
-import bespokeTravelImg from '../../assets/services/bespoke-travel-experience.webp';
+const servicesHeroImg = '/images/services/servicespage-heroimg.webp';
+const travelYourWayImg = '/images/services/travel-your-way.webp';
+const beautifulWeekendImg = '/images/services/beautiful-weekend.webp';
+const bespokeTravelImg = '/images/services/bespoke-travel-experience.webp';
 import PageHero from '../../components/PageHero';
 import Seo from '../../components/Seo';
 import { Rise } from '../../components/editorial';

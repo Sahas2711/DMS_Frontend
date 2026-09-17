@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import heroImage from '../assets/checkouts/checkouts-hero-image.webp';
-import seamlessHanoiTransitImg from '../assets/checkouts/SEAMLESS-HANOI-TRANSIT.webp';
+const heroImage = '/images/checkouts/checkouts-hero-image.webp';
+const seamlessHanoiTransitImg = '/images/checkouts/SEAMLESS-HANOI-TRANSIT.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';

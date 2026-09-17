@@ -8,15 +8,15 @@ import { itemListSchema } from '../config/structuredData';
 import { fetchTours, resolveMediaUrl } from '../services/api/cms';
 import { PageTransition } from '../components/editorial';
 
-import maharashtraImg from '../assets/home/Maharashtra.webp';
-import halongImg from '../assets/home/tours/halong.jpg';
-import osakaImg from '../assets/home/tours/osaka.jpg';
-import koreaImg from '../assets/home/Korea.webp';
-import keralaImg from '../assets/home/Kerala-Heritage.webp';
-import hoianImg from '../assets/home/tours/hoian.jpg';
-import kyotoImg from '../assets/home/tours/kyoto.jpg';
-import danangImg from '../assets/home/tours/danang.jpg';
-import heroImage from '../assets/home/tours/halong.jpg';
+const maharashtraImg = '/images/home/Maharashtra.webp';
+const halongImg = '/images/home/tours/halong.webp';
+const osakaImg = '/images/home/tours/osaka.webp';
+const koreaImg = '/images/home/Korea.webp';
+const keralaImg = '/images/home/Kerala-Heritage.webp';
+const hoianImg = '/images/home/tours/hoian.webp';
+const kyotoImg = '/images/home/tours/kyoto.webp';
+const danangImg = '/images/home/tours/danang.webp';
+const heroImage = '/images/home/tours/halong.webp';
 
 const FALLBACK_TOURS = [
     {

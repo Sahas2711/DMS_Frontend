@@ -1,8 +1,8 @@
-import travelJournalImg from '../assets/blogs/travel-journal-section-image.webp';
-import editorsDispatchImg from '../assets/blogs/editors-dispatch.webp';
-import vietnamTravelImg from '../assets/blogs/VIETNAM-TRAVEL.webp';
-import destinationsImg from '../assets/blogs/DESTINATIONS.webp';
-import travelTipsImg from '../assets/blogs/TRAVEL-TIPS.webp';
+const travelJournalImg = '/images/blogs/travel-journal-section-image.webp';
+const editorsDispatchImg = '/images/blogs/editors-dispatch.webp';
+const vietnamTravelImg = '/images/blogs/VIETNAM-TRAVEL.webp';
+const destinationsImg = '/images/blogs/DESTINATIONS.webp';
+const travelTipsImg = '/images/blogs/TRAVEL-TIPS.webp';
 import { resolveMediaUrl } from '../services/api/cms';
 
 // The seeded posts ship without a cover_image_url; map their slugs to the

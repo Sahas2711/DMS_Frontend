@@ -13,10 +13,10 @@ import { errorMessage } from '../services/api/client';
 import { PageTransition, Rise } from '../components/editorial';
 
 // Bundled destination imagery — no external hotlinks (project image policy).
-import indiaFallback from '../assets/home/Kerala-Heritage.webp';
-import vietnamFallback from '../assets/home/tours/hanoi.jpg';
-import japanFallback from '../assets/home/tours/kyoto.jpg';
-import koreaFallback from '../assets/home/Korea.webp';
+const indiaFallback = '/images/home/Kerala-Heritage.webp';
+const vietnamFallback = '/images/home/tours/hanoi.webp';
+const japanFallback = '/images/home/tours/kyoto.webp';
+const koreaFallback = '/images/home/Korea.webp';
 
 const noSeo = {
     meta_title: '',

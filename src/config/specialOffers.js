@@ -7,15 +7,15 @@
  * absolute URL, which takes priority over the bundled art.
  */
 import { resolveMediaUrl } from '../services/api/cms';
-import abuDhabiCityImg from '../assets/home/Abu-Dhabi-City-Tour.webp';
-import yasIslandImg from '../assets/home/Yas-Island-Guided-Tour.webp';
-import discoverVietnamImg from '../assets/home/Discover-vietnam.webp';
-import europeImg from '../assets/home/Europe.webp';
-import koreaImg from '../assets/home/Korea.webp';
-import hanoiImg from '../assets/home/tours/hanoi.jpg';
-import sydneyImg from '../assets/home/tours/sydney.jpg';
-import cairnsImg from '../assets/home/tours/cairns.jpg';
-import kyotoImg from '../assets/home/tours/kyoto.jpg';
+const abuDhabiCityImg = '/images/home/Abu-Dhabi-City-Tour.webp';
+const yasIslandImg = '/images/home/Yas-Island-Guided-Tour.webp';
+const discoverVietnamImg = '/images/home/Discover-vietnam.webp';
+const europeImg = '/images/home/Europe.webp';
+const koreaImg = '/images/home/Korea.webp';
+const hanoiImg = '/images/home/tours/hanoi.webp';
+const sydneyImg = '/images/home/tours/sydney.webp';
+const cairnsImg = '/images/home/tours/cairns.png';
+const kyotoImg = '/images/home/tours/kyoto.webp';
 
 export const SPECIAL_OFFER_STATUSES = ['DRAFT', 'PUBLISHED', 'ARCHIVED'];
 

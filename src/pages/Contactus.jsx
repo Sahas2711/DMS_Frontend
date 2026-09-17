@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
-import heroImage from '../assets/contactus/Contactus-hero-image.webp';
-import mapImage from '../assets/contactus/map-image-contactus.webp';
+const heroImage = '/images/contactus/Contactus-hero-image.webp';
+const mapImage = '/images/contactus/map-image-contactus.webp';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
 import ContactForm from '../components/forms/ContactForm';

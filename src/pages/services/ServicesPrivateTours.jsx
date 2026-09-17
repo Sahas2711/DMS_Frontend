@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
-import heroImage from '../../assets/services/Private-Transfer-Hero-services.webp';
-import travelYourWayImg from '../../assets/services/travel-your-way.webp';
+const heroImage = '/images/services/Private-Transfer-Hero-services.webp';
+const travelYourWayImg = '/images/services/travel-your-way.webp';
 import chairsIcon from '../../assets/services/chairs.svg';
 import passengerIcon from '../../assets/services/passanger.svg';
 import refreshmentIcon from '../../assets/services/Refreshment.svg';

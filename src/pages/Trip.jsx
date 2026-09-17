@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import heroImage from '../assets/Trip/trip-hero-image.webp';
-import tasteImg from '../assets/Trip/taste.webp';
-import heritageImg from '../assets/Trip/heritage.webp';
-import saveThisForLaterImg from '../assets/Trip/SAVE-THIS-FOR-LATER.webp';
+const heroImage = '/images/Trip/trip-hero-image.webp';
+const tasteImg = '/images/Trip/taste.webp';
+const heritageImg = '/images/Trip/heritage.webp';
+const saveThisForLaterImg = '/images/Trip/SAVE-THIS-FOR-LATER.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
 import { fetchRoutes, resolveMediaUrl } from '../services/api/cms';

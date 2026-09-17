@@ -6,12 +6,12 @@ import { EXPERIENCE_CATEGORIES } from '../config/enquiry';
 import { PAGE_META } from '../config/site';
 import { PageTransition, Rise } from '../components/editorial';
 
-import heroImage from '../assets/home/hero-image-home.webp';
-import fitImage from '../assets/home/tours/hoian.jpg';
-import groupImage from '../assets/home/tours/halong.jpg';
-import miceImage from '../assets/home/tours/saigon.jpg';
-import honeymoonImage from '../assets/home/Kerala-Heritage.webp';
-import luxuryImage from '../assets/home/tours/tokyo.jpg';
+const heroImage = '/images/home/hero-image-home.webp';
+const fitImage = '/images/home/tours/hoian.webp';
+const groupImage = '/images/home/tours/halong.webp';
+const miceImage = '/images/home/tours/saigon.webp';
+const honeymoonImage = '/images/home/Kerala-Heritage.webp';
+const luxuryImage = '/images/home/tours/tokyo.webp';
 
 /** Preview image per category (bundled assets — no external hotlinks). */
 const CATEGORY_IMAGES = {

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom';
-import heroImage from '../assets/aboutus/Aboutus-hero-image.webp';
-import tailorMadeImg from '../assets/aboutus/Tailor-Made-Tours.webp';
-import privateTransfersImg from '../assets/aboutus/Private-Transfers.webp';
-import airportFastTrackImg from '../assets/aboutus/Airport-Fast-Track.webp';
-import groundServicesImg from '../assets/aboutus/Ground-Services.webp';
+const heroImage = '/images/aboutus/Aboutus-hero-image.webp';
+const tailorMadeImg = '/images/aboutus/Tailor-Made-Tours.webp';
+const privateTransfersImg = '/images/aboutus/Private-Transfers.webp';
+const airportFastTrackImg = '/images/aboutus/Airport-Fast-Track.webp';
+const groundServicesImg = '/images/aboutus/Ground-Services.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';

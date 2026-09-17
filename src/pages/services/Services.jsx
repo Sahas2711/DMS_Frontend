@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import servicesHeroImg from '../../assets/services/servicespage-heroimg.webp';
-import tailorMadeImg from '../../assets/services/bespoke-travel-experience.webp';
-import privateTransfersImg from '../../assets/services/Private-Transfer-Hero-services.webp';
-import airportFastTrackImg from '../../assets/services/AirportTrack-hero.webp';
-import groundServicesImg from '../../assets/services/Ground-Services-Hero.webp';
+const servicesHeroImg = '/images/services/servicespage-heroimg.webp';
+const tailorMadeImg = '/images/services/bespoke-travel-experience.webp';
+const privateTransfersImg = '/images/services/Private-Transfer-Hero-services.webp';
+const airportFastTrackImg = '/images/services/AirportTrack-hero.webp';
+const groundServicesImg = '/images/services/Ground-Services-Hero.webp';
 import PageHero from '../../components/PageHero';
 import Seo from '../../components/Seo';
 import { PAGE_META } from '../../config/site';

@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Armchair, CarFront, ConciergeBell, Luggage } from 'lucide-react';
-import heroImage from '../../assets/services/Ground-Services-Hero.webp';
-import coordinatedSupportImg from '../../assets/services/Coordinated-terminal-support.webp';
-import tellUsWhereImg from '../../assets/services/tell-uwhere-flying.webp';
-import travelOnYourTermsImg from '../../assets/services/Travel-on-your-terms.webp';
+const heroImage = '/images/services/Ground-Services-Hero.webp';
+const coordinatedSupportImg = '/images/services/Coordinated-terminal-support.webp';
+const tellUsWhereImg = '/images/services/tell-uwhere-flying.webp';
+const travelOnYourTermsImg = '/images/services/Travel-on-your-terms.webp';
 import PageHero from '../../components/PageHero';
 import Seo from '../../components/Seo';
 import { Rise } from '../../components/editorial';

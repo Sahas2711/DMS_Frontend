@@ -11,30 +11,30 @@
  * Nothing in this file may claim certifications, statistics or partnerships
  * that the rest of the project does not already state.
  */
-import indiaKerala from '../assets/home/Kerala-Heritage.webp';
-import indiaDarjeeling from '../assets/home/Darjeeling.webp';
-import indiaHimachal from '../assets/home/Himachal-Pradesh.webp';
-import indiaMeghalaya from '../assets/home/Meghalaya-Adventure.webp';
-import indiaTelangana from '../assets/home/Telangana.webp';
-import indiaMaharashtra from '../assets/home/Maharashtra.webp';
-import indiaAsam from '../assets/home/Asam.webp';
-import indiaPunjab from '../assets/home/Panjab.webp';
+const indiaKerala = '/images/home/Kerala-Heritage.webp';
+const indiaDarjeeling = '/images/home/Darjeeling.webp';
+const indiaHimachal = '/images/home/Himachal-Pradesh.webp';
+const indiaMeghalaya = '/images/home/Meghalaya-Adventure.webp';
+const indiaTelangana = '/images/home/Telangana.webp';
+const indiaMaharashtra = '/images/home/Maharashtra.webp';
+const indiaAsam = '/images/home/Asam.webp';
+const indiaPunjab = '/images/home/Panjab.png';
 
-import vietnamHanoi from '../assets/home/tours/hanoi.jpg';
-import vietnamHalong from '../assets/home/tours/halong.jpg';
-import vietnamHoian from '../assets/home/tours/hoian.jpg';
-import vietnamSaigon from '../assets/home/tours/saigon.jpg';
-import vietnamDanang from '../assets/home/tours/danang.jpg';
+const vietnamHanoi = '/images/home/tours/hanoi.webp';
+const vietnamHalong = '/images/home/tours/halong.webp';
+const vietnamHoian = '/images/home/tours/hoian.webp';
+const vietnamSaigon = '/images/home/tours/saigon.webp';
+const vietnamDanang = '/images/home/tours/danang.webp';
 
-import japanTokyo from '../assets/home/tours/tokyo.jpg';
-import japanKyoto from '../assets/home/tours/kyoto.jpg';
-import japanOsaka from '../assets/home/tours/osaka.jpg';
+const japanTokyo = '/images/home/tours/tokyo.webp';
+const japanKyoto = '/images/home/tours/kyoto.webp';
+const japanOsaka = '/images/home/tours/osaka.webp';
 
-import koreaCover from '../assets/home/Korea.webp';
+const koreaCover = '/images/home/Korea.webp';
 
-import journalFeature from '../assets/blogs/travel-journal-section-image.webp';
-import journalDispatch from '../assets/blogs/editors-dispatch.webp';
-import journalDestinations from '../assets/blogs/DESTINATIONS.webp';
+const journalFeature = '/images/blogs/travel-journal-section-image.webp';
+const journalDispatch = '/images/blogs/editors-dispatch.webp';
+const journalDestinations = '/images/blogs/DESTINATIONS.webp';
 
 export const HOME_IMAGES = {
     india: {

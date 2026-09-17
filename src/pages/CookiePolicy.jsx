@@ -3,7 +3,7 @@ import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
 import { PAGE_META, SITE } from '../config/site';
 import { PageTransition } from '../components/editorial';
-import heroImage from '../assets/aboutus/Aboutus-hero-image.webp';
+const heroImage = '/images/aboutus/Aboutus-hero-image.webp';
 
 const CookiePolicy = () => {
     return (

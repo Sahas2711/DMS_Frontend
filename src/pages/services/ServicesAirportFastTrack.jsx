@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useInView, useReducedMotion } from 'framer-motion';
-import heroImage from '../../assets/services/AirportTrack-hero.webp';
-import globalCoverageImg from '../../assets/services/global-coverage.webp';
-import arrivalsImg from '../../assets/services/arivals.webp';
+const heroImage = '/images/services/AirportTrack-hero.webp';
+const globalCoverageImg = '/images/services/global-coverage.webp';
+const arrivalsImg = '/images/services/arivals.webp';
 import PageHero from '../../components/PageHero';
 import Seo from '../../components/Seo';
 import { Rise } from '../../components/editorial';
