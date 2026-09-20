@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { TRAVEL_STYLES } from '../homeContent';
-import { EASE_EDITORIAL } from '../motionTokens';
+import { TRAVEL_STYLES } from '../../pages/homeContent';
+import { EASE_EDITORIAL } from '../../pages/motionTokens';
 
 /*
   EXPERIENCE SCENE — "SIX WAYS IN"

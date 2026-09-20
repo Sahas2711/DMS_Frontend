@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { JOURNAL_STORIES } from '../homeContent';
+import { JOURNAL_STORIES } from '../../pages/homeContent';
 
 /* ═══════════════════════════════════════════════════════════════════
    JOURNAL — STATIC FIRST FOUNDATION

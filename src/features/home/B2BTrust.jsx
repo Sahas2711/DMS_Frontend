@@ -5,7 +5,7 @@ import {
     motion,
     useReducedMotion,
 } from 'framer-motion';
-import { CAPABILITIES } from '../homeContent';
+import { CAPABILITIES } from '../../pages/homeContent';
 
 /*
  * ═══════════════════════════════════════════════════════════════════

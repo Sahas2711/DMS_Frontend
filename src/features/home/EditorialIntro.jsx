@@ -1,5 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
-import { HOME_IMAGES } from '../homeContent';
+import { HOME_IMAGES } from '../../pages/homeContent';
 import { RouteLine } from './RoutePath';
 
 /*

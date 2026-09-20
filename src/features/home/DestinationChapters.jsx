@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { DESTINATIONS } from '../homeContent';
+import { DESTINATIONS } from '../../pages/homeContent';
 import { Coordinate } from './RoutePath';
 
 /*

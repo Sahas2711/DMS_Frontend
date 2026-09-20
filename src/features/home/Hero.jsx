@@ -15,9 +15,9 @@ import {
 
 import {
     DESTINATIONS,
-} from '../homeContent';
+} from '../../pages/homeContent';
 
-import { EASE_EDITORIAL } from '../motionTokens';
+import { EASE_EDITORIAL } from '../../pages/motionTokens';
 
 import { AsiaRouteMap } from './RoutePath';
 

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { JOURNEYS } from '../homeContent';
+import { JOURNEYS } from '../../pages/homeContent';
 
 /* ═══════════════════════════════════════════════════════════════════
    JOURNEY RAIL — STATIC FIRST FOUNDATION
