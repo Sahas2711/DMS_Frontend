@@ -124,7 +124,7 @@ const AdminDashboard = () => {
         <div>
             <PageHeader
                 title={`Welcome back, ${user?.full_name?.split(' ')[0] || 'Admin'}`}
-                description="Live overview of your DMC content and trade enquiries."
+                description="Content and enquiry overview."
                 actions={
                     <>
                         <Link to="/admin/destinations"><Button variant="outline">Manage content</Button></Link>
@@ -136,7 +136,7 @@ const AdminDashboard = () => {
             {!hasAny && (can('destinations.read') || can('tours.read') || can('routes.read') || can('media.read')) && (
                 <EmptyState
                     title="Nothing published yet"
-                    description="Your content library is empty. Add destinations, tours and media to populate the public website."
+                    description="Add destinations, tours and media to get started."
                 />
             )}
             {data.error && (
@@ -174,7 +174,7 @@ const AdminDashboard = () => {
                             ))}
                         </dl>
                     ) : (
-                        <p className="text-sm text-gray-400">You do not have access to content modules.</p>
+                        <p className="text-sm text-gray-400">No access.</p>
                     )}
                 </section>
 
@@ -205,7 +205,7 @@ const AdminDashboard = () => {
                         <div className="flex items-end justify-between">
                             <div>
                                 <p className="text-3xl font-serif font-bold text-navy">{data.users_total}</p>
-                                <p className="text-xs text-gray-500">total accounts</p>
+                                <p className="text-xs text-gray-500">accounts</p>
                             </div>
                             <div className="text-right">
                                 <p className="text-lg font-bold text-green-700">{activeUsers}</p>
@@ -214,11 +214,11 @@ const AdminDashboard = () => {
                             <Link to="/admin/users" className="text-xs font-bold uppercase tracking-wider text-bronze hover:text-navy">Manage →</Link>
                         </div>
                     ) : (
-                        <p className="text-sm text-gray-400">You do not have access to admin user data.</p>
+                        <p className="text-sm text-gray-400">No access.</p>
                     )}
                     {can('enquiries.read') && (
                         <div className="mt-5 pt-5 border-t border-gray-100">
-                            <p className="text-xs text-gray-500 mb-2">New in the inbox</p>
+                            <p className="text-xs text-gray-500 mb-2">Inbox</p>
                             <div className="flex gap-3 text-sm">
                                 <span className="font-semibold text-[#731E2A]">{data.unread_request_quote} quotes</span>
                                 <span className="text-gray-300">·</span>
@@ -287,7 +287,7 @@ const AdminDashboard = () => {
                                 ))}
                             </ul>
                         ) : (
-                            <p className="text-sm text-gray-400 py-4">No activity recorded yet.</p>
+                            <p className="text-sm text-gray-400 py-4">No activity yet.</p>
                         )}
                     </section>
                 ) : (

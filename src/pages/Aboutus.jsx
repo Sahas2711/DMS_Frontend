@@ -106,9 +106,7 @@ const Aboutus = () => (
                             <span className="italic text-[var(--color-gold)]">built around the ground.</span>
                         </h2>
                         <p className="font-body text-[var(--color-text-secondary)] text-base sm:text-lg leading-relaxed">
-                            Asian Star Travel crafts private journeys and reliable ground services across India,
-                            Vietnam, Japan and South Korea — planning every detail locally, from the first inquiry
-                            to the final departure.
+                            Private journeys and reliable ground services across India, Vietnam, Japan and South Korea.
                         </p>
                     </Rise>
 
@@ -141,9 +139,7 @@ const Aboutus = () => (
 
                         <Rise delay={0.12} className="lg:col-span-6 lg:pl-4">
                             <p className="font-body text-[var(--color-text-secondary)] text-base leading-relaxed mb-8 max-w-lg">
-                                We work with independent travelers and with overseas agencies and tour operators
-                                who need a dependable partner on the ground across Asia — one trade desk,
-                                local teams in every destination.
+                                One trade desk, local teams in every destination — handling every detail from inquiry to departure.
                             </p>
 
                             <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-[var(--color-border-subtle)]">
@@ -200,14 +196,7 @@ const Aboutus = () => (
                         </h2>
                         <div className="font-body text-[var(--color-text-secondary)] text-base leading-[1.8] space-y-5 max-w-xl mb-10">
                             <p>
-                                Asian Star Travel is a destination management company operating across India,
-                                Vietnam, Japan and South Korea. We plan and operate private journeys and
-                                dependable ground services — handling every detail locally, from the first
-                                inquiry to the final departure.
-                            </p>
-                            <p>
-                                We work with independent travelers and with overseas agencies and tour
-                                operators who need a reliable partner on the ground across Asia.
+                                A destination management company operating across India, Vietnam, Japan and South Korea — handling every detail locally.
                             </p>
                         </div>
 

@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { DESTINATIONS, HERO_CAPABILITIES } from '../../pages/homeContent';
 import LanguageSwitcher from '../ui/LanguageSwitcher';
+import { useTheme } from '../../context/ThemeContext';
 
 const EASE = [0.16, 1, 0.3, 1];
 
@@ -18,6 +19,7 @@ const NAV_LINKS = [
 export default function PremiumNav() {
     const reduce = useReducedMotion();
     const location = useLocation();
+    const { theme, toggleTheme } = useTheme();
     const [scrolled, setScrolled] = useState(() => window.scrollY > 40);
     const [panelOpen, setPanelOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -144,6 +146,14 @@ export default function PremiumNav() {
                     {/* CTAs */}
                     <div className="hidden items-center gap-5 lg:flex">
                         <LanguageSwitcher variant="desktop" />
+                        <button
+                            type="button"
+                            onClick={toggleTheme}
+                            className="theme-toggle"
+                            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                        >
+                            {theme === 'dark' ? '☀' : '☾'}
+                        </button>
                         <Link
                             to="/request-quote"
                             className="link-underline py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/45 transition-colors duration-300 hover:text-gold"
@@ -280,6 +290,24 @@ export default function PremiumNav() {
                                 className="mt-6"
                             >
                                 <LanguageSwitcher variant="mobile" />
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 0.5, delay: 0.6 }}
+                                className="mt-4"
+                            >
+                                <button
+                                    type="button"
+                                    onClick={toggleTheme}
+                                    className="flex items-center gap-3 text-white/50 text-sm"
+                                >
+                                    <span className="text-lg">{theme === 'dark' ? '☀' : '☾'}</span>
+                                    <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">
+                                        {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+                                    </span>
+                                </button>
                             </motion.div>
 
                             <motion.div

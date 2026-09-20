@@ -71,10 +71,8 @@ const TravelTrade = () => {
                                     <span className="text-[var(--color-gold)]">You Can Build With.</span>
                                 </h1>
                                 <p className="font-body text-[var(--color-text-secondary)] text-base sm:text-lg leading-relaxed mb-10">
-                                    Your clients expect memorable travel. You need a partner who understands
-                                    deadlines, details and the importance of getting every moving part right.
-                                    AST works with travel agencies and tour operators to develop practical,
-                                    distinctive and well-supported programmes across Asia.
+                                    Your clients expect memorable travel. You need a partner who gets every detail right.
+                                    AST develops practical, distinctive programmes across Asia.
                                 </p>
                                 <div className="flex flex-wrap gap-4">
                                     <Link to="/become-a-partner" className="btn btn--md btn--gold">

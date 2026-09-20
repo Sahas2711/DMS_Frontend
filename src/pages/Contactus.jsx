@@ -80,8 +80,7 @@ const Contactus = () => (
                             <span className="block italic text-[var(--color-gold)]">on the ground.</span>
                         </h1>
                         <p className="font-body text-white/50 text-base sm:text-lg leading-relaxed max-w-xl">
-                            FIT and group programmes, MICE support, partnerships — our destination
-                            specialists across India, Vietnam, Japan and South Korea are one message away.
+                            FIT, groups, MICE, partnerships — our specialists are one message away.
                         </p>
                     </motion.div>
                 </div>

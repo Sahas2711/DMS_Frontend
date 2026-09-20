@@ -10,6 +10,7 @@ import RouteFallback from './components/RouteFallback';
 import CookieConsent from './components/CookieConsent';
 import AnalyticsProvider from './components/AnalyticsProvider';
 import { AuthProvider } from './context/AdminAuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { lenisRef } from './lib/lenisRef';
 import Home from './pages/Home';
 
@@ -221,10 +222,11 @@ function AnimatedRoutes() {
 function App() {
     return (
         <Router>
+            <ThemeProvider>
             <AnalyticsProvider>
                 <AuthProvider>
                     <SmoothScroll />
-                    <div className="min-h-screen bg-gray-100 flex flex-col w-full max-w-full relative">   
+                    <div className="min-h-screen bg-[var(--bg-primary)] flex flex-col w-full max-w-full relative">   
                         {/* overflow clipping is handled globally in index.css via
                             `overflow-x: clip` so Lenis keeps control of the scroller. */}
                         <a
@@ -244,6 +246,7 @@ function App() {
                     <CookieConsent />
                 </AuthProvider>
             </AnalyticsProvider>
+            </ThemeProvider>
         </Router>
     );
 }

@@ -258,8 +258,8 @@ export function InlineError({ message, onRetry }) {
 export function ForbiddenState({ module = 'this module', action }) {
     return (
         <EmptyState
-            title={`You don't have permission to view ${module}.`}
-            description="Your account is signed in, but does not have access to this section. Ask a super admin if you think this is a mistake."
+            title={`No access to ${module}.`}
+            description="Ask a super admin for access."
             action={action || <Link className="text-xs font-bold uppercase tracking-wider text-bronze underline underline-offset-2 hover:text-navy" to="/admin/dashboard">Go to dashboard</Link>}
         />
     );

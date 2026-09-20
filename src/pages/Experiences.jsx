@@ -23,10 +23,10 @@ const CATEGORY_IMAGES = {
 };
 
 const DESTINATIONS = [
-    { name: 'India', slug: 'india' },
-    { name: 'Vietnam', slug: 'vietnam' },
-    { name: 'Japan', slug: 'japan' },
-    { name: 'South Korea', slug: 'south-korea' },
+    { name: 'India', slug: 'delhi' },
+    { name: 'Vietnam', slug: 'ha-long-bay' },
+    { name: 'Japan', slug: 'tokyo' },
+    { name: 'South Korea', slug: 'seoul' },
 ];
 
 const Experiences = () => {

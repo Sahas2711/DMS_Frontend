@@ -32,18 +32,18 @@ const noSeo = {
 };
 
 const FALLBACK_IMAGES = {
-    india: indiaFallback,
-    vietnam: vietnamFallback,
-    japan: japanFallback,
-    'south-korea': koreaFallback,
+    delhi: indiaFallback,
+    'ha-long-bay': vietnamFallback,
+    tokyo: japanFallback,
+    seoul: koreaFallback,
 };
 
 /** Verified regions per destination (homepage destination content). */
 const FALLBACK_REGIONS = {
-    india: ['Rajasthan', 'Kerala', 'Ladakh', 'Goa', 'Varanasi'],
-    vietnam: ['Hanoi', 'Ha Long Bay', 'Hoi An', 'Ho Chi Minh City', 'Phu Quoc'],
-    japan: ['Tokyo', 'Kyoto', 'Osaka', 'Hokkaido', 'Okinawa'],
-    'south-korea': ['Seoul', 'Busan', 'Jeju Island', 'Gyeongju', 'Incheon'],
+    delhi: ['Rajasthan', 'Kerala', 'Ladakh', 'Goa', 'Varanasi'],
+    'ha-long-bay': ['Hanoi', 'Ha Long Bay', 'Hoi An', 'Ho Chi Minh City', 'Phu Quoc'],
+    tokyo: ['Tokyo', 'Kyoto', 'Osaka', 'Hokkaido', 'Okinawa'],
+    seoul: ['Seoul', 'Busan', 'Jeju Island', 'Gyeongju', 'Incheon'],
 };
 
 function DestinationDetail() {
