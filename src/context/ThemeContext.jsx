@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react';
-import { ThemeContext } from './ThemeContext';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useState, useEffect } from 'react';
+
+const ThemeContext = createContext({ theme: 'light', toggleTheme: () => {} });
 
 export function ThemeProvider({ children }) {
     const [theme, setTheme] = useState(() => {
@@ -27,3 +29,5 @@ export function ThemeProvider({ children }) {
         </ThemeContext.Provider>
     );
 }
+
+export const useTheme = () => useContext(ThemeContext);
