@@ -656,22 +656,56 @@ export default function Hero() {
                         transition={{ duration: 1, delay: 0.3, ease: EASE_EDITORIAL }}
                         className="text-center"
                     >
-                        <motion.p
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, delay: 0.5, ease: EASE_EDITORIAL }}
-                            className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.35em] text-gold/80 mb-3"
+                        {/* Star Logo */}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 0.8, delay: 0.4, ease: EASE_EDITORIAL }}
+                            className="mb-4"
                         >
-                            Asian Star Travels
-                        </motion.p>
-                        <motion.h2
+                            <svg
+                                viewBox="0 0 100 100"
+                                className="w-16 h-16 sm:w-20 sm:h-20 mx-auto"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M50 5L61 38H95L68 58L79 92L50 72L21 92L32 58L5 38H39L50 5Z"
+                                    fill="white"
+                                    fillOpacity="0.9"
+                                />
+                                <path
+                                    d="M50 5L61 38H95L68 58L79 92L50 72L21 92L32 58L5 38H39L50 5Z"
+                                    stroke="white"
+                                    strokeWidth="1"
+                                    strokeOpacity="0.3"
+                                />
+                            </svg>
+                        </motion.div>
+
+                        {/* Brand Name */}
+                        <motion.h1
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.9, delay: 0.7, ease: EASE_EDITORIAL }}
-                            className="font-display text-[clamp(1.8rem,4.5vw,3.5rem)] leading-[1.05] tracking-[-0.02em] text-white max-w-2xl px-6"
+                            transition={{ duration: 0.9, delay: 0.6, ease: EASE_EDITORIAL }}
+                            className="font-display text-[clamp(1.8rem,5vw,4rem)] leading-[1.1] tracking-[0.08em] text-white mb-4"
                         >
-                            Journeys That Bring Us Closer
-                        </motion.h2>
+                            ASIAN STAR TRAVELS
+                        </motion.h1>
+
+                        {/* Tagline with decorative lines */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.8, ease: EASE_EDITORIAL }}
+                            className="flex items-center justify-center gap-4"
+                        >
+                            <span className="hidden sm:block w-12 h-px bg-white/50" />
+                            <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em] text-white/80">
+                                Journeys That Bring Us Closer
+                            </p>
+                            <span className="hidden sm:block w-12 h-px bg-white/50" />
+                        </motion.div>
                     </motion.div>
                 </div>
 
