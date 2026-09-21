@@ -24,16 +24,23 @@ export const SITE = {
     /** Registered office — single source of truth, rendered in the footer
      *  and on the contact page. */
     registeredAddress: '7th Floor Kirloskar Tech Park, Godrej Woodsman Estate, Hebbal Kempapura, Bengaluru, Karnataka 560024',
+    /** Vietnam offices — shown in the footer. */
+    vietnamOffices: [
+        'No. 4 Nguyen Thi Minh Khai Street, Sai Gon Ward, Ho Chi Minh City',
+        'No. 141 Nguyen Van Cu Street, Bo De Ward, Ha Noi City',
+    ],
     /** Enquiry routing mailboxes (mirror the backend per-form recipient lists). */
     enquiryEmails: {
         quote: 'inquiry@asianstartravels.com',
         partner: 'sales@asianstartravels.com',
         contact: 'info@asianstartravels.com',
     },
-    /** Named team contacts shown in the footer — individual mailboxes. */
+    /** Functional / forwarding addresses shown in the footer. */
     teamContacts: [
-        { name: 'Manal', email: 'manal@asianstartravels.com' },
-        { name: 'Nikhil', email: 'nikhil@asianstartravels.com' },
+        { name: 'Sales', email: 'sales@asianstartravels.com' },
+        { name: 'Operations', email: 'operations@asianstartravels.com' },
+        { name: 'Inquiry', email: 'inquiry@asianstartravels.com' },
+        { name: 'Info', email: 'info@asianstartravels.com' },
     ],
     /** Social links (footer "Follow us"). Leave empty to hide the button. */
     social: {

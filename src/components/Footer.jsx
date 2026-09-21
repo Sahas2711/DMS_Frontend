@@ -76,7 +76,7 @@ export default function Footer() {
                 </div>
 
                 {/* Link columns */}
-                <div className="grid grid-cols-2 gap-10 border-t border-white/[0.06] pt-12 sm:grid-cols-3 lg:grid-cols-5">
+                <div className="grid grid-cols-2 gap-10 border-t border-white/[0.06] pt-12 sm:grid-cols-3 lg:grid-cols-6">
                     <div>
                         <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
                             Destinations
@@ -124,17 +124,23 @@ export default function Footer() {
                             Contact
                         </h4>
                         <ul className="space-y-3 text-sm text-white/45">
-                            <li>
-                                <a href={`mailto:${SITE.email}`} className="transition-colors duration-300 hover:text-gold">
-                                    {SITE.email}
-                                </a>
-                            </li>
                             {SITE.teamContacts.map((t) => (
                                 <li key={t.email}>
                                     <a href={`mailto:${t.email}`} className="transition-colors duration-300 hover:text-gold">
-                                        {t.name}
+                                        {t.email}
                                     </a>
                                 </li>
+                            ))}
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                            Offices
+                        </h4>
+                        <ul className="space-y-3 text-sm text-white/45">
+                            <li className="leading-relaxed">{SITE.registeredAddress}</li>
+                            {SITE.vietnamOffices.map((addr) => (
+                                <li key={addr} className="leading-relaxed">{addr}</li>
                             ))}
                         </ul>
                     </div>
@@ -168,9 +174,6 @@ export default function Footer() {
                         India &bull; Vietnam &bull; Japan &bull; South Korea
                     </p>
                 </div>
-                <p className="mt-4 max-w-2xl text-[10px] leading-relaxed tracking-wide text-white/15">
-                    Registered office: {SITE.registeredAddress}
-                </p>
             </div>
         </footer>
     );
