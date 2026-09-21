@@ -42,11 +42,22 @@ const koreaGyeongju = '/images/home/Korea-Gyengo.webp';
 const koreaCulture = '/images/home/Korea-Culture.webp';
 const koreaNature = '/images/home/Korea-Nature.webp';
 
+const landingHero = '/images/home/Landing_page_wih_star1.webp';
+const landingHeroAlt = '/images/home/Landing_page_without_star.webp';
+const landingPage2 = '/images/home/LAnding_page_2.webp';
+const landingPage3 = '/images/home/Landing_page_3.webp';
+
 const journalFeature = '/images/blogs/travel-journal-section-image.webp';
 const journalDispatch = '/images/blogs/editors-dispatch.webp';
 const journalDestinations = '/images/blogs/DESTINATIONS.webp';
 
 export const HOME_IMAGES = {
+    landing: {
+        hero: landingHero,
+        heroAlt: landingHeroAlt,
+        page2: landingPage2,
+        page3: landingPage3,
+    },
     india: {
         cover: indiaKerala,
         editorial: indiaHeritage,
@@ -89,7 +100,7 @@ export const DESTINATIONS = [
             { label: 'Signature', value: 'Golden Triangle' },
             { label: 'Style', value: 'Heritage & Wild' },
         ],
-        image: HOME_IMAGES.india.cover,
+        image: HOME_IMAGES.landing.hero,
         imageAlt: 'Kerala heritage — traditional houseboat on the backwaters, India',
         route: '/destination/delhi',
         heroRatio: 'portrait',
@@ -107,7 +118,7 @@ export const DESTINATIONS = [
             { label: 'Signature', value: 'Ha Long & Ninh Binh' },
             { label: 'Style', value: 'Street & Scenic' },
         ],
-        image: HOME_IMAGES.vietnam.cover,
+        image: HOME_IMAGES.landing.page2,
         imageAlt: 'Hanoi old quarter, Vietnam',
         route: '/destination/ha-long-bay',
         heroRatio: 'landscape',
@@ -125,7 +136,7 @@ export const DESTINATIONS = [
             { label: 'Signature', value: 'Rail & Ryokan' },
             { label: 'Style', value: 'Craft & Calm' },
         ],
-        image: HOME_IMAGES.japan.cover,
+        image: HOME_IMAGES.landing.page3,
         imageAlt: 'Kyoto temple rooftops, Japan',
         route: '/destination/tokyo',
         heroRatio: 'landscape',
@@ -143,7 +154,7 @@ export const DESTINATIONS = [
             { label: 'Signature', value: 'Seoul Design Trail' },
             { label: 'Style', value: 'Design & Food' },
         ],
-        image: HOME_IMAGES['south-korea'].cover,
+        image: HOME_IMAGES.landing.heroAlt,
         imageAlt: 'South Korea — traditional palace architecture',
         route: '/destination/seoul',
         heroRatio: 'portrait',
