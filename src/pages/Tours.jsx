@@ -8,15 +8,15 @@ import { itemListSchema } from '../config/structuredData';
 import { fetchTours, resolveMediaUrl } from '../services/api/cms';
 import { PageTransition } from '../components/editorial';
 
-const maharashtraImg = '/images/home/Maharashtra.webp';
-const halongImg = '/images/home/tours/halong.webp';
-const osakaImg = '/images/home/tours/osaka.webp';
-const koreaImg = '/images/home/Korea.webp';
-const keralaImg = '/images/home/Kerala-Heritage.webp';
-const hoianImg = '/images/home/tours/hoian.webp';
-const kyotoImg = '/images/home/tours/kyoto.webp';
-const danangImg = '/images/home/tours/danang.webp';
-const heroImage = '/images/home/tours/halong.webp';
+const maharashtraImg = '/images/home/India-heritage.webp';
+const halongImg = '/images/home/Vietnam-ha-long-bay.webp';
+const osakaImg = '/images/home/Japan-osaka.webp';
+const koreaImg = '/images/home/Korea-Seoul.webp';
+const keralaImg = '/images/home/india-kerala.webp';
+const hoianImg = '/images/home/Vietnam-hoi-an.webp';
+const kyotoImg = '/images/home/Japan-kyota.webp';
+const danangImg = '/images/home/Vietnam-ha-long-bay.webp';
+const heroImage = '/images/home/Vietnam-ha-long-bay.webp';
 
 const FALLBACK_TOURS = [
     {

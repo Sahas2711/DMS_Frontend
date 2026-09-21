@@ -7,11 +7,11 @@ import { PAGE_META } from '../config/site';
 import { PageTransition, Rise } from '../components/editorial';
 
 const heroImage = '/images/home/hero-image-home.webp';
-const fitImage = '/images/home/tours/hoian.webp';
-const groupImage = '/images/home/tours/halong.webp';
-const miceImage = '/images/home/tours/saigon.webp';
-const honeymoonImage = '/images/home/Kerala-Heritage.webp';
-const luxuryImage = '/images/home/tours/tokyo.webp';
+const fitImage = '/images/home/Vietnam-hoi-an.webp';
+const groupImage = '/images/home/Vietnam-ha-long-bay.webp';
+const miceImage = '/images/home/Vietnam-ho-chi-minh-city.webp';
+const honeymoonImage = '/images/home/india-kerala.webp';
+const luxuryImage = '/images/home/Japan-tokyo.webp';
 
 /** Preview image per category (bundled assets — no external hotlinks). */
 const CATEGORY_IMAGES = {

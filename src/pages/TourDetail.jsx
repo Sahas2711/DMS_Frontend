@@ -11,7 +11,7 @@ import { TRIP_TYPE_BY_VALUE } from '../config/enquiry';
 import { PageTransition } from '../components/editorial';
 
 // Bundled fallback imagery — no external hotlinks (project image policy).
-const halongFallback = '/images/home/tours/halong.webp';
+const halongFallback = '/images/home/Vietnam-ha-long-bay.webp';
 
 const noSeo = {
     meta_title: '',

@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
-const heroImage = '/images/home/plan-your-trip.webp';
+const heroImage = '/images/home/India-hero-image.webp';
 import Seo from '../components/Seo';
 import RequestQuoteForm from '../components/forms/RequestQuoteForm';
 import { PAGE_META } from '../config/site';

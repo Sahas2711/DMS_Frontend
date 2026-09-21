@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 const heroImage = '/images/aboutus/Aboutus-hero-image.webp';
-const aboutSectionImg = '/images/aboutus/aboutus-section.webp';
-const ourStoryImg = '/images/aboutus/our-story-image.webp';
+const aboutSectionImg = '/images/home/India-heritage.webp';
+const ourStoryImg = '/images/home/india-kerala.webp';
 const tailorMadeImg = '/images/aboutus/Tailor-Made-Tours.webp';
 const privateTransfersImg = '/images/aboutus/Private-Transfers.webp';
 const groundServicesImg = '/images/aboutus/Ground-Services.webp';
-const regionalReachImg = '/images/aboutus/REGIONAL-REACH-section-image.webp';
+const regionalReachImg = '/images/home/India-hero-image.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';

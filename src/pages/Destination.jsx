@@ -8,10 +8,10 @@ import { itemListSchema } from '../config/structuredData';
 import { fetchDestinations, resolveMediaUrl } from '../services/api/cms';
 import { PageTransition, Rise } from '../components/editorial';
 
-const indiaImg = '/images/home/Kerala-Heritage.webp';
-const vietnamImg = '/images/home/tours/hanoi.webp';
-const japanImg = '/images/home/tours/kyoto.webp';
-const koreaImg = '/images/home/Korea.webp';
+const indiaImg = '/images/home/india-kerala.webp';
+const vietnamImg = '/images/home/Vietnam-Hanoi.webp';
+const japanImg = '/images/home/Japan-kyota.webp';
+const koreaImg = '/images/home/Korea-Seoul.webp';
 
 /** Hero image — bundled asset, no external hotlinks. */
 const heroImage = '/images/home/hero-image-home.webp';

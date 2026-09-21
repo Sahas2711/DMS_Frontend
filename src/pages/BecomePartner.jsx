@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-const heroImage = '/images/home/hero-image-home.webp';
+const heroImage = '/images/home/India-hero-image.webp';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
 import BecomePartnerForm from '../components/forms/BecomePartnerForm';

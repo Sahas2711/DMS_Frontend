@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-const heroImage = '/images/contactus/Contactus-hero-image.webp';
+const heroImage = '/images/home/India-hero-image.webp';
 const mapImage = '/images/contactus/map-image-contactus.webp';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
