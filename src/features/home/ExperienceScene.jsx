@@ -87,6 +87,96 @@ export default function ExperienceScene() {
                                         active={index === active}
                                         onSelect={() => setActive(index)}
                                     />
+
+                                    {/* Mobile image — shown inline right after active row */}
+                                    {index === active && (
+                                        <div className="lg:hidden">
+                                            <div
+                                                className="relative aspect-[16/10] overflow-hidden"
+                                                aria-live="polite"
+                                            >
+                                                <AnimatePresence
+                                                    mode="wait"
+                                                    initial={false}
+                                                >
+                                                    <motion.img
+                                                        key={item.id}
+                                                        src={item.image}
+                                                        alt={item.imageAlt || ''}
+                                                        className="absolute inset-0 h-full w-full object-cover"
+                                                        initial={
+                                                            reduce
+                                                                ? { opacity: 0 }
+                                                                : {
+                                                                    opacity: 0,
+                                                                    scale: 1.06,
+                                                                }
+                                                        }
+                                                        animate={{
+                                                            opacity: 1,
+                                                            scale: 1,
+                                                        }}
+                                                        exit={{
+                                                            opacity: 0,
+                                                        }}
+                                                        transition={{
+                                                            duration: reduce ? 0.15 : 0.7,
+                                                            ease: EASE_EDITORIAL,
+                                                        }}
+                                                        loading="lazy"
+                                                        decoding="async"
+                                                    />
+                                                </AnimatePresence>
+
+                                                <div
+                                                    aria-hidden="true"
+                                                    className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent"
+                                                />
+
+                                                <div className="absolute bottom-5 left-5 text-white">
+                                                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/70">
+                                                        {String(active + 1).padStart(2, '0')}
+                                                    </p>
+
+                                                    <p className="mt-1 font-display text-2xl">
+                                                        {item.name}
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <AnimatePresence mode="wait" initial={false}>
+                                                <motion.div
+                                                    key={item.id}
+                                                    initial={
+                                                        reduce
+                                                            ? { opacity: 0 }
+                                                            : { opacity: 0, y: 10 }
+                                                    }
+                                                    animate={{
+                                                        opacity: 1,
+                                                        y: 0,
+                                                    }}
+                                                    exit={{
+                                                        opacity: 0,
+                                                    }}
+                                                    transition={{
+                                                        duration: 0.4,
+                                                        ease: EASE_EDITORIAL,
+                                                    }}
+                                                    className="mt-5"
+                                                >
+                                                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-bronze">
+                                                        {String(active + 1).padStart(2, '0')} —{' '}
+                                                        {item.name}
+                                                    </p>
+
+                                                    <p className="mt-2 text-[13px] leading-[1.8] text-navy/65">
+                                                        {item.detail}
+                                                    </p>
+                                                </motion.div>
+                                            </AnimatePresence>
+                                        </div>
+                                    )}
                                 </li>
                             ))}
                         </ul>
@@ -236,99 +326,6 @@ export default function ExperienceScene() {
                             </div>
                         </div>
                     </div>
-                </div>
-
-                {/* ─────────────────────────────────────────────
-                    MOBILE IMAGE
-
-                    Desktop image above is hidden on mobile.
-                    Mobile gets a normal image block.
-                ───────────────────────────────────────────── */}
-                <div className="mt-12 lg:hidden">
-                    <div
-                        className="relative aspect-[16/10] overflow-hidden"
-                        aria-live="polite"
-                    >
-                        <AnimatePresence
-                            mode="wait"
-                            initial={false}
-                        >
-                            <motion.img
-                                key={style.id}
-                                src={style.image}
-                                alt={style.imageAlt || ''}
-                                className="absolute inset-0 h-full w-full object-cover"
-                                initial={
-                                    reduce
-                                        ? { opacity: 0 }
-                                        : {
-                                            opacity: 0,
-                                            scale: 1.06,
-                                        }
-                                }
-                                animate={{
-                                    opacity: 1,
-                                    scale: 1,
-                                }}
-                                exit={{
-                                    opacity: 0,
-                                }}
-                                transition={{
-                                    duration: reduce ? 0.15 : 0.7,
-                                    ease: EASE_EDITORIAL,
-                                }}
-                                loading="lazy"
-                                decoding="async"
-                            />
-                        </AnimatePresence>
-
-                        <div
-                            aria-hidden="true"
-                            className="absolute inset-0 bg-gradient-to-t from-navy/70 via-transparent to-transparent"
-                        />
-
-                        <div className="absolute bottom-5 left-5 text-white">
-                            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/70">
-                                {String(active + 1).padStart(2, '0')}
-                            </p>
-
-                            <p className="mt-1 font-display text-2xl">
-                                {style.name}
-                            </p>
-                        </div>
-                    </div>
-
-                    <AnimatePresence mode="wait" initial={false}>
-                        <motion.div
-                            key={style.id}
-                            initial={
-                                reduce
-                                    ? { opacity: 0 }
-                                    : { opacity: 0, y: 10 }
-                            }
-                            animate={{
-                                opacity: 1,
-                                y: 0,
-                            }}
-                            exit={{
-                                opacity: 0,
-                            }}
-                            transition={{
-                                duration: 0.4,
-                                ease: EASE_EDITORIAL,
-                            }}
-                            className="mt-5"
-                        >
-                            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-bronze">
-                                {String(active + 1).padStart(2, '0')} —{' '}
-                                {style.name}
-                            </p>
-
-                            <p className="mt-2 text-[13px] leading-[1.8] text-navy/65">
-                                {style.detail}
-                            </p>
-                        </motion.div>
-                    </AnimatePresence>
                 </div>
             </div>
         </section>
