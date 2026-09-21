@@ -26,13 +26,10 @@ const vietnamHoian = '/images/home/Vietnam-hoi-an.webp';
 const vietnamSaigon = '/images/home/Vietnam-ho-chi-minh-city.webp';
 const vietnamCulture = '/images/home/Vietnam-culture.webp';
 const vietnamCuisine = '/images/home/Vietnam-Cousin.webp';
-const vietnamNature = '/images/home/Vietnam-Nature.webp';
 
 const japanTokyo = '/images/home/Japan-tokyo.webp';
 const japanKyoto = '/images/home/Japan-kyota.webp';
 const japanOsaka = '/images/home/Japan-osaka.webp';
-const japanHeritage = '/images/home/Japan-Heritage.webp';
-const japanNature = '/images/home/Japan-Nature.webp';
 const japanMountFuji = '/images/home/Japan-mount-fuji.webp';
 
 const koreaSeoul = '/images/home/Korea-Seoul.webp';
@@ -43,13 +40,8 @@ const koreaCulture = '/images/home/Korea-Culture.webp';
 const koreaNature = '/images/home/Korea-Nature.webp';
 
 const landingHero = '/images/home/Landing_page_wih_star1.webp';
-const landingHeroAlt = '/images/home/Landing_page_without_star.webp';
 const landingPage2 = '/images/home/LAnding_page_2.webp';
 const landingPage3 = '/images/home/Landing_page_3.webp';
-
-const journalFeature = '/images/blogs/travel-journal-section-image.webp';
-const journalDispatch = '/images/blogs/editors-dispatch.webp';
-const journalDestinations = '/images/blogs/DESTINATIONS.webp';
 
 export const HOME_IMAGES = {
     landing: {

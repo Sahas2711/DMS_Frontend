@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { DESTINATIONS, HERO_CAPABILITIES } from '../../pages/homeContent';
 import LanguageSwitcher from '../ui/LanguageSwitcher';
-import { useTheme } from '../../context/ThemeContext';
+import { useTheme } from '../../hooks/useTheme';
 
 const EASE = [0.16, 1, 0.3, 1];
 

@@ -1,7 +1,5 @@
 import { motion, useReducedMotion } from 'framer-motion';
 
-import { HOME_IMAGES } from '../../pages/homeContent';
-
 
 /*
 ╔═══════════════════════════════════════════════════════════════════╗
@@ -39,28 +37,10 @@ const IMAGE_TRANSITION = {
 };
 
 
-const CONTENT_VARIANTS = {
-    enter: {
-        opacity: 0,
-        y: 18,
-    },
-
-    center: {
-        opacity: 1,
-        y: 0,
-    },
-
-    exit: {
-        opacity: 0,
-        y: -14,
-    },
-};
-
-
 export default function Hero() {
     const reduce = useReducedMotion();
 
-    const heroImage = HOME_IMAGES.landing.hero;
+    const heroImage = '/images/home/Landing_page_wih_star1.webp';
 
 
     return (
