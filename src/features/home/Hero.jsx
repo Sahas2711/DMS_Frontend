@@ -628,28 +628,6 @@ export default function Hero() {
 
                             <span
                                 className="
-                                    font-display
-                                    text-[12px]
-                                    tracking-[0.2em]
-                                    text-gold
-                                "
-                            >
-                                {destination.number}
-                            </span>
-
-
-                            <span
-                                aria-hidden="true"
-                                className="
-                                    h-px
-                                    w-12
-                                    bg-gold/60
-                                "
-                            />
-
-
-                            <span
-                                className="
                                     text-[9px]
                                     font-semibold
                                     uppercase
@@ -665,6 +643,36 @@ export default function Hero() {
                     </AnimatePresence>
 
 
+                </div>
+
+
+                {/* ═════════════════════════════════════════════════
+                    CENTERED ANIMATED TEXT
+                ═════════════════════════════════════════════════ */}
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 1, delay: 0.3, ease: EASE_EDITORIAL }}
+                        className="text-center"
+                    >
+                        <motion.p
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8, delay: 0.5, ease: EASE_EDITORIAL }}
+                            className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.35em] text-gold/80 mb-3"
+                        >
+                            Asian Star Travels
+                        </motion.p>
+                        <motion.h2
+                            initial={{ opacity: 0, y: 15 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.9, delay: 0.7, ease: EASE_EDITORIAL }}
+                            className="font-display text-[clamp(1.8rem,4.5vw,3.5rem)] leading-[1.05] tracking-[-0.02em] text-white max-w-2xl px-6"
+                        >
+                            Journeys That Bring Us Closer
+                        </motion.h2>
+                    </motion.div>
                 </div>
 
 
