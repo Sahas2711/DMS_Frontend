@@ -455,15 +455,17 @@ function DestinationCard({ dest, index }) {
                 group
                 relative
                 grid
-                h-[min(66vh,620px)]
-                w-[88vw]
+                w-[92vw]
                 max-w-[1180px]
                 shrink-0
                 snap-center
-                grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]
+                grid-cols-1
                 overflow-hidden
                 bg-[#0c1528]
+
+                lg:h-[min(66vh,620px)]
                 lg:w-[82vw]
+                lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]
                 xl:w-[78vw]
             "
         >
@@ -477,13 +479,16 @@ function DestinationCard({ dest, index }) {
                 className="
                     relative
                     block
-                    h-full
                     min-h-0
                     overflow-hidden
                     focus-visible:outline
                     focus-visible:outline-2
                     focus-visible:outline-offset-[-3px]
                     focus-visible:outline-gold
+
+                    aspect-[4/3]
+                    lg:h-full
+                    lg:aspect-auto
                 "
             >
                 <img

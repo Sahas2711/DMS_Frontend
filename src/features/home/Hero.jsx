@@ -49,13 +49,10 @@ export default function Hero() {
 
             className="
                 relative
-                min-h-[760px]
+                w-full
                 overflow-hidden
                 bg-navy-deep
                 text-white
-
-                lg:h-[calc(100svh-84px)]
-                lg:min-h-[760px]
             "
         >
 
@@ -65,9 +62,8 @@ export default function Hero() {
 
             <div
                 className="
-                    absolute
-                    inset-0
-                    overflow-hidden
+                    relative
+                    w-full
                 "
                 aria-hidden="true"
             >
@@ -106,8 +102,6 @@ export default function Hero() {
                     }
 
                     className="
-                        absolute
-                        inset-0
                         will-change-transform
                     "
                 >
@@ -116,9 +110,9 @@ export default function Hero() {
                         src={heroImage}
                         alt="Asian Star Travels — Journeys That Bring Us Closer"
                         className="
-                            h-full
+                            block
+                            h-auto
                             w-full
-                            object-cover
                         "
                         decoding="async"
                         loading="eager"
@@ -126,37 +120,7 @@ export default function Hero() {
 
                 </motion.div>
 
-
-                {/* Bottom readability */}
-
-                <div
-                    className="
-                        absolute
-                        inset-0
-                        bg-gradient-to-t
-                        from-navy-deep/80
-                        via-transparent
-                        to-navy-deep/40
-                    "
-                />
-
-
-                {/* Very subtle vignette */}
-
-                <div
-                    className="
-                        absolute
-                        inset-0
-                        bg-[radial-gradient(circle_at_50%_50%,transparent_0%,rgba(3,12,32,0.2)_70%,rgba(3,12,32,0.5)_100%)]
-                    "
-                />
-
             </div>
-
-
-            {/* ═══════════════════════════════════════════════════════
-                CENTERED TEXT OVERLAY
-            ═══════════════════════════════════════════════════════ */}
 
 
             {/* ═══════════════════════════════════════════════════════
@@ -167,10 +131,9 @@ export default function Hero() {
                 className="
                     absolute
                     right-5
-                    top-1/2
+                    bottom-8
                     z-20
                     hidden
-                    -translate-y-1/2
                     flex-col
                     items-center
                     gap-3
