@@ -49,47 +49,71 @@ export const CURRENCIES = [
     { value: 'INR', label: 'INR — Indian Rupee' },
 ];
 
-/** Experience journey categories surfaced publicly (Phase 1). */
+/** Experience journey categories — 8 interest-based themes per spec. */
 export const EXPERIENCE_CATEGORIES = [
     {
-        value: 'FIT',
-        title: 'FIT',
-        tagline: 'Independent & tailor-made',
+        value: 'CULTURE_HERITAGE',
+        title: 'Culture & Heritage',
+        tagline: 'Temples, palaces & living traditions',
         description:
-            'Private, flexible itineraries for individual travellers and small parties — designed around pace, interests and dates, never off-the-shelf.',
-        points: ['Private guides & drivers', 'Hotels matched to your budget tier', 'Day-by-day flexibility'],
+            'Private access to historic sites, historians and guides who read a place the way locals do — temples, palaces, rituals and the stories behind them.',
+        points: ['Private historian guides', 'Sacred site access', 'Living cultural encounters'],
     },
     {
-        value: 'GROUP',
-        title: 'Groups',
-        tagline: 'Escorted & shared journeys',
+        value: 'FOOD_LOCAL_LIFE',
+        title: 'Food & Local Life',
+        tagline: 'Street food, markets & cooking sessions',
         description:
-            'Reliable group logistics across India, Vietnam, Japan and South Korea — from departure briefing to the last transfer home.',
-        points: ['Coach & rail logistics', 'Multi-lingual escort guides', 'Group dining & entry planning'],
+            'From Hanoi night markets to Osaka alleyways, eat where locals eat — street food tours, market mornings and private cooking sessions.',
+        points: ['Street food walks', 'Market-to-table experiences', 'Private cooking classes'],
     },
     {
-        value: 'MICE',
-        title: 'MICE',
-        tagline: 'Meetings, incentives & events',
+        value: 'NATURE_SCENIC',
+        title: 'Nature & Scenic',
+        tagline: 'Landscapes that move you',
         description:
-            'Full-service support for conferences, incentive programmes and events with venues, transfers and creative team programmes.',
-        points: ['Venue sourcing & site checks', 'Gala dinners & team experiences', 'End-to-end event coordination'],
+            'From Himalayan foothills to Ha Long Bay — slow routes, small lodges and the long view, planned around light and season.',
+        points: ['Scenic drives & treks', 'National park guides', 'Seasonal light planning'],
     },
     {
-        value: 'HONEYMOON',
-        title: 'Honeymoon',
+        value: 'FAMILY_JOURNEYS',
+        title: 'Family Journeys',
+        tagline: 'Engaging for all ages',
+        description:
+            'Thoughtfully paced for families — room logic, rest days and guides who keep teenagers as engaged as grandparents.',
+        points: ['Family-friendly pacing', 'Multi-generational room logic', 'Kid-safe activities'],
+    },
+    {
+        value: 'HONEYMOON_LUXURY',
+        title: 'Honeymoon & Luxury',
         tagline: 'Once-in-a-lifetime escapes',
         description:
-            'Romantic journeys crafted around privacy and surprise — intimate stays, private dinners and carefully choreographed moments.',
-        points: ['Romantic room settings', 'Private dining experiences', 'Seamless day-to-day handling'],
+            'The finest hotels, private access and bespoke service — romantic journeys crafted around privacy, surprise and exception.',
+        points: ['Signature hotels', 'Private dining experiences', 'Dedicated concierge'],
     },
     {
-        value: 'LUXURY',
-        title: 'Luxury',
-        tagline: 'Elevated & exclusive',
+        value: 'GROUPS_MICE',
+        title: 'Groups & MICE',
+        tagline: 'Conferences, incentives & events',
         description:
-            'The finest hotels, private access and bespoke service for clients who expect the exceptional as standard.',
-        points: ['Signature & ultra-luxury hotels', 'Private access & experiences', 'Dedicated senior concierge'],
+            'Full-service support for conferences, incentive programmes and group travel — venues, transfers, gala dinners and creative team experiences.',
+        points: ['Venue sourcing & site checks', 'Gala dinners & team building', 'End-to-end coordination'],
+    },
+    {
+        value: 'WELLNESS_SLOW',
+        title: 'Wellness & Slow Travel',
+        tagline: 'Rituals, retreats & space to breathe',
+        description:
+            'Onsen circuits, ashram mornings and coastal silence — journeys designed to restore, at a pace that lets you arrive feeling different.',
+        points: ['Spa & wellness retreats', 'Meditation & yoga', 'Slow-paced itineraries'],
+    },
+    {
+        value: 'ART_DESIGN',
+        title: 'Art & Design',
+        tagline: 'Galleries, architecture & creative culture',
+        description:
+            'From Seoul design trails to Tokyo galleries — journeys for art lovers, architecture enthusiasts and design-driven travellers.',
+        points: ['Gallery & museum access', 'Architecture tours', 'Design district walks'],
     },
 ];
 

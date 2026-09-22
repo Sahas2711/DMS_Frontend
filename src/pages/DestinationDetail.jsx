@@ -13,7 +13,7 @@ import { errorMessage } from '../services/api/client';
 import { PageTransition, Rise } from '../components/editorial';
 
 // Bundled destination imagery — no external hotlinks (project image policy).
-const indiaFallback = '/images/home/india-kerala.webp';
+const indiaFallback = '/images/home/india-Delhi.webp';
 const vietnamFallback = '/images/home/Vietnam-Hanoi.webp';
 const japanFallback = '/images/home/Japan-kyota.webp';
 const koreaFallback = '/images/home/Korea-Seoul.webp';

@@ -8,7 +8,7 @@ import { itemListSchema } from '../config/structuredData';
 import { fetchDestinations, resolveMediaUrl } from '../services/api/cms';
 import { PageTransition, Rise } from '../components/editorial';
 
-const indiaImg = '/images/home/india-kerala.webp';
+const indiaImg = '/images/home/India-hero-image.webp';
 const vietnamImg = '/images/home/Vietnam-Hanoi.webp';
 const japanImg = '/images/home/Japan-kyota.webp';
 const koreaImg = '/images/home/Korea-Seoul.webp';

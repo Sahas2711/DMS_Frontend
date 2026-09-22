@@ -12,8 +12,8 @@ const COMPANY_LINKS = [
     { label: 'About Us', path: '/about' },
     { label: 'Destinations', path: '/destination' },
     { label: 'Experiences', path: '/experiences' },
-    { label: 'Itineraries', path: '/tours' },
-    { label: 'Journal', path: '/blog' },
+    { label: 'Tours', path: '/tours' },
+    { label: 'Blog', path: '/blog' },
     { label: 'Contact', path: '/contact' },
 ];
 
@@ -78,7 +78,7 @@ export default function Footer() {
                 {/* Link columns */}
                 <div className="grid grid-cols-2 gap-10 border-t border-white/[0.06] pt-12 sm:grid-cols-3 lg:grid-cols-6">
                     <div>
-                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
                             Destinations
                         </h4>
                         <ul className="space-y-3">
@@ -92,7 +92,7 @@ export default function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
                             Company
                         </h4>
                         <ul className="space-y-3">
@@ -106,7 +106,7 @@ export default function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
                             For Partners
                         </h4>
                         <ul className="space-y-3">
@@ -120,7 +120,7 @@ export default function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
                             Contact
                         </h4>
                         <ul className="space-y-3 text-sm text-white/45">
@@ -134,7 +134,7 @@ export default function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
                             Offices
                         </h4>
                         <ul className="space-y-3 text-sm text-white/45">
@@ -145,7 +145,7 @@ export default function Footer() {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="mb-5 text-[10px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
                             Follow
                         </h4>
                         <div className="flex items-center gap-3">
@@ -156,7 +156,7 @@ export default function Footer() {
                                     target="_blank"
                                     rel="noreferrer"
                                     aria-label={s.label}
-                                    className="grid h-9 w-9 place-items-center border border-white/10 text-[9px] font-semibold uppercase tracking-wider text-white/40 transition-colors duration-300 hover:border-gold/40 hover:text-gold"
+                                    className="grid h-11 w-11 place-items-center border border-white/10 text-[9px] font-semibold uppercase tracking-wider text-white/40 transition-colors duration-300 hover:border-gold/40 hover:text-gold"
                                 >
                                     {s.label[0]}
                                 </a>

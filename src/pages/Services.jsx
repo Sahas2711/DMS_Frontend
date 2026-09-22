@@ -148,7 +148,7 @@ const Services = () => (
                             key={service.title}
                             className="bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm flex flex-col"
                         >
-                            <div className="relative h-56 overflow-hidden">
+                            <div className="relative h-56 overflow-hidden bg-[var(--color-cream)]">
                                 <img
                                     src={service.image}
                                     alt={service.title}

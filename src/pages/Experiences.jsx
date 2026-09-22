@@ -7,19 +7,17 @@ import { PAGE_META } from '../config/site';
 import { PageTransition, Rise } from '../components/editorial';
 
 const heroImage = '/images/home/hero-image-home.webp';
-const fitImage = '/images/home/Vietnam-hoi-an.webp';
-const groupImage = '/images/home/Vietnam-ha-long-bay.webp';
-const miceImage = '/images/home/Vietnam-ho-chi-minh-city.webp';
-const honeymoonImage = '/images/home/india-kerala.webp';
-const luxuryImage = '/images/home/Japan-tokyo.webp';
 
 /** Preview image per category (bundled assets — no external hotlinks). */
 const CATEGORY_IMAGES = {
-    FIT: { src: fitImage, alt: 'Lantern-lit streets of Hoi An, Vietnam' },
-    GROUP: { src: groupImage, alt: 'Ha Long Bay limestone karsts, Vietnam' },
-    MICE: { src: miceImage, alt: 'Saigon city energy, Vietnam' },
-    HONEYMOON: { src: honeymoonImage, alt: 'Kerala backwaters at golden hour, India' },
-    LUXURY: { src: luxuryImage, alt: 'Tokyo cityscape at dusk, Japan' },
+    CULTURE_HERITAGE: { src: '/images/home/India-heritage.webp', alt: 'Heritage architecture in Maharashtra, India' },
+    FOOD_LOCAL_LIFE: { src: '/images/home/Vietnam-Cousin.webp', alt: 'Street food scene in Vietnam' },
+    NATURE_SCENIC: { src: '/images/home/Vietnam-ha-long-bay.webp', alt: 'Ha Long Bay limestone karsts, Vietnam' },
+    FAMILY_JOURNEYS: { src: '/images/home/Korea-Jeju.png', alt: 'Jeju Island landscapes, South Korea' },
+    HONEYMOON_LUXURY: { src: '/images/home/india-kerala.webp', alt: 'Kerala backwaters at golden hour, India' },
+    GROUPS_MICE: { src: '/images/home/Vietnam-ho-chi-minh-city.webp', alt: 'Saigon city energy, Vietnam' },
+    WELLNESS_SLOW: { src: '/images/home/Japan-kyota.webp', alt: 'Kyoto temple gardens, Japan' },
+    ART_DESIGN: { src: '/images/home/Korea-Seoul.webp', alt: 'Seoul contemporary architecture, South Korea' },
 };
 
 const DESTINATIONS = [
@@ -79,7 +77,7 @@ const Experiences = () => {
                             <Rise className="mb-10">
                                 <p className="eyebrow mb-4">The Index</p>
                                 <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] leading-[0.95] tracking-[-0.02em] text-[var(--color-navy)]">
-                                    Five ways we design travel.
+                                    Eight ways we design travel.
                                 </h2>
                             </Rise>
 
@@ -164,7 +162,7 @@ const Experiences = () => {
                         <div className="lg:col-span-5 order-1 lg:order-2">
                             <div className="lg:sticky lg:top-28">
                                 <Rise>
-                                    <div className="relative aspect-[4/3] lg:aspect-[3/4] overflow-hidden bg-[var(--color-navy)]/5">
+                                    <div className="relative aspect-[4/3] lg:aspect-[3/4] overflow-hidden bg-[var(--color-navy)]">
                                         {EXPERIENCE_CATEGORIES.map((category) => {
                                             const img = CATEGORY_IMAGES[category.value];
                                             const isVisible = category.value === active;

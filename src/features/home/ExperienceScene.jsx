@@ -92,7 +92,7 @@ export default function ExperienceScene() {
                                     {index === active && (
                                         <div className="lg:hidden">
                                             <div
-                                                className="relative aspect-[16/10] overflow-hidden"
+                                                className="relative aspect-[16/10] overflow-hidden bg-[var(--color-navy)]"
                                                 aria-live="polite"
                                             >
                                                 <AnimatePresence
@@ -239,7 +239,7 @@ export default function ExperienceScene() {
                         only when active style changes.
                     ───────────────────────────────────── */}
                     <div className="hidden lg:block lg:sticky lg:top-28">
-                        <div className="relative overflow-hidden bg-stone aspect-[4/5] w-full max-w-[520px] ml-auto">
+                        <div className="relative overflow-hidden bg-[var(--color-navy)] aspect-[4/5] w-full max-w-[520px] ml-auto">
 
                             <AnimatePresence
                                 mode="sync"

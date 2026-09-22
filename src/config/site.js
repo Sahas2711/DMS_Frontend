@@ -58,8 +58,9 @@ export const SITE = {
 /** Per-route metadata. Keys match the canonical route paths in App.jsx. */
 export const PAGE_META = {
     '/': {
-        title: `${SITE.name} — B2B DMC Partner for India, Vietnam, Japan & South Korea`,
-        description: SITE.description,
+        title: `Your B2B DMC Partner for India, Vietnam, Japan, South Korea | ${SITE.name}`,
+        description:
+            'Asian Star Travel helps travel agents, tour operators and OTAs design seamless private journeys, FIT and group programs, MICE and luxury travel across India, Vietnam, Japan and South Korea.',
     },
     '/tours': {
         title: `Curated Journeys | ${SITE.name}`,

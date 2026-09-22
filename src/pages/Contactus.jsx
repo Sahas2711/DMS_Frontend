@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-const heroImage = '/images/home/India-hero-image.webp';
+const heroImage = '/images/contactus/Contactus-hero-image.webp';
 const mapImage = '/images/contactus/map-image-contactus.webp';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
@@ -257,8 +257,8 @@ const Contactus = () => (
                         {OFFICES.map((office, index) => (
                             <Rise key={office.code} delay={index * 0.1}>
                                 <article className="h-full bg-white/[0.04] backdrop-blur-md border border-white/10 p-7 sm:p-8 flex flex-col">
-                                    <div className="flex items-baseline justify-between gap-4 mb-5">
-                                        <span className="font-mono text-[11px] tracking-[0.15em] text-[var(--color-gold)]/80 uppercase">
+                                    <div className="flex flex-wrap items-baseline justify-between gap-4 mb-5">
+                                        <span className="font-mono text-[10px] sm:text-[11px] tracking-[0.15em] text-[var(--color-gold)]/80 uppercase break-words">
                                             {office.coords}
                                         </span>
                                         <span className="text-[10px] font-semibold tracking-[0.2em] text-white/40">

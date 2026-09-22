@@ -17,7 +17,7 @@ export default function Home() {
                 <B2BTrust />
                 <JourneyRail />
                 <JournalFeature />
-                <FinalCTA />
+                {/* <FinalCTA /> */}
             </main>
         </>
     );

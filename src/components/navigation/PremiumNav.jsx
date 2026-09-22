@@ -8,12 +8,20 @@ import { useTheme } from '../../context/ThemeContext';
 const EASE = [0.16, 1, 0.3, 1];
 
 const NAV_LINKS = [
+    { label: 'Home', path: '/' },
+    { label: 'Tours', path: '/tours' },
+    {
+        label: 'Services',
+        path: '/services',
+        children: [
+            { label: 'Private Transfer', path: '/services/ground-services' },
+            { label: 'Relaxation / Wellness', path: '/experiences' },
+        ],
+    },
     { label: 'Destinations', path: '/destination', panel: 'destinations' },
-    { label: 'Experiences', path: '/experiences' },
-    { label: 'Itineraries', path: '/tours' },
-    { label: 'Journal', path: '/blog' },
-    { label: 'About', path: '/about' },
+    { label: 'About Us', path: '/about' },
     { label: 'Contact', path: '/contact' },
+    { label: 'Blog', path: '/blog' },
 ];
 
 export default function PremiumNav() {
@@ -121,7 +129,7 @@ export default function PremiumNav() {
                             <span className="block text-[11px] font-semibold uppercase tracking-[0.32em] text-white/85">
                                 Asian Star
                             </span>
-                            <span className="mt-1 block text-[8px] font-medium uppercase tracking-[0.3em] text-white/35">
+                            <span className="mt-1 block text-[9px] font-medium uppercase tracking-[0.3em] text-white/35">
                                 Travel DMC
                             </span>
                         </span>
@@ -130,15 +138,34 @@ export default function PremiumNav() {
                     {/* Desktop links */}
                     <div className="hidden items-center gap-9 lg:flex">
                         {NAV_LINKS.map((link) => (
-                            <div key={link.path} {...(link.panel ? panelLinkProps : {})}>
+                            <div
+                                key={link.path}
+                                className="relative group"
+                                {...(link.panel ? panelLinkProps : {})}
+                            >
                                 <Link
                                     to={link.path}
                                     className="link-underline py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55 transition-colors duration-300 hover:text-white"
-                                    aria-haspopup={link.panel ? 'true' : undefined}
+                                    aria-haspopup={link.panel || link.children ? 'true' : undefined}
                                     aria-expanded={link.panel ? panelOpen : undefined}
                                 >
                                     {link.label}
                                 </Link>
+                                {link.children && (
+                                    <div className="absolute left-0 top-full hidden group-hover:block z-50 pt-2">
+                                        <div className="bg-[rgba(5,14,34,0.97)] backdrop-blur-xl border-t border-white/[0.06] shadow-xl min-w-[220px] py-3">
+                                            {link.children.map((child) => (
+                                                <Link
+                                                    key={child.path}
+                                                    to={child.path}
+                                                    className="block px-6 py-2.5 text-[11px] font-medium tracking-[0.12em] text-white/55 transition-colors duration-300 hover:text-white hover:bg-white/5"
+                                                >
+                                                    {child.label}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>
@@ -266,6 +293,20 @@ export default function PremiumNav() {
                                                 {link.label}
                                             </span>
                                         </Link>
+                                        {link.children && (
+                                            <div className="pl-10 pb-3">
+                                                {link.children.map((child) => (
+                                                    <Link
+                                                        key={child.path}
+                                                        to={child.path}
+                                                        onClick={() => setMobileOpen(false)}
+                                                        className="block py-2 text-[13px] text-white/40 hover:text-white/70 transition-colors"
+                                                    >
+                                                        {child.label}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        )}
                                     </motion.div>
                                 ))}
                             </nav>

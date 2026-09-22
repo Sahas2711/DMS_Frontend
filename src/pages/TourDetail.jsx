@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
 import { SITE } from '../config/site';
 import { breadcrumbListSchema, touristTripSchema } from '../config/structuredData';
-import { fetchTourBySlug, resolveMediaUrl } from '../services/api/cms';
+import { fetchTourBySlug, fetchTours, resolveMediaUrl } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 import { TRIP_TYPE_BY_VALUE } from '../config/enquiry';
 import { PageTransition } from '../components/editorial';
@@ -168,87 +168,260 @@ function TourDetail() {
                 {/* Body */}
                 <section className="py-20 sm:py-28 lg:py-36 bg-white">
                     <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
-                        <div className="max-w-4xl mx-auto">
-                            {/* Summary */}
-                            {tour.summary && (
-                                <motion.p
-                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, amount: 0.3 }}
-                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                    className="text-[var(--color-navy)] text-lg sm:text-xl font-display leading-relaxed mb-12"
-                                >
-                                    {tour.summary}
-                                </motion.p>
-                            )}
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+                            {/* Main content */}
+                            <div className="lg:col-span-8">
+                                {/* Summary */}
+                                {tour.summary && (
+                                    <motion.p
+                                        initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, amount: 0.3 }}
+                                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                        className="text-[var(--color-navy)] text-lg sm:text-xl font-display leading-relaxed mb-12"
+                                    >
+                                        {tour.summary}
+                                    </motion.p>
+                                )}
 
-                            {/* Highlights */}
-                            {tour.highlights && tour.highlights.length > 0 && (
-                                <motion.div
-                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true, amount: 0.3 }}
-                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                    className="mb-12"
-                                >
-                                    <h2 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-6">
-                                        Highlights
-                                    </h2>
-                                    <ul className="space-y-3">
-                                        {tour.highlights.map((h, i) => (
-                                            <li key={i} className="flex items-start gap-3 text-[var(--color-text-secondary)] font-body">
-                                                <span className="mt-1 w-5 h-5 rounded-full bg-[var(--color-cream)] flex items-center justify-center shrink-0">
-                                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" strokeWidth="2">
-                                                        <path d="M5 13l4 4L19 7" />
-                                                    </svg>
+                                {/* Highlights */}
+                                {tour.highlights && tour.highlights.length > 0 && (
+                                    <motion.div
+                                        initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, amount: 0.3 }}
+                                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                        className="mb-12"
+                                    >
+                                        <h2 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-6">
+                                            Highlights
+                                        </h2>
+                                        <ul className="space-y-3">
+                                            {tour.highlights.map((h, i) => (
+                                                <li key={i} className="flex items-start gap-3 text-[var(--color-text-secondary)] font-body">
+                                                    <span className="mt-1 w-5 h-5 rounded-full bg-[var(--color-cream)] flex items-center justify-center shrink-0">
+                                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" strokeWidth="2">
+                                                            <path d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                    </span>
+                                                    {h}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </motion.div>
+                                )}
+
+                                {/* Route overview */}
+                                {tour.route_stops && tour.route_stops.length > 0 && (
+                                    <motion.div
+                                        initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, amount: 0.3 }}
+                                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                        className="mb-12"
+                                    >
+                                        <h2 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-6">
+                                            Route Overview
+                                        </h2>
+                                        <div className="flex flex-wrap items-center gap-2">
+                                            {tour.route_stops.map((stop, i) => (
+                                                <span key={i} className="flex items-center gap-2">
+                                                    <span className="bg-[var(--color-cream)] text-[var(--color-navy)] px-4 py-2 text-sm font-body font-medium">
+                                                        {stop}
+                                                    </span>
+                                                    {i < tour.route_stops.length - 1 && (
+                                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-gold)" strokeWidth="1.5" aria-hidden="true">
+                                                            <path d="M5 12h14M12 5l7 7-7 7" />
+                                                        </svg>
+                                                    )}
                                                 </span>
-                                                {h}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </motion.div>
-                            )}
+                                            ))}
+                                        </div>
+                                    </motion.div>
+                                )}
 
-                            {/* Description */}
-                            {tour.description && (
+                                {/* Day-by-day itinerary */}
+                                {tour.itinerary && tour.itinerary.length > 0 && (
+                                    <motion.div
+                                        initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, amount: 0.2 }}
+                                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                        className="mb-12"
+                                    >
+                                        <h2 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-6">
+                                            Day-by-Day Itinerary
+                                        </h2>
+                                        <div className="space-y-4">
+                                            {tour.itinerary.map((day, i) => (
+                                                <div key={i} className="border border-[var(--color-border-subtle)] p-5 sm:p-6">
+                                                    <div className="flex items-baseline gap-3 mb-3">
+                                                        <span className="text-[11px] font-semibold tracking-[0.2em] uppercase text-[var(--color-gold)]">
+                                                            Day {i + 1}
+                                                        </span>
+                                                        {day.title && (
+                                                            <h3 className="font-display text-lg text-[var(--color-navy)]">
+                                                                {day.title}
+                                                            </h3>
+                                                        )}
+                                                    </div>
+                                                    <p className="text-[var(--color-text-secondary)] leading-[1.8] font-body text-sm">
+                                                        {day.description || day}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </motion.div>
+                                )}
+
+                                {/* Description */}
+                                {tour.description && (
+                                    <motion.div
+                                        initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, amount: 0.2 }}
+                                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                        className="mb-12"
+                                    >
+                                        <h2 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-6">
+                                            About This Journey
+                                        </h2>
+                                        {tour.description.split('\n\n').map((para, i) => (
+                                            <p key={i} className="text-[var(--color-text-secondary)] leading-[1.8] mb-5 font-body">
+                                                {para}
+                                            </p>
+                                        ))}
+                                    </motion.div>
+                                )}
+
+                                {/* Inclusions / Exclusions */}
                                 <motion.div
                                     initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true, amount: 0.2 }}
                                     transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                    className="mb-12"
+                                    className="mb-12 grid grid-cols-1 sm:grid-cols-2 gap-8"
                                 >
-                                    {tour.description.split('\n\n').map((para, i) => (
-                                        <p key={i} className="text-[var(--color-text-secondary)] leading-[1.8] mb-5 font-body">
-                                            {para}
-                                        </p>
-                                    ))}
+                                    {tour.inclusions && tour.inclusions.length > 0 && (
+                                        <div>
+                                            <h3 className="font-display text-lg text-[var(--color-navy)] mb-4">What's Included</h3>
+                                            <ul className="space-y-2">
+                                                {tour.inclusions.map((item, i) => (
+                                                    <li key={i} className="flex items-start gap-2 text-sm text-[var(--color-text-secondary)] font-body">
+                                                        <svg className="mt-0.5 shrink-0 text-green-600" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                            <path d="M5 13l4 4L19 7" />
+                                                        </svg>
+                                                        {item}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                    {tour.exclusions && tour.exclusions.length > 0 && (
+                                        <div>
+                                            <h3 className="font-display text-lg text-[var(--color-navy)] mb-4">What's Not Included</h3>
+                                            <ul className="space-y-2">
+                                                {tour.exclusions.map((item, i) => (
+                                                    <li key={i} className="flex items-start gap-2 text-sm text-[var(--color-text-secondary)] font-body">
+                                                        <svg className="mt-0.5 shrink-0 text-red-500" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                                            <path d="M18 6L6 18M6 6l12 12" />
+                                                        </svg>
+                                                        {item}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
                                 </motion.div>
-                            )}
 
-                            {/* CTA */}
-                            <motion.div
-                                initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.3 }}
-                                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                                className="bg-[var(--color-navy)] p-8 sm:p-10 text-center"
-                            >
-                                <h2 className="font-display text-xl sm:text-2xl text-white mb-3">
-                                    Plan this journey for your clients
-                                </h2>
-                                <p className="text-white/40 text-sm mb-6 max-w-lg mx-auto leading-relaxed font-body">
-                                    This sample can be tailored around dates, hotel tiers and travel style.
-                                    Send us your brief and our specialists will design the itinerary.
-                                </p>
-                                <Link
-                                    to={`/request-quote?trip_type=${tour.category}`}
-                                    className="btn btn--md btn--gold"
+                                {/* CTA */}
+                                <motion.div
+                                    initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, amount: 0.3 }}
+                                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                    className="bg-[var(--color-navy)] p-8 sm:p-10 text-center"
                                 >
-                                    Request a Quote
-                                    <span aria-hidden="true">→</span>
-                                </Link>
-                            </motion.div>
+                                    <h2 className="font-display text-xl sm:text-2xl text-white mb-3">
+                                        Plan this journey for your clients
+                                    </h2>
+                                    <p className="text-white/40 text-sm mb-6 max-w-lg mx-auto leading-relaxed font-body">
+                                        This sample can be tailored around dates, hotel tiers and travel style.
+                                        Send us your brief and our specialists will design the itinerary.
+                                    </p>
+                                    <Link
+                                        to={`/request-quote?trip_type=${tour.category}`}
+                                        className="btn btn--md btn--gold"
+                                    >
+                                        Request a Quote
+                                        <span aria-hidden="true">→</span>
+                                    </Link>
+                                </motion.div>
+                            </div>
+
+                            {/* Sidebar — Quick Facts */}
+                            <div className="lg:col-span-4">
+                                <div className="lg:sticky lg:top-24">
+                                    <motion.div
+                                        initial={prefersReducedMotion ? {} : { opacity: 0, y: 24 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, amount: 0.3 }}
+                                        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                                        className="bg-[var(--color-cream)] p-6 sm:p-8 border border-[var(--color-border-subtle)]"
+                                    >
+                                        <h3 className="font-display text-lg text-[var(--color-navy)] mb-5">Quick Facts</h3>
+                                        <dl className="space-y-4">
+                                            {days && (
+                                                <div className="flex justify-between border-b border-[var(--color-border-subtle)] pb-3">
+                                                    <dt className="text-sm text-[var(--color-text-muted)] font-body">Duration</dt>
+                                                    <dd className="text-sm font-semibold text-[var(--color-navy)] font-body">
+                                                        {nights ? `${days} days / ${nights} nights` : `${days} days`}
+                                                    </dd>
+                                                </div>
+                                            )}
+                                            {tour.destination && (
+                                                <div className="flex justify-between border-b border-[var(--color-border-subtle)] pb-3">
+                                                    <dt className="text-sm text-[var(--color-text-muted)] font-body">Destination</dt>
+                                                    <dd className="text-sm font-semibold text-[var(--color-navy)] font-body">{tour.destination.name}</dd>
+                                                </div>
+                                            )}
+                                            {tour.group_size && (
+                                                <div className="flex justify-between border-b border-[var(--color-border-subtle)] pb-3">
+                                                    <dt className="text-sm text-[var(--color-text-muted)] font-body">Group Size</dt>
+                                                    <dd className="text-sm font-semibold text-[var(--color-navy)] font-body">{tour.group_size}</dd>
+                                                </div>
+                                            )}
+                                            {tour.accommodation && (
+                                                <div className="flex justify-between border-b border-[var(--color-border-subtle)] pb-3">
+                                                    <dt className="text-sm text-[var(--color-text-muted)] font-body">Accommodation</dt>
+                                                    <dd className="text-sm font-semibold text-[var(--color-navy)] font-body">{tour.accommodation}</dd>
+                                                </div>
+                                            )}
+                                            {tour.meals && (
+                                                <div className="flex justify-between border-b border-[var(--color-border-subtle)] pb-3">
+                                                    <dt className="text-sm text-[var(--color-text-muted)] font-body">Meals</dt>
+                                                    <dd className="text-sm font-semibold text-[var(--color-navy)] font-body">{tour.meals}</dd>
+                                                </div>
+                                            )}
+                                            {tour.category && (
+                                                <div className="flex justify-between pb-3">
+                                                    <dt className="text-sm text-[var(--color-text-muted)] font-body">Trip Type</dt>
+                                                    <dd className="text-sm font-semibold text-[var(--color-navy)] font-body">
+                                                        {TRIP_TYPE_BY_VALUE[tour.category] || tour.category}
+                                                    </dd>
+                                                </div>
+                                            )}
+                                        </dl>
+                                        <Link
+                                            to={`/request-quote?trip_type=${tour.category}`}
+                                            className="mt-6 w-full inline-flex items-center justify-center gap-2 bg-gold px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-navy-deep transition-colors duration-300 hover:bg-gold-light"
+                                        >
+                                            Request a Quote
+                                            <span aria-hidden="true">→</span>
+                                        </Link>
+                                    </motion.div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>

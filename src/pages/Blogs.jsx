@@ -31,8 +31,11 @@ const Blogs = () => {
 
     const hasMore = posts.length < total;
 
-    const load = (nextPage, append = false) => {
-        const promise = fetchPosts({ page: nextPage, pageSize: 9 })
+    const load = (nextPage, append = false, category = selectedCategory) => {
+        const categoryValue = category === 'All'
+            ? undefined
+            : POST_CATEGORIES.find((c) => c.label === category)?.value;
+        const promise = fetchPosts({ page: nextPage, pageSize: 9, category: categoryValue })
             .then((data) => {
                 const items = data?.items || [];
                 setPosts((prev) => (append ? [...prev, ...items] : items));
@@ -54,6 +57,13 @@ const Blogs = () => {
     useEffect(() => {
         load(1, false);
     }, []);
+
+    const handleCategoryChange = (cat) => {
+        setSelectedCategory(cat);
+        setLoading(true);
+        setPosts([]);
+        load(1, false, cat);
+    };
 
     const loadMore = () => {
         if (!hasMore || loadMorePending) return;
@@ -186,7 +196,7 @@ const Blogs = () => {
                                     <button
                                         key={cat}
                                         type="button"
-                                        onClick={() => setSelectedCategory(cat)}
+                                        onClick={() => handleCategoryChange(cat)}
                                         aria-pressed={isActive}
                                         className={`relative py-4 text-[11px] font-semibold tracking-[0.18em] uppercase transition-colors duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] focus-visible:-outline-offset-4 ${isActive ? 'text-[var(--color-navy)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-navy)]'}`}
                                     >
@@ -299,9 +309,34 @@ const Blogs = () => {
                             </div>
                         )}
 
+                        {/* Pagination */}
+                        {total > 9 && (
+                            <div className="flex items-center justify-center gap-2 mt-8">
+                                {Array.from({ length: Math.ceil(total / 9) }, (_, i) => i + 1).map((pageNum) => (
+                                    <button
+                                        key={pageNum}
+                                        type="button"
+                                        onClick={() => {
+                                            setLoading(true);
+                                            setPosts([]);
+                                            load(pageNum, false);
+                                        }}
+                                        aria-current={pageNum === page ? 'page' : undefined}
+                                        className={`h-10 min-w-[40px] px-3 text-[11px] font-semibold tracking-[0.1em] uppercase transition-all duration-300 ${
+                                            pageNum === page
+                                                ? 'bg-[var(--color-navy)] text-white'
+                                                : 'border border-[var(--color-border-subtle)] text-[var(--color-text-muted)] hover:border-[var(--color-navy)] hover:text-[var(--color-navy)]'
+                                        }`}
+                                    >
+                                        {pageNum}
+                                    </button>
+                                ))}
+                            </div>
+                        )}
+
                         {/* Load more — text button */}
                         {hasMore && (
-                            <div className="text-center">
+                            <div className="text-center mt-8">
                                 <button
                                     type="button"
                                     onClick={loadMore}

@@ -36,6 +36,7 @@ const EMPTY = {
     contact_email: '',
     contact_phone: '',
     agency_website: '',
+    market: '',
     destination: '',
     travel_dates_start: '',
     travel_dates_end: '',
@@ -264,6 +265,15 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
                     error={errors.agency_website}
                     placeholder="https://agency.com"
                     autoComplete="url"
+                />
+                <TextInput
+                    id="market"
+                    name="market"
+                    label="Your market"
+                    value={formData.market}
+                    onChange={handleChange}
+                    error={errors.market}
+                    placeholder="e.g. UK, Australia, Middle East"
                 />
             </div>
 

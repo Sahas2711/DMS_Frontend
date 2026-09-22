@@ -12,10 +12,27 @@ import {
 import {
     CheckboxField,
     FormAlert,
+    SelectInput,
     SubmitButton,
     TextArea,
     TextInput,
 } from './FormFields';
+
+const COOPERATION_TYPES = [
+    { value: 'TOUR_OPERATOR', label: 'Tour Operator' },
+    { value: 'TRAVEL_AGENCY', label: 'Travel Agency' },
+    { value: 'OTA', label: 'Online Travel Agency (OTA)' },
+    { value: 'MICE_PROVIDER', label: 'MICE / Events Provider' },
+    { value: 'DMC', label: 'DMC (Sub-contractor)' },
+    { value: 'CONSULTANT', label: 'Travel Consultant' },
+];
+
+const DESTINATION_OPTIONS = [
+    { value: 'INDIA', label: 'India' },
+    { value: 'VIETNAM', label: 'Vietnam' },
+    { value: 'JAPAN', label: 'Japan' },
+    { value: 'SOUTH_KOREA', label: 'South Korea' },
+];
 
 const EMPTY = {
     company_name: '',
@@ -24,6 +41,8 @@ const EMPTY = {
     country: '',
     phone: '',
     website: '',
+    cooperation_type: '',
+    destinations: '',
     business_description: '',
     consent_given: false,
 };
@@ -191,6 +210,43 @@ const BecomePartnerForm = () => {
                     placeholder="https://agency.com"
                     autoComplete="url"
                 />
+                <SelectInput
+                    id="partner-cooperation-type"
+                    name="cooperation_type"
+                    label="Type of cooperation"
+                    value={formData.cooperation_type}
+                    onChange={handleChange}
+                    error={errors.cooperation_type}
+                >
+                    <option value="">Select type (optional)</option>
+                    {COOPERATION_TYPES.map((t) => (
+                        <option key={t.value} value={t.value}>{t.label}</option>
+                    ))}
+                </SelectInput>
+                <div className="sm:col-span-2">
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Destinations of interest</label>
+                    <div className="flex flex-wrap gap-3">
+                        {DESTINATION_OPTIONS.map((dest) => (
+                            <label key={dest.value} className="flex items-center gap-2 cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    name="destinations"
+                                    value={dest.value}
+                                    checked={(formData.destinations || '').includes(dest.value)}
+                                    onChange={(e) => {
+                                        const current = formData.destinations ? formData.destinations.split(',').filter(Boolean) : [];
+                                        const next = e.target.checked
+                                            ? [...current, dest.value]
+                                            : current.filter((v) => v !== dest.value);
+                                        setFormData((prev) => ({ ...prev, destinations: next.join(',') }));
+                                    }}
+                                    className="h-4 w-4 rounded border-gray-300 text-[var(--color-navy)] focus:ring-[var(--color-gold)]"
+                                />
+                                <span className="text-sm text-gray-700">{dest.label}</span>
+                            </label>
+                        ))}
+                    </div>
+                </div>
             </div>
 
             <TextArea
