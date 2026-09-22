@@ -123,7 +123,7 @@ const Tours = () => {
                 if (items.length >= 3) {
                     setTours(
                         items.map((t) => {
-                            const destName = t.destination?.name || '';
+                            const destName = t.destination?.country || '';
                             const days = t.duration_days;
                             const nights = t.duration_nights;
                             const duration = days
