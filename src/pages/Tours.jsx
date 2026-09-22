@@ -122,18 +122,26 @@ const Tours = () => {
                 const items = data?.items || [];
                 if (items.length >= 3) {
                     setTours(
-                        items.map((t) => ({
-                            title: t.title,
-                            slug: t.slug,
-                            summary: t.summary || '',
-                            duration: t.duration || '',
-                            destination_name: t.destination_name || '',
-                            image: t.hero_media?.url
-                                ? resolveMediaUrl(t.hero_media.url)
-                                : (FALLBACK_TOURS.find((f) => f.slug === t.slug)?.image || FALLBACK_TOURS[0].image),
-                            imageAlt: t.hero_media?.alt_text || t.title,
-                            category: t.category || '',
-                        }))
+                        items.map((t) => {
+                            const destName = t.destination?.name || '';
+                            const days = t.duration_days;
+                            const nights = t.duration_nights;
+                            const duration = days
+                                ? nights ? `${days} Days / ${nights} Nights` : `${days} Days`
+                                : '';
+                            return {
+                                title: t.title,
+                                slug: t.slug,
+                                summary: t.summary || '',
+                                duration,
+                                destination_name: destName,
+                                image: t.hero_media?.url
+                                    ? resolveMediaUrl(t.hero_media.url)
+                                    : (FALLBACK_TOURS.find((f) => f.slug === t.slug)?.image || FALLBACK_TOURS[0].image),
+                                imageAlt: t.hero_media?.alt_text || t.title,
+                                category: t.category || '',
+                            };
+                        })
                     );
                 }
             })
