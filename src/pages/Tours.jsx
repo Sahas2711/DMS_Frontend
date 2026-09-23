@@ -7,99 +7,9 @@ import { PAGE_META } from '../config/site';
 import { itemListSchema } from '../config/structuredData';
 import { fetchTours, resolveMediaUrl } from '../services/api/cms';
 import { PageTransition } from '../components/editorial';
+import { getTourFallbackImageFromTour } from '../config/tourImages';
 
-const maharashtraImg = '/images/home/India-heritage.webp';
-const halongImg = '/images/home/Vietnam-ha-long-bay.webp';
-const osakaImg = '/images/home/Japan-osaka.webp';
-const koreaImg = '/images/home/Korea-Seoul.webp';
-const keralaImg = '/images/home/india-kerala.webp';
-const hoianImg = '/images/home/Vietnam-hoi-an.webp';
-const kyotoImg = '/images/home/Japan-kyota.webp';
-const danangImg = '/images/home/Vietnam-ha-long-bay.webp';
-const heroImage = '/images/home/Vietnam-ha-long-bay.webp';
-
-const FALLBACK_TOURS = [
-    {
-        title: 'Golden Triangle & Rajasthan Heritage',
-        slug: 'golden-triangle-rajasthan',
-        summary: 'A 10-day journey through Delhi, Agra, Jaipur and the palaces of Rajasthan — where every day brings a new colour.',
-        duration: '10 Days / 9 Nights',
-        destination_name: 'India',
-        image: maharashtraImg,
-        imageAlt: 'Heritage architecture in Maharashtra, India',
-        category: 'Culture & Heritage',
-    },
-    {
-        title: 'Ha Long Bay & Hoi An Lantern Walk',
-        slug: 'ha-long-bay-hoi-an',
-        summary: 'Cruise emerald waters and wander lantern-lit streets — Vietnam at its most poetic.',
-        duration: '8 Days / 7 Nights',
-        destination_name: 'Vietnam',
-        image: halongImg,
-        imageAlt: 'Ha Long Bay limestone karsts, Vietnam',
-        category: 'Nature & Scenic',
-    },
-    {
-        title: 'Kyoto Temples & Osaka Food Trail',
-        slug: 'kyoto-osaka-food',
-        summary: 'Ancient temples, tea ceremonies, and the best street food in Japan — a journey for the senses.',
-        duration: '9 Days / 8 Nights',
-        destination_name: 'Japan',
-        image: osakaImg,
-        imageAlt: 'Osaka street scene, Japan',
-        category: 'Food & Local Life',
-    },
-    {
-        title: 'Seoul to Busan: Korean Discovery',
-        slug: 'seoul-busan-korean',
-        summary: 'From K-culture hotspots to coastal temples — the pulse of South Korea, curated.',
-        duration: '7 Days / 6 Nights',
-        destination_name: 'South Korea',
-        image: koreaImg,
-        imageAlt: 'Traditional Korean palace architecture',
-        category: 'Culture & Heritage',
-    },
-    {
-        title: 'Kerala Backwaters & Spice Hills',
-        slug: 'kerala-backwaters',
-        summary: 'Houseboat nights, spice plantations, and the tranquil green of Kerala.',
-        duration: '8 Days / 7 Nights',
-        destination_name: 'India',
-        image: keralaImg,
-        imageAlt: 'Kerala backwaters at golden hour, India',
-        category: 'Nature & Scenic',
-    },
-    {
-        title: 'Sapa Trekking & Homestay',
-        slug: 'sapa-trekking',
-        summary: 'Trek through terraced rice fields and stay with local families in northern Vietnam.',
-        duration: '6 Days / 5 Nights',
-        destination_name: 'Vietnam',
-        image: hoianImg,
-        imageAlt: 'Lantern-lit streets of Hoi An, Vietnam',
-        category: 'Nature & Scenic',
-    },
-    {
-        title: 'Japan Rail & Ryokan',
-        slug: 'japan-rail-ryokan',
-        summary: 'Bullet trains, mountain ryokans, and the art of slow travel through Japan.',
-        duration: '11 Days / 10 Nights',
-        destination_name: 'Japan',
-        image: kyotoImg,
-        imageAlt: 'Kyoto temple rooftops, Japan',
-        category: 'Culture & Heritage',
-    },
-    {
-        title: 'Jeju Island & Gyeongju Heritage',
-        slug: 'jeju-gyeongju',
-        summary: 'Volcanic landscapes and ancient tombs — the quieter side of South Korea.',
-        duration: '6 Days / 5 Nights',
-        destination_name: 'South Korea',
-        image: danangImg,
-        imageAlt: 'Coastal Vietnam scenery',
-        category: 'Heritage & Culture',
-    },
-];
+const heroImage = '/images/home/hero-image-home.webp';
 
 const CATEGORIES = [
     { label: 'All', value: 'all' },
@@ -110,7 +20,7 @@ const CATEGORIES = [
 ];
 
 const Tours = () => {
-    const [tours, setTours] = useState(FALLBACK_TOURS);
+    const [tours, setTours] = useState([]);
     const [activeFilter, setActiveFilter] = useState('all');
     const prefersReducedMotion = useReducedMotion();
 
@@ -137,7 +47,7 @@ const Tours = () => {
                                 destination_name: destName,
                                 image: t.hero_media?.url
                                     ? resolveMediaUrl(t.hero_media.url)
-                                    : (FALLBACK_TOURS.find((f) => f.slug === t.slug)?.image || FALLBACK_TOURS[0].image),
+                                    : getTourFallbackImageFromTour(t),
                                 imageAlt: t.hero_media?.alt_text || t.title,
                                 category: t.category || '',
                             };
@@ -167,7 +77,7 @@ const Tours = () => {
                 <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center overflow-hidden">
                     <img
                         src={heroImage}
-                        alt="Ha Long Bay limestone karsts, Vietnam"
+                        alt="Asian landscapes — temples, mountains, and coastlines across India, Vietnam, Japan and South Korea"
                         className="absolute inset-0 w-full h-full object-cover"
                         fetchPriority="high"
                         loading="eager"

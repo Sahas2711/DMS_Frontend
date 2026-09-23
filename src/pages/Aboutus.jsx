@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 const heroImage = '/images/aboutus/Aboutus-hero-image.webp';
-const aboutSectionImg = '/images/home/India-heritage.webp';
-const ourStoryImg = '/images/home/India-heritage.webp';
+const aboutSectionImg = '/images/services/Travel-on-your-terms.webp';
+const ourStoryImg = '/images/home/plan-your-trip.webp';
 const tailorMadeImg = '/images/aboutus/Tailor-Made-Tours.webp';
 const privateTransfersImg = '/images/aboutus/Private-Transfers.webp';
 const groundServicesImg = '/images/aboutus/Ground-Services.webp';

@@ -51,7 +51,7 @@ export const HOME_IMAGES = {
     },
     india: {
         cover: indiaKerala,
-        editorial: indiaHeritage,
+        editorial: indiaDelhi,
         gallery: [indiaDelhi, indiaJaipur, indiaCulture, indiaCuisine, indiaWildlife, indiaVaranasi],
     },
     vietnam: {

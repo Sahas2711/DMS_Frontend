@@ -409,7 +409,7 @@ function CinematicImage({ reduce }) {
                 >
                     <img
                         src={HOME_IMAGES.india.editorial}
-                        alt="Heritage architecture in Telangana, India"
+                        alt="Delhi cityscape, India"
                         className="
                             h-full
                             w-full
@@ -612,7 +612,7 @@ function CinematicImage({ reduce }) {
                         sm:right-7
                     "
                 >
-                    Telangana · India
+                    Delhi · India
                 </span>
             </motion.div>
         </div>

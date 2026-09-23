@@ -11,6 +11,7 @@ import {
 import { fetchDestinationBySlug, fetchTours, resolveMediaUrl } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 import { PageTransition, Rise } from '../components/editorial';
+import { getTourFallbackImageFromTour } from '../config/tourImages';
 
 // Bundled destination imagery — no external hotlinks (project image policy).
 const indiaFallback = '/images/home/india-Delhi.webp';
@@ -40,10 +41,10 @@ const FALLBACK_IMAGES = {
 
 /** Verified regions per destination (homepage destination content). */
 const FALLBACK_REGIONS = {
-    delhi: ['Rajasthan', 'Kerala', 'Ladakh', 'Goa', 'Varanasi'],
+    'delhi': ['Rajasthan', 'Kerala', 'Ladakh', 'Goa', 'Varanasi'],
     'ha-long-bay': ['Hanoi', 'Ha Long Bay', 'Hoi An', 'Ho Chi Minh City', 'Phu Quoc'],
-    tokyo: ['Tokyo', 'Kyoto', 'Osaka', 'Hokkaido', 'Okinawa'],
-    seoul: ['Seoul', 'Busan', 'Jeju Island', 'Gyeongju', 'Incheon'],
+    'tokyo': ['Tokyo', 'Kyoto', 'Osaka', 'Hokkaido', 'Okinawa'],
+    'seoul': ['Seoul', 'Busan', 'Jeju Island', 'Gyeongju', 'Incheon'],
 };
 
 function DestinationDetail() {
@@ -222,7 +223,12 @@ function DestinationDetail() {
                                                             loading="lazy"
                                                         />
                                                     ) : (
-                                                        <div className="w-full h-full bg-[var(--color-navy)]/5" />
+                                                        <img
+                                                            src={getTourFallbackImageFromTour(tour)}
+                                                            alt={tour.title}
+                                                            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                                                            loading="lazy"
+                                                        />
                                                     )}
                                                 </div>
                                                 <h3 className="font-display text-lg sm:text-xl text-[var(--color-navy)] group-hover:text-[var(--color-gold)] transition-colors duration-300">

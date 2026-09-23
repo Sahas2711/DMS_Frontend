@@ -9,9 +9,7 @@ import { fetchTourBySlug, resolveMediaUrl } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 import { TRIP_TYPE_BY_VALUE } from '../config/enquiry';
 import { PageTransition } from '../components/editorial';
-
-// Bundled fallback imagery — no external hotlinks (project image policy).
-const halongFallback = '/images/home/Vietnam-ha-long-bay.webp';
+import { getTourFallbackImageFromTour } from '../config/tourImages';
 
 const noSeo = {
     meta_title: '',
@@ -74,7 +72,7 @@ function TourDetail() {
 
     const tour = state.tour;
     const seo = tour.seo_metadata || noSeo;
-    const heroImage = tour.hero_media?.url ? resolveMediaUrl(tour.hero_media.url) : halongFallback;
+    const heroImage = tour.hero_media?.url ? resolveMediaUrl(tour.hero_media.url) : getTourFallbackImageFromTour(tour);
     const description = seo.meta_description || tour.summary || SITE.description;
     const canonical = seo.canonical_url || `/tours/${tour.slug}`;
     const metaTitle = seo.meta_title || `${tour.title} — ${SITE.name}`;
