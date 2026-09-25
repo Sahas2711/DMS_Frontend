@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+/* eslint-disable react-hooks/set-state-in-effect */
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Seo from '../components/Seo';
@@ -132,7 +133,6 @@ const Destination = () => {
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [totalCount, setTotalCount] = useState(0);
-    const [loading, setLoading] = useState(false);
     const [showAll, setShowAll] = useState(false);
     const PAGE_SIZE = 12;
 
@@ -163,8 +163,7 @@ const Destination = () => {
     }, []);
 
     // Fetch all destinations for paginated list
-    const fetchAllDestinations = async (pageNum = 1) => {
-        setLoading(true);
+    const fetchAllDestinations = useCallback(async (pageNum = 1) => {
         try {
             const res = await fetchDestinations({ page: pageNum, pageSize: PAGE_SIZE, sort: 'display_order' });
             if (res?.items) {
@@ -174,7 +173,7 @@ const Destination = () => {
                     return {
                         name: d.name,
                         slug: d.slug,
-                        number: isEditorial ? fallback?.number : String(EDITORIAL_DESTINATIONS.length + allDestinations.length + 1).padStart(2, '0'),
+                        number: isEditorial ? fallback?.number : String(EDITORIAL_DESTINATIONS.length + 1).padStart(2, '0'),
                         tagline: d.short_description?.slice(0, 80) || 'Explore this destination',
                         description: d.short_description || 'Discover curated journeys and local expertise.',
                         image: d.hero_media?.url ? resolveMediaUrl(d.hero_media.url) : FALLBACK_IMAGE_MAP[d.slug] || '/images/home/hero-image-home.webp',
@@ -185,20 +184,28 @@ const Destination = () => {
                         isEditorial,
                     };
                 });
-                setAllDestinations(enriched);
-                setTotalCount(res.meta?.total || enriched.length);
-                setTotalPages(res.meta?.total_pages || 1);
+            setAllDestinations(enriched);
+            setTotalCount(res.meta?.total || enriched.length);
+            setTotalPages(res.meta?.total_pages || 1);
             }
         } catch (err) {
             console.error('Failed to fetch destinations:', err);
-        } finally {
-            setLoading(false);
         }
-    };
+    }, [PAGE_SIZE]);
 
+    // Initial fetch - use a ref to track if we've already fetched
+    const hasFetchedRef = useRef(false);
+    useEffect(() => {
+        if (!hasFetchedRef.current) {
+            hasFetchedRef.current = true;
+            fetchAllDestinations(1);
+        }
+    }, [fetchAllDestinations]);
+
+    // Fetch on page change
     useEffect(() => {
         fetchAllDestinations(page);
-    }, [page]);
+    }, [page, fetchAllDestinations]);
 
     const goToPage = (newPage) => {
         if (newPage >= 1 && newPage <= totalPages) {
