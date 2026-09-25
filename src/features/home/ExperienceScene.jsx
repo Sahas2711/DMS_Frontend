@@ -49,7 +49,7 @@ export default function ExperienceScene() {
                             One place,
                             <br />
                             <span className="italic text-navy/55">
-                                six ways in.
+                                four ways in.
                             </span>
                         </h2>
                     </div>

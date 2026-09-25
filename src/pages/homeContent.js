@@ -195,24 +195,24 @@ export const TRAVEL_STYLES = [
         image: '/images/home/Family-Stays.webp',
         imageAlt: 'Family-friendly travel experiences',
     },
-    {
-        id: 'honeymoon-luxury',
-        name: 'Honeymoon & Luxury',
-        line: 'Private villas, curated experiences, slow mornings in beautiful places.',
-        detail: 'The finest stays across all four destinations, choreographed down to the transfer.',
-        tripType: 'HONEYMOON',
-        image: '/images/home/Honey-Moon.webp',
-        imageAlt: 'Romantic honeymoon with cherry blossoms and Mount Fuji',
-    },
-    {
-        id: 'wellness',
-        name: 'Wellness & Slow Travel',
-        line: 'Rituals, retreats, hot springs — and the space to breathe.',
-        detail: 'Onsen circuits, ashram mornings and coastal silence, at a pace that restores.',
-        tripType: 'LUXURY',
-        image: '/images/home/Himachal-Pradesh.webp',
-        imageAlt: 'Mountain wellness retreat in Himachal Pradesh, India',
-    },
+    // {
+    //     id: 'honeymoon-luxury',
+    //     name: 'Honeymoon & Luxury',
+    //     line: 'Private villas, curated experiences, slow mornings in beautiful places.',
+    //     detail: 'The finest stays across all four destinations, choreographed down to the transfer.',
+    //     tripType: 'HONEYMOON',
+    //     image: '/images/home/Honey-Moon.webp',
+    //     imageAlt: 'Romantic honeymoon with cherry blossoms and Mount Fuji',
+    // },
+    // {
+    //     id: 'wellness',
+    //     name: 'Wellness & Slow Travel',
+    //     line: 'Rituals, retreats, hot springs — and the space to breathe.',
+    //     detail: 'Onsen circuits, ashram mornings and coastal silence, at a pace that restores.',
+    //     tripType: 'LUXURY',
+    //     image: '/images/home/Himachal-Pradesh.webp',
+    //     imageAlt: 'Mountain wellness retreat in Himachal Pradesh, India',
+    // },
 ];
 
 /**
@@ -263,7 +263,7 @@ export const JOURNEYS = [
         days: '10 days',
         route: ['Delhi', 'Agra', 'Jaipur'],
         copy: 'The classic route reimagined with private access and curated moments.',
-        image: HOME_IMAGES.india.cover,
+        image: HOME_IMAGES.india.gallery[1]  ,
         imageAlt: 'Kerala backwaters at golden hour, India',
     },
     {

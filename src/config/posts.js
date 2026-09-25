@@ -10,6 +10,7 @@ export const POST_CATEGORIES = [
     { value: 'JAPAN TRAVEL', label: 'Japan Travel' },
     { value: 'SOUTH KOREA TRAVEL', label: 'South Korea Travel' },
     { value: 'TRAVEL GUIDES', label: 'Travel Guides' },
+    { value: 'AIRPORT SERVICES', label: 'Airport Services' },
 ];
 
 export const POST_CATEGORY_LABEL = Object.fromEntries(
