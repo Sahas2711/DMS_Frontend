@@ -100,11 +100,18 @@ export async function fetchRoutes({ page = 1, pageSize = 100, sort = 'display_or
 /**
  * Resolve a media URL returned by the API into one the browser can load.
  * Absolute URLs (e.g. seeded picsum placeholders or an object-storage CDN) are
- * passed through; relative URLs are prefixed with the API base URL.
+ * passed through; relative URLs pointing to frontend public assets (/images/...) 
+ * are passed through as-is so the frontend serves them; other relative URLs 
+ * are prefixed with the API base URL.
  */
 export function resolveMediaUrl(url) {
     if (!url) return null;
     if (/^https?:\/\//i.test(url)) return url;
+    // Frontend public assets (images, fonts, etc.) should be served by the frontend,
+    // not proxied through the backend API.
+    if (url.startsWith('/images/') || url.startsWith('/fonts/') || url.startsWith('/favicon')) {
+        return url;
+    }
     if (url.startsWith('/')) return `${API_BASE_URL}${url}`;
     return url;
 }
