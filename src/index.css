@@ -532,3 +532,146 @@ button:focus-visible:not(.btn):not([class*='focus-visible']) {
         height: 28px;
     }
 }
+
+/* =========================================================
+   BUTTON SYSTEM — DESKTOP + MOBILE
+   Keep these rules AFTER all other button/link styles.
+========================================================= */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+
+    min-height: 48px;
+    padding: 0.75rem 1.75rem;
+
+    border: 1px solid transparent;
+
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    text-decoration: none;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background-color 300ms ease,
+        border-color 300ms ease,
+        color 300ms ease,
+        transform 300ms ease,
+        box-shadow 300ms ease;
+}
+
+
+/* =========================================================
+   NAVY BUTTON
+========================================================= */
+
+.btn.btn--navy {
+    background: var(--color-navy) !important;
+    color: #ffffff !important;
+    border: 1px solid var(--color-navy) !important;
+}
+
+.btn.btn--navy:hover {
+    background: var(--color-navy-light, #1b2a47) !important;
+    color: #ffffff !important;
+    border-color: var(--color-navy-light, #1b2a47) !important;
+}
+
+
+/* =========================================================
+   OUTLINE BUTTON
+========================================================= */
+
+.btn.btn--outline {
+    background: transparent !important;
+    color: var(--color-navy) !important;
+    border: 1px solid var(--color-navy) !important;
+}
+
+.btn.btn--outline:hover {
+    background: var(--color-navy) !important;
+    color: #ffffff !important;
+    border-color: var(--color-navy) !important;
+}
+
+
+/* =========================================================
+   GOLD BUTTON
+========================================================= */
+
+.btn.btn--gold {
+    background: var(--color-gold) !important;
+    color: var(--color-navy) !important;
+    border: 1px solid var(--color-gold) !important;
+}
+
+.btn.btn--gold:hover {
+    background: var(--color-gold-light, #d8b878) !important;
+    color: var(--color-navy) !important;
+    border-color: var(--color-gold-light, #d8b878) !important;
+}
+
+
+/* =========================================================
+   OUTLINE WHITE
+========================================================= */
+
+.btn.btn--outline-white {
+    background: transparent !important;
+    color: #ffffff !important;
+    border: 1px solid rgba(255, 255, 255, 0.55) !important;
+}
+
+.btn.btn--outline-white:hover {
+    background: #ffffff !important;
+    color: var(--color-navy) !important;
+    border-color: #ffffff !important;
+}
+
+
+/* =========================================================
+   SIZES
+========================================================= */
+
+.btn.btn--sm {
+    min-height: 42px;
+    padding: 0.7rem 1.4rem;
+    font-size: 9px;
+}
+
+.btn.btn--md {
+    min-height: 46px;
+    padding: 0.75rem 1.6rem;
+    font-size: 10px;
+}
+
+.btn.btn--lg {
+    min-height: 50px;
+    padding: 0.9rem 1.9rem;
+    font-size: 10px;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 640px) {
+    .btn {
+        min-height: 48px;
+        padding: 0.8rem 1.5rem;
+    }
+
+    .btn.btn--lg {
+        min-height: 50px;
+    }
+}

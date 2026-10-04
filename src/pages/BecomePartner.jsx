@@ -77,9 +77,9 @@ const BecomePartner = () => (
                             <a href="#partner-form" className="btn btn--md btn--gold">
                                 Apply to Partner
                             </a>
-                            <Link to="/request-quote" className="btn btn--md btn--outline-white">
+                            {/* <Link to="/request-quote" className="btn btn--md btn--outline-white">
                                 Request a Quote
-                            </Link>
+                            </Link> */}
                         </div>
                     </motion.div>
                 </div>

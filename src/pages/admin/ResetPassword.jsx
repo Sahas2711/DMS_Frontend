@@ -49,10 +49,10 @@ function ResetPassword() {
     const brand = (
         <Link to="/" className="block text-center mb-8">
             <img
-                src="/logo.jpeg"
+                src="/logo-dark.svg"
                 alt="Asian Star Travel"
                 className="mx-auto h-14 w-auto mb-3"
-                width="148"
+                width="139"
                 height="125"
             />
             <span className="text-navy font-serif text-3xl font-bold">Asian Star Travel</span>

@@ -57,7 +57,7 @@ export default function FinalCTA() {
 
                 {/* Actions */}
                 <div className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-                    <Link
+                    {/* <Link
                         to="/request-quote"
                         className="group inline-flex min-h-12 items-center justify-center gap-3 bg-gold px-7 py-3.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-navy-deep transition-colors duration-300 hover:bg-gold-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold"
                     >
@@ -74,7 +74,7 @@ export default function FinalCTA() {
                         >
                             <path d="M5 12h14M12 5l7 7-7 7" />
                         </svg>
-                    </Link>
+                    </Link> */}
 
                     <Link
                         to="/become-a-partner"

@@ -253,7 +253,7 @@ function DestinationDetail() {
                                 <p className="text-white/40 text-sm mb-6 max-w-lg mx-auto leading-relaxed font-body">
                                     Tell us the dates, hotel tier and group size — we'll tailor every detail.
                                 </p>
-                                <Link
+                                {/* <Link
                                     to={`/request-quote?destination=${dest.slug}`}
                                     className="btn btn--md btn--gold"
                                 >
@@ -261,7 +261,7 @@ function DestinationDetail() {
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                                         <path d="M7 17L17 7M17 7H7M17 7V17" />
                                     </svg>
-                                </Link>
+                                </Link> */}
                             </Rise>
                         </div>
                     </div>

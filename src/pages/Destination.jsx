@@ -17,6 +17,7 @@ const koreaImg = '/images/home/Korea-Seoul.webp';
 
 /** Hero image — bundled asset, no external hotlinks. */
 const heroImage = '/images/home/hero-image-home.webp';
+const ctaImage = '/images/services/Travel-on-your-terms.webp';
 
 /** Editorial 4-country showcase data */
 const EDITORIAL_DESTINATIONS = [
@@ -453,31 +454,149 @@ const Destination = () => {
                 </section>
 
                 {/* ── B2B CTA ── */}
-                <section className="w-full bg-[var(--color-navy)] py-24 sm:py-32 px-5 sm:px-8 lg:px-12">
-                    <div className="max-w-[1400px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-                        <Rise className="lg:col-span-7">
-                            <p className="eyebrow text-[var(--color-gold)]/70 mb-4">Not Sure Which Destination?</p>
-                            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.95] tracking-[-0.02em] text-white mb-6">
-                                Tell us who is travelling.{' '}
-                                <span className="italic text-[var(--color-gold)]">We'll recommend the route.</span>
-                            </h2>
-                            <p className="font-body text-white/40 text-base leading-relaxed max-w-lg">
-                                Send your brief — dates, traveller mix, hotel tier — and receive a tailored
-                                proposal from our destination specialists.
-                            </p>
-                        </Rise>
-                        <Rise delay={0.1} className="lg:col-span-5 lg:justify-self-end">
-                            <div className="flex flex-col sm:flex-row lg:flex-col gap-4">
-                                <Link to="/request-quote" className="btn btn--lg btn--gold">
-                                    Request a Quote
-                                </Link>
-                                <Link to="/tours" className="btn btn--lg btn--outline-white">
-                                    Browse Journeys
-                                </Link>
-                            </div>
-                        </Rise>
-                    </div>
-                </section>
+<section
+    className="
+        relative
+        w-full
+        overflow-hidden
+        bg-[var(--color-navy)]
+        bg-cover
+        bg-center
+        bg-no-repeat
+        px-5
+        py-20
+        sm:px-8
+        sm:py-28
+        lg:px-12
+        lg:py-32
+    "
+    style={{
+        backgroundImage: `url(${ctaImage})`,
+    }}
+>
+    {/* Dark overlay */}
+    <div
+        aria-hidden="true"
+        className="
+            absolute
+            inset-0
+            bg-[var(--color-navy)]/65
+        "
+    />
+
+    {/* Subtle gradient for better text readability */}
+    <div
+        aria-hidden="true"
+        className="
+            absolute
+            inset-0
+            bg-gradient-to-r
+            from-[var(--color-navy)]/80
+            via-[var(--color-navy)]/55
+            to-[var(--color-navy)]/40
+        "
+    />
+
+    {/* CTA Content */}
+    <div
+        className="
+            relative
+            z-10
+            mx-auto
+            grid
+            max-w-[1400px]
+            grid-cols-1
+            items-center
+            gap-10
+            lg:grid-cols-12
+            lg:gap-16
+        "
+    >
+        {/* ── Left Content ── */}
+        <Rise className="lg:col-span-7">
+            <p
+                className="
+                    eyebrow
+                    mb-4
+                    text-[var(--color-gold)]
+                "
+            >
+                Not Sure Which Destination?
+            </p>
+
+            <h2
+                className="
+                    mb-6
+                    max-w-4xl
+                    font-display
+                    text-[clamp(2rem,4.5vw,3.5rem)]
+                    leading-[0.95]
+                    tracking-[-0.02em]
+                    text-white
+                "
+            >
+                Tell us who is travelling.{' '}
+                <span className="italic text-[var(--color-gold)]">
+                    We'll recommend the route.
+                </span>
+            </h2>
+
+            <p
+                className="
+                    max-w-lg
+                    font-body
+                    text-base
+                    leading-relaxed
+                    text-white/75
+                "
+            >
+                Send your brief — dates, traveller mix, hotel tier —
+                and receive a tailored proposal from our destination
+                specialists.
+            </p>
+        </Rise>
+
+        {/* ── Right CTA ── */}
+        <Rise
+            delay={0.1}
+            className="
+                lg:col-span-5
+                lg:justify-self-end
+            "
+        >
+            <div
+                className="
+                    flex
+                    flex-col
+                    gap-4
+                    sm:flex-row
+                    lg:flex-col
+                "
+            >
+                {/* 
+                <Link
+                    to="/request-quote"
+                    className="btn btn--lg btn--gold"
+                >
+                    Request a Quote
+                </Link>
+                */}
+
+                <Link
+                    to="/tours"
+                    className="
+                        btn
+                        btn--lg
+                        btn--outline-white
+                        backdrop-blur-sm
+                    "
+                >
+                    Browse Journeys
+                </Link>
+            </div>
+        </Rise>
+    </div>
+</section>
             </div>
         </PageTransition>
     );

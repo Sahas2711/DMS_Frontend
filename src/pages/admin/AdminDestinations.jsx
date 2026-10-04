@@ -8,7 +8,9 @@ import {
     fetchAdminDestinations,
     publishDestination,
     updateDestination,
+    uploadMediaAsset,
 } from '../../services/api/adminApi';
+import { resolveMediaUrl } from '../../services/api/cms';
 import { errorMessage } from '../../services/api/client';
 import { useAdminList } from './useAdminList';
 import { useMediaOptions } from './mediaOptions';
@@ -30,6 +32,7 @@ import {
     Th,
 } from '../../components/admin/ui';
 import { SeoFields } from '../../components/admin/SeoFields';
+import { Link } from 'react-router-dom';
 
 const emptyForm = {
     name: '',
@@ -42,16 +45,62 @@ const emptyForm = {
     display_order: 0,
 };
 
+const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+
 function DestinationEditor({ open, initial, onClose, onSaved }) {
     const isEdit = Boolean(initial?.public_id);
-    const [form, setForm] = useState({ ...emptyForm, ...initial });
+    const [form, setForm] = useState(() => {
+        const heroMediaId = initial?.hero_media_id || initial?.hero_media?.public_id || '';
+        return { ...emptyForm, ...initial, hero_media_id: heroMediaId };
+    });
     const [seo, setSeo] = useState(initial?.seo_metadata || null);
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState('');
     const [fieldErrors, setFieldErrors] = useState({});
+    const [uploading, setUploading] = useState(false);
+    const [uploadError, setUploadError] = useState('');
+    const [uploadedAsset, setUploadedAsset] = useState(null);
     const media = useMediaOptions(true);
 
+    const selectedAsset =
+        media.options.find((m) => m.public_id === form.hero_media_id)
+        || (uploadedAsset?.public_id === form.hero_media_id ? uploadedAsset : null)
+        || (initial?.hero_media?.public_id === form.hero_media_id ? initial.hero_media : null);
+    const previewUrl = selectedAsset?.url ? resolveMediaUrl(selectedAsset.url) : '';
+
     const set = (key, value) => setForm((f) => ({ ...f, [key]: value }));
+
+    const handleImagePick = async (e) => {
+        const file = e.target.files?.[0];
+        e.target.value = '';
+        if (!file || uploading) return;
+
+        setUploadError('');
+        if (!ACCEPTED_IMAGE_TYPES.includes(file.type)) {
+            setUploadError('Only JPEG, PNG and WebP images are accepted.');
+            return;
+        }
+        if (file.size > MAX_IMAGE_BYTES) {
+            setUploadError('The maximum upload size is 5 MB.');
+            return;
+        }
+
+        setUploading(true);
+        try {
+            const asset = await uploadMediaAsset({
+                file,
+                alt_text: file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '),
+            });
+            setUploadedAsset(asset);
+            set('hero_media_id', asset?.public_id || '');
+            media.reload();
+        } catch (err) {
+            setUploadError(errorMessage(err, 'Could not upload the image.'));
+        } finally {
+            setUploading(false);
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -94,11 +143,57 @@ function DestinationEditor({ open, initial, onClose, onSaved }) {
             title={isEdit ? `Edit destination — ${initial.name}` : 'New destination'}
             onClose={onClose}
             footer={
-                <>
-                    <Button variant="outline" onClick={onClose}>Cancel</Button>
-                    <Button type="submit" form="destination-form" loading={saving}>{saving ? 'Saving…' : isEdit ? 'Save changes' : 'Create destination'}</Button>
-                </>
-            }
+    <div className="flex w-full items-center justify-between gap-3">
+
+        {/* View existing destinations */}
+        <Link
+            to="/destination"
+            target="_blank"
+            rel="noreferrer"
+            className="
+                inline-flex
+                items-center
+                gap-2
+                rounded-lg
+                px-3
+                py-2
+                text-sm
+                font-medium
+                text-navy
+                transition-colors
+                hover:text-bronze
+            "
+        >
+            <Eye className="h-4 w-4" aria-hidden="true" />
+            View current destinations
+        </Link>
+
+        {/* Form actions */}
+        <div className="flex items-center gap-2">
+
+            <Button
+                variant="outline"
+                onClick={onClose}
+            >
+                Cancel
+            </Button>
+
+            <Button
+                type="submit"
+                form="destination-form"
+                loading={saving}
+            >
+                {saving
+                    ? 'Saving…'
+                    : isEdit
+                        ? 'Save changes'
+                        : 'Create destination'}
+            </Button>
+
+        </div>
+
+    </div>
+}
         >
             <form id="destination-form" onSubmit={handleSubmit} noValidate className="space-y-5">
                 {error && <EmptyState tone="error" title="Could not save" description={error} />}
@@ -111,12 +206,49 @@ function DestinationEditor({ open, initial, onClose, onSaved }) {
                 </div>
                 <Textarea id="short_description" label="Short description" rows={3} maxLength={1000} value={form.short_description || ''} onChange={(e) => set('short_description', e.target.value)} placeholder="One or two sentences shown on cards." />
                 <Textarea id="description" label="Full description" rows={6} value={form.description || ''} onChange={(e) => set('description', e.target.value)} placeholder="The destination guide shown on the public detail page." />
-                <Select id="hero_media_id" label="Hero image" value={form.hero_media_id || ''} onChange={(e) => set('hero_media_id', e.target.value)}>
-                    <option value="">No image</option>
-                    {media.options.map((m) => (
-                        <option key={m.public_id} value={m.public_id}>{m.alt_text || m.url}</option>
-                    ))}
-                </Select>
+                <div className="space-y-3">
+                    <div className="flex items-baseline justify-between gap-3">
+                        <span className="text-sm font-semibold text-navy">Hero image</span>
+                        <span className="text-[11px] text-gray-400">Shown on destination cards and the detail page.</span>
+                    </div>
+                    {previewUrl ? (
+                        <div className="rounded-xl overflow-hidden border border-gray-100 bg-cream">
+                            <img src={previewUrl} alt={selectedAsset?.alt_text || 'Hero image preview'} className="w-full max-h-56 object-cover" />
+                        </div>
+                    ) : (
+                        <div className="rounded-xl border border-dashed border-gray-300 bg-cream/50 px-4 py-6 text-center text-xs text-gray-500">
+                            No image selected — pick one from the media library or upload a new file below.
+                        </div>
+                    )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                        <Select
+                            id="hero_media_id"
+                            label="Choose from media library"
+                            value={form.hero_media_id || ''}
+                            onChange={(e) => { setUploadError(''); set('hero_media_id', e.target.value); }}
+                            hint={media.loading ? 'Loading images…' : undefined}
+                        >
+                            <option value="">No image</option>
+                            {media.options.map((m) => (
+                                <option key={m.public_id} value={m.public_id}>{m.alt_text || m.caption || m.url}</option>
+                            ))}
+                            {selectedAsset && !media.options.some((m) => m.public_id === selectedAsset.public_id) && (
+                                <option value={selectedAsset.public_id}>{selectedAsset.alt_text || selectedAsset.caption || selectedAsset.url}</option>
+                            )}
+                        </Select>
+                        <Input
+                            id="hero-image-file"
+                            label="…or upload a new image"
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            onChange={handleImagePick}
+                            disabled={uploading || saving}
+                            error={uploadError || undefined}
+                            hint={uploading ? 'Uploading…' : 'JPEG, PNG or WebP up to 5 MB. Saved to the media library.'}
+                        />
+                    </div>
+                </div>
+
                 <SeoFields value={seo} onChange={setSeo} />
             </form>
         </Modal>
@@ -265,6 +397,7 @@ function AdminDestinations() {
             )}
 
             <DestinationEditor
+                key={editing?.public_id || 'new'}
                 open={editorOpen}
                 initial={editing}
                 onClose={() => setEditorOpen(false)}

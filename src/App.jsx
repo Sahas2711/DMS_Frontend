@@ -9,7 +9,6 @@ import {
 import { AnimatePresence } from 'framer-motion';
 import Lenis from 'lenis';
 import 'lenis/dist/lenis.css';
-
 import Navbar from './components/navigation/PremiumNav';
 import Footer from './components/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
@@ -17,13 +16,10 @@ import RouteFallback from './components/RouteFallback';
 import CookieConsent from './components/CookieConsent';
 import AnalyticsProvider from './components/AnalyticsProvider';
 import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
-
 import { AuthProvider } from './context/AdminAuthContext';
 import { ThemeProvider } from './context/ThemeContext';
 import { lenisRef } from './lib/lenisRef';
-
 import Home from './pages/Home';
-
 // Every route other than the landing page is code-split, so a visitor arriving
 // at /contact no longer downloads the checkout flow, the tours carousel and
 // every other page before the site becomes interactive.
@@ -71,7 +67,6 @@ const Booking = lazy(() => import('./pages/Booking'));
 const Checkouts = lazy(() => import('./pages/Checkouts'));
 const Trip = lazy(() => import('./pages/Trip'));
 const NotFound = lazy(() => import('./pages/NotFound'));
-
 // Admin console (protected shell + routes). Login sits outside the shell so an
 // unauthenticated visitor can reach it.
 const AdminLayout = lazy(() =>
@@ -122,7 +117,6 @@ const AdminAudit = lazy(() =>
 const AdminAccount = lazy(() =>
     import('./pages/admin/AdminAccount')
 );
-
 /**
  * Legacy and alternate URLs redirect to a single canonical path per page rather
  * than rendering the same content at several addresses.
@@ -130,11 +124,9 @@ const AdminAccount = lazy(() =>
 const ROUTE_ALIASES = [
     ['/itineraries', '/tours'],
     ['/itinerary', '/tours'],
-
     // Legacy destinations paths — deep links now live under /destination/:slug.
     ['/destinations', '/destination'],
     ['/destinations/:slug', '/destination/:slug'],
-
     // Former consumer service sub-pages with no live page of their own hand off
     // to the Phase-1 enquiry workflow. (The canonical service pages below are
     // real routes now — see the Routes block.)
@@ -143,48 +135,38 @@ const ROUTE_ALIASES = [
     ['/services/fast-track', '/request-quote'],
     ['/services/services-airport-fast-track', '/request-quote'],
     ['/services/ground-services-india', '/request-quote'],
-
     ['/about-us', '/about'],
     ['/contact-us', '/contact'],
     ['/blogs', '/blog'],
-
     // Legacy journal + partner paths kept working for old bookmarks.
     ['/journal', '/blog'],
     ['/journal/:slug', '/blog/:slug'],
     ['/partner', '/become-a-partner'],
-
     // Alternate spellings of the live booking/checkout/trip flows.
     ['/bookings', '/booking'],
     ['/checkouts', '/checkout'],
     ['/trips', '/trip'],
-
     // Airport fast-track flows are not in Phase 1 — redirect to enquiry workflow.
     ['/booking', '/request-quote'],
     ['/checkout', '/request-quote'],
 ];
-
 function SmoothScroll() {
     const { pathname } = useLocation();
-
     // The admin console is a tool and must scroll natively. Lenis must be
     // *destroyed* there, not just stopped: a stopped Lenis instance still
     // preventDefaults wheel/touch events (lenis v1.3.26 wheel handler), which
     // freezes scrolling on the page entirely.
     const isAdmin = pathname.startsWith('/admin');
-
     useEffect(() => {
         const isTouch =
             'ontouchstart' in window ||
             navigator.maxTouchPoints > 0;
-
         const isMobile = window.innerWidth < 1024;
-
         const prefersReducedMotion = window
             .matchMedia(
                 '(prefers-reduced-motion: reduce)'
             )
             .matches;
-
         // Touch devices keep native momentum scrolling, visitors who ask for
         // reduced motion should not get hijacked scrolling at all, and admin
         // routes scroll natively.
@@ -196,7 +178,6 @@ function SmoothScroll() {
         ) {
             return undefined;
         }
-
         const lenis = new Lenis({
             duration: 0.9,
             easing: (t) =>
@@ -212,40 +193,31 @@ function SmoothScroll() {
             orientation: 'vertical',
             gestureOrientation: 'vertical',
         });
-
         lenisRef.current = lenis;
-
         let animationFrameId;
-
         function raf(time) {
             lenis.raf(time);
             animationFrameId =
                 requestAnimationFrame(raf);
         }
-
         animationFrameId =
             requestAnimationFrame(raf);
-
         return () => {
             cancelAnimationFrame(animationFrameId);
             lenis.destroy();
             lenisRef.current = null;
         };
     }, [isAdmin]);
-
     // Reset scroll position on route change (native; immediate).
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [pathname]);
-
     return null;
 }
-
 function AnimatedRoutes() {
     const location = useLocation();
     const isAdmin =
         location.pathname.startsWith('/admin');
-
     return (
         <main
             id="main-content"
@@ -266,132 +238,108 @@ function AnimatedRoutes() {
                                 path="/"
                                 element={<Home />}
                             />
-
                             <Route
                                 path="/tours"
                                 element={<Tours />}
                             />
-
                             <Route
                                 path="/tours/:slug"
                                 element={<TourDetail />}
                             />
-
                             <Route
                                 path="/services"
                                 element={<Services />}
                             />
-
                             <Route
                                 path="/services/private-tours"
                                 element={
                                     <ServicesPrivateTours />
                                 }
                             />
-
                             <Route
                                 path="/services/tailor-made-tours"
                                 element={
                                     <ServicesTailorMadeTours />
                                 }
                             />
-
                             <Route
                                 path="/services/airport-fast-track"
                                 element={
                                     <ServicesAirportFastTrack />
                                 }
                             />
-
                             <Route
                                 path="/services/ground-services"
                                 element={
                                     <GroundServices />
                                 }
                             />
-
                             <Route
                                 path="/destination"
                                 element={<Destination />}
                             />
-
                             <Route
                                 path="/destination/:slug"
                                 element={
                                     <DestinationDetail />
                                 }
                             />
-
                             <Route
                                 path="/about"
                                 element={<Aboutus />}
                             />
-
                             <Route
                                 path="/contact"
                                 element={<Contactus />}
                             />
-
                             <Route
                                 path="/blog"
                                 element={<Blogs />}
                             />
-
                             <Route
                                 path="/blog/:slug"
                                 element={<BlogDetail />}
                             />
-
                             <Route
                                 path="/experiences"
                                 element={<Experiences />}
                             />
-
                             <Route
                                 path="/request-quote"
                                 element={<RequestQuote />}
                             />
-
                             <Route
                                 path="/become-a-partner"
                                 element={<BecomePartner />}
                             />
-
                             <Route
                                 path="/travel-trade"
                                 element={<TravelTrade />}
                             />
-
                             <Route
                                 path="/privacy-policy"
                                 element={<PrivacyPolicy />}
                             />
-
                             <Route
                                 path="/cookie-policy"
                                 element={<CookiePolicy />}
                             />
-
                             <Route
                                 path="/terms"
                                 element={<Terms />}
                             />
-
                             <Route
                                 path="/booking"
                                 element={<Booking />}
                             />
-
                             <Route
                                 path="/checkout"
                                 element={<Checkouts />}
                             />
-
                             <Route
                                 path="/trip"
                                 element={<Trip />}
                             />
-
                             {ROUTE_ALIASES.map(
                                 ([from, to]) => (
                                     <Route
@@ -406,27 +354,23 @@ function AnimatedRoutes() {
                                     />
                                 )
                             )}
-
                             {/* Admin authentication */}
                             <Route
                                 path="/admin/login"
                                 element={<AdminLogin />}
                             />
-
                             <Route
                                 path="/forgot-password"
                                 element={
                                     <ForgotPassword />
                                 }
                             />
-
                             <Route
                                 path="/reset-password"
                                 element={
                                     <ResetPassword />
                                 }
                             />
-
                             {/* Protected admin shell */}
                             <Route
                                 path="/admin"
@@ -441,74 +385,62 @@ function AnimatedRoutes() {
                                         />
                                     }
                                 />
-
                                 <Route
                                     path="dashboard"
                                     element={
                                         <AdminDashboard />
                                     }
                                 />
-
                                 <Route
                                     path="destinations"
                                     element={
                                         <AdminDestinations />
                                     }
                                 />
-
                                 <Route
                                     path="tours"
                                     element={<AdminTours />}
                                 />
-
                                 <Route
                                     path="routes"
                                     element={
                                         <AdminRoutes />
                                     }
                                 />
-
                                 <Route
                                     path="posts"
                                     element={<AdminBlogs />}
                                 />
-
                                 <Route
                                     path="special-offers"
                                     element={
                                         <AdminSpecialOffers />
                                     }
                                 />
-
                                 <Route
                                     path="media"
                                     element={<AdminMedia />}
                                 />
-
                                 <Route
                                     path="enquiries"
                                     element={
                                         <AdminEnquiries />
                                     }
                                 />
-
                                 <Route
                                     path="bookings"
                                     element={
                                         <AdminBookings />
                                     }
                                 />
-
                                 <Route
                                     path="users"
                                     element={<AdminUsers />}
                                 />
-
                                 <Route
                                     path="audit"
                                     element={<AdminAudit />}
                                 />
-
                                 <Route
                                     path="account"
                                     element={
@@ -516,7 +448,6 @@ function AnimatedRoutes() {
                                     }
                                 />
                             </Route>
-
                             <Route
                                 path="*"
                                 element={<NotFound />}
@@ -528,7 +459,16 @@ function AnimatedRoutes() {
         </main>
     );
 }
+function SiteChrome() {
+    const { pathname } = useLocation();
+    const isAdmin = pathname.startsWith('/admin');
+// Admin console has its own layout/navigation.
+if (isAdmin) {
+    return null;
+}
 
+return <Navbar />;
+}
 function App() {
     return (
         <Router>
@@ -536,28 +476,21 @@ function App() {
                 <AnalyticsProvider>
                     <AuthProvider>
                         <SmoothScroll />
-
                         <div className="min-h-screen bg-[var(--bg-primary)] flex flex-col w-full max-w-full relative">
                             {/* overflow clipping is handled globally in index.css via
                                 `overflow-x: clip` so Lenis keeps control of the scroller. */}
-
                             <a
                                 href="#main-content"
                                 className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-full focus:bg-navy focus:text-white focus:text-sm"
                             >
                                 Skip to main content
                             </a>
-
-                            <Navbar />
-
+                            <SiteChrome />
                             <AnimatedRoutes />
-
                             <Footer />
-
                             {/* Global floating WhatsApp button */}
                             <FloatingWhatsApp />
                         </div>
-
                         <CookieConsent />
                     </AuthProvider>
                 </AnalyticsProvider>
@@ -565,5 +498,4 @@ function App() {
         </Router>
     );
 }
-
 export default memo(App);

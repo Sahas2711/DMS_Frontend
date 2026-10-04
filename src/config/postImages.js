@@ -22,3 +22,4 @@ export const DEFAULT_POST_IMAGE = editorsDispatchImg;
 export function postImage(post) {
     return resolveMediaUrl(post?.cover_image_url) || POST_IMAGE_BY_SLUG[post?.slug] || DEFAULT_POST_IMAGE;
 }
+export const travelCTAImg = '/images/blogs/global-coverage.webp';
