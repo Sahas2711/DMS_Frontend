@@ -287,9 +287,6 @@ const Checkouts = () => {
                             <div className="bg-cream rounded-2xl p-6 sm:p-8 border border-stone shadow-sm">
                                 <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200/60">
                                     <div className="flex items-center gap-3">
-                                        <span className="w-7 h-7 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center">
-                                            1
-                                        </span>
                                         <h3 className="text-navy font-serif font-bold text-lg md:text-xl">
                                             Primary Traveller &amp; Contact
                                         </h3>
@@ -396,9 +393,6 @@ const Checkouts = () => {
                             <div className="bg-cream rounded-2xl p-6 sm:p-8 border border-stone shadow-sm">
                                 <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200/60">
                                     <div className="flex items-center gap-3">
-                                        <span className="w-7 h-7 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center">
-                                            2
-                                        </span>
                                         <h3 className="text-navy font-serif font-bold text-lg md:text-xl">
                                             Flight Schedule &amp; Itinerary
                                         </h3>
@@ -570,9 +564,6 @@ const Checkouts = () => {
                             {/* STEP 3: Luggage & Special Instructions */}
                             <div className="bg-cream rounded-2xl p-6 sm:p-8 border border-stone shadow-sm">
                                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-200/60">
-                                    <span className="w-7 h-7 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center">
-                                        3
-                                    </span>
                                     <h3 className="text-navy font-serif font-bold text-lg md:text-xl">
                                         Luggage &amp; Special Instructions
                                     </h3>
@@ -599,9 +590,6 @@ const Checkouts = () => {
                             <div className="bg-cream rounded-2xl p-6 sm:p-8 border border-stone shadow-sm">
                                 <div className="flex items-center justify-between mb-6 pb-4 border-b border-gray-200/60">
                                     <div className="flex items-center gap-3">
-                                        <span className="w-7 h-7 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center">
-                                            4
-                                        </span>
                                         <h3 className="text-navy font-serif font-bold text-lg md:text-xl">
                                             Payment Guarantee
                                         </h3>

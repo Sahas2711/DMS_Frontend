@@ -49,22 +49,18 @@ const CORE_SERVICES = [
 
 const REQUEST_STEPS = [
     {
-        number: '01',
         title: 'Send the brief',
         description: 'Tell us dates, destination, travellers and hotel tier.',
     },
     {
-        number: '02',
         title: 'Receive the proposal',
         description: 'A tailored itinerary with net or trade pricing within one business day.',
     },
     {
-        number: '03',
         title: 'Refine together',
         description: 'Adjust hotels, pace and inclusions until it is ready for your client.',
     },
     {
-        number: '04',
         title: 'We operate it',
         description: 'Licensed local handling from confirmation to the final transfer.',
     },
@@ -113,10 +109,7 @@ const Services = () => (
                     </span>
                     <ol className="flex flex-col gap-6">
                         {REQUEST_STEPS.map((step) => (
-                            <li key={step.number} className="flex items-start gap-5">
-                                <span className="w-10 h-10 rounded-full bg-champagne border border-bronze/30 text-bronze font-serif text-base font-bold flex items-center justify-center shrink-0">
-                                    {step.number}
-                                </span>
+                            <li key={step.title}>
                                 <div>
                                     <h3 className="text-navy text-sm font-bold mb-1">{step.title}</h3>
                                     <p className="text-steel text-xs leading-relaxed">

@@ -412,10 +412,7 @@ const Booking = () => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 w-full text-left">
                         {/* Card 01 */}
                         <div className="bg-white rounded-2xl md:rounded-3xl p-7 sm:p-8 md:p-9 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 flex flex-col justify-start">
-                            <span className="text-gold text-3xl sm:text-4xl font-serif font-normal mb-4 block">
-                                01
-                            </span>
-                            <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-3">
+                            <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-3 mt-4">
                                 Professional Assistance
                             </h3>
                             <p className="text-steel text-xs sm:text-sm leading-relaxed">
@@ -425,10 +422,7 @@ const Booking = () => {
 
                         {/* Card 02 */}
                         <div className="bg-white rounded-2xl md:rounded-3xl p-7 sm:p-8 md:p-9 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 flex flex-col justify-start">
-                            <span className="text-gold text-3xl sm:text-4xl font-serif font-normal mb-4 block">
-                                02
-                            </span>
-                            <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-3">
+                            <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-3 mt-4">
                                 Airport Expertise
                             </h3>
                             <p className="text-steel text-xs sm:text-sm leading-relaxed">
@@ -438,10 +432,7 @@ const Booking = () => {
 
                         {/* Card 03 */}
                         <div className="bg-white rounded-2xl md:rounded-3xl p-7 sm:p-8 md:p-9 shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 flex flex-col justify-start">
-                            <span className="text-gold text-3xl sm:text-4xl font-serif font-normal mb-4 block">
-                                03
-                            </span>
-                            <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-3">
+                            <h3 className="text-navy font-serif font-bold text-lg sm:text-xl mb-3 mt-4">
                                 Personalised Service
                             </h3>
                             <p className="text-steel text-xs sm:text-sm leading-relaxed">

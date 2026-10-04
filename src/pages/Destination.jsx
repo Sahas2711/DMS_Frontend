@@ -23,7 +23,6 @@ const EDITORIAL_DESTINATIONS = [
     {
         name: 'India',
         slug: 'delhi',
-        number: '01',
         tagline: 'In all its colour and contrast',
         description: 'Rajasthan\'s palaces, Kerala\'s backwaters, Himalayan serenity.',
         image: indiaImg,
@@ -35,7 +34,6 @@ const EDITORIAL_DESTINATIONS = [
     {
         name: 'Vietnam',
         slug: 'ha-long-bay',
-        number: '02',
         tagline: 'Crafted around your curiosity',
         description: 'Atmospheric cities, dramatic coastlines, living traditions and unforgettable food.',
         image: vietnamImg,
@@ -47,7 +45,6 @@ const EDITORIAL_DESTINATIONS = [
     {
         name: 'Japan',
         slug: 'tokyo',
-        number: '03',
         tagline: 'Where every detail has meaning',
         description: 'Ancient temples meet ultra-modern cities. Every season tells a different story.',
         image: japanImg,
@@ -59,7 +56,6 @@ const EDITORIAL_DESTINATIONS = [
     {
         name: 'South Korea',
         slug: 'seoul',
-        number: '04',
         tagline: 'A meeting of tradition and momentum',
         description: 'Seoul\'s energy, Jeju\'s tranquility, ancient palace culture meets innovation.',
         image: koreaImg,
@@ -173,7 +169,6 @@ const Destination = () => {
                     return {
                         name: d.name,
                         slug: d.slug,
-                        number: isEditorial ? fallback?.number : String(EDITORIAL_DESTINATIONS.length + 1).padStart(2, '0'),
                         tagline: d.short_description?.slice(0, 80) || 'Explore this destination',
                         description: d.short_description || 'Discover curated journeys and local expertise.',
                         image: d.hero_media?.url ? resolveMediaUrl(d.hero_media.url) : FALLBACK_IMAGE_MAP[d.slug] || '/images/home/hero-image-home.webp',
@@ -214,8 +209,6 @@ const Destination = () => {
         }
     };
 
-    const totalEditorial = EDITORIAL_DESTINATIONS.length;
-
     return (
         <PageTransition>
             <div className="w-full bg-white">
@@ -241,7 +234,7 @@ const Destination = () => {
                             transition={{ duration: 0.9, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
                         >
                             <p className="eyebrow text-[var(--color-gold)]/80 mb-5">
-                                Destinations — 01 to {String(totalEditorial).padStart(2, '0')}
+                                Destinations
                             </p>
                             <h1 className="font-display text-[clamp(2.6rem,6.5vw,5.5rem)] leading-[0.94] tracking-[-0.03em] text-white mb-6">
                                 Four countries.
@@ -265,9 +258,6 @@ const Destination = () => {
                                         href={`#chapter-${dest.slug}`}
                                         className="group flex items-baseline gap-3 py-4 sm:justify-center sm:px-6"
                                     >
-                                        <span className="font-display text-[11px] tracking-[0.2em] text-[var(--color-gold)]/70">
-                                            {dest.number}
-                                        </span>
                                         <span className="font-display text-base sm:text-lg text-[var(--color-navy)] group-hover:text-[var(--color-gold)] transition-colors duration-300">
                                             {dest.name}
                                         </span>
@@ -299,12 +289,6 @@ const Destination = () => {
                                                 loading={index === 0 ? 'eager' : 'lazy'}
                                                 decoding="async"
                                             />
-                                            <span
-                                                aria-hidden="true"
-                                                className="absolute -bottom-4 right-4 sm:right-8 font-display italic text-[clamp(4.5rem,10vw,9rem)] leading-none text-white/90 drop-shadow-[0_2px_18px_rgba(8,22,52,0.45)] select-none"
-                                            >
-                                                {dest.number}
-                                            </span>
                                         </div>
                                     </Rise>
                                 </div>
@@ -312,7 +296,7 @@ const Destination = () => {
                                 {/* Text column */}
                                 <Rise delay={0.1} className={`lg:col-span-5 ${reversed ? 'lg:order-1' : ''}`}>
                                     <p className="eyebrow mb-5">
-                                        Chapter {dest.number} — {dest.name}
+                                        {dest.meta}
                                     </p>
                                     <h2 className="font-display text-[clamp(2.2rem,4.5vw,3.8rem)] leading-[0.95] tracking-[-0.03em] text-[var(--color-navy)] mb-4">
                                         {dest.name}
@@ -401,12 +385,6 @@ const Destination = () => {
                                                         decoding="async"
                                                     />
                                                     <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy-deep)]/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                                    <span
-                                                        aria-hidden="true"
-                                                        className="absolute bottom-3 right-3 font-display italic text-2xl text-white/90 drop-shadow-[0_1px_10px_rgba(8,22,52,0.5)]"
-                                                    >
-                                                        {dest.number}
-                                                    </span>
                                                 </div>
                                                 <div className="p-5 sm:p-6">
                                                     <h3 className="font-display text-lg sm:text-xl text-[var(--color-navy)] leading-tight mb-2 group-hover:text-[var(--color-gold)] transition-colors duration-300">

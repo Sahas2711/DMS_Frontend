@@ -81,7 +81,6 @@ export const DESTINATIONS = [
     {
         id: 'india',
         name: 'India',
-        number: '01',
         tagline: 'In all its colour and contrast',
         copy: 'A country that overwhelms the senses in the best possible way — ancient forts, sacred rivers, chaotic bazaars, and extraordinary warmth.',
         regions: ['Rajasthan', 'Kerala', 'Ladakh', 'Goa', 'Varanasi'],
@@ -99,7 +98,6 @@ export const DESTINATIONS = [
     {
         id: 'vietnam',
         name: 'Vietnam',
-        number: '02',
         tagline: 'Crafted around your curiosity',
         copy: 'From Ha Long Bay limestone karsts to lantern-lit streets of Hoi An, Vietnam rewards those who travel slowly and observe closely.',
         regions: ['Hanoi', 'Ha Long Bay', 'Hoi An', 'Ho Chi Minh City', 'Phu Quoc'],
@@ -117,7 +115,6 @@ export const DESTINATIONS = [
     {
         id: 'japan',
         name: 'Japan',
-        number: '03',
         tagline: 'Where every detail has meaning',
         copy: 'Precision and beauty in every corner — from temple gardens to ramen stalls, Japan is an exercise in mindful travel.',
         regions: ['Tokyo', 'Kyoto', 'Osaka', 'Hokkaido', 'Okinawa'],
@@ -135,7 +132,6 @@ export const DESTINATIONS = [
     {
         id: 'south-korea',
         name: 'South Korea',
-        number: '04',
         tagline: 'A meeting of tradition and momentum',
         copy: 'Korea blends ancient palace culture with modern energy — a destination for food lovers, art enthusiasts, and design-driven travellers.',
         regions: ['Seoul', 'Busan', 'Jeju Island', 'Gyeongju', 'Incheon'],

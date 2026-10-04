@@ -83,7 +83,6 @@ export default function ExperienceScene() {
                                 >
                                     <StyleRow
                                         item={item}
-                                        index={index}
                                         active={index === active}
                                         onSelect={() => setActive(index)}
                                     />
@@ -134,11 +133,7 @@ export default function ExperienceScene() {
                                                 />
 
                                                 <div className="absolute bottom-5 left-5 text-white">
-                                                    <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/70">
-                                                        {String(active + 1).padStart(2, '0')}
-                                                    </p>
-
-                                                    <p className="mt-1 font-display text-2xl">
+                                                    <p className="font-display text-2xl">
                                                         {item.name}
                                                     </p>
                                                 </div>
@@ -166,7 +161,6 @@ export default function ExperienceScene() {
                                                     className="mt-5"
                                                 >
                                                     <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-bronze">
-                                                        {String(active + 1).padStart(2, '0')} —{' '}
                                                         {item.name}
                                                     </p>
 
@@ -307,11 +301,7 @@ export default function ExperienceScene() {
                                             ease: EASE_EDITORIAL,
                                         }}
                                     >
-                                        <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/70">
-                                            {String(active + 1).padStart(2, '0')}
-                                        </p>
-
-                                        <p className="mt-1 font-display text-2xl leading-none">
+                                        <p className="font-display text-2xl leading-none">
                                             {style.name}
                                         </p>
                                     </motion.div>
@@ -339,7 +329,6 @@ export default function ExperienceScene() {
 
 function StyleRow({
     item,
-    index,
     active,
     onSelect,
 }) {
@@ -353,17 +342,6 @@ function StyleRow({
             className="group block w-full py-6 text-left lg:py-8"
         >
             <div className="flex items-baseline gap-5 sm:gap-8">
-
-                {/* Number */}
-                <span
-                    className={`font-display text-[12px] tracking-[0.2em] transition-colors duration-500 ${
-                        active
-                            ? 'text-bronze'
-                            : 'text-navy/70'
-                    }`}
-                >
-                    {String(index + 1).padStart(2, '0')}
-                </span>
 
                 {/* Name */}
                 <span

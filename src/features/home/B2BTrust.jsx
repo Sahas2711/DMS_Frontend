@@ -66,10 +66,7 @@ export default function B2BTrust() {
                                 <div className="mb-6 flex h-12 w-12 items-center justify-center border border-[var(--color-border-subtle)] transition-colors duration-300 group-hover:border-[var(--color-gold)] group-hover:bg-[var(--color-gold)]/5">
                                     <Icon className="h-5 w-5 text-[var(--color-navy)]/60 transition-colors duration-300 group-hover:text-[var(--color-gold)]" strokeWidth={1.5} />
                                 </div>
-                                <span className="block text-[10px] font-semibold tracking-[0.2em] text-[var(--color-bronze)]/60 mb-3">
-                                    {cap.number}
-                                </span>
-                                <h3 className="font-display text-xl text-[var(--color-navy)] mb-3 leading-snug">
+                                <h3 className="font-display text-xl text-[var(--color-navy)] mb-3 leading-snug mt-1">
                                     {cap.title}
                                 </h3>
                                 <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed">

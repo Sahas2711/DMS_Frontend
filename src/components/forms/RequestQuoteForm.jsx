@@ -111,11 +111,8 @@ export function validateQuoteForm(formData) {
     return errors;
 }
 
-const SectionTitle = ({ index, children }) => (
+const SectionTitle = ({ children }) => (
     <div className="flex items-center gap-3 col-span-full mt-2 first:mt-0">
-        <span className="w-7 h-7 rounded-full bg-cream border border-bronze/30 text-bronze text-xs font-bold flex items-center justify-center shrink-0">
-            {index}
-        </span>
         <h3 className="text-navy text-base md:text-lg font-serif font-semibold">{children}</h3>
         <span className="flex-1 h-px bg-gray-200" aria-hidden="true" />
     </div>
@@ -199,7 +196,7 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <SectionTitle index={1}>Agency details</SectionTitle>
+                <SectionTitle>Agency details</SectionTitle>
 
                 <TextInput
                     id="agency_company"
@@ -278,7 +275,7 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <SectionTitle index={2}>Trip details</SectionTitle>
+                <SectionTitle>Trip details</SectionTitle>
                 <SelectInput
                     id="trip_type"
                     name="trip_type"
@@ -334,7 +331,7 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                <SectionTitle index={3}>Travellers</SectionTitle>
+                <SectionTitle>Travellers</SectionTitle>
                 <TextInput
                     id="adults"
                     name="adults"
@@ -368,7 +365,7 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <SectionTitle index={4}>Hotels</SectionTitle>
+                <SectionTitle>Hotels</SectionTitle>
                 <SelectInput
                     id="hotel_category"
                     name="hotel_category"
@@ -394,7 +391,7 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <SectionTitle index={5}>Transport</SectionTitle>
+                <SectionTitle>Transport</SectionTitle>
                 <SelectInput
                     id="transport_type"
                     name="transport_type"
@@ -420,7 +417,7 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
             </div>
 
             <div className="grid grid-cols-1 gap-5">
-                <SectionTitle index={6}>Experiences &amp; interests</SectionTitle>
+                <SectionTitle>Experiences &amp; interests</SectionTitle>
                 <TextArea
                     id="experiences_interests"
                     name="experiences_interests"
@@ -442,7 +439,7 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                <SectionTitle index={7}>Budget</SectionTitle>
+                <SectionTitle>Budget</SectionTitle>
                 <SelectInput
                     id="budget_range"
                     name="budget_range"
@@ -471,7 +468,7 @@ const RequestQuoteForm = ({ initialTripType = '' }) => {
             </div>
 
             <div className="grid grid-cols-1 gap-5">
-                <SectionTitle index={8}>Special needs</SectionTitle>
+                <SectionTitle>Special needs</SectionTitle>
                 <TextArea
                     id="special_requirements"
                     name="special_requirements"

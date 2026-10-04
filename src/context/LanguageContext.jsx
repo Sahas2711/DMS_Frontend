@@ -18,16 +18,22 @@ export const LANGUAGES = [
         code: 'en',
         native: 'English',
         label: 'English',
+        country: 'India',
+        flag: '/images/flags/india.svg',
     },
     {
         code: 'ja',
         native: '日本語',
         label: 'Japanese',
+        country: 'Japan',
+        flag: '/images/flags/japanese-flag.svg',
     },
     {
         code: 'ko',
         native: '한국어',
         label: 'Korean',
+        country: 'South Korea',
+        flag: '/images/flags/south-korea.svg',
     },
 ];
 

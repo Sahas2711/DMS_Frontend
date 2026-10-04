@@ -42,8 +42,8 @@ export default function JourneyRail() {
                 {/* Journey grid */}
                 <div className="mt-12 lg:mt-20">
                     <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                        {JOURNEYS.slice(0, 6).map((journey, index) => (
-                            <JourneyCard key={journey.slug} journey={journey} index={index} />
+                        {JOURNEYS.slice(0, 6).map((journey) => (
+                            <JourneyCard key={journey.slug} journey={journey} />
                         ))}
                     </div>
 
@@ -73,7 +73,7 @@ export default function JourneyRail() {
 }
 
 /* ── Journey card: consistent geometry ── */
-function JourneyCard({ journey, index }) {
+function JourneyCard({ journey }) {
     return (
         <article className="group">
             <Link to={`/tours/${journey.slug}`} className="block">
@@ -91,11 +91,6 @@ function JourneyCard({ journey, index }) {
                     {/* Duration plate */}
                     <p className="absolute bottom-0 left-0 bg-stone px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-navy">
                         {journey.days}
-                    </p>
-                    
-                    {/* Index number */}
-                    <p className="absolute right-4 top-3 font-display text-[13px] tracking-[0.14em] text-white/80">
-                        {String(index + 1).padStart(2, '0')}
                     </p>
                 </div>
 

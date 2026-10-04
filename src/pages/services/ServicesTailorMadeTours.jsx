@@ -107,8 +107,7 @@ const Services = () => {
                         {/* Step 1 */}
                         <Rise delay={0.1}>
                             <div className="bg-[var(--color-cream)] border border-[var(--color-border-subtle)] p-10 lg:p-14 flex flex-col items-center text-center shadow-sm">
-                                <span className="text-5xl font-serif text-[var(--color-gold)] mb-6">01</span>
-                                <h3 className="text-[var(--color-ink)] text-base lg:text-lg font-serif tracking-widest uppercase mb-4">
+                                <h3 className="text-[var(--color-ink)] text-base lg:text-lg font-serif tracking-widest uppercase mb-4 mt-0">
                                     Tell Us Your Dream
                                 </h3>
                                 <p className="text-[var(--color-text-muted)] text-xs md:text-sm leading-relaxed">
@@ -121,8 +120,7 @@ const Services = () => {
                         {/* Step 2 */}
                         <Rise delay={0.2}>
                             <div className="bg-[var(--color-cream)] border border-[var(--color-border-subtle)] p-10 lg:p-14 flex flex-col items-center text-center shadow-sm">
-                                <span className="text-5xl font-serif text-[var(--color-gold)] mb-6">02</span>
-                                <h3 className="text-[var(--color-ink)] text-base lg:text-lg font-serif tracking-widest uppercase mb-4">
+                                <h3 className="text-[var(--color-ink)] text-base lg:text-lg font-serif tracking-widest uppercase mb-4 mt-0">
                                     We Craft Your<br />Journey
                                 </h3>
                                 <p className="text-[var(--color-text-muted)] text-xs md:text-sm leading-relaxed">
@@ -135,8 +133,7 @@ const Services = () => {
                         {/* Step 3 */}
                         <Rise delay={0.3}>
                             <div className="bg-[var(--color-cream)] border border-[var(--color-border-subtle)] p-10 lg:p-14 flex flex-col items-center text-center shadow-sm">
-                                <span className="text-5xl font-serif text-[var(--color-gold)] mb-6">03</span>
-                                <h3 className="text-[var(--color-ink)] text-base lg:text-lg font-serif tracking-widest uppercase mb-4">
+                                <h3 className="text-[var(--color-ink)] text-base lg:text-lg font-serif tracking-widest uppercase mb-4 mt-0">
                                     Travel Your Way
                                 </h3>
                                 <p className="text-[var(--color-text-muted)] text-xs md:text-sm leading-relaxed">

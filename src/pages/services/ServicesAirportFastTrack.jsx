@@ -482,29 +482,23 @@ const ServicesAirportFastTrack = () => {
                     <div className="w-full lg:w-3/5 flex flex-col space-y-6">
                         {[
                             {
-                                step: 1,
                                 title: 'Share your flight details',
                                 description: 'Choose your airport, travel date, service direction, and guest count.',
                             },
                             {
-                                step: 2,
                                 title: 'Receive a tailored confirmation',
                                 description: 'A concierge confirms availability, inclusions, and meeting instructions.',
                             },
                             {
-                                step: 3,
                                 title: 'Meet your host and move with ease',
                                 description: 'Follow your personalized instructions and enjoy a seamless airport passage.',
                             },
                         ].map((item, index) => (
-                            <Rise key={item.step} delay={0.1 * (index + 1)}>
+                            <Rise key={item.title} delay={0.1 * (index + 1)}>
                                 <motion.div
                                     whileHover={{ y: -4, transition: { duration: 0.2 } }}
-                                    className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-md border border-gray-100 hover:border-gray-200 flex items-center transition-all duration-300 cursor-default"
+                                    className="group bg-white rounded-xl p-6 shadow-sm hover:shadow-md border border-gray-100 hover:border-gray-200 transition-all duration-300 cursor-default"
                                 >
-                                    <div className="flex-shrink-0 bg-[var(--color-navy)] group-hover:bg-[var(--color-gold)] group-hover:scale-105 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold mr-6 shadow-sm transition-all duration-300">
-                                        {item.step}
-                                    </div>
                                     <div className="flex flex-col">
                                         <h4 className="text-[var(--color-navy-light)] text-base font-bold mb-1">{item.title}</h4>
                                         <p className="text-[var(--color-text-muted)] text-xs md:text-sm">{item.description}</p>

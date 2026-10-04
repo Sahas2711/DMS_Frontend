@@ -8,21 +8,18 @@ import { PageTransition, Rise } from '../components/editorial';
 
 const CHANNELS = [
     {
-        tag: '01',
         label: 'WhatsApp',
         value: '+84 933 128 766',
         note: 'Fastest response',
         link: 'https://wa.me/84933128766',
     },
     {
-        tag: '02',
         label: 'Messenger',
         value: '@asianstartravel.vn',
         note: 'Social concierge',
         link: 'https://m.me/asianstartravel.vn',
     },
     {
-        tag: '03',
         label: 'Direct Hotline',
         value: '1900 272 716 / +84 24 3828 9999',
         note: 'Voice consultation',
@@ -98,16 +95,13 @@ const Contactus = () => (
 
                     <div className="border-t border-[var(--color-border-subtle)]">
                         {CHANNELS.map((channel, index) => (
-                            <Rise key={channel.tag} delay={index * 0.06}>
+                            <Rise key={channel.label} delay={index * 0.06}>
                                 <a
                                     href={channel.link}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="group flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-8 border-b border-[var(--color-border-subtle)] py-7"
                                 >
-                                    <span className="text-[var(--color-gold)]/60 text-[11px] font-semibold tracking-[0.2em] sm:w-12">
-                                        {channel.tag}
-                                    </span>
                                     <span className="font-display text-xl sm:text-2xl text-[var(--color-navy)] group-hover:text-[var(--color-gold)] transition-colors duration-300 sm:w-56 shrink-0">
                                         {channel.label}
                                     </span>

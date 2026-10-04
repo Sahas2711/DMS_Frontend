@@ -359,25 +359,6 @@ export default function DestinationChapters() {
                                     }
                                 `}
                             />
-
-                            <span
-                                className={`
-                                    hidden
-                                    text-[9px]
-                                    tracking-[0.18em]
-                                    sm:block
-                                    ${
-                                        activeIndex === index
-                                            ? 'text-gold'
-                                            : 'text-white/25'
-                                    }
-                                `}
-                            >
-                                {String(index + 1).padStart(
-                                    2,
-                                    '0'
-                                )}
-                            </span>
                         </button>
                     ))}
                 </div>
@@ -532,23 +513,6 @@ function DestinationCard({ dest, index }) {
                     "
                 />
 
-                {/* Number */}
-                <span
-                    className="
-                        absolute
-                        left-6
-                        top-6
-                        font-display
-                        text-[11px]
-                        tracking-[0.2em]
-                        text-white/80
-                        sm:left-8
-                        sm:top-8
-                    "
-                >
-                    {dest.number}
-                </span>
-
                 {/* Coordinate */}
                 <div
                     className="
@@ -587,17 +551,6 @@ function DestinationCard({ dest, index }) {
             >
                 {/* Small route marker */}
                 <div className="flex items-center gap-4">
-                    <span
-                        className="
-                            font-display
-                            text-[11px]
-                            tracking-[0.2em]
-                            text-gold
-                        "
-                    >
-                        {dest.number}
-                    </span>
-
                     <span
                         aria-hidden="true"
                         className="
@@ -763,23 +716,6 @@ function DestinationCard({ dest, index }) {
                         →
                     </span>
                 </Link>
-
-                {/* Decorative index */}
-                <span
-                    aria-hidden="true"
-                    className="
-                        pointer-events-none
-                        absolute
-                        bottom-[-0.12em]
-                        right-4
-                        font-display
-                        text-[clamp(5rem,12vw,12rem)]
-                        leading-none
-                        text-white/[0.025]
-                    "
-                >
-                    {String(index + 1).padStart(2, '0')}
-                </span>
             </div>
         </article>
     );

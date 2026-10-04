@@ -91,7 +91,7 @@ const Tours = () => {
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
                             <p className="eyebrow text-[var(--color-gold)]/80 mb-4">
-                                Curated Journeys — 01 to 08
+                                Curated Journeys
                             </p>
                             <h1 className="font-display text-[clamp(2.5rem,7vw,5rem)] leading-[0.92] tracking-[-0.03em] text-white mb-4">
                                 Start with a story.
@@ -160,12 +160,6 @@ const Tours = () => {
                                                 decoding="async"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy-deep)]/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                            <span
-                                                aria-hidden="true"
-                                                className="absolute bottom-3 right-3 font-display italic text-3xl text-white/90 drop-shadow-[0_1px_10px_rgba(8,22,52,0.5)]"
-                                            >
-                                                {String(index + 1).padStart(2, '0')}
-                                            </span>
                                         </div>
                                         {tour.category && (
                                             <span className="text-[10px] tracking-[0.25em] uppercase text-[var(--color-bronze)]/70 font-medium mb-1.5 block">

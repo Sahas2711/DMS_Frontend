@@ -28,24 +28,12 @@ export default function PremiumNav() {
     const reduce = useReducedMotion();
     const location = useLocation();
     const { theme, toggleTheme } = useTheme();
-    const [scrolled, setScrolled] = useState(() => window.scrollY > 40);
     const [panelOpen, setPanelOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const closeTimer = useRef(null);
     const menuButtonRef = useRef(null);
     const panelRef = useRef(null);
     const mobileMenuRef = useRef(null);
-
-    const isHome = location.pathname === '/';
-    const overlay = isHome && !scrolled && !panelOpen && !mobileOpen;
-
-    /* Scroll state — one passive listener; no animation library here. */
-    useEffect(() => {
-        const onScroll = () => setScrolled(window.scrollY > 40);
-        onScroll();
-        window.addEventListener('scroll', onScroll, { passive: true });
-        return () => window.removeEventListener('scroll', onScroll);
-    }, []);
 
     /* Close everything when navigation happens. Derived-reset pattern: no
        effect needed, so there is no cascading render on route change. */
@@ -95,7 +83,7 @@ export default function PremiumNav() {
         onBlur: schedulePanelClose,
     };
 
-    const dark = !overlay;
+    const dark = true;
 
     return (
         <>
@@ -117,22 +105,18 @@ export default function PremiumNav() {
                     className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:h-16 lg:px-12"
                 >
                     {/* Wordmark */}
-                    <Link to="/" className="group flex items-center gap-3" aria-label="Asian Star Travel — home">
+                    <Link
+                        to="/"
+                        className="group flex items-center"
+                        aria-label="Asian Star Travel — home"
+                    >
                         <img
-                            src="/logo.jpeg"
+                            src="/logo-light.svg"
                             alt="Asian Star Travel"
-                            className="h-8 w-auto transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
-                            width="108"
-                            height="92"
+                            className="h-10 w-auto object-contain transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                            width="120"
+                            height="80"
                         />
-                        <span className="leading-none">
-                            <span className="block text-[11px] font-semibold uppercase tracking-[0.32em] text-white/85">
-                                Asian Star
-                            </span>
-                            <span className="mt-1 block text-[9px] font-medium uppercase tracking-[0.3em] text-white/35">
-                                Travel DMC
-                            </span>
-                        </span>
                     </Link>
 
                     {/* Desktop links */}
@@ -246,7 +230,6 @@ export default function PremiumNav() {
                                             <span className="font-display text-lg text-white transition-colors duration-300 group-hover/dest:text-gold">
                                                 {d.name}
                                             </span>
-                                            <span className="text-[10px] tracking-[0.2em] text-white/30">{d.number}</span>
                                         </div>
                                         <p className="mt-1 text-[11px] leading-relaxed text-white/35">{d.tagline}</p>
                                     </Link>
@@ -288,7 +271,6 @@ export default function PremiumNav() {
                                             onClick={() => setMobileOpen(false)}
                                             className="flex items-baseline gap-4 py-4"
                                         >
-                                            <span className="text-[10px] tracking-[0.2em] text-gold/50">0{i + 1}</span>
                                             <span className="font-display text-[28px] leading-none text-white/85 transition-colors duration-300 hover:text-white">
                                                 {link.label}
                                             </span>

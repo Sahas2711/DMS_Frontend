@@ -284,12 +284,6 @@ const Blogs = () => {
                                                     loading="lazy"
                                                     decoding="async"
                                                 />
-                                                <span
-                                                    aria-hidden="true"
-                                                    className="absolute bottom-3 right-3 font-display italic text-3xl text-white/90 drop-shadow-[0_1px_10px_rgba(8,22,52,0.5)]"
-                                                >
-                                                    {String(index + 1).padStart(2, '0')}
-                                                </span>
                                             </div>
                                             <p className="text-[10px] font-semibold tracking-[0.22em] uppercase text-[var(--color-bronze)]/70 mb-2">
                                                 {article.category?.replace(/_/g, ' ')} · {formatDate(article.published_at)}

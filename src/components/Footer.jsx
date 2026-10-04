@@ -23,6 +23,7 @@ const PARTNER_LINKS = [
     { label: 'Travel Trade', path: '/travel-trade' },
     { label: 'Privacy Policy', path: '/privacy-policy' },
     { label: 'Terms of Use', path: '/terms' },
+    { label: 'Admin Login', path: '/admin' },
 ];
 
 export default function Footer() {

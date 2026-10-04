@@ -7,22 +7,18 @@ import { PageTransition, Rise } from '../components/editorial';
 
 const TRADE_STEPS = [
     {
-        number: '01',
         title: 'Send the brief',
         description: 'Use the request-a-quote form with dates, destination, travellers and hotel tier.',
     },
     {
-        number: '02',
         title: 'Receive the proposal',
         description: 'A tailored itinerary with net or trade pricing, hotels, transport and experiences.',
     },
     {
-        number: '03',
         title: 'Refine together',
         description: 'Adjust hotels, pace and inclusions until it is ready for your client.',
     },
     {
-        number: '04',
         title: 'We operate it',
         description: 'Licensed ground handling from confirmation to the final transfer.',
     },
@@ -116,12 +112,9 @@ const TravelTrade = () => {
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
                             {TRADE_STEPS.map((step, index) => (
-                                <Rise key={step.number} delay={index * 0.1}>
+                                <Rise key={step.title} delay={index * 0.1}>
                                     <div className="bg-white p-8 sm:p-10 border border-[var(--color-navy)]/5">
-                                        <span className="text-[var(--color-gold)]/40 text-[11px] font-semibold tracking-[0.2em] block mb-4">
-                                            {step.number}
-                                        </span>
-                                        <h3 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-3 leading-[1.15]">
+                                        <h3 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-3 leading-[1.15] mt-1">
                                             {step.title}
                                         </h3>
                                         <p className="text-[var(--color-text-secondary)] text-sm sm:text-base leading-relaxed font-body">

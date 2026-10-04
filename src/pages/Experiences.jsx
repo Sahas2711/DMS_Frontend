@@ -82,7 +82,7 @@ const Experiences = () => {
                             </Rise>
 
                             <div className="border-t border-[var(--color-border-subtle)]">
-                                {EXPERIENCE_CATEGORIES.map((category, index) => {
+                                {EXPERIENCE_CATEGORIES.map((category) => {
                                     const isActive = category.value === active;
                                     return (
                                         <div key={category.value} className="border-b border-[var(--color-border-subtle)]">
@@ -95,11 +95,6 @@ const Experiences = () => {
                                                 onClick={() => setActive(category.value)}
                                                 className="w-full text-left py-6 sm:py-7 flex items-baseline gap-4 sm:gap-6 group focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-gold)] focus-visible:-outline-offset-2"
                                             >
-                                                <span
-                                                    className={`font-display text-[11px] tracking-[0.2em] transition-colors duration-300 ${isActive ? 'text-[var(--color-gold)]' : 'text-[var(--color-text-muted)]'}`}
-                                                >
-                                                    {String(index + 1).padStart(2, '0')}
-                                                </span>
                                                 <span
                                                     className={`font-display text-[clamp(1.5rem,3.4vw,2.6rem)] leading-[1.02] tracking-[-0.02em] transition-colors duration-300 ${isActive ? 'text-[var(--color-navy)]' : 'text-[var(--color-navy)]/50 group-hover:text-[var(--color-navy)]/80'}`}
                                                 >
@@ -181,8 +176,6 @@ const Experiences = () => {
                                         {/* Metadata bar */}
                                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[var(--color-navy-deep)]/85 to-transparent p-5">
                                             <p className="text-[10px] font-semibold tracking-[0.25em] uppercase text-[var(--color-gold)]/90">
-                                                {String(EXPERIENCE_CATEGORIES.indexOf(activeCategory) + 1).padStart(2, '0')}
-                                                {' — '}
                                                 {activeCategory.title}
                                             </p>
                                             <p className="font-display italic text-white/80 text-sm mt-1">
@@ -212,9 +205,6 @@ const Experiences = () => {
                                         to={`/destination/${dest.slug}`}
                                         className="group flex items-baseline gap-4 py-5 border-b border-white/10 pr-4"
                                     >
-                                        <span className="font-display text-[11px] tracking-[0.2em] text-[var(--color-gold)]/60">
-                                            {String(index + 1).padStart(2, '0')}
-                                        </span>
                                         <span className="font-display text-xl sm:text-2xl text-white/85 group-hover:text-[var(--color-gold)] transition-colors duration-300">
                                             {dest.name}
                                         </span>

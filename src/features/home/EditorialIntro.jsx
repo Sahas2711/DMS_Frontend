@@ -471,17 +471,6 @@ function CinematicImage({ reduce }) {
                     "
                 >
                     <span
-                        className="
-                            font-display
-                            text-[12px]
-                            tracking-[0.2em]
-                            text-white
-                        "
-                    >
-                        01
-                    </span>
-
-                    <span
                         aria-hidden="true"
                         className="
                             h-px

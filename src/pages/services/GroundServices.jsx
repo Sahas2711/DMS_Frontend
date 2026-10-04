@@ -320,10 +320,7 @@ const GroundServices = () => {
                             <div className="flex flex-col gap-8">
                                 <Rise delay={0.3}>
                                     <div className="flex gap-4 items-start">
-                                        <div className="w-8 h-8 rounded-full bg-[#e8f1fc] text-[var(--color-gold)] flex items-center justify-center font-bold text-sm shrink-0">
-                                            1
-                                        </div>
-                                        <div className="flex flex-col mt-0.5">
+                                        <div className="flex flex-col">
                                             <h4 className="text-[var(--color-ink)] font-bold text-base mb-1">Share the flight details</h4>
                                             <p className="text-[var(--color-text-muted)] text-sm leading-relaxed">Arrival, departure, passengers, baggage, and special requests.</p>
                                         </div>
@@ -332,10 +329,7 @@ const GroundServices = () => {
 
                                 <Rise delay={0.4}>
                                     <div className="flex gap-4 items-start">
-                                        <div className="w-8 h-8 rounded-full bg-[#e8f1fc] text-[var(--color-gold)] flex items-center justify-center font-bold text-sm shrink-0">
-                                            2
-                                        </div>
-                                        <div className="flex flex-col mt-0.5">
+                                        <div className="flex flex-col">
                                             <h4 className="text-[var(--color-ink)] font-bold text-base mb-1">Receive a tailored service plan</h4>
                                             <p className="text-[var(--color-text-muted)] text-sm leading-relaxed">We confirm what is available at your airport and coordinate the timing.</p>
                                         </div>
@@ -344,10 +338,7 @@ const GroundServices = () => {
 
                                 <Rise delay={0.5}>
                                     <div className="flex gap-4 items-start">
-                                        <div className="w-8 h-8 rounded-full bg-[#e8f1fc] text-[var(--color-gold)] flex items-center justify-center font-bold text-sm shrink-0">
-                                            3
-                                        </div>
-                                        <div className="flex flex-col mt-0.5">
+                                        <div className="flex flex-col">
                                             <h4 className="text-[var(--color-ink)] font-bold text-base mb-1">Meet your concierge on the day</h4>
                                             <p className="text-[var(--color-text-muted)] text-sm leading-relaxed">Your host tracks the flight and stays with you through the agreed journey.</p>
                                         </div>
