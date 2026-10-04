@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+
 import { DESTINATIONS, HERO_CAPABILITIES } from '../../pages/homeContent';
 import LanguageSwitcher from '../ui/LanguageSwitcher';
 import { useTheme } from '../../context/ThemeContext';
@@ -8,72 +9,145 @@ import { useTheme } from '../../context/ThemeContext';
 const EASE = [0.16, 1, 0.3, 1];
 
 const NAV_LINKS = [
-    { label: 'Home', path: '/' },
-    { label: 'Tours', path: '/tours' },
+    {
+        label: 'Home',
+        path: '/',
+    },
+    {
+        label: 'Tours',
+        path: '/tours',
+    },
     {
         label: 'Services',
         path: '/services',
         children: [
-            { label: 'Private Transfer', path: '/services/ground-services' },
-            { label: 'Relaxation / Wellness', path: '/experiences' },
+            {
+                label: 'Private Transfer',
+                path: '/services/ground-services',
+            },
+            {
+                label: 'Relaxation / Wellness',
+                path: '/experiences',
+            },
         ],
     },
-    { label: 'Destinations', path: '/destination', panel: 'destinations' },
-    { label: 'About Us', path: '/about' },
-    { label: 'Contact', path: '/contact' },
-    { label: 'Blog', path: '/blog' },
+    {
+        label: 'Destinations',
+        path: '/destination',
+        panel: 'destinations',
+    },
+    {
+        label: 'About Us',
+        path: '/about',
+    },
+    {
+        label: 'Contact',
+        path: '/contact',
+    },
+    {
+        label: 'Blog',
+        path: '/blog',
+    },
 ];
 
 export default function PremiumNav() {
     const reduce = useReducedMotion();
     const location = useLocation();
     const { theme, toggleTheme } = useTheme();
+
     const [panelOpen, setPanelOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
+    const [scrolled, setScrolled] = useState(false);
+
     const closeTimer = useRef(null);
     const menuButtonRef = useRef(null);
     const panelRef = useRef(null);
     const mobileMenuRef = useRef(null);
 
-    /* Close everything when navigation happens. Derived-reset pattern: no
-       effect needed, so there is no cascading render on route change. */
-    const [navKey, setNavKey] = useState(location.pathname);
-    if (navKey !== location.pathname) {
-        setNavKey(location.pathname);
+    /*
+     * ================================================================
+     * NAVBAR SCROLL
+     * ================================================================
+     *
+     * Top:
+     *   transparent + dark logo
+     *
+     * After 30px:
+     *   solid navy + light logo
+     */
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrolled(window.scrollY > 30);
+        };
+
+        handleScroll();
+
+        window.addEventListener('scroll', handleScroll, {
+            passive: true,
+        });
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    /*
+     * ================================================================
+     * CLOSE MENUS ON ROUTE CHANGE
+     * ================================================================
+     */
+    useEffect(() => {
         setPanelOpen(false);
         setMobileOpen(false);
-    }
+    }, [location.pathname]);
 
-    /* Body scroll lock while the mobile menu is open (Lenis-safe: native). */
-    useEffect(() => {
-        if (mobileOpen) {
-            const prev = document.body.style.overflow;
-            document.body.style.overflow = 'hidden';
-            return () => { document.body.style.overflow = prev; };
-        }
-        return undefined;
-    }, [mobileOpen]);
-
-    /* Escape + focus return for the mobile menu. */
+    /*
+     * ================================================================
+     * ESCAPE KEY
+     * ================================================================
+     */
     useEffect(() => {
         if (!mobileOpen) return undefined;
-        const onKey = (e) => { if (e.key === 'Escape') { setMobileOpen(false); menuButtonRef.current?.focus(); } };
-        document.addEventListener('keydown', onKey);
-        // Move focus into the dialog for keyboard/screen-reader users.
-        const focusTimer = window.setTimeout(() => mobileMenuRef.current?.focus(), 60);
+
+        const handleKeyDown = (event) => {
+            if (event.key === 'Escape') {
+                setMobileOpen(false);
+
+                window.setTimeout(() => {
+                    menuButtonRef.current?.focus();
+                }, 0);
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
         return () => {
-            document.removeEventListener('keydown', onKey);
-            window.clearTimeout(focusTimer);
+            document.removeEventListener('keydown', handleKeyDown);
         };
     }, [mobileOpen]);
 
+    /*
+     * ================================================================
+     * DESTINATION PANEL
+     * ================================================================
+     */
     const openPanel = useCallback(() => {
         window.clearTimeout(closeTimer.current);
         setPanelOpen(true);
     }, []);
+
     const schedulePanelClose = useCallback(() => {
         window.clearTimeout(closeTimer.current);
-        closeTimer.current = window.setTimeout(() => setPanelOpen(false), 120);
+
+        closeTimer.current = window.setTimeout(() => {
+            setPanelOpen(false);
+        }, 120);
+    }, []);
+
+    useEffect(() => {
+        return () => {
+            window.clearTimeout(closeTimer.current);
+        };
     }, []);
 
     const panelLinkProps = {
@@ -83,66 +157,178 @@ export default function PremiumNav() {
         onBlur: schedulePanelClose,
     };
 
-    const dark = true;
+    /*
+     * ================================================================
+     * MOBILE MENU TOGGLE
+     * ================================================================
+     */
+    const toggleMobileMenu = () => {
+        setMobileOpen((current) => !current);
+    };
+
+    const closeMobileMenu = () => {
+        setMobileOpen(false);
+    };
 
     return (
         <>
+            {/* ========================================================
+                SKIP NAVIGATION
+                ======================================================== */}
             <a
                 href="#home-main"
-                className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-gold focus:px-4 focus:py-2 focus:text-xs focus:font-semibold focus:text-navy-deep"
+                className="
+                    sr-only
+                    focus:not-sr-only
+                    focus:fixed
+                    focus:left-4
+                    focus:top-4
+                    focus:z-[100]
+                    focus:bg-gold
+                    focus:px-4
+                    focus:py-2
+                    focus:text-xs
+                    focus:font-semibold
+                    focus:text-navy-deep
+                "
             >
                 Skip to content
             </a>
 
+            {/* ========================================================
+                NAVBAR
+                ======================================================== */}
             <header
-                className={`fixed inset-x-0 top-0 z-50 transition-colors duration-500 ${dark
-                    ? 'bg-[rgba(5,14,34,0.92)] shadow-[0_1px_0_rgba(197,168,105,0.12)] backdrop-blur-md'
-                    : 'bg-transparent'}`}
+                className={`
+                    fixed
+                    inset-x-0
+                    top-0
+                    z-50
+                    transition-all
+                    duration-500
+                    ${
+                        scrolled || mobileOpen
+                            ? 'bg-[rgba(5,14,34,0.96)] shadow-[0_1px_0_rgba(197,168,105,0.12)] backdrop-blur-md'
+                            : 'bg-transparent'
+                    }
+                `}
                 onMouseLeave={schedulePanelClose}
             >
                 <nav
                     aria-label="Primary"
-                    className="mx-auto flex h-16 max-w-[1440px] items-center justify-between px-5 sm:px-8 lg:h-16 lg:px-12"
+                    className="
+                        mx-auto
+                        flex
+                        h-16
+                        max-w-[1440px]
+                        items-center
+                        justify-between
+                        px-5
+                        sm:px-8
+                        lg:px-12
+                    "
                 >
-                    {/* Wordmark */}
+                    {/* ==================================================
+                        LOGO
+                        ================================================== */}
                     <Link
                         to="/"
                         className="group flex items-center"
                         aria-label="Asian Star Travel — home"
+                        onClick={closeMobileMenu}
                     >
                         <img
-                            src="/logo-light.svg"
+                            src={
+                                scrolled || mobileOpen
+                                    ? '/logo-light.svg'
+                                    : '/logo-dark.svg'
+                            }
                             alt="Asian Star Travel"
-                            className="h-10 w-auto object-contain transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                            className="
+                                h-10
+                                w-auto
+                                object-contain
+                                transition-all
+                                duration-300
+                                ease-out
+                                group-hover:scale-105
+                            "
                             width="120"
                             height="80"
                         />
                     </Link>
 
-                    {/* Desktop links */}
+                    {/* ==================================================
+                        DESKTOP NAVIGATION
+                        ================================================== */}
                     <div className="hidden items-center gap-9 lg:flex">
                         {NAV_LINKS.map((link) => (
                             <div
                                 key={link.path}
                                 className="relative group"
-                                {...(link.panel ? panelLinkProps : {})}
+                                {...(link.panel
+                                    ? panelLinkProps
+                                    : {})}
                             >
                                 <Link
                                     to={link.path}
-                                    className="link-underline py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-white/55 transition-colors duration-300 hover:text-white"
-                                    aria-haspopup={link.panel || link.children ? 'true' : undefined}
-                                    aria-expanded={link.panel ? panelOpen : undefined}
+                                    className="
+                                        link-underline
+                                        py-2
+                                        text-[11px]
+                                        font-semibold
+                                        uppercase
+                                        tracking-[0.18em]
+                                        text-white/75
+                                        transition-colors
+                                        duration-300
+                                        hover:text-white
+                                    "
+                                    aria-haspopup={
+                                        link.panel || link.children
+                                            ? 'true'
+                                            : undefined
+                                    }
+                                    aria-expanded={
+                                        link.panel
+                                            ? panelOpen
+                                            : undefined
+                                    }
                                 >
                                     {link.label}
                                 </Link>
+
+                                {/* SERVICES DROPDOWN */}
                                 {link.children && (
-                                    <div className="absolute left-0 top-full hidden group-hover:block z-50 pt-2">
-                                        <div className="bg-[rgba(5,14,34,0.97)] backdrop-blur-xl border-t border-white/[0.06] shadow-xl min-w-[220px] py-3">
+                                    <div className="absolute left-0 top-full z-50 hidden pt-2 group-hover:block">
+                                        <div
+                                            className="
+                                                min-w-[220px]
+                                                border-t
+                                                border-white/[0.06]
+                                                bg-[rgba(5,14,34,0.97)]
+                                                py-3
+                                                shadow-xl
+                                                backdrop-blur-xl
+                                            "
+                                        >
                                             {link.children.map((child) => (
                                                 <Link
                                                     key={child.path}
                                                     to={child.path}
-                                                    className="block px-6 py-2.5 text-[11px] font-medium tracking-[0.12em] text-white/55 transition-colors duration-300 hover:text-white hover:bg-white/5"
+                                                    className="
+                                                        block
+                                                        px-6
+                                                        py-2.5
+                                                        text-[11px]
+                                                        font-medium
+                                                        tracking-[0.12em]
+                                                        text-white/55
+                                                        transition-colors
+                                                        duration-300
+                                                        hover:bg-white/5
+                                                        hover:text-white
+                                                    "
                                                 >
                                                     {child.label}
                                                 </Link>
@@ -154,84 +340,282 @@ export default function PremiumNav() {
                         ))}
                     </div>
 
-                    {/* CTAs */}
+                    {/* ==================================================
+                        DESKTOP ACTIONS
+                        ================================================== */}
                     <div className="hidden items-center gap-5 lg:flex">
                         <LanguageSwitcher variant="desktop" />
+
                         <button
                             type="button"
                             onClick={toggleTheme}
                             className="theme-toggle"
-                            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                            aria-label={
+                                theme === 'dark'
+                                    ? 'Switch to light mode'
+                                    : 'Switch to dark mode'
+                            }
                         >
                             {theme === 'dark' ? '☀' : '☾'}
                         </button>
+
                         <Link
                             to="/request-quote"
-                            className="link-underline py-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/45 transition-colors duration-300 hover:text-gold"
+                            className="
+                                link-underline
+                                py-1
+                                text-[10px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.22em]
+                                text-white/60
+                                transition-colors
+                                duration-300
+                                hover:text-gold
+                            "
                         >
                             Request a Quote
                         </Link>
+
                         <Link
                             to="/become-a-partner"
-                            className="border border-white/25 px-5 py-2.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-white transition-colors duration-300 hover:border-gold hover:bg-gold hover:text-navy-deep"
+                            className="
+                                border
+                                border-white/25
+                                px-5
+                                py-2.5
+                                text-[10px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.22em]
+                                text-white
+                                transition-colors
+                                duration-300
+                                hover:border-gold
+                                hover:bg-gold
+                                hover:text-navy-deep
+                            "
                         >
                             Become a Partner
                         </Link>
                     </div>
 
-                    {/* Mobile toggle */}
+                    {/* ==================================================
+                        MOBILE HAMBURGER
+                        ================================================== */}
                     <button
                         ref={menuButtonRef}
                         type="button"
-                        onClick={() => setMobileOpen((v) => !v)}
-                        className="relative z-50 -mr-2 flex h-11 w-11 flex-col items-center justify-center gap-[5px] lg:hidden"
-                        aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
+                        onClick={toggleMobileMenu}
+                        className="
+                            relative
+                            z-[60]
+                            -mr-2
+                            flex
+                            h-11
+                            w-11
+                            flex-col
+                            items-center
+                            justify-center
+                            gap-[5px]
+                            lg:hidden
+                        "
+                        aria-label={
+                            mobileOpen
+                                ? 'Close menu'
+                                : 'Open menu'
+                        }
                         aria-expanded={mobileOpen}
                         aria-controls="mobile-menu"
                     >
-                        <motion.span animate={mobileOpen ? { rotate: 45, y: 3.5 } : { rotate: 0, y: 0 }} transition={{ duration: 0.4, ease: EASE }} className="block h-px w-6 bg-white/80" />
-                        <motion.span animate={mobileOpen ? { opacity: 0, x: -6 } : { opacity: 1, x: 0 }} transition={{ duration: 0.25 }} className="block h-px w-6 bg-white/80" />
-                        <motion.span animate={mobileOpen ? { rotate: -45, y: -3.5 } : { rotate: 0, y: 0 }} transition={{ duration: 0.4, ease: EASE }} className="block h-px w-6 bg-white/80" />
+                        <motion.span
+                            animate={
+                                mobileOpen
+                                    ? {
+                                          rotate: 45,
+                                          y: 3.5,
+                                      }
+                                    : {
+                                          rotate: 0,
+                                          y: 0,
+                                      }
+                            }
+                            transition={{
+                                duration: 0.4,
+                                ease: EASE,
+                            }}
+                            className="block h-px w-6 bg-white/80"
+                        />
+
+                        <motion.span
+                            animate={
+                                mobileOpen
+                                    ? {
+                                          opacity: 0,
+                                          x: -6,
+                                      }
+                                    : {
+                                          opacity: 1,
+                                          x: 0,
+                                      }
+                            }
+                            transition={{
+                                duration: 0.25,
+                            }}
+                            className="block h-px w-6 bg-white/80"
+                        />
+
+                        <motion.span
+                            animate={
+                                mobileOpen
+                                    ? {
+                                          rotate: -45,
+                                          y: -3.5,
+                                      }
+                                    : {
+                                          rotate: 0,
+                                          y: 0,
+                                      }
+                            }
+                            transition={{
+                                duration: 0.4,
+                                ease: EASE,
+                            }}
+                            className="block h-px w-6 bg-white/80"
+                        />
                     </button>
                 </nav>
 
-                {/* Destinations panel (desktop) */}
+                {/* ========================================================
+                    DESKTOP DESTINATIONS PANEL
+                    ======================================================== */}
                 <AnimatePresence>
                     {panelOpen && (
                         <motion.div
                             ref={panelRef}
-                            initial={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={reduce ? { opacity: 0 } : { opacity: 0, y: -8 }}
-                            transition={{ duration: 0.45, ease: EASE }}
-                            className="absolute inset-x-0 top-full hidden border-t border-white/[0.06] bg-[rgba(5,14,34,0.97)] backdrop-blur-xl lg:block"
+                            initial={{
+                                opacity: 0,
+                                y: -8,
+                            }}
+                            animate={{
+                                opacity: 1,
+                                y: 0,
+                            }}
+                            exit={{
+                                opacity: 0,
+                                y: -8,
+                            }}
+                            transition={{
+                                duration: reduce ? 0 : 0.25,
+                                ease: EASE,
+                            }}
+                            className="
+                                absolute
+                                left-0
+                                right-0
+                                top-16
+                                z-40
+                                hidden
+                                border-t
+                                border-white/[0.06]
+                                bg-[rgba(5,14,34,0.98)]
+                                shadow-2xl
+                                backdrop-blur-xl
+                                lg:block
+                            "
                             onMouseEnter={openPanel}
+                            onMouseLeave={schedulePanelClose}
                         >
-                            <div className="mx-auto grid max-w-[1440px] grid-cols-4 gap-10 px-12 py-10">
-                                {DESTINATIONS.map((d) => (
+                            <div
+                                className="
+                                    mx-auto
+                                    grid
+                                    max-w-[1440px]
+                                    grid-cols-2
+                                    gap-8
+                                    px-8
+                                    py-8
+                                    lg:grid-cols-4
+                                    lg:px-12
+                                "
+                            >
+                                {DESTINATIONS?.map((destination, index) => (
                                     <Link
-                                        key={d.id}
-                                        to={d.route}
-                                        className="group/dest block"
-                                        onClick={() => setPanelOpen(false)}
+                                        key={
+                                            destination.id ||
+                                            destination.slug ||
+                                            destination.path ||
+                                            index
+                                        }
+                                        to={
+                                            destination.path ||
+                                            `/destination/${destination.slug || destination.id}`
+                                        }
+                                        className="
+                                            group
+                                            block
+                                            overflow-hidden
+                                            border
+                                            border-white/[0.08]
+                                            bg-white/[0.02]
+                                            transition-all
+                                            duration-300
+                                            hover:-translate-y-1
+                                            hover:border-gold/40
+                                            hover:bg-white/[0.04]
+                                        "
                                     >
-                                        <div className="relative mb-4 aspect-[4/3] overflow-hidden">
-                                            <img
-                                                src={d.image}
-                                                alt=""
-                                                aria-hidden="true"
-                                                loading="lazy"
-                                                decoding="async"
-                                                className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/dest:scale-[1.06]"
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/60 to-transparent" />
+                                        {destination.image && (
+                                            <div className="aspect-[16/9] overflow-hidden">
+                                                <img
+                                                    src={destination.image}
+                                                    alt={
+                                                        destination.name ||
+                                                        destination.title ||
+                                                        'Destination'
+                                                    }
+                                                    className="
+                                                        h-full
+                                                        w-full
+                                                        object-cover
+                                                        transition-transform
+                                                        duration-700
+                                                        group-hover:scale-105
+                                                    "
+                                                />
+                                            </div>
+                                        )}
+
+                                        <div className="p-4">
+                                            <h3
+                                                className="
+                                                    text-sm
+                                                    font-semibold
+                                                    uppercase
+                                                    tracking-[0.12em]
+                                                    text-white
+                                                "
+                                            >
+                                                {destination.name ||
+                                                    destination.title}
+                                            </h3>
+
+                                            {destination.description && (
+                                                <p
+                                                    className="
+                                                        mt-2
+                                                        line-clamp-2
+                                                        text-xs
+                                                        leading-relaxed
+                                                        text-white/45
+                                                    "
+                                                >
+                                                    {
+                                                        destination.description
+                                                    }
+                                                </p>
+                                            )}
                                         </div>
-                                        <div className="flex items-baseline justify-between">
-                                            <span className="font-display text-lg text-white transition-colors duration-300 group-hover/dest:text-gold">
-                                                {d.name}
-                                            </span>
-                                        </div>
-                                        <p className="mt-1 text-[11px] leading-relaxed text-white/35">{d.tagline}</p>
                                     </Link>
                                 ))}
                             </div>
@@ -240,49 +624,121 @@ export default function PremiumNav() {
                 </AnimatePresence>
             </header>
 
-            {/* Mobile full-screen menu */}
+            {/* ============================================================
+                MOBILE MENU
+
+                IMPORTANT:
+                This is the ONLY mobile scroll container.
+
+                No:
+                - body overflow hidden
+                - nested overflow-y-auto
+                - 100dvh
+                - touchAction
+                - overscrollBehavior
+                ============================================================ */}
             <AnimatePresence>
                 {mobileOpen && (
                     <motion.div
                         ref={mobileMenuRef}
-                        tabIndex={-1}
                         id="mobile-menu"
                         role="dialog"
                         aria-modal="true"
-                        aria-label="Menu"
-                        initial={reduce ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)' }}
-                        animate={reduce ? { opacity: 1 } : { clipPath: 'inset(0 0 0% 0)' }}
-                        exit={reduce ? { opacity: 0 } : { clipPath: 'inset(0 0 100% 0)' }}
-                        transition={{ duration: 0.6, ease: EASE }}
-                        className="fixed inset-0 z-40 flex flex-col bg-navy-deep lg:hidden"
+                        aria-label="Mobile navigation"
+                        tabIndex={-1}
+                        initial={{
+                            opacity: 0,
+                        }}
+                        animate={{
+                            opacity: 1,
+                        }}
+                        exit={{
+                            opacity: 0,
+                        }}
+                        transition={{
+                            duration: reduce ? 0 : 0.25,
+                        }}
+                        className="
+                            fixed
+                            inset-0
+                            z-40
+                            overflow-y-auto
+                            bg-navy-deep
+                            lg:hidden
+                        "
                     >
-                        <div className="flex-1 overflow-y-auto px-6 pb-10 pt-24 sm:px-10">
-                            <nav aria-label="Mobile" className="flex flex-col">
-                                {NAV_LINKS.map((link, i) => (
+                        {/* ==================================================
+                            MOBILE CONTENT
+
+                            The parent above handles scrolling.
+                            This content simply grows naturally.
+                            ================================================== */}
+                        <div className="min-h-screen px-6 pb-16 pt-24 sm:px-10">
+                            {/* MOBILE NAV LINKS */}
+                            <div className="space-y-1">
+                                {NAV_LINKS.map((link, index) => (
                                     <motion.div
                                         key={link.path}
-                                        initial={reduce ? { opacity: 0 } : { opacity: 0, x: -20 }}
-                                        animate={reduce ? { opacity: 1 } : { opacity: 1, x: 0 }}
-                                        transition={{ duration: 0.5, delay: 0.15 + i * 0.05, ease: EASE }}
-                                        className="border-b border-white/[0.07]"
+                                        initial={{
+                                            opacity: 0,
+                                            y: 12,
+                                        }}
+                                        animate={{
+                                            opacity: 1,
+                                            y: 0,
+                                        }}
+                                        transition={{
+                                            delay: reduce
+                                                ? 0
+                                                : index * 0.035,
+                                            duration: 0.35,
+                                            ease: EASE,
+                                        }}
                                     >
                                         <Link
                                             to={link.path}
-                                            onClick={() => setMobileOpen(false)}
-                                            className="flex items-baseline gap-4 py-4"
+                                            onClick={closeMobileMenu}
+                                            className="
+                                                flex
+                                                min-h-[54px]
+                                                items-center
+                                                border-b
+                                                border-white/[0.07]
+                                                text-xl
+                                                font-medium
+                                                tracking-[-0.01em]
+                                                text-white/90
+                                                transition-colors
+                                                duration-300
+                                                hover:text-gold
+                                            "
                                         >
-                                            <span className="font-display text-[28px] leading-none text-white/85 transition-colors duration-300 hover:text-white">
-                                                {link.label}
-                                            </span>
+                                            {link.label}
                                         </Link>
+
+                                        {/* MOBILE SERVICES CHILDREN */}
                                         {link.children && (
-                                            <div className="pl-10 pb-3">
+                                            <div className="border-b border-white/[0.07] pb-2">
                                                 {link.children.map((child) => (
                                                     <Link
                                                         key={child.path}
                                                         to={child.path}
-                                                        onClick={() => setMobileOpen(false)}
-                                                        className="block py-2 text-[13px] text-white/40 hover:text-white/70 transition-colors"
+                                                        onClick={
+                                                            closeMobileMenu
+                                                        }
+                                                        className="
+                                                            flex
+                                                            min-h-[44px]
+                                                            items-center
+                                                            pl-5
+                                                            text-sm
+                                                            font-medium
+                                                            tracking-wide
+                                                            text-white/45
+                                                            transition-colors
+                                                            duration-300
+                                                            hover:text-gold
+                                                        "
                                                     >
                                                         {child.label}
                                                     </Link>
@@ -291,69 +747,216 @@ export default function PremiumNav() {
                                         )}
                                     </motion.div>
                                 ))}
-                            </nav>
+                            </div>
 
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.5, delay: 0.5 }}
-                                className="mt-8 flex flex-wrap gap-2"
-                            >
-                                {HERO_CAPABILITIES.map((c) => (
-                                    <span key={c} className="border border-white/10 px-3 py-1.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-white/40">
-                                        {c}
-                                    </span>
-                                ))}
-                            </motion.div>
+                            {/* ==================================================
+                                MOBILE CAPABILITIES
+                                ================================================== */}
+                            {Array.isArray(HERO_CAPABILITIES) &&
+                                HERO_CAPABILITIES.length > 0 && (
+                                    <motion.div
+                                        initial={{
+                                            opacity: 0,
+                                            y: 15,
+                                        }}
+                                        animate={{
+                                            opacity: 1,
+                                            y: 0,
+                                        }}
+                                        transition={{
+                                            delay: reduce ? 0 : 0.25,
+                                            duration: 0.4,
+                                            ease: EASE,
+                                        }}
+                                        className="mt-10"
+                                    >
+                                        <p
+                                            className="
+                                                mb-4
+                                                text-[10px]
+                                                font-semibold
+                                                uppercase
+                                                tracking-[0.25em]
+                                                text-gold/80
+                                            "
+                                        >
+                                            Our Capabilities
+                                        </p>
 
+                                        <div className="grid grid-cols-1 gap-2">
+                                            {HERO_CAPABILITIES.map(
+                                                (capability, index) => (
+                                                    <div
+                                                        key={
+                                                            capability.id ||
+                                                            capability.title ||
+                                                            capability.name ||
+                                                            index
+                                                        }
+                                                        className="
+                                                            border
+                                                            border-white/[0.07]
+                                                            bg-white/[0.02]
+                                                            px-4
+                                                            py-3
+                                                        "
+                                                    >
+                                                        <p className="text-sm text-white/70">
+                                                            {capability.title ||
+                                                                capability.name ||
+                                                                capability.label ||
+                                                                capability}
+                                                        </p>
+                                                    </div>
+                                                )
+                                            )}
+                                        </div>
+                                    </motion.div>
+                                )}
+
+                            {/* ==================================================
+                                MOBILE LANGUAGE + THEME
+                                ================================================== */}
                             <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.5, delay: 0.55 }}
-                                className="mt-6"
+                                initial={{
+                                    opacity: 0,
+                                    y: 15,
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                }}
+                                transition={{
+                                    delay: reduce ? 0 : 0.3,
+                                    duration: 0.4,
+                                    ease: EASE,
+                                }}
+                                className="
+                                    mt-10
+                                    flex
+                                    flex-col
+                                    gap-4
+                                    border-t
+                                    border-white/[0.07]
+                                    pt-6
+                                "
                             >
                                 <LanguageSwitcher variant="mobile" />
-                            </motion.div>
 
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 0.5, delay: 0.6 }}
-                                className="mt-4"
-                            >
                                 <button
                                     type="button"
                                     onClick={toggleTheme}
-                                    className="flex items-center gap-3 text-white/50 text-sm"
+                                    className="
+                                        flex
+                                        min-h-[48px]
+                                        items-center
+                                        justify-between
+                                        border
+                                        border-white/[0.08]
+                                        px-4
+                                        text-left
+                                        text-sm
+                                        text-white/70
+                                        transition-colors
+                                        duration-300
+                                        hover:border-gold/40
+                                        hover:text-white
+                                    "
                                 >
-                                    <span className="text-lg">{theme === 'dark' ? '☀' : '☾'}</span>
-                                    <span className="text-[11px] font-semibold uppercase tracking-[0.18em]">
-                                        {theme === 'dark' ? 'Light mode' : 'Dark mode'}
+                                    <span>
+                                        {theme === 'dark'
+                                            ? 'Switch to light mode'
+                                            : 'Switch to dark mode'}
+                                    </span>
+
+                                    <span className="text-lg">
+                                        {theme === 'dark' ? '☀' : '☾'}
                                     </span>
                                 </button>
                             </motion.div>
 
+                            {/* ==================================================
+                                MOBILE CTA
+                                ================================================== */}
                             <motion.div
-                                initial={{ opacity: 0, y: 14 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: 0.6, ease: EASE }}
-                                className="mt-10 flex flex-col gap-3"
+                                initial={{
+                                    opacity: 0,
+                                    y: 15,
+                                }}
+                                animate={{
+                                    opacity: 1,
+                                    y: 0,
+                                }}
+                                transition={{
+                                    delay: reduce ? 0 : 0.35,
+                                    duration: 0.4,
+                                    ease: EASE,
+                                }}
+                                className="
+                                    mt-8
+                                    grid
+                                    grid-cols-1
+                                    gap-3
+                                    sm:grid-cols-2
+                                "
                             >
                                 <Link
                                     to="/request-quote"
-                                    onClick={() => setMobileOpen(false)}
-                                    className="bg-gold py-4 text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-navy-deep"
+                                    onClick={closeMobileMenu}
+                                    className="
+                                        flex
+                                        min-h-[52px]
+                                        items-center
+                                        justify-center
+                                        border
+                                        border-gold/50
+                                        bg-gold
+                                        px-5
+                                        text-center
+                                        text-[10px]
+                                        font-semibold
+                                        uppercase
+                                        tracking-[0.2em]
+                                        text-navy-deep
+                                        transition-all
+                                        duration-300
+                                        hover:bg-transparent
+                                        hover:text-gold
+                                    "
                                 >
                                     Request a Quote
                                 </Link>
+
                                 <Link
                                     to="/become-a-partner"
-                                    onClick={() => setMobileOpen(false)}
-                                    className="border border-white/15 py-4 text-center text-[11px] font-semibold uppercase tracking-[0.22em] text-white/70"
+                                    onClick={closeMobileMenu}
+                                    className="
+                                        flex
+                                        min-h-[52px]
+                                        items-center
+                                        justify-center
+                                        border
+                                        border-white/20
+                                        px-5
+                                        text-center
+                                        text-[10px]
+                                        font-semibold
+                                        uppercase
+                                        tracking-[0.2em]
+                                        text-white
+                                        transition-all
+                                        duration-300
+                                        hover:border-gold
+                                        hover:bg-gold
+                                        hover:text-navy-deep
+                                    "
                                 >
                                     Become a Partner
                                 </Link>
                             </motion.div>
+
+                            {/* Bottom breathing space */}
+                            <div className="h-8" />
                         </div>
                     </motion.div>
                 )}
