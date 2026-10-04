@@ -95,11 +95,15 @@ export default function PremiumNav() {
      * ================================================================
      * CLOSE MENUS ON ROUTE CHANGE
      * ================================================================
+     * Derived-reset pattern: reset during render instead of in an effect,
+     * so a route change never triggers a cascading effect render.
      */
-    useEffect(() => {
+    const [routeKey, setRouteKey] = useState(location.pathname);
+    if (routeKey !== location.pathname) {
+        setRouteKey(location.pathname);
         setPanelOpen(false);
         setMobileOpen(false);
-    }, [location.pathname]);
+    }
 
     /*
      * ================================================================
@@ -183,7 +187,7 @@ export default function PremiumNav() {
                     focus:fixed
                     focus:left-4
                     focus:top-4
-                    focus:z-[100]
+                    focus:z-[120]
                     focus:bg-gold
                     focus:px-4
                     focus:py-2
@@ -203,7 +207,7 @@ export default function PremiumNav() {
                     fixed
                     inset-x-0
                     top-0
-                    z-50
+                    z-[110]
                     transition-all
                     duration-500
                     ${
@@ -661,7 +665,7 @@ export default function PremiumNav() {
                         className="
                             fixed
                             inset-0
-                            z-40
+                            z-[100]
                             overflow-y-auto
                             bg-navy-deep
                             lg:hidden
