@@ -77,9 +77,9 @@ const TravelTrade = () => {
                                             <path d="M7 17L17 7M17 7H7M17 7V17" />
                                         </svg>
                                     </Link>
-                                    <Link to="/request-quote" className="btn btn--md btn--outline">
+                                    {/* <Link to="/request-quote" className="btn btn--md btn--outline">
                                         Request a Quote
-                                    </Link>
+                                    </Link> */}
                                 </div>
                             </Rise>
 
@@ -166,9 +166,9 @@ const TravelTrade = () => {
                                 We'll show you how we can support your growth.
                             </p>
                             <div className="flex flex-wrap justify-center gap-4">
-                                <Link to="/request-quote" className="btn btn--md btn--gold">
+                                {/* <Link to="/request-quote" className="btn btn--md btn--gold">
                                     Request a Quote
-                                </Link>
+                                </Link> */}
                                 <Link to="/become-a-partner" className="btn btn--md btn--outline">
                                     Become a Partner
                                 </Link>

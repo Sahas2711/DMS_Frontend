@@ -347,13 +347,13 @@ function TourDetail() {
                                         This sample can be tailored around dates, hotel tiers and travel style.
                                         Send us your brief and our specialists will design the itinerary.
                                     </p>
-                                    <Link
+                                    {/* <Link
                                         to={`/request-quote?trip_type=${tour.category}`}
                                         className="btn btn--md btn--gold"
                                     >
                                         Request a Quote
                                         <span aria-hidden="true">→</span>
-                                    </Link>
+                                    </Link> */}
                                 </motion.div>
                             </div>
 
@@ -410,13 +410,13 @@ function TourDetail() {
                                                 </div>
                                             )}
                                         </dl>
-                                        <Link
+                                        {/* <Link
                                             to={`/request-quote?trip_type=${tour.category}`}
                                             className="mt-6 w-full inline-flex items-center justify-center gap-2 bg-gold px-5 py-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-navy-deep transition-colors duration-300 hover:bg-gold-light"
                                         >
                                             Request a Quote
                                             <span aria-hidden="true">→</span>
-                                        </Link>
+                                        </Link> */}
                                     </motion.div>
                                 </div>
                             </div>

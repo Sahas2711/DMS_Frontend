@@ -135,10 +135,10 @@ function AdminLayout() {
             <aside className="hidden lg:flex flex-col w-64 shrink-0 bg-white border-r border-gray-100 sticky top-0 h-screen">
                 <Link to="/admin/dashboard" className="px-6 py-6 border-b border-gray-100 block">
                     <img
-                        src="/logo.jpeg"
+                        src="/logo-dark.svg"
                         alt="Asian Star Travel"
                         className="h-10 w-auto mb-2"
-                        width="108"
+                        width="102"
                         height="92"
                     />
                     <span className="text-navy font-serif text-xl font-bold">Asian Star Travel</span>
@@ -161,10 +161,10 @@ function AdminLayout() {
                         <div className="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                             <div>
                                 <img
-                                    src="/logo.jpeg"
+                                    src="/logo-dark.svg"
                                     alt="Asian Star Travel"
                                     className="h-8 w-auto mb-1"
-                                    width="86"
+                                    width="81"
                                     height="73"
                                 />
                                 <span className="text-navy font-serif text-lg font-bold">Asian Star Travel</span>

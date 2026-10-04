@@ -1,13 +1,10 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-
 import { DESTINATIONS, HERO_CAPABILITIES } from '../../pages/homeContent';
 import LanguageSwitcher from '../ui/LanguageSwitcher';
 import { useTheme } from '../../context/ThemeContext';
-
 const EASE = [0.16, 1, 0.3, 1];
-
 const NAV_LINKS = [
     {
         label: 'Home',
@@ -49,48 +46,16 @@ const NAV_LINKS = [
         path: '/blog',
     },
 ];
-
 export default function PremiumNav() {
     const reduce = useReducedMotion();
     const location = useLocation();
     const { theme, toggleTheme } = useTheme();
-
     const [panelOpen, setPanelOpen] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
-    const [scrolled, setScrolled] = useState(false);
-
     const closeTimer = useRef(null);
     const menuButtonRef = useRef(null);
     const panelRef = useRef(null);
     const mobileMenuRef = useRef(null);
-
-    /*
-     * ================================================================
-     * NAVBAR SCROLL
-     * ================================================================
-     *
-     * Top:
-     *   transparent + dark logo
-     *
-     * After 30px:
-     *   solid navy + light logo
-     */
-    useEffect(() => {
-        const handleScroll = () => {
-            setScrolled(window.scrollY > 30);
-        };
-
-        handleScroll();
-
-        window.addEventListener('scroll', handleScroll, {
-            passive: true,
-        });
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
-
     /*
      * ================================================================
      * CLOSE MENUS ON ROUTE CHANGE
@@ -104,7 +69,6 @@ export default function PremiumNav() {
         setPanelOpen(false);
         setMobileOpen(false);
     }
-
     /*
      * ================================================================
      * ESCAPE KEY
@@ -112,24 +76,19 @@ export default function PremiumNav() {
      */
     useEffect(() => {
         if (!mobileOpen) return undefined;
-
         const handleKeyDown = (event) => {
             if (event.key === 'Escape') {
                 setMobileOpen(false);
-
                 window.setTimeout(() => {
                     menuButtonRef.current?.focus();
                 }, 0);
             }
         };
-
         document.addEventListener('keydown', handleKeyDown);
-
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, [mobileOpen]);
-
     /*
      * ================================================================
      * DESTINATION PANEL
@@ -139,28 +98,23 @@ export default function PremiumNav() {
         window.clearTimeout(closeTimer.current);
         setPanelOpen(true);
     }, []);
-
     const schedulePanelClose = useCallback(() => {
         window.clearTimeout(closeTimer.current);
-
         closeTimer.current = window.setTimeout(() => {
             setPanelOpen(false);
         }, 120);
     }, []);
-
     useEffect(() => {
         return () => {
             window.clearTimeout(closeTimer.current);
         };
     }, []);
-
     const panelLinkProps = {
         onMouseEnter: openPanel,
         onFocus: openPanel,
         onMouseLeave: schedulePanelClose,
         onBlur: schedulePanelClose,
     };
-
     /*
      * ================================================================
      * MOBILE MENU TOGGLE
@@ -169,11 +123,9 @@ export default function PremiumNav() {
     const toggleMobileMenu = () => {
         setMobileOpen((current) => !current);
     };
-
     const closeMobileMenu = () => {
         setMobileOpen(false);
     };
-
     return (
         <>
             {/* ========================================================
@@ -198,24 +150,21 @@ export default function PremiumNav() {
             >
                 Skip to content
             </a>
-
             {/* ========================================================
                 NAVBAR
                 ======================================================== */}
             <header
-                className={`
+                className="
                     fixed
                     inset-x-0
                     top-0
                     z-[110]
                     transition-all
                     duration-500
-                    ${
-                        scrolled || mobileOpen
-                            ? 'bg-[rgba(5,14,34,0.96)] shadow-[0_1px_0_rgba(197,168,105,0.12)] backdrop-blur-md'
-                            : 'bg-transparent'
-                    }
-                `}
+                    bg-[linear-gradient(90deg,rgb(14,28,55)_0%,rgb(27,42,71)_100%)]
+                    shadow-[0_1px_0_rgba(197,168,105,0.12)]
+                    backdrop-blur-md
+                "
                 onMouseLeave={schedulePanelClose}
             >
                 <nav
@@ -242,11 +191,7 @@ export default function PremiumNav() {
                         onClick={closeMobileMenu}
                     >
                         <img
-                            src={
-                                scrolled || mobileOpen
-                                    ? '/logo-light.svg'
-                                    : '/logo-dark.svg'
-                            }
+                            src="/logo-on-dark.svg"
                             alt="Asian Star Travel"
                             className="
                                 h-10
@@ -258,10 +203,9 @@ export default function PremiumNav() {
                                 group-hover:scale-105
                             "
                             width="120"
-                            height="80"
+                            height="101"
                         />
                     </Link>
-
                     {/* ==================================================
                         DESKTOP NAVIGATION
                         ================================================== */}
@@ -301,7 +245,6 @@ export default function PremiumNav() {
                                 >
                                     {link.label}
                                 </Link>
-
                                 {/* SERVICES DROPDOWN */}
                                 {link.children && (
                                     <div className="absolute left-0 top-full z-50 hidden pt-2 group-hover:block">
@@ -343,13 +286,11 @@ export default function PremiumNav() {
                             </div>
                         ))}
                     </div>
-
                     {/* ==================================================
                         DESKTOP ACTIONS
                         ================================================== */}
                     <div className="hidden items-center gap-5 lg:flex">
                         <LanguageSwitcher variant="desktop" />
-
                         <button
                             type="button"
                             onClick={toggleTheme}
@@ -362,8 +303,7 @@ export default function PremiumNav() {
                         >
                             {theme === 'dark' ? '☀' : '☾'}
                         </button>
-
-                        <Link
+{/*                         <Link
                             to="/request-quote"
                             className="
                                 link-underline
@@ -379,8 +319,7 @@ export default function PremiumNav() {
                             "
                         >
                             Request a Quote
-                        </Link>
-
+                        </Link> */}
                         <Link
                             to="/become-a-partner"
                             className="
@@ -403,7 +342,6 @@ export default function PremiumNav() {
                             Become a Partner
                         </Link>
                     </div>
-
                     {/* ==================================================
                         MOBILE HAMBURGER
                         ================================================== */}
@@ -450,7 +388,6 @@ export default function PremiumNav() {
                             }}
                             className="block h-px w-6 bg-white/80"
                         />
-
                         <motion.span
                             animate={
                                 mobileOpen
@@ -468,7 +405,6 @@ export default function PremiumNav() {
                             }}
                             className="block h-px w-6 bg-white/80"
                         />
-
                         <motion.span
                             animate={
                                 mobileOpen
@@ -489,7 +425,6 @@ export default function PremiumNav() {
                         />
                     </button>
                 </nav>
-
                 {/* ========================================================
                     DESKTOP DESTINATIONS PANEL
                     ======================================================== */}
@@ -552,7 +487,7 @@ export default function PremiumNav() {
                                             index
                                         }
                                         to={
-                                            destination.path ||
+                                            destination.route ||
                                             `/destination/${destination.slug || destination.id}`
                                         }
                                         className="
@@ -589,7 +524,6 @@ export default function PremiumNav() {
                                                 />
                                             </div>
                                         )}
-
                                         <div className="p-4">
                                             <h3
                                                 className="
@@ -603,7 +537,6 @@ export default function PremiumNav() {
                                                 {destination.name ||
                                                     destination.title}
                                             </h3>
-
                                             {destination.description && (
                                                 <p
                                                     className="
@@ -627,13 +560,20 @@ export default function PremiumNav() {
                     )}
                 </AnimatePresence>
             </header>
-
+        {/* ============================================================
+            FIXED NAVBAR SPACER
+            ------------------------------------------------------------
+            Keeps the navbar fixed while reserving its 64px height
+            so each page's hero starts below the navbar.
+            ============================================================ */}
+        <div
+            aria-hidden="true"
+            className="h-16 w-full shrink-0"
+        />
             {/* ============================================================
                 MOBILE MENU
-
                 IMPORTANT:
                 This is the ONLY mobile scroll container.
-
                 No:
                 - body overflow hidden
                 - nested overflow-y-auto
@@ -673,7 +613,6 @@ export default function PremiumNav() {
                     >
                         {/* ==================================================
                             MOBILE CONTENT
-
                             The parent above handles scrolling.
                             This content simply grows naturally.
                             ================================================== */}
@@ -719,7 +658,6 @@ export default function PremiumNav() {
                                         >
                                             {link.label}
                                         </Link>
-
                                         {/* MOBILE SERVICES CHILDREN */}
                                         {link.children && (
                                             <div className="border-b border-white/[0.07] pb-2">
@@ -752,7 +690,6 @@ export default function PremiumNav() {
                                     </motion.div>
                                 ))}
                             </div>
-
                             {/* ==================================================
                                 MOBILE CAPABILITIES
                                 ================================================== */}
@@ -786,7 +723,6 @@ export default function PremiumNav() {
                                         >
                                             Our Capabilities
                                         </p>
-
                                         <div className="grid grid-cols-1 gap-2">
                                             {HERO_CAPABILITIES.map(
                                                 (capability, index) => (
@@ -817,7 +753,6 @@ export default function PremiumNav() {
                                         </div>
                                     </motion.div>
                                 )}
-
                             {/* ==================================================
                                 MOBILE LANGUAGE + THEME
                                 ================================================== */}
@@ -846,7 +781,6 @@ export default function PremiumNav() {
                                 "
                             >
                                 <LanguageSwitcher variant="mobile" />
-
                                 <button
                                     type="button"
                                     onClick={toggleTheme}
@@ -872,13 +806,11 @@ export default function PremiumNav() {
                                             ? 'Switch to light mode'
                                             : 'Switch to dark mode'}
                                     </span>
-
                                     <span className="text-lg">
                                         {theme === 'dark' ? '☀' : '☾'}
                                     </span>
                                 </button>
                             </motion.div>
-
                             {/* ==================================================
                                 MOBILE CTA
                                 ================================================== */}
@@ -904,7 +836,7 @@ export default function PremiumNav() {
                                     sm:grid-cols-2
                                 "
                             >
-                                <Link
+{/*                                 <Link
                                     to="/request-quote"
                                     onClick={closeMobileMenu}
                                     className="
@@ -929,8 +861,7 @@ export default function PremiumNav() {
                                     "
                                 >
                                     Request a Quote
-                                </Link>
-
+                                </Link> */}
                                 <Link
                                     to="/become-a-partner"
                                     onClick={closeMobileMenu}
@@ -958,7 +889,6 @@ export default function PremiumNav() {
                                     Become a Partner
                                 </Link>
                             </motion.div>
-
                             {/* Bottom breathing space */}
                             <div className="h-8" />
                         </div>

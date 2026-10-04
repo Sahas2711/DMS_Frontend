@@ -7,6 +7,7 @@ const tailorMadeImg = '/images/aboutus/Tailor-Made-Tours.webp';
 const privateTransfersImg = '/images/aboutus/Private-Transfers.webp';
 const groundServicesImg = '/images/aboutus/Ground-Services.webp';
 const regionalReachImg = '/images/home/India-hero-image.webp';
+const travelCTAImg = '/images/aboutus/LAnding_page_2.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
@@ -93,85 +94,358 @@ const Aboutus = () => (
             <PageHero image={heroImage} alt="" title="About Us" eyebrow="The ground partner behind Asia" uppercase />
 
             {/* ── Chapter 01 — Who We Are: editorial split ── */}
-            <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
-                <div className="max-w-[1400px] mx-auto">
-                    <Rise className="max-w-3xl mb-16 lg:mb-20">
-                        <p className="eyebrow mb-5">Who We Are</p>
-                        <h2 className="font-display text-[clamp(2.2rem,5vw,4rem)] leading-[0.95] tracking-[-0.03em] text-[var(--color-navy)] mb-8">
-                            A B2B destination management company,{' '}
-                            <span className="italic text-[var(--color-gold)]">built around the ground.</span>
-                        </h2>
-                        <p className="font-body text-[var(--color-text-secondary)] text-base sm:text-lg leading-relaxed">
-                            Private journeys and reliable ground services across India, Vietnam, Japan and South Korea.
-                        </p>
-                    </Rise>
+         <section
+    className="
+        w-full
+        bg-[var(--color-ivory)]
+        px-5
+        py-14
+        sm:px-8
+        sm:py-18
+        lg:px-12
+        lg:py-20
+    "
+>
+    <div className="mx-auto max-w-[1400px]">
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-                        <div className="lg:col-span-6">
-                            <RevealImage
-                                src={aboutSectionImg}
-                                alt="Asian Star Travel operations"
-                                className="w-full max-w-[560px] shadow-2xl"
-                                imgClassName="aspect-[4/3] md:aspect-[16/11]"
+        {/* ═══════════════════════════════════════════════════════════
+            INTRO
+        ═══════════════════════════════════════════════════════════ */}
+
+        <Rise className="mb-10 lg:mb-12">
+
+            <p className="eyebrow mb-4">
+                Who We Are
+            </p>
+
+            <h2
+                className="
+                    mb-6
+                    max-w-[1150px]
+                    font-display
+                    text-[clamp(2.2rem,4.5vw,4rem)]
+                    leading-[0.95]
+                    tracking-[-0.03em]
+                    text-[var(--color-navy)]
+                "
+            >
+                A B2B destination management company,{' '}
+                <span className="italic text-[var(--color-gold)]">
+                    built around the ground.
+                </span>
+            </h2>
+
+            <p
+                className="
+                    max-w-3xl
+                    font-body
+                    text-base
+                    leading-relaxed
+                    text-[var(--color-text-secondary)]
+                    sm:text-lg
+                "
+            >
+                Private journeys and reliable ground services across India,
+                Vietnam, Japan and South Korea.
+            </p>
+
+        </Rise>
+
+
+        {/* ═══════════════════════════════════════════════════════════
+            IMAGE + OPERATIONS INFO
+        ═══════════════════════════════════════════════════════════ */}
+
+        <div
+            className="
+                grid
+                grid-cols-1
+                items-center
+                gap-8
+                lg:grid-cols-12
+                lg:gap-12
+            "
+        >
+
+            {/* ───────────────────────────────────────────────────────
+                IMAGE
+            ─────────────────────────────────────────────────────── */}
+
+            <div className="lg:col-span-6">
+
+                <RevealImage
+                    src={aboutSectionImg}
+                    alt="Asian Star Travel operations"
+                    className="
+                        w-full
+                        max-w-[560px]
+                        shadow-xl
+                    "
+                    imgClassName="
+                        aspect-[4/3]
+                        md:aspect-[16/11]
+                    "
+                >
+
+                    <div
+                        className="
+                            absolute
+                            bottom-4
+                            left-4
+                            right-4
+                            flex
+                            items-center
+                            justify-between
+                            gap-3
+                            bg-[var(--color-warm-white)]/95
+                            p-4
+                            shadow-lg
+                            backdrop-blur-md
+                            sm:bottom-6
+                            sm:left-6
+                            sm:right-6
+                        "
+                    >
+
+                        <div className="min-w-0">
+
+                            <span
+                                className="
+                                    mb-1
+                                    block
+                                    text-[9px]
+                                    font-semibold
+                                    uppercase
+                                    tracking-[0.2em]
+                                    text-[var(--color-bronze)]
+                                    sm:text-[10px]
+                                "
                             >
-                                <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 bg-[var(--color-warm-white)]/95 backdrop-blur-md p-4 shadow-lg flex items-center justify-between gap-3">
-                                    <div className="min-w-0">
-                                        <span className="text-[9px] sm:text-[10px] font-semibold text-[var(--color-bronze)] tracking-[0.2em] uppercase block">
-                                            LOCAL GROUND MANAGEMENT
-                                        </span>
-                                        <span className="text-xs sm:text-sm font-medium text-[var(--color-navy)] truncate block">
-                                            Handling every detail on the ground
-                                        </span>
-                                    </div>
-                                    <span className="hidden sm:grid place-items-center w-10 h-10 rounded-full bg-[var(--color-champagne)] shrink-0" aria-hidden="true">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5 text-[var(--color-bronze)]">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" />
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="m14.828 9.172-2.121 5.656L7.05 16.95l2.122-5.657 5.656-2.121Z" />
-                                        </svg>
-                                    </span>
-                                </div>
-                            </RevealImage>
+                                LOCAL GROUND MANAGEMENT
+                            </span>
+
+                            <span
+                                className="
+                                    block
+                                    truncate
+                                    text-xs
+                                    font-medium
+                                    text-[var(--color-navy)]
+                                    sm:text-sm
+                                "
+                            >
+                                Handling every detail on the ground
+                            </span>
+
                         </div>
 
-                        <Rise delay={0.12} className="lg:col-span-6 lg:pl-4">
-                            <p className="font-body text-[var(--color-text-secondary)] text-base leading-relaxed mb-8 max-w-lg">
-                                One trade desk, local teams in every destination — handling every detail from inquiry to departure.
-                            </p>
 
-                            <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-6 pt-8 border-t border-[var(--color-border-subtle)]">
-                                <div>
-                                    <span className="text-[10px] font-semibold tracking-[0.2em] text-[var(--color-text-muted)] uppercase block mb-1.5">
-                                        HQ OPERATIONS
-                                    </span>
-                                    <span className="text-sm font-medium text-[var(--color-navy)]">Ho Chi Minh City</span>
-                                </div>
-                                <div>
-                                    <span className="text-[10px] font-semibold tracking-[0.2em] text-[var(--color-text-muted)] uppercase block mb-1.5">
-                                        SCOPE
-                                    </span>
-                                    <span className="text-sm font-medium text-[var(--color-navy)]">Nationwide Ground Coverage</span>
-                                </div>
-                                <div>
-                                    <span className="text-[10px] font-semibold tracking-[0.2em] text-[var(--color-text-muted)] uppercase block mb-1.5">
-                                        LICENSE
-                                    </span>
-                                    <span className="text-sm font-medium text-[var(--color-navy)]">Official Tour Operator</span>
-                                </div>
-                            </div>
+                        <span
+                            className="
+                                hidden
+                                h-10
+                                w-10
+                                shrink-0
+                                place-items-center
+                                rounded-full
+                                bg-[var(--color-champagne)]
+                                sm:grid
+                            "
+                            aria-hidden="true"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                className="h-5 w-5 text-[var(--color-bronze)]"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z"
+                                />
 
-                            <div className="flex flex-wrap items-center gap-5 mt-10">
-                                <Link to="/contact" className="btn btn--md btn--navy">
-                                    Plan Your Trip
-                                </Link>
-                                <a href="#our-story" className="link-premium">
-                                    Read Our Story
-                                    <span className="link-arrow" aria-hidden="true">→</span>
-                                </a>
-                            </div>
-                        </Rise>
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="m14.828 9.172-2.121 5.656L7.05 16.95l2.122-5.657 5.656-2.121Z"
+                                />
+                            </svg>
+                        </span>
+
                     </div>
+
+                </RevealImage>
+
+            </div>
+
+
+            {/* ───────────────────────────────────────────────────────
+                OPERATIONS CONTENT
+            ─────────────────────────────────────────────────────── */}
+
+            <Rise
+                delay={0.12}
+                className="
+                    lg:col-span-6
+                    lg:pl-4
+                "
+            >
+
+                <p
+                    className="
+                        mb-6
+                        max-w-lg
+                        font-body
+                        text-base
+                        leading-relaxed
+                        text-[var(--color-text-secondary)]
+                    "
+                >
+                    One trade desk, local teams in every destination —
+                    handling every detail from inquiry to departure.
+                </p>
+
+
+                {/* Details */}
+                <div
+                    className="
+                        grid
+                        w-full
+                        grid-cols-1
+                        gap-5
+                        border-t
+                        border-[var(--color-border-subtle)]
+                        pt-6
+                        sm:grid-cols-3
+                    "
+                >
+
+                    <div>
+                        <span
+                            className="
+                                mb-1.5
+                                block
+                                text-[10px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.2em]
+                                text-[var(--color-text-muted)]
+                            "
+                        >
+                            HQ OPERATIONS
+                        </span>
+
+                        <span
+                            className="
+                                text-sm
+                                font-medium
+                                text-[var(--color-navy)]
+                            "
+                        >
+                            Ho Chi Minh City
+                        </span>
+                    </div>
+
+
+                    <div>
+                        <span
+                            className="
+                                mb-1.5
+                                block
+                                text-[10px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.2em]
+                                text-[var(--color-text-muted)]
+                            "
+                        >
+                            SCOPE
+                        </span>
+
+                        <span
+                            className="
+                                text-sm
+                                font-medium
+                                text-[var(--color-navy)]
+                            "
+                        >
+                            Nationwide Ground Coverage
+                        </span>
+                    </div>
+
+
+                    <div>
+                        <span
+                            className="
+                                mb-1.5
+                                block
+                                text-[10px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.2em]
+                                text-[var(--color-text-muted)]
+                            "
+                        >
+                            LICENSE
+                        </span>
+
+                        <span
+                            className="
+                                text-sm
+                                font-medium
+                                text-[var(--color-navy)]
+                            "
+                        >
+                            Official Tour Operator
+                        </span>
+                    </div>
+
                 </div>
-            </section>
+
+
+                {/* Actions */}
+                <div
+                    className="
+                        mt-7
+                        flex
+                        flex-wrap
+                        items-center
+                        gap-5
+                    "
+                >
+
+                    <Link
+                        to="/contact"
+                        className="btn btn--md btn--navy"
+                    >
+                        Plan Your Trip
+                    </Link>
+
+                    <a
+                        href="#our-story"
+                        className="link-premium"
+                    >
+                        Read Our Story
+
+                        <span
+                            className="link-arrow"
+                            aria-hidden="true"
+                        >
+                            →
+                        </span>
+                    </a>
+
+                </div>
+
+            </Rise>
+
+        </div>
+
+    </div>
+</section>
 
             {/* ── Chapter 02 — Our Story: inverted split with quote ── */}
             <section id="our-story" className="w-full bg-white py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12 scroll-mt-24">
@@ -338,26 +612,102 @@ const Aboutus = () => (
             </section>
 
             {/* ── Closing CTA ── */}
-            <section className="w-full bg-[var(--color-cream)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
-                <div className="max-w-[1400px] mx-auto text-center">
-                    <Rise>
-                        <h2 className="font-display text-[clamp(1.9rem,4.5vw,3.2rem)] leading-[0.98] tracking-[-0.02em] text-[var(--color-navy)] mb-6">
-                            Planning journeys across Asia?
-                        </h2>
-                        <p className="font-body text-[var(--color-text-secondary)] text-base mb-10 max-w-lg mx-auto leading-relaxed">
-                            Talk to our destination specialists about FIT, groups, MICE and tailor-made programmes.
-                        </p>
-                        <div className="flex flex-wrap justify-center gap-4">
-                            <Link to="/request-quote" className="btn btn--md btn--gold">
-                                Request a Quote
-                            </Link>
-                            <Link to="/become-a-partner" className="btn btn--md btn--outline">
-                                Become a Partner
-                            </Link>
-                        </div>
-                    </Rise>
-                </div>
-            </section>
+         <section
+    className="
+        relative
+        w-full
+        overflow-hidden
+        bg-[var(--color-navy)]
+        bg-cover
+        bg-center
+        bg-no-repeat
+        px-5
+        py-20
+        sm:px-8
+        sm:py-28
+        lg:px-12
+        lg:py-36
+    "
+    style={{
+        backgroundImage: `url(${travelCTAImg})`,
+    }}
+>
+    {/* Dark overlay for text readability */}
+    <div
+        aria-hidden="true"
+        className="
+            absolute
+            inset-0
+            bg-[var(--color-navy)]/55
+        "
+    />
+
+    {/* Content */}
+    <div className="relative z-10 mx-auto max-w-[1400px] text-center">
+        <Rise>
+
+            <h2
+                className="
+                    mb-6
+                    font-display
+                    text-[clamp(1.9rem,4.5vw,3.2rem)]
+                    leading-[0.98]
+                    tracking-[-0.02em]
+                    text-white
+                "
+            >
+                Planning journeys across Asia?
+            </h2>
+
+            <p
+                className="
+                    mx-auto
+                    mb-10
+                    max-w-lg
+                    font-body
+                    text-base
+                    leading-relaxed
+                    text-white/80
+                "
+            >
+                Talk to our destination specialists about FIT, groups,
+                MICE and tailor-made programmes.
+            </p>
+
+            <div className="flex flex-wrap justify-center gap-4">
+                {/* 
+                <Link
+                    to="/request-quote"
+                    className="btn btn--md btn--gold"
+                >
+                    Request a Quote
+                </Link>
+                */}
+
+                <Link
+                    to="/become-a-partner"
+                    className="
+                        btn
+                        btn--md
+                        border
+                        border-white/60
+                        bg-white/10
+                        text-white
+                        backdrop-blur-sm
+                        transition-all
+                        duration-300
+                        hover:border-white
+                        hover:bg-white
+                        hover:text-[var(--color-navy)]
+                    "
+                >
+                    Become a Partner
+                </Link>
+            </div>
+
+        </Rise>
+    </div>
+</section>
         </div>
     </PageTransition>
 );

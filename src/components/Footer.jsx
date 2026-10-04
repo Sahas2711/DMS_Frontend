@@ -19,7 +19,7 @@ const COMPANY_LINKS = [
 
 const PARTNER_LINKS = [
     { label: 'Become a Partner', path: '/become-a-partner' },
-    { label: 'Request a Quote', path: '/request-quote' },
+    // { label: 'Request a Quote', path: '/request-quote' },
     { label: 'Travel Trade', path: '/travel-trade' },
     { label: 'Privacy Policy', path: '/privacy-policy' },
     { label: 'Terms of Use', path: '/terms' },
@@ -28,6 +28,7 @@ const PARTNER_LINKS = [
 
 export default function Footer() {
     const year = new Date().getFullYear();
+
     const socials = [
         { label: 'Facebook', href: SITE.social.facebook },
         { label: 'Instagram', href: SITE.social.instagram },
@@ -35,14 +36,25 @@ export default function Footer() {
 
     return (
         <footer className="relative overflow-hidden bg-navy-deep text-white">
-            <div aria-hidden="true" className="h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent" />
+            {/* Top divider */}
+            <div
+                aria-hidden="true"
+                className="h-px bg-gradient-to-r from-transparent via-gold/25 to-transparent"
+            />
 
             <div className="mx-auto max-w-[1500px] px-5 py-16 sm:px-8 lg:px-12 lg:py-20">
-                {/* Masthead row */}
+
+                {/* ============================================================
+                    MASTHEAD
+                ============================================================ */}
                 <div className="mb-14 flex flex-col gap-8 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
+
+                    {/* Logo + Main statement */}
                     <div className="flex items-start gap-5">
+
+                        {/* Logo */}
                         <img
-                            src="/logo.jpeg"
+                            src="/logo-on-dark.svg"
                             alt="Asian Star Travel"
                             className="h-14 w-auto shrink-0 self-start"
                             width="148"
@@ -50,105 +62,261 @@ export default function Footer() {
                             loading="lazy"
                             decoding="async"
                         />
+
                         <div>
+                            {/* Brand label */}
                             <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold/60">
                                 Asian Star Travel
                             </p>
-                            <p className="max-w-md font-display text-[clamp(1.6rem,3vw,2.4rem)] leading-[1.1] tracking-[-0.01em] text-white/90">
-                                The ground partner behind journeys across&nbsp;
-                                <span className="text-gold">India, Vietnam, Japan&nbsp;&amp;&nbsp;South&nbsp;Korea.</span>
+
+                            {/* Main statement */}
+                            <p
+                                className="
+                                    max-w-[950px]
+                                    font-display
+                                    text-[clamp(1.5rem,2.5vw,2.25rem)]
+                                    leading-[1.12]
+                                    tracking-[-0.015em]
+                                    text-white/90
+                                "
+                            >
+                                The ground partner behind journeys across
+                                <br className="hidden sm:block" />
+
+                                <span className="text-gold">
+                                    {' '}India, Vietnam, Japan &amp; South Korea.
+                                </span>
                             </p>
                         </div>
                     </div>
+
+                    {/* Become a Partner */}
                     <div className="flex items-center gap-3">
                         <Link
-                            to="/request-quote"
-                            className="bg-gold px-6 py-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-navy-deep transition-colors duration-300 hover:bg-gold-light"
-                        >
-                            Request a Quote
-                        </Link>
-                        <Link
                             to="/become-a-partner"
-                            className="border border-white/20 px-6 py-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70 transition-colors duration-300 hover:border-white/50 hover:text-white"
+                            className="
+                                border
+                                border-white/20
+                                px-6
+                                py-3
+                                text-[10px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.22em]
+                                text-white/70
+                                transition-colors
+                                duration-300
+                                hover:border-white/50
+                                hover:text-white
+                            "
                         >
                             Become a Partner
                         </Link>
                     </div>
                 </div>
 
-                {/* Link columns */}
-                <div className="grid grid-cols-2 gap-10 border-t border-white/[0.06] pt-12 sm:grid-cols-3 lg:grid-cols-6">
+                {/* ============================================================
+                    LINK COLUMNS
+                ============================================================ */}
+                <div
+                    className="
+                        grid
+                        grid-cols-2
+                        gap-10
+                        border-t
+                        border-white/[0.06]
+                        pt-12
+                        sm:grid-cols-3
+                        lg:grid-cols-6
+                    "
+                >
+
+                    {/* Destinations */}
                     <div>
-                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4
+                            className="
+                                mb-5
+                                text-[11px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.25em]
+                                text-white/35
+                            "
+                        >
                             Destinations
                         </h4>
+
                         <ul className="space-y-3">
                             {DESTINATION_LINKS.map((l) => (
                                 <li key={l.path}>
-                                    <Link to={l.path} className="text-sm text-white/45 transition-colors duration-300 hover:text-gold">
+                                    <Link
+                                        to={l.path}
+                                        className="
+                                            text-sm
+                                            text-white/45
+                                            transition-colors
+                                            duration-300
+                                            hover:text-gold
+                                        "
+                                    >
                                         {l.label}
                                     </Link>
                                 </li>
                             ))}
                         </ul>
                     </div>
+
+                    {/* Company */}
                     <div>
-                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4
+                            className="
+                                mb-5
+                                text-[11px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.25em]
+                                text-white/35
+                            "
+                        >
                             Company
                         </h4>
+
                         <ul className="space-y-3">
                             {COMPANY_LINKS.map((l) => (
                                 <li key={l.path}>
-                                    <Link to={l.path} className="text-sm text-white/45 transition-colors duration-300 hover:text-gold">
+                                    <Link
+                                        to={l.path}
+                                        className="
+                                            text-sm
+                                            text-white/45
+                                            transition-colors
+                                            duration-300
+                                            hover:text-gold
+                                        "
+                                    >
                                         {l.label}
                                     </Link>
                                 </li>
                             ))}
                         </ul>
                     </div>
+
+                    {/* Partners */}
                     <div>
-                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4
+                            className="
+                                mb-5
+                                text-[11px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.25em]
+                                text-white/35
+                            "
+                        >
                             For Partners
                         </h4>
+
                         <ul className="space-y-3">
                             {PARTNER_LINKS.map((l) => (
                                 <li key={l.path}>
-                                    <Link to={l.path} className="text-sm text-white/45 transition-colors duration-300 hover:text-gold">
+                                    <Link
+                                        to={l.path}
+                                        className="
+                                            text-sm
+                                            text-white/45
+                                            transition-colors
+                                            duration-300
+                                            hover:text-gold
+                                        "
+                                    >
                                         {l.label}
                                     </Link>
                                 </li>
                             ))}
                         </ul>
                     </div>
+
+                    {/* Contact */}
                     <div>
-                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4
+                            className="
+                                mb-5
+                                text-[11px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.25em]
+                                text-white/35
+                            "
+                        >
                             Contact
                         </h4>
-                        <ul className="space-y-3 text-sm text-white/45">
+
+                        <ul className="space-y-3 text-sm text-white/70">
                             {SITE.teamContacts.map((t) => (
                                 <li key={t.email}>
-                                    <a href={`mailto:${t.email}`} className="transition-colors duration-300 hover:text-gold">
+                                    <a
+                                        href={`mailto:${t.email}`}
+                                        className="
+                                            block
+                                            break-all
+                                            transition-colors
+                                            duration-300
+                                            hover:text-gold
+                                        "
+                                    >
                                         {t.email}
                                     </a>
                                 </li>
                             ))}
                         </ul>
                     </div>
+
+                    {/* Offices */}
                     <div>
-                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4
+                            className="
+                                mb-5
+                                text-[11px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.25em]
+                                text-white/35
+                            "
+                        >
                             Offices
                         </h4>
+
                         <ul className="space-y-3 text-sm text-white/45">
-                            <li className="leading-relaxed">{SITE.registeredAddress}</li>
+                            <li className="leading-relaxed">
+                                {SITE.registeredAddress}
+                            </li>
+
                             {SITE.vietnamOffices.map((addr) => (
-                                <li key={addr} className="leading-relaxed">{addr}</li>
+                                <li
+                                    key={addr}
+                                    className="leading-relaxed"
+                                >
+                                    {addr}
+                                </li>
                             ))}
                         </ul>
                     </div>
+
+                    {/* Social */}
                     <div>
-                        <h4 className="mb-5 text-[11px] font-semibold uppercase tracking-[0.25em] text-white/35">
+                        <h4
+                            className="
+                                mb-5
+                                text-[11px]
+                                font-semibold
+                                uppercase
+                                tracking-[0.25em]
+                                text-white/35
+                            "
+                        >
                             Follow
                         </h4>
+
                         <div className="flex items-center gap-3">
                             {socials.map((s) => (
                                 <a
@@ -157,7 +325,23 @@ export default function Footer() {
                                     target="_blank"
                                     rel="noreferrer"
                                     aria-label={s.label}
-                                    className="grid h-11 w-11 place-items-center border border-white/10 text-[9px] font-semibold uppercase tracking-wider text-white/40 transition-colors duration-300 hover:border-gold/40 hover:text-gold"
+                                    className="
+                                        grid
+                                        h-11
+                                        w-11
+                                        place-items-center
+                                        border
+                                        border-white/10
+                                        text-[9px]
+                                        font-semibold
+                                        uppercase
+                                        tracking-wider
+                                        text-white/40
+                                        transition-colors
+                                        duration-300
+                                        hover:border-gold/40
+                                        hover:text-gold
+                                    "
                                 >
                                     {s.label[0]}
                                 </a>
@@ -166,11 +350,28 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* Legal row */}
-                <div className="mt-14 flex flex-col items-start justify-between gap-3 border-t border-white/[0.06] pt-8 sm:flex-row sm:items-center">
+                {/* ============================================================
+                    LEGAL ROW
+                ============================================================ */}
+                <div
+                    className="
+                        mt-14
+                        flex
+                        flex-col
+                        items-start
+                        justify-between
+                        gap-3
+                        border-t
+                        border-white/[0.06]
+                        pt-8
+                        sm:flex-row
+                        sm:items-center
+                    "
+                >
                     <p className="text-[10px] tracking-[0.14em] text-white/25">
                         &copy; {year} Asian Star Travel. All rights reserved.
                     </p>
+
                     <p className="text-[10px] uppercase tracking-[0.24em] text-white/25">
                         India &bull; Vietnam &bull; Japan &bull; South Korea
                     </p>

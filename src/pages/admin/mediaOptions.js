@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { fetchMediaAssets } from '../../services/api/adminApi';
 
 /**
  * Loads the media asset list (for hero-image pickers in the CMS editors).
  * Root errors degrade to an empty list — the field is optional.
+ * `reload()` refetches the list (call it after uploading a new asset).
  */
 export function useMediaOptions(enabled = true) {
     const [options, setOptions] = useState([]);
     const [loadedKey, setLoadedKey] = useState(null);
+    const [attempt, setAttempt] = useState(0);
 
-    const key = `media-options#${enabled ? 'on' : 'off'}`;
+    const key = `media-options#${enabled ? 'on' : 'off'}#${attempt}`;
     const loading = enabled && loadedKey !== key;
 
     useEffect(() => {
@@ -33,7 +35,9 @@ export function useMediaOptions(enabled = true) {
         };
     }, [enabled, key]);
 
-    return { options, loading };
+    const reload = useCallback(() => setAttempt((n) => n + 1), []);
+
+    return { options, loading, reload };
 }
 
 export function mediaLabel(media) {
