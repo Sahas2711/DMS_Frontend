@@ -9,11 +9,7 @@ import { itemListSchema } from '../config/structuredData';
 import { fetchDestinations, resolveMediaUrl } from '../services/api/cms';
 import { PageTransition, Rise } from '../components/editorial';
 
-const indiaImg = '/images/home/Vietnam-Hanoi.webp';
-const indiaDelhi = '/images/destinations/Hue.webp';
 const vietnamImg = '/images/home/Vietnam-Hanoi.webp';
-const japanImg = '/images/home/Vietnam-Hanoi.webp';
-const koreaImg = '/images/home/Vietnam-Hanoi.webp';
 
 /** Hero image — bundled asset, no external hotlinks. */
 const heroImage = '/images/home/hero-image-home.webp';
@@ -156,9 +152,9 @@ const Destination = () => {
                         slug: d.slug,
                         tagline: d.short_description?.slice(0, 80) || 'Explore this destination',
                         description: d.short_description || 'Discover curated journeys and local expertise.',
-                        image: d.hero_media?.url ? resolveMediaUrl(d.hero_media.url) : FALLBACK_IMAGE_MAP[d.slug] || '/images/home/hero-image-home.webp',
+                        image: d.hero_media?.url ? resolveMediaUrl(d.hero_media.url) : '/images/home/hero-image-home.webp',
                         imageAlt: d.hero_media?.alt_text || d.name,
-                        regions: d.regions?.length ? d.regions : (FALLBACK_REGIONS[d.slug] || []),
+                        regions: d.regions?.length ? d.regions : [],
                         experiences: fallback?.experiences || FALLBACK_EXPERIENCES[d.slug] || ['Culture & Heritage', 'Culinary Journeys', 'Nature & Scenic'],
                         meta: fallback?.meta || FALLBACK_META[d.slug] || 'DESTINATION',
                         isEditorial,

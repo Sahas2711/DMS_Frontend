@@ -101,7 +101,6 @@ export function GhostNumeral({ children, className = '' }) {
  */
 export function AsiaRouteMap({ className = '' }) {
     const reduce = useReducedMotion();
-    const gid = useId().replace(/:/g, '');
     // Single waypoint: Vietnam (center, low)
     const ROUTE = 'M60 96 C 60 66, 88 88, 152 78 S 236 34, 236 40';
 
@@ -122,7 +121,7 @@ export function AsiaRouteMap({ className = '' }) {
             <path
                 d={ROUTE}
                 fill="none"
-                stroke={tone === 'gold' ? '#c5a869' : '#c5a869'}
+                stroke="#c5a869"
                 strokeWidth="2.5"
                 vectorEffect="non-scaling-stroke"
                 initial={{ pathLength: 0, opacity: 0.3 }}

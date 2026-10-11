@@ -19,9 +19,9 @@ const vietnamSaigon = '/images/home/Vietnam-ho-chi-minh-city.webp';
 const vietnamCulture = '/images/home/Vietnam-culture.webp';
 const vietnamCuisine = '/images/home/Vietnam-Cousin.webp';
 
-const landingHero = '/images/home/vietnam-Hanoi.webp';
-const landingPage2 = '/images/home/LAnding_page_2.webp';
-const landingPage3 = '/images/home/Landing_page_3.webp';
+// const landingHero = '/images/home/vietnam-Hanoi.webp';
+// const landingPage2 = '/images/home/LAnding_page_2.webp';
+// const landingPage3 = '/images/home/Landing_page_3.webp';
 
 export const HOME_IMAGES = {    landing: {
         hero: vietnamHanoi,
