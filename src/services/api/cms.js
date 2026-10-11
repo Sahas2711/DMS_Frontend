@@ -33,6 +33,32 @@ function toQuery(params) {
 }
 
 /**
+ * Public UI shows Vietnam tours only.
+ * Frontend filter — backend is unchanged and may still return other countries.
+ */
+export function isVietnamTour(tour) {
+    return (tour?.destination?.country || '').toLowerCase() === 'vietnam';
+}
+
+/** Filter a tours list to Vietnam only. */
+export function filterVietnamTours(tours) {
+    return (tours || []).filter(isVietnamTour);
+}
+
+/**
+ * Public UI shows Vietnam destinations only.
+ * Frontend filter — backend is unchanged and may still return other countries.
+ */
+export function isVietnamDestination(destination) {
+    return (destination?.country || '').toLowerCase() === 'vietnam';
+}
+
+/** Filter a destinations list to Vietnam only. */
+export function filterVietnamDestinations(destinations) {
+    return (destinations || []).filter(isVietnamDestination);
+}
+
+/**
  * GET /destinations — published destinations (public CMS).
  * Resolves to { items, meta }.
  */

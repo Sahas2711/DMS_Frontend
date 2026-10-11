@@ -5,7 +5,7 @@ import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
 import { PAGE_META } from '../config/site';
 import { itemListSchema } from '../config/structuredData';
-import { fetchTours, resolveMediaUrl } from '../services/api/cms';
+import { fetchTours, resolveMediaUrl, filterVietnamTours } from '../services/api/cms';
 import { PageTransition } from '../components/editorial';
 import { getTourFallbackImageFromTour } from '../config/tourImages';
 
@@ -26,31 +26,29 @@ const Tours = () => {
         fetchTours({ pageSize: 100 })
             .then((data) => {
                 if (cancelled) return;
-                const items = data?.items || [];
-                if (items.length >= 3) {
-                    setTours(
-                        items.map((t) => {
-                            const destName = t.destination?.country || '';
-                            const days = t.duration_days;
-                            const nights = t.duration_nights;
-                            const duration = days
-                                ? nights ? `${days} Days / ${nights} Nights` : `${days} Days`
-                                : '';
-                            return {
-                                title: t.title,
-                                slug: t.slug,
-                                summary: t.summary || '',
-                                duration,
-                                destination_name: destName,
-                                image: t.hero_media?.url
-                                    ? resolveMediaUrl(t.hero_media.url)
-                                    : getTourFallbackImageFromTour(t),
-                                imageAlt: t.hero_media?.alt_text || t.title,
-                                category: t.category || '',
-                            };
-                        })
-                    );
-                }
+                const items = filterVietnamTours(data?.items);
+                setTours(
+                    items.map((t) => {
+                        const destName = t.destination?.country || '';
+                        const days = t.duration_days;
+                        const nights = t.duration_nights;
+                        const duration = days
+                            ? nights ? `${days} Days / ${nights} Nights` : `${days} Days`
+                            : '';
+                        return {
+                            title: t.title,
+                            slug: t.slug,
+                            summary: t.summary || '',
+                            duration,
+                            destination_name: destName,
+                            image: t.hero_media?.url
+                                ? resolveMediaUrl(t.hero_media.url)
+                                : getTourFallbackImageFromTour(t),
+                            imageAlt: t.hero_media?.alt_text || t.title,
+                            category: t.category || '',
+                        };
+                    })
+                );
             })
             .catch(() => {});
         return () => { cancelled = true; };

@@ -1,43 +1,76 @@
 import { Link } from 'react-router-dom';
-const heroImage = '/images/home/Vietnam-Hanoi.webp';
-import PageHero from '../components/PageHero';
+
 import Seo from '../components/Seo';
+
 import { PAGE_META } from '../config/site';
+
 import { PageTransition, Rise } from '../components/editorial';
+
+const heroImage =
+    '/images/destinations/Ho%20Chi%20Minh%20City.webp';
+
+const TRADE_PILLARS = [
+    {
+        title: 'Four-country destination focus',
+        description:
+            'Destination-led planning across India, Vietnam, Japan and South Korea.',
+    },
+    {
+        title: 'Customisable itineraries',
+        description:
+            'Journeys shaped around your clients, rather than a fixed departure.',
+    },
+    {
+        title: 'FIT, group and corporate travel',
+        description:
+            'Programme options for private holidays, special-interest groups and corporate incentives.',
+    },
+    {
+        title: 'Destination-led recommendations',
+        description:
+            'Practical guidance on routing, seasonality, pace and experiences.',
+    },
+    {
+        title: 'Local supplier coordination',
+        description:
+            'Coordination with relevant local partners for agreed destination arrangements.',
+    },
+    {
+        title: 'A partner-first approach',
+        description:
+            'Clear communication and enquiry-based proposal development.',
+    },
+];
 
 const TRADE_STEPS = [
     {
-        title: 'Send the brief',
-        description: 'Use the request-a-quote form with dates, destination, travellers and hotel tier.',
+        title: 'Share your enquiry',
+        description:
+            'Tell us your travel requirements, dates and traveller profile.',
     },
     {
-        title: 'Receive the proposal',
-        description: 'A tailored itinerary with net or trade pricing, hotels, transport and experiences.',
+        title: 'Review the possibilities',
+        description: 'AST reviews the destination and programme needs.',
     },
     {
-        title: 'Refine together',
-        description: 'Adjust hotels, pace and inclusions until it is ready for your client.',
+        title: 'Shape the proposal',
+        description:
+            'A tailored itinerary and proposal are prepared for discussion.',
     },
     {
-        title: 'We operate it',
-        description: 'Licensed ground handling from confirmation to the final transfer.',
+        title: 'Refine and confirm',
+        description:
+            'Details are refined and arrangements confirmed in writing.',
     },
-];
-
-const TRADE_SUPPORT = [
-    { title: 'Net & Trade Pricing', description: 'Transparent rates designed for tour operators and travel agencies.' },
-    { title: '24/7 Ground Support', description: 'On-call operations team during every trip — your clients are never alone.' },
-    { title: 'Co-branded Materials', description: 'Custom itineraries, PDFs and proposals under your brand.' },
-    { title: 'Dedicated Partner Manager', description: 'A single point of contact who knows your business.' },
-];
-
-const PARTNER_TYPES = [
-    'Tour Operators',
-    'Travel Agencies',
-    'Inbound DMCs',
-    'MICE Planners',
-    'Luxury Concierge',
-    'Corporate Travel',
+    {
+        title: 'Coordinate the journey',
+        description: 'Agreed destination services are coordinated.',
+    },
+    {
+        title: 'Support your programme',
+        description:
+            'Travel support follows the confirmed programme and service scope.',
+    },
 ];
 
 const TravelTrade = () => {
@@ -46,131 +79,168 @@ const TravelTrade = () => {
             <div className="w-full bg-white">
                 <Seo {...PAGE_META['/travel-trade']} path="/travel-trade" />
 
-                <PageHero
-                    image={heroImage}
-                    alt="Travel trade partnership"
-                    title="Travel Trade"
-                    eyebrow="Travel Trade"
-                    uppercase
-                />
+                {/* =========================================================
+                    HERO / ARRIVAL
+                ========================================================== */}
+                <section className="relative flex min-h-[55vh] w-full items-end overflow-hidden md:min-h-[70vh] lg:min-h-[85vh]">
+                    <img
+                        src={heroImage}
+                        alt="Ho Chi Minh City skyline, Vietnam"
+                        className="absolute inset-0 h-full w-full object-cover"
+                        loading="eager"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#081634]/85 via-[#081634]/35 to-[#081634]/20" />
 
-                {/* Intro */}
-                <section className="py-20 sm:py-28 lg:py-36 bg-[var(--color-ivory)]">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-                            <Rise>
-                                <p className="eyebrow text-[var(--color-bronze)]/60 mb-5">
-                                    Partner With Us
-                                </p>
-                                <h1 className="font-display text-[clamp(2.2rem,5vw,4rem)] leading-[0.92] tracking-[-0.03em] text-[var(--color-navy)] mb-8">
-                                    A Destination Partner{' '}
-                                    <span className="text-[var(--color-gold)]">You Can Build With.</span>
-                                </h1>
-                                <p className="font-body text-[var(--color-text-secondary)] text-base sm:text-lg leading-relaxed mb-10">
-                                    Your clients expect memorable travel. You need a partner who gets every detail right.
-                                    AST develops practical, distinctive programmes across Asia.
-                                </p>
-                                <div className="flex flex-wrap gap-4">
-                                    <Link to="/become-a-partner" className="btn btn--md btn--gold">
-                                        Become a Partner
-                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                                            <path d="M7 17L17 7M17 7H7M17 7V17" />
-                                        </svg>
-                                    </Link>
-                                    {/* <Link to="/request-quote" className="btn btn--md btn--outline">
-                                        Request a Quote
-                                    </Link> */}
-                                </div>
-                            </Rise>
-
-                            <Rise delay={0.15}>
-                                <div className="grid grid-cols-2 gap-4">
-                                    {PARTNER_TYPES.map((type) => (
-                                        <div
-                                            key={type}
-                                            className="p-5 border border-[var(--color-navy)]/6 text-center hover:border-[var(--color-gold)]/30 transition-colors duration-300"
-                                        >
-                                            <span className="font-display text-base text-[var(--color-navy)]">{type}</span>
-                                        </div>
-                                    ))}
-                                </div>
-                            </Rise>
-                        </div>
+                    <div className="relative z-10 mx-auto w-full max-w-[1400px] px-5 pb-16 sm:px-8 sm:pb-20 lg:px-12 lg:pb-24">
+                        <Rise>
+                            <p className="eyebrow mb-5 text-[var(--color-gold)]">
+                                Travel Trade
+                            </p>
+                            <h1 className="mb-6 max-w-4xl font-display text-[clamp(2.2rem,5.5vw,4.5rem)] leading-[0.94] tracking-[-0.03em] text-white">
+                                Your Partner for Thoughtfully Managed Journeys
+                                Across Asia
+                            </h1>
+                            <p className="max-w-2xl font-body text-sm leading-relaxed text-white/80 sm:text-base lg:text-lg">
+                                AST works with travel agencies, tour operators,
+                                corporate travel planners and MICE organisers
+                                seeking destination knowledge and professional
+                                coordination across India, Vietnam, Japan and
+                                South Korea.
+                            </p>
+                        </Rise>
                     </div>
                 </section>
 
-                {/* How it works */}
-                <section className="py-20 sm:py-28 lg:py-36 bg-[var(--color-cream)]">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
-                        <Rise className="mb-16 lg:mb-20">
-                            <p className="eyebrow text-[var(--color-bronze)]/60 mb-4">How It Works</p>
-                            <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.92] tracking-[-0.03em] text-[var(--color-navy)]">
-                                From Brief to Delivery.{' '}
-                                <span className="text-[var(--color-gold)]">Seamlessly.</span>
+                {/* =========================================================
+                    PARTNER-FIRST APPROACH
+                ========================================================== */}
+                <section className="bg-white py-16 sm:py-24 lg:py-28">
+                    <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
+                        <Rise>
+                            <h2 className="mb-5 max-w-3xl font-display text-[clamp(1.8rem,4vw,3rem)] leading-[0.95] tracking-[-0.02em] text-[var(--color-navy)]">
+                                A collaborative, partner-first approach
                             </h2>
+                            <p className="mb-12 max-w-2xl font-body text-sm leading-relaxed text-[var(--color-text-secondary)] sm:text-base">
+                                We aim to understand your client’s
+                                requirements, help shape a suitable programme
+                                and coordinate the agreed destination
+                                arrangements through a clear communication
+                                process.
+                            </p>
                         </Rise>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-                            {TRADE_STEPS.map((step, index) => (
-                                <Rise key={step.title} delay={index * 0.1}>
-                                    <div className="bg-white p-8 sm:p-10 border border-[var(--color-navy)]/5">
-                                        <h3 className="font-display text-xl sm:text-2xl text-[var(--color-navy)] mb-3 leading-[1.15] mt-1">
-                                            {step.title}
+                        <div className="mb-12 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+                            {TRADE_PILLARS.map((pillar, index) => (
+                                <Rise
+                                    key={pillar.title}
+                                    delay={Math.min(index * 0.04, 0.3)}
+                                >
+                                    <div className="group h-full border border-[var(--color-border-subtle)] p-6 transition-colors duration-300 hover:border-[var(--color-gold)]/40 sm:p-7">
+                                        <h3 className="mb-2 font-display text-lg leading-snug text-[var(--color-navy)] transition-colors duration-300 group-hover:text-[var(--color-gold)] sm:text-xl">
+                                            {pillar.title}
                                         </h3>
-                                        <p className="text-[var(--color-text-secondary)] text-sm sm:text-base leading-relaxed font-body">
-                                            {step.description}
+                                        <p className="font-body text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                                            {pillar.description}
                                         </p>
                                     </div>
                                 </Rise>
                             ))}
                         </div>
-                    </div>
-                </section>
 
-                {/* Support */}
-                <section className="py-20 sm:py-28 lg:py-36 bg-[var(--color-navy)]">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-                            <Rise>
-                                <p className="eyebrow text-[var(--color-gold)]/70 mb-5">Partner Support</p>
-                                <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.92] tracking-[-0.03em] text-white mb-8">
-                                    What We Provide.
-                                </h2>
-                            </Rise>
-
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 lg:gap-12">
-                                {TRADE_SUPPORT.map((item, index) => (
-                                    <Rise key={item.title} delay={index * 0.08}>
-                                        <h3 className="font-display text-xl sm:text-2xl text-white mb-3 leading-[1.15]">
-                                            {item.title}
-                                        </h3>
-                                        <p className="text-white/35 text-sm sm:text-base leading-relaxed font-body">
-                                            {item.description}
-                                        </p>
-                                    </Rise>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                {/* CTA */}
-                <section className="py-20 sm:py-28 lg:py-36 bg-[var(--color-ivory)]">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12 text-center">
                         <Rise>
-                            <h2 className="font-display text-[clamp(1.8rem,4vw,3rem)] leading-[0.95] tracking-[-0.02em] text-[var(--color-navy)] mb-5">
-                                Ready to Work Together?
-                            </h2>
-                            <p className="text-[var(--color-text-secondary)] text-base mb-10 max-w-lg mx-auto leading-relaxed font-body">
-                                Tell us about your business and the destinations you sell.
-                                We'll show you how we can support your growth.
+                            <Link
+                                to="/become-a-partner"
+                                className="btn btn--md btn--gold"
+                            >
+                                Become an AST Partner
+                                <svg
+                                    width="14"
+                                    height="14"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth="1.5"
+                                    aria-hidden="true"
+                                >
+                                    <path d="M7 17L17 7M17 7H7M17 7V17" />
+                                </svg>
+                            </Link>
+                        </Rise>
+                    </div>
+                </section>
+
+                {/* =========================================================
+                    HOW THE PROCESS WORKS
+                ========================================================== */}
+                <section className="bg-[var(--color-ivory)] py-16 sm:py-24 lg:py-28">
+                    <div className="mx-auto max-w-[1400px] px-5 sm:px-8 lg:px-12">
+                        <Rise>
+                            <p className="eyebrow mb-5">
+                                How the process works
                             </p>
-                            <div className="flex flex-wrap justify-center gap-4">
-                                {/* <Link to="/request-quote" className="btn btn--md btn--gold">
-                                    Request a Quote
-                                </Link> */}
-                                <Link to="/become-a-partner" className="btn btn--md btn--outline">
-                                    Become a Partner
+                            <h2 className="mb-12 max-w-3xl font-display text-[clamp(1.8rem,4vw,3rem)] leading-[0.95] tracking-[-0.02em] text-[var(--color-navy)]">
+                                From enquiry to agreed arrangements
+                            </h2>
+                        </Rise>
+
+                        <ol className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-3">
+                            {TRADE_STEPS.map((step, index) => (
+                                <li key={step.title} className="h-full">
+                                    <Rise
+                                        delay={Math.min(index * 0.04, 0.3)}
+                                        className="h-full"
+                                    >
+                                        <div className="h-full border border-[var(--color-border-subtle)] bg-white p-6 sm:p-7">
+                                            <span className="mb-4 block font-body text-[11px] font-semibold uppercase tracking-[0.25em] text-[var(--color-bronze)]">
+                                                {String(index + 1).padStart(2, '0')}
+                                            </span>
+                                            <h3 className="mb-2 font-display text-lg leading-snug text-[var(--color-navy)] sm:text-xl">
+                                                {step.title}
+                                            </h3>
+                                            <p className="font-body text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                                                {step.description}
+                                            </p>
+                                        </div>
+                                    </Rise>
+                                </li>
+                            ))}
+                        </ol>
+                    </div>
+                </section>
+
+                {/* =========================================================
+                    NEXT STEP CTA
+                ========================================================== */}
+                <section className="relative overflow-hidden bg-[var(--color-navy)] py-20 sm:py-28">
+                    <div className="relative z-10 mx-auto max-w-[1400px] px-5 text-center sm:px-8 lg:px-12">
+                        <Rise>
+                            <p className="eyebrow mb-5 text-[var(--color-gold)]">
+                                Next Step
+                            </p>
+                            <h2 className="mx-auto mb-6 max-w-3xl font-display text-[clamp(1.8rem,4.5vw,3.5rem)] leading-[0.95] tracking-[-0.02em] text-white">
+                                Let’s Create Something Exceptional
+                                Together
+                            </h2>
+                            <p className="mx-auto mb-10 max-w-2xl font-body text-sm leading-relaxed text-white/70 sm:text-base">
+                                Whether you are planning a private journey, a
+                                family holiday, a multi-city programme or a
+                                corporate incentive, AST is ready to help you
+                                develop a destination-led proposal tailored to
+                                your requirements.
+                            </p>
+
+                            <div className="flex flex-wrap items-center justify-center gap-4">
+                                <Link
+                                    to="/request-quote"
+                                    className="btn btn--md btn--gold"
+                                >
+                                    Request a Custom Itinerary
+                                </Link>
+                                <Link
+                                    to="/become-a-partner"
+                                    className="btn btn--md btn--outline-white"
+                                >
+                                    Become an AST Partner
                                 </Link>
                             </div>
                         </Rise>

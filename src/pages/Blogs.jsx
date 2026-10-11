@@ -1236,8 +1236,7 @@ const Blogs = () => {
                                 "
                             >
                                 Trade rates, dedicated support and
-                                reliable ground handling across India,
-                                Vietnam, Japan and South Korea.
+                                reliable ground handling across Vietnam.
                             </p>
 
 

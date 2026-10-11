@@ -8,8 +8,9 @@ const DESTINATION_LINKS = [
 
 const COMPANY_LINKS = [
     { label: 'About Us', path: '/about' },
-    { label: 'Destinations', path: '/destination/ha-long-bay' },
+    { label: 'Destinations', path: '/destination' },
     { label: 'Experiences', path: '/experiences' },
+    { label: 'Groups & MICE', path: '/groups-mice' },
     { label: 'Tours', path: '/tours' },
     { label: 'Blog', path: '/blog' },
     { label: 'Contact', path: '/contact' },
@@ -47,45 +48,31 @@ export default function Footer() {
                 ============================================================ */}
                 <div className="mb-14 flex flex-col gap-8 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
 
-                    {/* Logo + Main statement */}
-                    <div className="flex items-start gap-5">
+                    {/* Main statement */}
+                    <div>
+                        {/* Brand label */}
+                        <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold/60">
+                            Asian Star Travel
+                        </p>
 
-                        {/* Logo */}
-                        <img
-                            src="/logo-on-dark.svg"
-                            alt="Asian Star Travel"
-                            className="h-14 w-auto shrink-0 self-start"
-                            width="148"
-                            height="125"
-                            loading="lazy"
-                            decoding="async"
-                        />
+                        {/* Main statement */}
+                        <p
+                            className="
+                                max-w-[950px]
+                                font-display
+                                text-[clamp(1.5rem,2.5vw,2.25rem)]
+                                leading-[1.12]
+                                tracking-[-0.015em]
+                                text-white/90
+                            "
+                        >
+                            The ground partner behind journeys across
+                            <br className="hidden sm:block" />
 
-                        <div>
-                            {/* Brand label */}
-                            <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.3em] text-gold/60">
-                                Asian Star Travel
-                            </p>
-
-                            {/* Main statement */}
-                            <p
-                                className="
-                                    max-w-[950px]
-                                    font-display
-                                    text-[clamp(1.5rem,2.5vw,2.25rem)]
-                                    leading-[1.12]
-                                    tracking-[-0.015em]
-                                    text-white/90
-                                "
-                            >
-                                The ground partner behind journeys across
-                                <br className="hidden sm:block" />
-
-                                <span className="text-gold">
-                                    {' '}Vietnam — our only destination.
-                                </span>
-                            </p>
-                        </div>
+                            <span className="text-gold">
+                                {' '}Vietnam — our only destination.
+                            </span>
+                        </p>
                     </div>
 
                     {/* Become a Partner */}

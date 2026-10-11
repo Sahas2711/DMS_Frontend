@@ -1,13 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-    /* Main heading: DM Serif Display (elegant serif).
-       Navigation, subtitle, and buttons: Inter / Poppins (clean sans-serif). */
-    --font-main-heading: 'DM Serif Display', 'Lora', Georgia, serif;
-    --font-navy: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+    /* Display: Fraunces — a contemporary editorial serif with optical sizing.
+       Headlines set tight (-0.02em) at display sizes; the soft-serif
+       personality reads 'luxury publication', not 'startup template'. */
+    --font-serif: 'Fraunces', Georgia, serif;
+    --font-heading: 'Fraunces', Georgia, serif;
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-sans: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
-    --font-sans-mono: 'SF Mono', 'Fira Code', monospace;
+    --font-mono: 'SF Mono', 'Fira Code', ui-monospace, monospace;
     /* Motion tokens — one easing vocabulary across every section. */
     --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-cinematic: cubic-bezier(0.45, 0, 0.15, 1);
@@ -88,12 +90,11 @@ body {
     background: var(--bg-primary);
     color: var(--text-primary);
 }h1, h2, h3, h4, h5, h6 {
-    font-family: 'DM Serif Display', 'Lora', Georgia, serif;
+    font-family: 'Fraunces', Georgia, serif;
     font-style: normal;
     font-optical-sizing: auto;
 }
-/* DM Serif Display: elegant serif for the main heading. */
-.display-xl { font-family: 'DM Serif Display', 'Lora', Georgia, serif; font-optical-sizing: auto; }
+.display-xl { font-optical-sizing: auto; font-variation-settings: 'opsz' 144; }
 
 /* Editorial underline — draws from the left on hover; respects focus. */
 .link-underline {
@@ -131,7 +132,7 @@ body {
 }
 @media (min-width: 768px) { .eyebrow { font-size: 11px; } }
 
-/* ─── Button System ─── *//* Button: Inter / Poppins (clean sans). */.btn {    display: inline-flex;    align-items: center;    justify-content: center;    gap: 0.5rem;    white-space: nowrap;    line-height: 1.2;    font-weight: 500;    letter-spacing: 0.04em;    font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;    cursor: pointer;    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);    text-align: center;    text-decoration: none;}
+/* ─── Button System ─── *//* Button: Inter (clean sans). */.btn {    display: inline-flex;    align-items: center;    justify-content: center;    gap: 0.5rem;    white-space: nowrap;    line-height: 1.2;    font-weight: 500;    letter-spacing: 0.04em;    font-family: 'Inter', system-ui, -apple-system, sans-serif;    cursor: pointer;    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);    text-align: center;    text-decoration: none;}
 .btn:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
 
@@ -154,9 +155,9 @@ body {
     outline: 2px solid var(--color-gold); outline-offset: 2px;
 }
 
-/* Navigation, subtitle, and button text inherit Inter/Poppins (sans). *//* Navigation, subtitle, and button text use Inter/Poppins (clean sans). */
+/* Navigation, subtitle, and button text inherit Inter (sans). */
 .nav, .sub navbar, .eyebrow, .link-premium, .btn, .link-arrow {
-    font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 /* ─── Premium Link ─── */

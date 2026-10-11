@@ -1,200 +1,94 @@
-/* eslint-disable react-hooks/set-state-in-effect */
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
 import { PAGE_META } from '../config/site';
 import { itemListSchema } from '../config/structuredData';
-import { fetchDestinations, resolveMediaUrl } from '../services/api/cms';
+import { fetchDestinations, resolveMediaUrl, filterVietnamDestinations } from '../services/api/cms';
 import { PageTransition, Rise } from '../components/editorial';
-
-const vietnamImg = '/images/home/Vietnam-Hanoi.webp';
 
 /** Hero image — bundled asset, no external hotlinks. */
 const heroImage = '/images/home/hero-image-home.webp';
 const ctaImage = '/images/services/Travel-on-your-terms.webp';
 
-/** Editorial showcase data — Vietnam only (all other destination entries commented out). */
-const EDITORIAL_DESTINATIONS = [
-    {
-        name: 'Vietnam',
-        slug: 'ha-long-bay',
-        tagline: 'Crafted around your curiosity',
-        description: 'Atmospheric cities, dramatic coastlines, living traditions and unforgettable food.',
-        image: vietnamImg,
-        imageAlt: 'Hanoi old quarter, Vietnam',
-        experiences: ['Heritage & Culture', 'Culinary Journeys', 'Coastal Escapes', 'Adventure'],
-        regions: ['Hanoi', 'Ha Long Bay', 'Hoi An', 'Ho Chi Minh City', 'Phu Quoc'],
-        meta: '1,600 KM OF COAST',
-    },
-];
-
-const EDITORIAL_SLUGS = EDITORIAL_DESTINATIONS.map((d) => d.slug);
-
-// Commented out: removed all destination-specific fallback image, regions, meta since only Vietnam is active.
-// const FALLBACK_IMAGE_MAP = {
-//     delhi: indiaDelhi,
-//     'ha-long-bay': vietnamImg,
-//     tokyo: japanImg,
-//     seoul: koreaImg,
-// };
-
-// const FALLBACK_REGIONS = {
-//     delhi: ['Rajasthan', 'Kerala', 'Ladakh', 'Goa', 'Varanasi'],
-//     'ha-long-bay': ['Hanoi', 'Ha Long Bay', 'Hoi An', 'Ho Chi Minh City', 'Phu Quoc'],
-//     tokyo: ['Tokyo', 'Kyoto', 'Osaka', 'Hokkaido', 'Okinawa'],
-//     seoul: ['Seoul', 'Busan', 'Jeju Island', 'Gyeongju', 'Incheon'],
-//     hiroshima: ['Hiroshima', 'Miyajima'],
-//     sapporo: ['Sapporo', 'Otaru', 'Furano'],
-//     'hoi-an': ['Hoi An', 'Da Nang', 'My Son'],
-//     'da-nang': ['Da Nang', 'Hoi An', 'Hue'],
-//     'ho-chi-minh-city': ['Ho Chi Minh City', 'Mekong Delta', 'Cu Chi'],
-//     kyoto: ['Kyoto', 'Nara', 'Uji'],
-//     osaka: ['Osaka', 'Kobe', 'Nara'],
-//     jaipur: ['Jaipur', 'Pushkar', 'Ranthambore'],
-//     kerala: ['Kerala', 'Alleppey', 'Munnar', 'Thekkady'],
-// };
-
-// const FALLBACK_META = {
-//     delhi: 'NORTH TO SOUTH',
-//     'ha-long-bay': '1,600 KM OF COAST',
-//     tokyo: 'FIVE DISTINCT SEASONS',
-//     seoul: 'HANOK TO HANNAM',
-//     hiroshima: 'PEACE & HERITAGE',
-//     sapporo: 'WINTER WONDERLAND',
-//     'hoi-an': 'LANTERN-LIT HERITAGE',
-//     'da-nang': 'COASTAL GATEWAY',
-//     'ho-chi-minh-city': 'ENERGY & HISTORY',
-//     kyoto: 'ANCIENT CAPITAL',
-//     osaka: "JAPAN'S KITCHEN",
-//     jaipur: 'THE PINK CITY',
-//     kerala: "GOD'S OWN COUNTRY",
-// };
-
-const FALLBACK_EXPERIENCES = {
-    delhi: ['Royal Heritage', 'Wildlife Safari', 'Spiritual Retreats', 'Culinary Journeys'],
-    'ha-long-bay': ['Heritage & Culture', 'Culinary Journeys', 'Coastal Escapes', 'Adventure'],
-    tokyo: ['Cultural Immersion', 'Luxury Ryokans', 'Urban Discovery', 'Nature & Scenic'],
-    seoul: ['K-Culture', 'Island Retreats', 'Gastronomy', 'Art & Design'],
-    hiroshima: ['Heritage & Culture', 'Peace Memorial', 'Island Escapes'],
-    sapporo: ['Winter Sports', 'Food & Drink', 'Nature & Scenic'],
-    'hoi-an': ['Heritage & Culture', 'Culinary Journeys', 'Artisan Crafts'],
-    'da-nang': ['Coastal Escapes', 'Adventure', 'Heritage & Culture'],
-    'ho-chi-minh-city': ['Heritage & Culture', 'Culinary Journeys', 'Urban Discovery'],
-    kyoto: ['Cultural Immersion', 'Luxury Ryokans', 'Nature & Scenic', 'Artisan Crafts'],
-    osaka: ['Culinary Journeys', 'Urban Discovery', 'Nightlife'],
-    jaipur: ['Royal Heritage', 'Artisan Crafts', 'Wildlife Safari'],
-    kerala: ['Wellness & Slow Travel', 'Nature & Scenic', 'Culinary Journeys', 'Artisan Crafts'],
+/** Bundled Vietnam fallback images for destinations without CMS hero media. */
+const VIETNAM_FALLBACK_IMAGES = {
+    'ha-long-bay': '/images/destinations/Ha%20Long%20Bay%20%20Lan%20Ha%20Bay.webp',
+    'hoi-an': '/images/destinations/Vietnam-hoi-an.webp',
+    'da-nang': '/images/destinations/Da-Nang.webp',
+    'ho-chi-minh-city': '/images/destinations/Ho%20Chi%20Minh%20City.webp',
+    hanoi: '/images/destinations/Hanoi.webp',
+    sapa: '/images/destinations/Sapa.webp',
+    hue: '/images/destinations/Hue.webp',
+    'ninh-binh': '/images/destinations/Ninh%20Binh.webp',
+    'mekong-delta': '/images/destinations/Mekong%20Delta.webp',
+    dalat: '/images/destinations/Dalat.webp',
 };
+const DEFAULT_VIETNAM_IMAGE = '/images/destinations/Golden%20Bridge%20at%20Vietnam%20Sunset.webp';
 
-const FALLBACK_META = {
-    delhi: 'NORTH TO SOUTH',
+const VIETNAM_FALLBACK_META = {
     'ha-long-bay': '1,600 KM OF COAST',
-    tokyo: 'FIVE DISTINCT SEASONS',
-    seoul: 'HANOK TO HANNAM',
-    hiroshima: 'PEACE & HERITAGE',
-    sapporo: 'WINTER WONDERLAND',
     'hoi-an': 'LANTERN-LIT HERITAGE',
     'da-nang': 'COASTAL GATEWAY',
     'ho-chi-minh-city': 'ENERGY & HISTORY',
-    kyoto: 'ANCIENT CAPITAL',
-    osaka: "JAPAN'S KITCHEN",
-    jaipur: 'THE PINK CITY',
-    kerala: "GOD'S OWN COUNTRY",
+    hanoi: 'OLD QUARTER capital',
+    sapa: 'TERRACED HIGHLANDS',
+    hue: 'IMPERIAL CITY',
+    'ninh-binh': 'HA LONG ON LAND',
+    'mekong-delta': 'RIVER LIFE SOUTH',
+    dalat: 'CENTRAL HIGHLANDS',
 };
 
-const Destination = () => {
-    const [editorialDestinations, setEditorialDestinations] = useState(EDITORIAL_DESTINATIONS);
-    const [allDestinations, setAllDestinations] = useState([]);
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalCount, setTotalCount] = useState(0);
-    const [showAll, setShowAll] = useState(false);
-    const PAGE_SIZE = 12;
+const VIETNAM_FALLBACK_EXPERIENCES = [
+    'Heritage & Culture',
+    'Culinary Journeys',
+    'Nature & Scenic',
+    'Coastal Escapes',
+];
 
-    // Fetch editorial 4 destinations (enrich with API data)
+const VIETNAM_REGIONS = ['Hanoi', 'Ha Long Bay', 'Hoi An', 'Ho Chi Minh City', 'Phu Quoc'];
+
+function toCard(d) {
+    return {
+        name: d.name,
+        slug: d.slug,
+        tagline: d.short_description?.slice(0, 80) || 'Crafted around your curiosity',
+        description: d.short_description || 'Atmospheric cities, dramatic coastlines, living traditions and unforgettable food.',
+        image: d.hero_media?.url
+            ? resolveMediaUrl(d.hero_media.url)
+            : (VIETNAM_FALLBACK_IMAGES[d.slug] || DEFAULT_VIETNAM_IMAGE),
+        imageAlt: d.hero_media?.alt_text || d.name,
+        regions: d.regions?.length ? d.regions : VIETNAM_REGIONS,
+        experiences: VIETNAM_FALLBACK_EXPERIENCES,
+        meta: VIETNAM_FALLBACK_META[d.slug] || 'VIETNAM',
+    };
+}
+
+const Destination = () => {
+    const [destinations, setDestinations] = useState([]);
+    const [status, setStatus] = useState('loading');
+
     useEffect(() => {
         let cancelled = false;
-        fetchDestinations({ pageSize: 20 }).then((res) => {
-            if (cancelled || !res?.items?.length) return;
-            const mapped = res.items
-                .filter((d) => EDITORIAL_SLUGS.includes(d.slug))
-                .map((d) => {
-                    const fallback = EDITORIAL_DESTINATIONS.find((f) => f.slug === d.slug);
-                    return {
-                        ...fallback,
-                        name: d.name || fallback.name,
-                        tagline: d.short_description?.slice(0, 60) || fallback.tagline,
-                        description: d.short_description || fallback.description,
-                        image: d.hero_media?.url ? resolveMediaUrl(d.hero_media.url) : fallback.image,
-                    };
-                });
-            if (mapped.length >= 3) {
-                setEditorialDestinations(EDITORIAL_SLUGS.map(
-                    (slug) => mapped.find((m) => m.slug === slug) || EDITORIAL_DESTINATIONS.find((f) => f.slug === slug)
-                ));
-            }
-        }).catch(() => {});
+        fetchDestinations({ pageSize: 100, sort: 'display_order' })
+            .then((res) => {
+                if (cancelled) return;
+                const vietnam = filterVietnamDestinations(res?.items).map(toCard);
+                setDestinations(vietnam);
+                setStatus('success');
+            })
+            .catch(() => {
+                if (!cancelled) setStatus('error');
+            });
         return () => { cancelled = true; };
     }, []);
-
-    // Fetch all destinations for paginated list
-    const fetchAllDestinations = useCallback(async (pageNum = 1) => {
-        try {
-            const res = await fetchDestinations({ page: pageNum, pageSize: PAGE_SIZE, sort: 'display_order' });
-            if (res?.items) {
-                const enriched = res.items.map((d) => {
-                    const isEditorial = EDITORIAL_SLUGS.includes(d.slug);
-                    const fallback = isEditorial ? EDITORIAL_DESTINATIONS.find((f) => f.slug === d.slug) : null;
-                    return {
-                        name: d.name,
-                        slug: d.slug,
-                        tagline: d.short_description?.slice(0, 80) || 'Explore this destination',
-                        description: d.short_description || 'Discover curated journeys and local expertise.',
-                        image: d.hero_media?.url ? resolveMediaUrl(d.hero_media.url) : '/images/home/hero-image-home.webp',
-                        imageAlt: d.hero_media?.alt_text || d.name,
-                        regions: d.regions?.length ? d.regions : [],
-                        experiences: fallback?.experiences || FALLBACK_EXPERIENCES[d.slug] || ['Culture & Heritage', 'Culinary Journeys', 'Nature & Scenic'],
-                        meta: fallback?.meta || FALLBACK_META[d.slug] || 'DESTINATION',
-                        isEditorial,
-                    };
-                });
-            setAllDestinations(enriched);
-            setTotalCount(res.meta?.total || enriched.length);
-            setTotalPages(res.meta?.total_pages || 1);
-            }
-        } catch (err) {
-            console.error('Failed to fetch destinations:', err);
-        }
-    }, [PAGE_SIZE]);
-
-    // Initial fetch - use a ref to track if we've already fetched
-    const hasFetchedRef = useRef(false);
-    useEffect(() => {
-        if (!hasFetchedRef.current) {
-            hasFetchedRef.current = true;
-            fetchAllDestinations(1);
-        }
-    }, [fetchAllDestinations]);
-
-    // Fetch on page change
-    useEffect(() => {
-        fetchAllDestinations(page);
-    }, [page, fetchAllDestinations]);
-
-    const goToPage = (newPage) => {
-        if (newPage >= 1 && newPage <= totalPages) {
-            setPage(newPage);
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-    };
 
     return (
         <PageTransition>
             <div className="w-full bg-white">
                 <Seo {...PAGE_META['/destination']} path="/destination" />
-                <JsonLd data={[itemListSchema(editorialDestinations)]} />
+                <JsonLd data={[itemListSchema(destinations)]} />
 
                 {/* ── Arrival ── */}
                 <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center overflow-hidden">
@@ -218,39 +112,59 @@ const Destination = () => {
                                 Destinations
                             </p>
                             <h1 className="font-display text-[clamp(2.6rem,6.5vw,5.5rem)] leading-[0.94] tracking-[-0.03em] text-white mb-6">
-                                Four countries.
-                                <span className="block italic text-[var(--color-gold)]">One way of working.</span>
+                                Vietnam.
+                                <span className="block italic text-[var(--color-gold)]">One country. Many worlds.</span>
                             </h1>
                             <p className="font-body text-white/50 text-base sm:text-lg leading-relaxed max-w-xl">
-                                India, Vietnam, Japan and South Korea — each managed by local teams with
-                                the same care, precision and ground knowledge.
+                                From Ha Long Bay to the Mekong Delta — explore every Vietnam destination
+                                we operate, each managed by local teams on the ground.
                             </p>
                         </motion.div>
                     </div>
                 </section>
 
                 {/* ── Geographic route strip ── */}
-                <nav aria-label="Destinations index" className="w-full bg-white border-b border-[var(--color-border-subtle)]">
-                    <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
-                        <ul className="flex flex-col sm:flex-row sm:items-stretch divide-y sm:divide-y-0 sm:divide-x divide-[var(--color-border-subtle)]">
-                            {editorialDestinations.map((dest) => (
-                                <li key={dest.slug} className="flex-1">
-                                    <a
-                                        href={`#chapter-${dest.slug}`}
-                                        className="group flex items-baseline gap-3 py-4 sm:justify-center sm:px-6"
-                                    >
-                                        <span className="font-display text-base sm:text-lg text-[var(--color-navy)] group-hover:text-[var(--color-gold)] transition-colors duration-300">
-                                            {dest.name}
-                                        </span>
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </nav>
+                {destinations.length > 0 && (
+                    <nav aria-label="Destinations index" className="w-full bg-white border-b border-[var(--color-border-subtle)]">
+                        <div className="max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-12">
+                            <ul className="flex flex-col sm:flex-row sm:items-stretch divide-y sm:divide-y-0 sm:divide-x divide-[var(--color-border-subtle)] overflow-x-auto">
+                                {destinations.map((dest) => (
+                                    <li key={dest.slug} className="flex-1 shrink-0">
+                                        <a
+                                            href={`#chapter-${dest.slug}`}
+                                            className="group flex items-baseline gap-3 py-4 sm:justify-center sm:px-6"
+                                        >
+                                            <span className="font-display text-base sm:text-lg text-[var(--color-navy)] group-hover:text-[var(--color-gold)] transition-colors duration-300 whitespace-nowrap">
+                                                {dest.name}
+                                            </span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </nav>
+                )}
 
-                {/* ── Country chapters — alternating editorial spreads ── */}
-                {editorialDestinations.map((dest, index) => {
+                {/* ── Vietnam destination chapters ── */}
+                {status === 'loading' && (
+                    <div className="min-h-[30vh] flex items-center justify-center bg-[var(--color-ivory)]" aria-busy="true">
+                        <div className="text-[var(--color-navy)] text-sm font-semibold tracking-wider uppercase">Loading destinations…</div>
+                    </div>
+                )}
+
+                {status === 'error' && (
+                    <div className="min-h-[30vh] flex items-center justify-center bg-[var(--color-ivory)] px-6">
+                        <p className="text-[var(--color-text-secondary)] text-sm">Destinations could not be loaded.</p>
+                    </div>
+                )}
+
+                {status === 'success' && destinations.length === 0 && (
+                    <div className="min-h-[30vh] flex items-center justify-center bg-[var(--color-ivory)] px-6">
+                        <p className="text-[var(--color-text-secondary)] text-sm">No Vietnam destinations available yet.</p>
+                    </div>
+                )}
+
+                {destinations.map((dest, index) => {
                     const reversed = index % 2 === 1;
                     return (
                         <section
@@ -289,7 +203,6 @@ const Destination = () => {
                                         {dest.description}
                                     </p>
 
-                                    {/* Regions — metadata line, not chips */}
                                     {dest.regions?.length > 0 && (
                                         <p className="text-[10px] sm:text-[11px] font-semibold tracking-[0.18em] uppercase text-[var(--color-text-muted)] mb-3">
                                             {dest.regions.join('  ·  ')}
@@ -299,7 +212,6 @@ const Destination = () => {
                                         {dest.meta}
                                     </p>
 
-                                    {/* Experience themes — typographic index */}
                                     <ul className="border-t border-[var(--color-border-subtle)] mb-8">
                                         {dest.experiences?.slice(0, 4).map((exp) => (
                                             <li
@@ -322,261 +234,193 @@ const Destination = () => {
                     );
                 })}
 
-                {/* ── All Destinations — Paginated List ── */}
-                <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
-                    <div className="max-w-[1400px] mx-auto">
-                        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-12 lg:mb-16">
-                            <Rise>
+                {/* ── All Vietnam destinations — grid ── */}
+                {destinations.length > 0 && (
+                    <section className="w-full bg-[var(--color-ivory)] py-20 sm:py-28 lg:py-36 px-5 sm:px-8 lg:px-12">
+                        <div className="max-w-[1400px] mx-auto">
+                            <Rise className="mb-12 lg:mb-16">
                                 <p className="eyebrow mb-3">All Destinations</p>
                                 <h2 className="font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[0.95] tracking-[-0.02em] text-[var(--color-navy)]">
-                                    {totalCount} destinations across Asia.
+                                    {destinations.length} destinations across Vietnam.
                                 </h2>
                             </Rise>
-                            {!showAll && (
-                                <Rise delay={0.1} className="sm:ml-auto">
-                                    <button
-                                        onClick={() => setShowAll(true)}
-                                        className="btn btn--md btn--navy"
+
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+                                {destinations.map((dest, index) => (
+                                    <motion.div
+                                        key={dest.slug}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        whileInView={{ opacity: 1, y: 0 }}
+                                        viewport={{ once: true, amount: 0.15 }}
+                                        transition={{ duration: 0.5, delay: Math.min(index, 6) * 0.05, ease: [0.16, 1, 0.3, 1] }}
                                     >
-                                        View All Destinations
-                                        <span aria-hidden="true">→</span>
-                                    </button>
-                                </Rise>
-                            )}
+                                        <Link to={`/destination/${dest.slug}`} className="group block bg-white border border-[var(--color-border-subtle)] overflow-hidden transition-all duration-300 hover:border-[var(--color-gold)]/50 hover:shadow-lg h-full">
+                                            <div className="relative aspect-[4/3] overflow-hidden">
+                                                <img
+                                                    src={dest.image}
+                                                    alt={dest.imageAlt}
+                                                    className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy-deep)]/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                            </div>
+                                            <div className="p-5 sm:p-6">
+                                                <h3 className="font-display text-lg sm:text-xl text-[var(--color-navy)] leading-tight mb-2 group-hover:text-[var(--color-gold)] transition-colors duration-300">
+                                                    {dest.name}
+                                                </h3>
+                                                <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed mb-4 line-clamp-2 font-body">
+                                                    {dest.description}
+                                                </p>
+                                                <div className="flex flex-wrap gap-2 mb-4">
+                                                    {dest.regions?.slice(0, 3).map((region) => (
+                                                        <span key={region} className="text-[10px] font-medium uppercase tracking-[0.15em] text-[var(--color-gold)]/70 bg-[var(--color-gold)]/10 px-2.5 py-1 rounded">
+                                                            {region}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                                <div className="flex items-center justify-between pt-3 border-t border-[var(--color-border-subtle)]">
+                                                    <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-gold)]/80">
+                                                        {dest.meta}
+                                                    </span>
+                                                    <span className="text-[11px] font-medium text-[var(--color-navy)]/60 group-hover:text-[var(--color-gold)] transition-colors">
+                                                        Explore →
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    </motion.div>
+                                ))}
+                            </div>
                         </div>
-
-                        {showAll && (
-                            <>
-                                {/* Destinations Grid */}
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8 mb-12">
-                                    {allDestinations.map((dest, index) => (
-                                        <motion.div
-                                            key={dest.slug}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ duration: 0.5, delay: index * 0.05, ease: [0.16, 1, 0.3, 1] }}
-                                        >
-                                            <Link to={`/destination/${dest.slug}`} className="group block bg-white border border-[var(--color-border-subtle)] overflow-hidden transition-all duration-300 hover:border-[var(--color-gold)]/50 hover:shadow-lg">
-                                                <div className="relative aspect-[4/3] overflow-hidden">
-                                                    <img
-                                                        src={dest.image}
-                                                        alt={dest.imageAlt}
-                                                        className="w-full h-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.05]"
-                                                        loading="lazy"
-                                                        decoding="async"
-                                                    />
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy-deep)]/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                                </div>
-                                                <div className="p-5 sm:p-6">
-                                                    <h3 className="font-display text-lg sm:text-xl text-[var(--color-navy)] leading-tight mb-2 group-hover:text-[var(--color-gold)] transition-colors duration-300">
-                                                        {dest.name}
-                                                    </h3>
-                                                    <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed mb-4 line-clamp-2 font-body">
-                                                        {dest.description}
-                                                    </p>
-                                                    <div className="flex flex-wrap gap-2 mb-4">
-                                                        {dest.regions?.slice(0, 3).map((region) => (
-                                                            <span key={region} className="text-[10px] font-medium uppercase tracking-[0.15em] text-[var(--color-gold)]/70 bg-[var(--color-gold)]/10 px-2.5 py-1 rounded">
-                                                                {region}
-                                                            </span>
-                                                        ))}
-                                                    </div>
-                                                    <div className="flex items-center justify-between pt-3 border-t border-[var(--color-border-subtle)]">
-                                                        <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-[var(--color-gold)]/80">
-                                                            {dest.meta}
-                                                        </span>
-                                                        <span className="text-[11px] font-medium text-[var(--color-navy)]/60 group-hover:text-[var(--color-gold)] transition-colors">
-                                                            Explore →
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </Link>
-                                        </motion.div>
-                                    ))}
-                                </div>
-
-                                {/* Pagination */}
-                                {totalPages > 1 && (
-                                    <Rise className="flex items-center justify-center gap-2">
-                                        <button
-                                            onClick={() => goToPage(page - 1)}
-                                            disabled={page === 1}
-                                            className="btn btn--sm btn--outline-navy disabled:opacity-50 disabled:pointer-events-none"
-                                            aria-label="Previous page"
-                                        >
-                                            ← Previous
-                                        </button>
-                                        <span className="px-4 text-sm font-medium text-[var(--color-navy)]">
-                                            Page {page} of {totalPages}
-                                        </span>
-                                        <button
-                                            onClick={() => goToPage(page + 1)}
-                                            disabled={page === totalPages}
-                                            className="btn btn--sm btn--outline-navy disabled:opacity-50 disabled:pointer-events-none"
-                                            aria-label="Next page"
-                                        >
-                                            Next →
-                                        </button>
-                                    </Rise>
-                                )}
-
-                                <Rise className="mt-10 text-center">
-                                    <button
-                                        onClick={() => { setShowAll(false); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                                        className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--color-gold)] hover:text-[var(--color-navy)] transition-colors"
-                                    >
-                                        Back to Featured Destinations
-                                    </button>
-                                </Rise>
-                            </>
-                        )}
-                    </div>
-                </section>
+                    </section>
+                )}
 
                 {/* ── B2B CTA ── */}
-<section
-    className="
-        relative
-        w-full
-        overflow-hidden
-        bg-[var(--color-navy)]
-        bg-cover
-        bg-center
-        bg-no-repeat
-        px-5
-        py-20
-        sm:px-8
-        sm:py-28
-        lg:px-12
-        lg:py-32
-    "
-    style={{
-        backgroundImage: `url(${ctaImage})`,
-    }}
->
-    {/* Dark overlay */}
-    <div
-        aria-hidden="true"
-        className="
-            absolute
-            inset-0
-            bg-[var(--color-navy)]/65
-        "
-    />
-
-    {/* Subtle gradient for better text readability */}
-    <div
-        aria-hidden="true"
-        className="
-            absolute
-            inset-0
-            bg-gradient-to-r
-            from-[var(--color-navy)]/80
-            via-[var(--color-navy)]/55
-            to-[var(--color-navy)]/40
-        "
-    />
-
-    {/* CTA Content */}
-    <div
-        className="
-            relative
-            z-10
-            mx-auto
-            grid
-            max-w-[1400px]
-            grid-cols-1
-            items-center
-            gap-10
-            lg:grid-cols-12
-            lg:gap-16
-        "
-    >
-        {/* ── Left Content ── */}
-        <Rise className="lg:col-span-7">
-            <p
-                className="
-                    eyebrow
-                    mb-4
-                    text-[var(--color-gold)]
-                "
-            >
-                Not Sure Which Destination?
-            </p>
-
-            <h2
-                className="
-                    mb-6
-                    max-w-4xl
-                    font-display
-                    text-[clamp(2rem,4.5vw,3.5rem)]
-                    leading-[0.95]
-                    tracking-[-0.02em]
-                    text-white
-                "
-            >
-                Tell us who is travelling.{' '}
-                <span className="italic text-[var(--color-gold)]">
-                    We'll recommend the route.
-                </span>
-            </h2>
-
-            <p
-                className="
-                    max-w-lg
-                    font-body
-                    text-base
-                    leading-relaxed
-                    text-white/75
-                "
-            >
-                Send your brief — dates, traveller mix, hotel tier —
-                and receive a tailored proposal from our destination
-                specialists.
-            </p>
-        </Rise>
-
-        {/* ── Right CTA ── */}
-        <Rise
-            delay={0.1}
-            className="
-                lg:col-span-5
-                lg:justify-self-end
-            "
-        >
-            <div
-                className="
-                    flex
-                    flex-col
-                    gap-4
-                    sm:flex-row
-                    lg:flex-col
-                "
-            >
-                {/* 
-                <Link
-                    to="/request-quote"
-                    className="btn btn--lg btn--gold"
-                >
-                    Request a Quote
-                </Link>
-                */}
-
-                <Link
-                    to="/tours"
+                <section
                     className="
-                        btn
-                        btn--lg
-                        btn--outline-white
-                        backdrop-blur-sm
+                        relative
+                        w-full
+                        overflow-hidden
+                        bg-[var(--color-navy)]
+                        bg-cover
+                        bg-center
+                        bg-no-repeat
+                        px-5
+                        py-20
+                        sm:px-8
+                        sm:py-28
+                        lg:px-12
+                        lg:py-32
                     "
+                    style={{
+                        backgroundImage: `url(${ctaImage})`,
+                    }}
                 >
-                    Browse Journeys
-                </Link>
-            </div>
-        </Rise>
-    </div>
-</section>
+                    <div
+                        aria-hidden="true"
+                        className="
+                            absolute
+                            inset-0
+                            bg-[var(--color-navy)]/65
+                        "
+                    />
+                    <div
+                        aria-hidden="true"
+                        className="
+                            absolute
+                            inset-0
+                            bg-gradient-to-r
+                            from-[var(--color-navy)]/80
+                            via-[var(--color-navy)]/55
+                            to-[var(--color-navy)]/40
+                        "
+                    />
+                    <div
+                        className="
+                            relative
+                            z-10
+                            mx-auto
+                            grid
+                            max-w-[1400px]
+                            grid-cols-1
+                            items-center
+                            gap-10
+                            lg:grid-cols-12
+                            lg:gap-16
+                        "
+                    >
+                        <Rise className="lg:col-span-7">
+                            <p
+                                className="
+                                    eyebrow
+                                    mb-4
+                                    text-[var(--color-gold)]
+                                "
+                            >
+                                Not Sure Which Destination?
+                            </p>
+                            <h2
+                                className="
+                                    mb-6
+                                    max-w-4xl
+                                    font-display
+                                    text-[clamp(2rem,4.5vw,3.5rem)]
+                                    leading-[0.95]
+                                    tracking-[-0.02em]
+                                    text-white
+                                "
+                            >
+                                Tell us who is travelling.{' '}
+                                <span className="italic text-[var(--color-gold)]">
+                                    We'll recommend the route.
+                                </span>
+                            </h2>
+                            <p
+                                className="
+                                    max-w-lg
+                                    font-body
+                                    text-base
+                                    leading-relaxed
+                                    text-white/75
+                                "
+                            >
+                                Send your brief — dates, traveller mix, hotel tier —
+                                and receive a tailored proposal from our destination
+                                specialists.
+                            </p>
+                        </Rise>
+                        <Rise
+                            delay={0.1}
+                            className="
+                                lg:col-span-5
+                                lg:justify-self-end
+                            "
+                        >
+                            <div
+                                className="
+                                    flex
+                                    flex-col
+                                    gap-4
+                                    sm:flex-row
+                                    lg:flex-col
+                                "
+                            >
+                                <Link
+                                    to="/tours"
+                                    className="
+                                        btn
+                                        btn--lg
+                                        btn--outline-white
+                                        backdrop-blur-sm
+                                    "
+                                >
+                                    Browse Journeys
+                                </Link>
+                            </div>
+                        </Rise>
+                    </div>
+                </section>
             </div>
         </PageTransition>
     );

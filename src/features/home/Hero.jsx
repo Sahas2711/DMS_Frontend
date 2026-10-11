@@ -85,7 +85,7 @@ export default function Hero() {
                         text-[clamp(1.15rem,5.1vw,4.8rem)]
                     "
                 >
-                    Asian Star Travels
+                    Asian Star Travel
                 </h1>
 
                 {/* Tagline */}

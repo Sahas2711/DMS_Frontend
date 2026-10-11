@@ -5,7 +5,7 @@ import Seo from '../components/Seo';
 import JsonLd from '../components/JsonLd';
 import { SITE } from '../config/site';
 import { breadcrumbListSchema, touristTripSchema } from '../config/structuredData';
-import { fetchTourBySlug, resolveMediaUrl } from '../services/api/cms';
+import { fetchTourBySlug, resolveMediaUrl, isVietnamTour } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 import { TRIP_TYPE_BY_VALUE } from '../config/enquiry';
 import { PageTransition } from '../components/editorial';
@@ -34,7 +34,12 @@ function TourDetail() {
 
         fetchTourBySlug(slug)
             .then((tour) => {
-                if (!controller.signal.aborted) setState({ status: 'success', tour, error: null });
+                if (controller.signal.aborted) return;
+                if (!isVietnamTour(tour)) {
+                    setState({ status: 'error', tour: null, error: 'This journey is not available.' });
+                    return;
+                }
+                setState({ status: 'success', tour, error: null });
             })
             .catch((error) => {
                 if (!controller.signal.aborted) {

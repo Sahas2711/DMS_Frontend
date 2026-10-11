@@ -30,9 +30,21 @@ const NAV_LINKS = [
         ],
     },
     {
+        label: 'Experiences',
+        path: '/experiences',
+    },
+    // {
+    //     label: 'Groups & MICE',
+    //     path: '/groups-mice',
+    // },
+    // {
+    //     label: 'Travel Trade',
+    //     path: '/travel-trade',
+    // },
+    {
         label: 'Destinations',
-        path: '/destination/ha-long-bay',
-        // panel: 'destinations', // Dropdown disabled — only one destination (Vietnam); link opens it directly
+        path: '/destination',
+        // panel: 'destinations', // Dropdown disabled — only Vietnam destinations are active
     },
     {
         label: 'About Us',
@@ -185,28 +197,38 @@ export default function PremiumNav() {
                     {/* ==================================================
                         LOGO
                         ================================================== */}
-                    <Link
-                        to="/"
-                        className="group flex items-center"
-                        aria-label="Asian Star Travel — home"
-                        onClick={closeMobileMenu}
-                    >
-                        <img
-                            src="/logo.png"
-                            alt="Asian Star Travel"
-                            className="
-                                h-10
-                                w-auto
-                                object-contain
-                                transition-all
-                                duration-300
-                                ease-out
-                                group-hover:scale-105
-                            "
-                            width="120"
-                            height="101"
-                        />
-                    </Link>
+                    
+<Link
+  to="/"
+  className="flex shrink-0 items-center"
+  aria-label="Asian Star Travel — home"
+  onClick={closeMobileMenu}
+>
+  <img
+    src="/logo.png"
+    alt="Asian Star Travel"
+    width="120"
+    height="101"
+    loading="eager"
+    decoding="async"
+    draggable="false"
+    className="
+      block
+      h-[60px]
+      w-[100px]
+      shrink-0
+      object-contain
+      opacity-100
+      [transform:none]
+      [filter:none]
+    "
+    style={{
+      imageRendering: 'auto',
+      backfaceVisibility: 'visible',
+    }}
+  />
+</Link>
+
                     {/* ==================================================
                         DESKTOP NAVIGATION
                         ================================================== */}

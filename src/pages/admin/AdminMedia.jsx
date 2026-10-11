@@ -3,6 +3,7 @@ import { ImageOff, Trash2, Upload } from 'lucide-react';
 import { useAuth } from '../../context/AdminAuthContext';
 import { deleteMediaAsset, fetchMediaAssets, uploadMediaAsset } from '../../services/api/adminApi';
 import { errorMessage } from '../../services/api/client';
+import { resolveMediaUrl } from '../../services/api/cms';
 import {
     Button,
     ConfirmDialog,
@@ -85,7 +86,7 @@ function AdminMedia() {
             return;
         }
         setToUpload(file);
-        setAltText(file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' '));
+        setAltText(file.name.replace(/\.[^.]+$/, '').replace(/[-_]+/g, ' ').slice(0, 255));
         setCaption('');
     };
 
@@ -156,8 +157,8 @@ function AdminMedia() {
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <Input id="media-alt" label="Alt text" maxLength={500} value={altText} onChange={(e) => setAltText(e.target.value)} placeholder="Describe the image for screen-readers and SEO" />
-                        <Input id="media-caption" label="Caption" maxLength={1000} value={caption} onChange={(e) => setCaption(e.target.value)} placeholder="Optional caption" />
+                        <Input id="media-alt" label="Alt text" maxLength={255} value={altText} onChange={(e) => setAltText(e.target.value)} placeholder="Describe the image for screen-readers and SEO" />
+                        <Input id="media-caption" label="Caption" maxLength={500} value={caption} onChange={(e) => setCaption(e.target.value)} placeholder="Optional caption" />
                     </div>
                     {uploadError && <p className="text-sm text-red-700">{uploadError}</p>}
                     <div className="flex gap-2">
@@ -188,7 +189,7 @@ function AdminMedia() {
                             <li key={m.public_id} className="group bg-white rounded-2xl border border-gray-100 overflow-hidden">
                                 <div className="relative aspect-[4/3] bg-cream">
                                     {m.url ? (
-                                        <img src={m.url} alt={m.alt_text || m.caption || 'Media asset'} loading="lazy" className="h-full w-full object-cover" />
+                                        <img src={resolveMediaUrl(m.url)} alt={m.alt_text || m.caption || 'Media asset'} loading="lazy" className="h-full w-full object-cover" />
                                     ) : (
                                         <div className="flex h-full items-center justify-center text-gray-300"><ImageOff className="h-8 w-8" aria-hidden="true" /></div>
                                     )}

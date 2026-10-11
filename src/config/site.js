@@ -16,10 +16,10 @@ export const SITE = {
     /** Wordmark shown in page heroes. */
     wordmark: 'ASIAN STAR TRAVEL',
 
-    tagline: 'Your Trusted Asia DMC Partner',
+    tagline: 'Your Trusted Vietnam DMC Partner',
 
     description:
-        'Asian Star Travel is a B2B destination management company crafting private journeys, FIT and group programs, MICE, honeymoon and luxury experiences across India, Vietnam, Japan and South Korea.',
+        'Asian Star Travel is a B2B destination management company crafting private journeys, FIT and group programs, MICE, honeymoon and luxury experiences across Vietnam.',
 
     /** Public contact email used throughout the website. */
     email: 'info@asianstartravels.com',
@@ -89,27 +89,33 @@ export const SITE = {
 /** Per-route metadata. Keys match canonical paths in App.jsx. */
 export const PAGE_META = {
     '/': {
-        title: `Your B2B DMC Partner for India, Vietnam, Japan, South Korea | ${SITE.name}`,
+        title: `Your B2B DMC Partner for Vietnam | ${SITE.name}`,
         description:
-            'Asian Star Travel helps travel agents, tour operators and OTAs design seamless private journeys, FIT and group programs, MICE and luxury travel across India, Vietnam, Japan and South Korea.',
+            'Asian Star Travel helps travel agents, tour operators and OTAs design seamless private journeys, FIT and group programs, MICE and luxury travel across Vietnam.',
     },
 
     '/tours': {
         title: `Curated Journeys | ${SITE.name}`,
         description:
-            'Curated journeys and experiences across India, Vietnam, Japan and South Korea — FIT, groups, MICE, honeymoon and luxury travel for agents and their clients.',
+            'Curated journeys and experiences across Vietnam — FIT, groups, MICE, honeymoon and luxury travel for agents and their clients.',
     },
 
     '/experiences': {
-        title: `Experiences | ${SITE.name}`,
+        title: `Experiences for Every Travel Style | ${SITE.name}`,
         description:
-            'FIT, Groups, MICE, Honeymoon and Luxury — the travel experiences Asian Star Travel designs across India, Vietnam, Japan and South Korea.',
+            'Every traveller has a different reason to explore. AST helps travel partners shape destination programmes around the interests, pace and priorities of their clients.',
+    },
+
+    '/groups-mice': {
+        title: `Group Travel & MICE | ${SITE.name}`,
+        description:
+            'From group leisure programmes to corporate incentives, meetings and special-interest journeys, AST helps travel partners explore destination options and coordinate travel programmes around their objectives.',
     },
 
     '/services': {
         title: `Services | ${SITE.name}`,
         description:
-            'Tailor-made tours, private transfers, ground services and full DMC support across India, Vietnam, Japan and South Korea.',
+            'Tailor-made tours, private transfers, ground services and full DMC support across Vietnam.',
     },
 
     '/request-quote': {
@@ -127,7 +133,7 @@ export const PAGE_META = {
     '/travel-trade': {
         title: `Travel Trade | ${SITE.name}`,
         description:
-            'Built for travel agents, agencies and tour operators: FIT and group programs, MICE support and a dedicated trade desk.',
+            'AST works with travel agencies, tour operators, corporate travel planners and MICE organisers seeking destination knowledge and professional coordination across India, Vietnam, Japan and South Korea.',
     },
 
     '/terms': {
@@ -145,19 +151,19 @@ export const PAGE_META = {
     '/destination': {
         title: `Destinations | ${SITE.name}`,
         description:
-            'Four destinations — India, Vietnam, Japan and South Korea. Explore cities, regions and the experiences our DMC designs for travel agents.',
+            "One country, many worlds. Explore Vietnam's destinations — cities, regions and the experiences our DMC designs for travel agents.",
     },
 
     '/about': {
         title: `About Us | ${SITE.name}`,
         description:
-            'A global B2B DMC — the ground partner travel agents trust across India, Vietnam, Japan and South Korea.',
+            'A global B2B DMC — the ground partner travel agents trust across Vietnam.',
     },
 
     '/contact': {
         title: `Contact Us | ${SITE.name}`,
         description:
-            'Contact Asian Star Travel at info@asianstartravels.com about FIT and group programs, MICE support, or becoming a partner. Dedicated trade support across India, Vietnam, Japan and South Korea.',
+            'Contact Asian Star Travel at info@asianstartravels.com about FIT and group programs, MICE support, or becoming a partner. Dedicated trade support across Vietnam.',
     },
 
     '/blog': {
@@ -175,7 +181,7 @@ export const PAGE_META = {
     '/booking': {
         title: `Book Your Journey | ${SITE.name}`,
         description:
-            'Request your bespoke journey across India, Vietnam, Japan and South Korea — preferred rates for agents and their travelers.',
+            'Request your bespoke journey across Vietnam — preferred rates for agents and their travelers.',
     },
 
     '/checkout': {
@@ -193,7 +199,7 @@ export const PAGE_META = {
     '/services/private-tours': {
         title: `Private Tours | ${SITE.name}`,
         description:
-            'Private, tailor-made tours across India, Vietnam, Japan and South Korea — flexible pacing, dedicated guide and vehicle.',
+            'Private, tailor-made tours across Vietnam — flexible pacing, dedicated guide and vehicle.',
     },
 
     '/services/tailor-made-tours': {
@@ -205,6 +211,6 @@ export const PAGE_META = {
     '/services/ground-services': {
         title: `Ground Services | ${SITE.name}`,
         description:
-            'Private transfers, experienced drivers and 24/7 ground support across our destinations.',
+            'Private transfers, experienced drivers and 24/7 ground support across Vietnam.',
     },
 };
