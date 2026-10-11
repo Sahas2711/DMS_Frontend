@@ -1,15 +1,14 @@
-import { motion, useReducedMotion } from 'framer-motion';
-import { useId } from 'react';
-
-/* ═══════════════════════════════════════════════════════════════════
-   ROUTE SYSTEM — the page-wide signature metaphor.
-   Thin gold route lines that draw themselves between diamond waypoints,
-   plus coordinate micro-labels and ghost numerals. Every major scene
-   borrows this same visual language so the homepage reads as ONE
-   continuous journey rather than stacked sections.
-   ═══════════════════════════════════════════════════════════════════ */
+/**
+ * ROUTE SYSTEM — the page-wide signature metaphor.
+ * Thin gold route lines that draw themselves between diamond waypoints,
+ * plus coordinate micro-labels and ghost numerals. Every major scene
+ * borrows this same visual language so the homepage reads as ONE
+ * continuous journey rather than stacked sections.
+ */
 
 /** Horizontal route line that draws itself when scrolled into view. */
+
+import { motion, useReducedMotion } from 'framer-motion';
 export function RouteLine({ className = '', tone = 'gold', delay = 0.15 }) {
     const reduce = useReducedMotion();
     return (
@@ -44,10 +43,7 @@ export function RouteLine({ className = '', tone = 'gold', delay = 0.15 }) {
     );
 }
 
-/**
- * Vertical route rail with waypoints — used beside lists to express
- * "stops on a journey". `progress` (0..1) fills the line gold.
- */
+/** Vertical route rail with waypoints — used beside lists to express "stops on a journey". `progress` (0..1) fills the line gold. */
 export function RouteRail({ stops, activeIndex = 0, progress = 1, className = '' }) {
     return (
         <div className={`relative pl-7 ${className}`} aria-hidden="true">
@@ -99,86 +95,74 @@ export function GhostNumeral({ children, className = '' }) {
 
 /**
  * THE HERO SIGNATURE — an abstract route map of Asia as a single SVG.
- * A thin route draws India → Vietnam → Japan → South Korea as one
- * continuous path across a stylized coordinate grid; destination nodes
- * pulse in sequence as the page loads. Pure SVG, ~60 lines, no libraries,
+ * A thin route draws Vietnam as a single waypoint on a stylized coordinate
+ * grid; destination node pulses on mount. Pure SVG, no libraries,
  * reduced-motion renders it fully drawn and static.
  */
 export function AsiaRouteMap({ className = '' }) {
     const reduce = useReducedMotion();
     const gid = useId().replace(/:/g, '');
-    // One flowing path: India (left, low) → Vietnam (center, low) → Japan (right, mid) → South Korea (right-upper)
-    const ROUTE = 'M28 96 C 70 66, 112 88, 152 78 S 210 34, 236 40';
+    // Single waypoint: Vietnam (center, low)
+    const ROUTE = 'M60 96 C 60 66, 88 88, 152 78 S 236 34, 236 40';
 
     const nodes = [
-        { x: 28, y: 96, name: 'INDIA' },
-        { x: 128, y: 84, name: 'VIETNAM' },
-        { x: 200, y: 46, name: 'SOUTH KOREA' },
-        { x: 236, y: 40, name: 'JAPAN' },
+        { x: 152, y: 78, name: 'VIETNAM' },
     ];
 
     const nodeSequence = reduce ? 0 : 1.9; // seconds after mount before nodes start pulsing in
 
     return (
         <svg
-            viewBox="0 0 260 130"
-            className={className}
             role="img"
-            aria-label="Route across Asia connecting India, Vietnam, South Korea and Japan"
+            aria-label="Route across Asia connecting Vietnam"
+            viewBox="0 0 240 130"
+            preserveAspectRatio="none"
+            className={`block w-full ${className}`}
         >
-            <title>Asian Star Travel route network</title>
-            <defs>
-                <pattern id={`grid-${gid}`} width="26" height="26" patternUnits="userSpaceOnUse">
-                    <path d="M26 0H0V26" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="0.5" />
-                </pattern>
-            </defs>
-            <rect width="260" height="130" fill={`url(#grid-${gid})`} />
-
-            {/* Suggested coastline hint — abstract, three quiet strokes */}
-            <g fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1">
-                <path d="M12 118 C 40 96, 52 74, 78 66 C 96 60, 108 66, 124 92" />
-                <path d="M136 96 C 158 78, 168 62, 192 58" />
-                <path d="M206 64 C 222 62, 234 56, 246 44" />
-            </g>
-
-            {/* The route — draws itself */}
-            <motion.path
+            <path
                 d={ROUTE}
                 fill="none"
-                stroke="#c5a869"
-                strokeWidth="1.25"
-                initial={reduce ? { pathLength: 1 } : { pathLength: 0 }}
-                animate={reduce ? { pathLength: 1 } : { pathLength: 1 }}
-                transition={{ duration: 2.4, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                stroke={tone === 'gold' ? '#c5a869' : '#c5a869'}
+                strokeWidth="2.5"
+                vectorEffect="non-scaling-stroke"
+                initial={{ pathLength: 0, opacity: 0.3 }}
+                whileInView={{ pathLength: 1, opacity: 1 }}
+                viewport={{ once: true, margin: '-5% 0px' }}
+                transition={{ duration: 1.2, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
             />
-
-            {/* Waypoint diamonds enter in sequence */}
+            <motion.circle
+                cx={152} cy={78} r={6}
+                fill="#050e22" stroke="#c5a869" strokeWidth="2.5"
+                initial={{ scale: 0.4, opacity: 0 }}
+                animate={{ scale: 1.15, opacity: 1 }}
+                transition={{ duration: 0.6, delay: nodeSequence, ease: [0.16, 1, 0.3, 1] }}
+            >
+                <animate
+                    attributeName="r"
+                    values="4;6;4"
+                    keyTimes="0;0.5;1"
+                    dur="2.2s"
+                    repeatCount="indefinite"
+                />
+                <animate
+                    attributeName="opacity"
+                    values="0.5;1;0.5"
+                    keyTimes="0;0.5;1"
+                    dur="2.2s"
+                    repeatCount="indefinite"
+                />
+            </motion.circle>
             {nodes.map((n, i) => (
-                <motion.g
-                    key={n.name}
-                    initial={reduce ? { opacity: 1 } : { opacity: 0, scale: 0.4 }}
-                    animate={reduce ? { opacity: 1 } : { opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, delay: nodeSequence + i * 0.5, ease: [0.16, 1, 0.3, 1] }}
-                    style={{ transformOrigin: `${n.x}px ${n.y}px` }}
+                <motion.span
+                    key={n.name + i}
+                    initial={{ opacity: 0, y: 12 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: nodeSequence + 0.2 + i * 0.15 }}
+                    className="absolute left-0 top-0 font-display text-[10px] font-semibold uppercase tracking-[0.2em] text-gold whitespace-nowrap pointer-events-none"
+                    style={{ transform: 'translateX(-50%) translateY(-100%)', left: n.x, top: n.y }}
                 >
-                    <rect
-                        x={n.x - 3.25} y={n.y - 3.25} width="6.5" height="6.5"
-                        transform={`rotate(45 ${n.x} ${n.y})`}
-                        fill={i === 0 ? '#c5a869' : '#050e22'}
-                        stroke="#c5a869"
-                        strokeWidth="1"
-                    />
-                    <text
-                        x={n.x} y={n.y - 10}
-                        textAnchor="middle"
-                        fill="rgba(255,255,255,0.55)"
-                        fontSize="6.5"
-                        letterSpacing="1.5"
-                        fontFamily="Inter, sans-serif"
-                    >
-                        {n.name}
-                    </text>
-                </motion.g>
+                    {n.name}
+                </motion.span>
             ))}
         </svg>
     );

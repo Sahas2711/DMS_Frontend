@@ -6,7 +6,7 @@ const ourStoryImg = '/images/home/plan-your-trip.webp';
 const tailorMadeImg = '/images/aboutus/Tailor-Made-Tours.webp';
 const privateTransfersImg = '/images/aboutus/Private-Transfers.webp';
 const groundServicesImg = '/images/aboutus/Ground-Services.webp';
-const regionalReachImg = '/images/home/India-hero-image.webp';
+const regionalReachImg = '/images/aboutus/Regional-Reach.webp';
 const travelCTAImg = '/images/aboutus/LAnding_page_2.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
@@ -36,10 +36,7 @@ const RevealImage = ({ src, alt, className = '', imgClassName = '', children }) 
 };
 
 const DESTINATIONS = [
-    { name: 'India', slug: 'delhi', note: 'Heritage, wild landscapes and living traditions.' },
     { name: 'Vietnam', slug: 'ha-long-bay', note: 'The long coast — from Hanoi to the Mekong Delta.' },
-    { name: 'Japan', slug: 'tokyo', note: 'Precision, craft and quiet detail.' },
-    { name: 'South Korea', slug: 'seoul', note: 'Palace culture meeting contemporary design.' },
 ];
 
 const SERVICES = [
@@ -91,7 +88,7 @@ const Aboutus = () => (
         <div className="w-full">
             <Seo {...PAGE_META['/about']} path="/about" />
 
-            <PageHero image={heroImage} alt="" title="About Us" eyebrow="The ground partner behind Asia" uppercase />
+            <PageHero image={heroImage} alt="" title="About Us" eyebrow="The ground partner behind Vietnam" uppercase />
 
             {/* ── Chapter 01 — Who We Are: editorial split ── */}
          <section
@@ -145,8 +142,7 @@ const Aboutus = () => (
                     sm:text-lg
                 "
             >
-                Private journeys and reliable ground services across India,
-                Vietnam, Japan and South Korea.
+                Private journeys and reliable ground services across Vietnam.
             </p>
 
         </Rise>
@@ -466,7 +462,8 @@ const Aboutus = () => (
                         </h2>
                         <div className="font-body text-[var(--color-text-secondary)] text-base leading-[1.8] space-y-5 max-w-xl mb-10">
                             <p>
-                                A destination management company operating across India, Vietnam, Japan and South Korea — handling every detail locally.
+                                A destination management company handling every detail locally in Vietnam.
+
                             </p>
                         </div>
 
@@ -543,10 +540,10 @@ const Aboutus = () => (
                     <Rise className="max-w-2xl">
                         <p className="eyebrow text-[var(--color-gold)]/80 mb-5">Regional Reach</p>
                         <h2 className="font-display text-[clamp(2.2rem,5vw,4rem)] leading-[0.95] tracking-[-0.03em] text-white mb-6">
-                            Four destinations. One standard of operation.
+                            One destination. One standard of operation.
                         </h2>
                         <p className="font-body text-white/50 text-base leading-relaxed mb-10 max-w-lg">
-                            Local teams and ground networks across Asia — so your clients travel with the same
+                            Local teams and ground networks in Vietnam — so your clients travel with the same
                             level of care wherever they are.
                         </p>
 
@@ -574,7 +571,7 @@ const Aboutus = () => (
                             ))}
                         </ul>
 
-                        <Link to="/destination" className="btn btn--md btn--gold">
+                        <Link to="/destination/ha-long-bay" className="btn btn--md btn--gold">
                             Explore Destinations
                         </Link>
                     </Rise>

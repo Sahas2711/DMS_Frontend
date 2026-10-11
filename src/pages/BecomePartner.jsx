@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-const heroImage = '/images/home/India-hero-image.webp';
+const heroImage = '/images/home/Vietnam-Hanoi.webp';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';
 import BecomePartnerForm from '../components/forms/BecomePartnerForm';
@@ -95,7 +95,7 @@ const BecomePartner = () => (
                             <span className="italic text-[var(--color-gold)]">stay with us.</span>
                         </h2>
                         <p className="font-body text-[var(--color-text-secondary)] text-base sm:text-lg leading-relaxed">
-                            One DMC across India, Vietnam, Japan and South Korea — so you sell more with
+                            One DMC across Vietnam — so you sell more with
                             fewer partners, with dedicated support behind every quote.
                         </p>
                     </Rise>

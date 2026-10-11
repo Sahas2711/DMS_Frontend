@@ -19,7 +19,7 @@ import { RouteLine } from './RoutePath';
 
 const FACTS = [
     {
-        value: 'India · Vietnam · Japan · South Korea',
+        value: 'Vietnam',
         label: 'Destinations we operate',
     },
     {
@@ -406,10 +406,9 @@ function CinematicImage({ reduce }) {
                         inset-0
                         will-change-transform
                     "
-                >
-                    <img
-                        src={HOME_IMAGES.india.editorial}
-                        alt="Delhi cityscape, India"
+                >                        <img
+                        src={HOME_IMAGES.vietnam.editorial}
+                        alt="Vietnam — Ha Long Bay limestone karsts"
                         className="
                             h-full
                             w-full
@@ -488,7 +487,7 @@ function CinematicImage({ reduce }) {
                             text-white/75
                         "
                     >
-                        India
+                        Vietnam
                     </span>
                 </div>
 
@@ -518,8 +517,7 @@ function CinematicImage({ reduce }) {
                         lg:top-9
                     "
                 >
-                    Planned from the ground —
-                    from first brief to final transfer.
+                    Vietnam — crafted around your curiosity.
                 </div>
 
                 {/* ═══════════════════════════════════════════════
@@ -576,7 +574,7 @@ function CinematicImage({ reduce }) {
                             text-white
                         "
                     >
-                        Every country has its own rhythm —
+                        Vietnam has its own rhythm —
                         <br className="hidden md:block" />
 
                         <span className="text-gold">
@@ -586,23 +584,21 @@ function CinematicImage({ reduce }) {
                     </p>
                 </motion.div>
 
-                {/* LOCATION */}
-
-                <span
-                    className="
-                        absolute
-                        bottom-4
-                        right-5
-                        text-[8px]
-                        uppercase
-                        tracking-[0.2em]
-                        text-white/45
-                        sm:bottom-6
-                        sm:right-7
-                    "
-                >
-                    Delhi · India
-                </span>
+                {/* LOCATION */}                    <span
+                        className="
+                            absolute
+                            bottom-4
+                            right-5
+                            text-[8px]
+                            uppercase
+                            tracking-[0.2em]
+                            text-white/45
+                            sm:bottom-6
+                            sm:right-7
+                        "
+                    >
+                        Ha Long Bay · Vietnam
+                    </span>
             </motion.div>
         </div>
     );

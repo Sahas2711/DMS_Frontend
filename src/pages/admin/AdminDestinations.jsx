@@ -147,7 +147,7 @@ function DestinationEditor({ open, initial, onClose, onSaved }) {
 
         {/* View existing destinations */}
         <Link
-            to="/destination"
+            to="/destination/ha-long-bay"
             target="_blank"
             rel="noreferrer"
             className="

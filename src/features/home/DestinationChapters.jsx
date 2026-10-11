@@ -30,11 +30,9 @@ import { Coordinate } from './RoutePath';
  */
 
 const COORDS = {
-    india: '20.59° N — 78.96° E',
+    // India and Japan coordinates removed — only Vietnam is active.
     vietnam: '14.06° N — 108.28° E',
-    japan: '36.20° N — 138.25° E',
-    'south-korea': '35.91° N — 127.77° E',
-};
+}; 
 
 export default function DestinationChapters() {
     const railRef = useRef(null);
@@ -203,8 +201,7 @@ export default function DestinationChapters() {
                         "
                     >
                         Destination expertise and carefully
-                        coordinated programmes across India,
-                        Vietnam, Japan and South Korea.
+                        coordinated programmes across Vietnam only.
                     </p>
                 </div>
             </header>

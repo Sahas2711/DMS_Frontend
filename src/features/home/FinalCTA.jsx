@@ -9,7 +9,7 @@ export default function FinalCTA() {
             {/* Background photograph */}
             <div className="absolute inset-0">
                 <img
-                    src="/images/home/india-kerala.webp"
+                    src="/images/destinations/Ninh%20Binh.webp"
                     alt=""
                     className="h-full w-full object-cover opacity-30"
                     loading="lazy"
@@ -91,7 +91,7 @@ export default function FinalCTA() {
                     </span>
                     <span aria-hidden="true" className="h-[3px] w-[3px] rotate-45 bg-gold/50" />
                     <span>
-                        India · Vietnam · Japan · South Korea
+                        Vietnam · Only destination
                     </span>
                 </p>
             </div>

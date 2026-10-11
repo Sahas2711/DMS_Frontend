@@ -1,6 +1,7 @@
 /**
  * Homepage content system.
  *
+ *
  * SOURCES OF TRUTH:
  *  - Business facts (destinations, trip types, emails, address) come from
  *    src/config/site.js and src/config/enquiry.js — never invented here.
@@ -11,15 +12,6 @@
  * Nothing in this file may claim certifications, statistics or partnerships
  * that the rest of the project does not already state.
  */
-const indiaKerala = '/images/home/india-kerala.webp';
-const indiaDelhi = '/images/home/india-Delhi.webp';
-const indiaJaipur = '/images/home/india-Jaipur.webp';
-const indiaHeritage = '/images/home/India-heritage.webp';
-const indiaCulture = '/images/home/India-culture.webp';
-const indiaCuisine = '/images/home/India-Cousine.webp';
-const indiaWildlife = '/images/home/India-wildlife.webp';
-const indiaVaranasi = '/images/home/India-Varanasi.png';
-
 const vietnamHanoi = '/images/home/Vietnam-Hanoi.webp';
 const vietnamHalong = '/images/home/Vietnam-ha-long-bay.webp';
 const vietnamHoian = '/images/home/Vietnam-hoi-an.webp';
@@ -27,74 +19,27 @@ const vietnamSaigon = '/images/home/Vietnam-ho-chi-minh-city.webp';
 const vietnamCulture = '/images/home/Vietnam-culture.webp';
 const vietnamCuisine = '/images/home/Vietnam-Cousin.webp';
 
-const japanTokyo = '/images/home/Japan-tokyo.webp';
-const japanKyoto = '/images/home/Japan-kyota.webp';
-const japanOsaka = '/images/home/Japan-osaka.webp';
-const japanMountFuji = '/images/home/Japan-mount-fuji.webp';
-
-const koreaSeoul = '/images/home/Korea-Seoul.webp';
-const koreaBusan = '/images/home/Korea-busan.webp';
-const koreaJeju = '/images/home/Korea-Jeju.png';
-const koreaGyeongju = '/images/home/Korea-Gyengo.webp';
-const koreaCulture = '/images/home/Korea-Culture.webp';
-const koreaNature = '/images/home/Korea-Nature.webp';
-
-const landingHero = '/images/home/Landing_page_wih_star1.webp';
+const landingHero = '/images/home/vietnam-Hanoi.webp';
 const landingPage2 = '/images/home/LAnding_page_2.webp';
 const landingPage3 = '/images/home/Landing_page_3.webp';
 
-export const HOME_IMAGES = {
-    landing: {
-        hero: landingHero,
-        page2: landingPage2,
-        page3: landingPage3,
-    },
-    india: {
-        cover: indiaKerala,
-        editorial: indiaDelhi,
-        gallery: [indiaDelhi, indiaJaipur, indiaCulture, indiaCuisine, indiaWildlife, indiaVaranasi],
-    },
-    vietnam: {
+export const HOME_IMAGES = {    landing: {
+        hero: vietnamHanoi,
+        page2: vietnamHalong,
+        page3: vietnamHoian,
+    },    vietnam: {
         cover: vietnamHanoi,
         editorial: vietnamHoian,
         gallery: [vietnamHalong, vietnamSaigon, vietnamCulture, vietnamCuisine, vietnamHanoi],
-    },
-    japan: {
-        cover: japanKyoto,
-        editorial: japanTokyo,
-        gallery: [japanTokyo, japanOsaka, japanKyoto],
-    },
-    'south-korea': {
-        cover: koreaSeoul,
-        editorial: koreaCulture,
-        gallery: [koreaSeoul, koreaBusan, koreaJeju, koreaGyeongju, koreaNature],
-    },
-    journal: { feature: japanMountFuji, dispatch: vietnamCulture, destinations: koreaCulture },
-    cta: indiaHeritage,
+    },    journal: { feature: vietnamHoian, dispatch: vietnamCulture, destinations: vietnamHalong },
+    cta: vietnamHanoi,
 };
 
 /**
- * The four destinations. Copy follows the existing /destination page;
- * heroRatio marks which assets are portrait (art-directed crops depend on it).
+ * The only destination displayed on the site. Every other destination data has
+ * been commented out (not deleted) per the brief.
  */
 export const DESTINATIONS = [
-    {
-        id: 'india',
-        name: 'India',
-        tagline: 'In all its colour and contrast',
-        copy: 'A country that overwhelms the senses in the best possible way — ancient forts, sacred rivers, chaotic bazaars, and extraordinary warmth.',
-        regions: ['Rajasthan', 'Kerala', 'Ladakh', 'Goa', 'Varanasi'],
-        chapter: 'Chapter 01 — The Subcontinent',
-        meta: [
-            { label: 'Regions', value: 'North to South' },
-            { label: 'Signature', value: 'Golden Triangle' },
-            { label: 'Style', value: 'Heritage & Wild' },
-        ],
-        image: '/images/home/India-hero-image.webp',
-        imageAlt: 'India — Taj Mahal at sunset',
-        route: '/destination/delhi',
-        heroRatio: 'portrait',
-    },
     {
         id: 'vietnam',
         name: 'Vietnam',
@@ -112,40 +57,6 @@ export const DESTINATIONS = [
         route: '/destination/ha-long-bay',
         heroRatio: 'landscape',
     },
-    {
-        id: 'japan',
-        name: 'Japan',
-        tagline: 'Where every detail has meaning',
-        copy: 'Precision and beauty in every corner — from temple gardens to ramen stalls, Japan is an exercise in mindful travel.',
-        regions: ['Tokyo', 'Kyoto', 'Osaka', 'Hokkaido', 'Okinawa'],
-        chapter: 'Chapter 03 — The Archipelago',
-        meta: [
-            { label: 'Seasons', value: 'Five distinct' },
-            { label: 'Signature', value: 'Rail & Ryokan' },
-            { label: 'Style', value: 'Craft & Calm' },
-        ],
-        image: '/images/home/Japan-hero-image.webp',
-        imageAlt: 'Japan — Mount Fuji and cherry blossoms',
-        route: '/destination/tokyo',
-        heroRatio: 'landscape',
-    },
-    {
-        id: 'south-korea',
-        name: 'South Korea',
-        tagline: 'A meeting of tradition and momentum',
-        copy: 'Korea blends ancient palace culture with modern energy — a destination for food lovers, art enthusiasts, and design-driven travellers.',
-        regions: ['Seoul', 'Busan', 'Jeju Island', 'Gyeongju', 'Incheon'],
-        chapter: 'Chapter 04 — The Peninsula',
-        meta: [
-            { label: 'Contrast', value: 'Hanok to Hannam' },
-            { label: 'Signature', value: 'Seoul Design Trail' },
-            { label: 'Style', value: 'Design & Food' },
-        ],
-        image: '/images/home/South-Korea-hero-image.webp',
-        imageAlt: 'South Korea — traditional palace architecture',
-        route: '/destination/seoul',
-        heroRatio: 'portrait',
-    },
 ];
 
 /**
@@ -161,16 +72,17 @@ export const TRAVEL_STYLES = [
         line: 'Temples, palaces and living traditions — travel with context and meaning.',
         detail: 'Private access, historians and guides who read a site the way locals do.',
         tripType: 'FIT',
-        image: '/images/home/Kerala-Heritage.webp',
-        imageAlt: 'Heritage architecture in Kerala, India',
+        image: '/images/destinations/Hue.webp',
+        imageAlt: 'Heritage architecture in Hue, Vietnam',
     },
+    // Indian cuisine entry removed — only Vietnam is active.
     {
         id: 'culinary',
         name: 'Culinary',
         line: 'Street food tours, market mornings and private cooking sessions with locals.',
         detail: 'From Hanoi night markets to Osaka alleyways — eaten where it is actually made.',
         tripType: 'FIT',
-        image: '/images/home/India-Cousine.webp',
+        image: '/images/home/Mekong_Delta.webp',
         imageAlt: 'Indian cuisine and culinary experiences',
     },
     {
@@ -221,8 +133,8 @@ export const CAPABILITIES = [
         number: '01',
         title: 'Destination-Led Planning',
         body: 'Programmes begin with the place, not the price list. Local teams in every destination — embedded partners who know every road and relationship.',
-        image: HOME_IMAGES.india.gallery[4], // indiaWildlife
-        imageAlt: 'Tea country landscape in Assam, India',
+        // image: HOME_IMAGES.india.gallery[4], // indiaWildlife
+        // imageAlt: 'Tea country landscape in Assam, India',
     },
     {
         number: '02',
@@ -235,15 +147,15 @@ export const CAPABILITIES = [
         number: '03',
         title: 'Responsive Communication',
         body: 'One trade desk, one business day. A single point of contact who knows your business, from first brief to final transfer.',
-        image: HOME_IMAGES.japan.gallery[0], // japanTokyo
-        imageAlt: 'Tokyo cityscape at dusk, Japan',
+        image: HOME_IMAGES.vietnam.gallery[0],
+        imageAlt: 'Ha Long Bay limestone karsts, Vietnam',
     },
     {
         number: '04',
         title: 'Operational Precision',
         body: 'Meticulous planning and 24/7 ground support — the kind of detail only an on-the-ground operator can provide.',
-        image: HOME_IMAGES['south-korea'].gallery[0],
-        imageAlt: 'Traditional Korean architecture',
+        image: HOME_IMAGES.vietnam.gallery[1],
+        imageAlt: 'Ho Chi Minh City skyline, Vietnam',
     },
 ];
 
@@ -253,16 +165,6 @@ export const CAPABILITIES = [
  */
 export const JOURNEYS = [
     {
-        slug: 'golden-triangle-rajasthan',
-        title: 'The Golden Triangle',
-        destination: 'India',
-        days: '10 days',
-        route: ['Delhi', 'Agra', 'Jaipur'],
-        copy: 'The classic route reimagined with private access and curated moments.',
-        image: HOME_IMAGES.india.gallery[1]  ,
-        imageAlt: 'Kerala backwaters at golden hour, India',
-    },
-    {
         slug: 'ha-long-bay-hoi-an',
         title: 'Ha Long & Hoi An',
         destination: 'Vietnam',
@@ -271,36 +173,6 @@ export const JOURNEYS = [
         copy: 'Emerald waters, hidden caves and lantern-lit evenings — Vietnam at its most poetic.',
         image: HOME_IMAGES.vietnam.gallery[0],
         imageAlt: 'Ha Long Bay limestone karsts, Vietnam',
-    },
-    {
-        slug: 'japan-rail-ryokan',
-        title: 'Rail & Ryokan',
-        destination: 'Japan',
-        days: '11 days',
-        route: ['Tokyo', 'Hakone', 'Kyoto'],
-        copy: 'Bullet trains, mountain ryokans and the art of slow travel through Japan.',
-        image: HOME_IMAGES.japan.gallery[2],
-        imageAlt: 'Temple gardens in Kyoto, Japan',
-    },
-    {
-        slug: 'seoul-busan-korean',
-        title: 'Seoul Design Trail',
-        destination: 'South Korea',
-        days: '7 days',
-        route: ['Seoul', 'Gyeongju', 'Busan'],
-        copy: 'Hanok villages, contemporary galleries and the creative pulse of Seoul.',
-        image: HOME_IMAGES['south-korea'].gallery[0],
-        imageAlt: 'Traditional Korean palace architecture',
-    },
-    {
-        slug: 'kerala-backwaters',
-        title: 'Kerala Backwaters',
-        destination: 'India',
-        days: '8 days',
-        route: ['Kochi', 'Alleppey', 'Munnar'],
-        copy: 'Houseboat journeys, spice plantations and the quiet green of southern India.',
-        image: HOME_IMAGES.india.cover,
-        imageAlt: 'Kerala backwaters, India',
     },
     {
         slug: 'sapa-trekking',
@@ -313,57 +185,17 @@ export const JOURNEYS = [
         imageAlt: 'Hanoi old quarter, Vietnam',
     },
     {
-        slug: 'india-ladakh',
-        title: 'Ladakh High Passes',
-        destination: 'India',
-        days: '9 days',
-        route: ['Delhi', 'Leh', 'Nubra Valley'],
-        copy: 'Mountain monasteries, high-altitude deserts and the silence of the Himalayas.',
-        image: HOME_IMAGES.india.gallery[3],
-        imageAlt: 'Ladakh mountain landscape, India',
-    },
-    {
         slug: 'vietnam-hanoi-hoian',
         title: 'North to Central Vietnam',
         destination: 'Vietnam',
         days: '10 days',
         route: ['Hanoi', 'Ha Long', 'Hue', 'Hoi An'],
-        copy: 'From the Old Quarter to the ancient town — Vietnam\u2019s cultural spine in one journey.',
+        copy: 'From the Old Quarter to the ancient town — Vietnam’s cultural spine in one journey.',
         image: HOME_IMAGES.vietnam.gallery[2],
         imageAlt: 'Hanoi old quarter, Vietnam',
     },
     {
-        slug: 'japan-kyoto-osaka',
-        title: 'Temple & Table',
-        destination: 'Japan',
-        days: '8 days',
-        route: ['Osaka', 'Kyoto', 'Nara'],
-        copy: "Temple mornings and market afternoons — Japan's cultural heartland at its most intimate.",
-        image: HOME_IMAGES.japan.gallery[1],
-        imageAlt: 'Osaka cityscape, Japan',
-    },
-    {
-        slug: 'korea-jeju',
-        title: 'Jeju Island Escape',
-        destination: 'South Korea',
-        days: '5 days',
-        route: ['Seoul', 'Jeju'],
-        copy: "Volcanic landscapes, coastal walks and the quiet beauty of Korea's island retreat.",
-        image: HOME_IMAGES['south-korea'].gallery[2],
-        imageAlt: 'Jeju Island, South Korea',
-    },
-    {
-        slug: 'india-rajasthan-heritage',
-        title: 'Rajasthan Heritage Trail',
-        destination: 'India',
-        days: '12 days',
-        route: ['Delhi', 'Jaipur', 'Jodhpur', 'Udaipur'],
-        copy: "Fort-palace hotels, desert sunsets and the living history of India's royal state.",
-        image: HOME_IMAGES.india.gallery[1],
-        imageAlt: 'Jaipur palace, India',
-    },
-    {
-        slug: 'vietnam-mekong',
+        slug: 'mekong-delta',
         title: 'Mekong Delta & Saigon',
         destination: 'Vietnam',
         days: '7 days',
@@ -371,36 +203,6 @@ export const JOURNEYS = [
         copy: 'Floating markets, river life and the southern energy of Vietnam — a world away from the north.',
         image: HOME_IMAGES.vietnam.gallery[1],
         imageAlt: 'Ho Chi Minh City skyline, Vietnam',
-    },
-    {
-        slug: 'japan-hokkaido',
-        title: 'Hokkaido Winter',
-        destination: 'Japan',
-        days: '8 days',
-        route: ['Sapporo', 'Furano', 'Niseko'],
-        copy: "Snow festivals, powder slopes and hot-spring villages — Japan's northern frontier in winter.",
-        image: HOME_IMAGES.japan.gallery[0],
-        imageAlt: 'Tokyo cityscape, Japan',
-    },
-    {
-        slug: 'korea-gyeongju',
-        title: 'Gyeongju & The Ancient Capital',
-        destination: 'South Korea',
-        days: '6 days',
-        route: ['Busan', 'Gyeongju', 'Seoul'],
-        copy: 'Buddhist temples, royal tombs and the archaeological soul of Korea — a journey through time.',
-        image: HOME_IMAGES['south-korea'].gallery[3],
-        imageAlt: 'Gyeongju historical site, South Korea',
-    },
-    {
-        slug: 'india-goa',
-        title: 'Goa Coast & Heritage',
-        destination: 'India',
-        days: '6 days',
-        route: ['Goa', 'Old Goa'],
-        copy: "Portuguese churches, spice plantations and the laid-back coast — India's tropical side.",
-        image: HOME_IMAGES.india.cover,
-        imageAlt: 'Kerala backwaters, India',
     },
 ];
 
@@ -410,15 +212,6 @@ export const JOURNEYS = [
  */
 export const JOURNAL_STORIES = [
     {
-        slug: null, // editorial feature — links to /blog
-        title: 'The Art of Slow Travel in Japan',
-        kicker: 'Journal — 01',
-        excerpt: 'Why the best journeys take their time: temple mornings, onsen afternoons, and the beauty of unhurried days.',
-        date: 'March 2026',
-        image: HOME_IMAGES.journal.feature,
-        imageAlt: 'Travel journal — slow travel through Japan',
-    },
-    {
         slug: null,
         title: 'Vietnam Beyond the Guidebook',
         kicker: 'Journal — 02',
@@ -427,16 +220,9 @@ export const JOURNAL_STORIES = [
         image: HOME_IMAGES.journal.destinations,
         imageAlt: 'Vietnam destination editorial',
     },
-    {
-        slug: null,
-        title: 'Design-Led Seoul: A Creative Guide',
-        kicker: 'Journal — 03',
-        excerpt: "From Bukchon hanok to Gangnam galleries — the spaces shaping Korea's visual culture.",
-        date: 'January 2026',
-        image: HOME_IMAGES['south-korea'].gallery[0],
-        imageAlt: 'Seoul design guide — traditional hanok architecture',
-    },
 ];
 
-/** Real B2B capabilities surfaced in the hero metadata rail (from /experiences). */
+/**
+ * Real B2B capabilities surfaced in the hero metadata rail (from /experiences).
+ */
 export const HERO_CAPABILITIES = ['FIT', 'Groups', 'MICE', 'Honeymoon', 'Luxury'];

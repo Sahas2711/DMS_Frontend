@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { DESTINATIONS, HERO_CAPABILITIES } from '../../pages/homeContent';
+// import { DESTINATIONS, HERO_CAPABILITIES } from '../../pages/homeContent';
+import { HERO_CAPABILITIES } from '../../pages/homeContent';
 import LanguageSwitcher from '../ui/LanguageSwitcher';
 import { useTheme } from '../../context/ThemeContext';
 const EASE = [0.16, 1, 0.3, 1];
@@ -30,8 +31,8 @@ const NAV_LINKS = [
     },
     {
         label: 'Destinations',
-        path: '/destination',
-        panel: 'destinations',
+        path: '/destination/ha-long-bay',
+        // panel: 'destinations', // Dropdown disabled — only one destination (Vietnam); link opens it directly
     },
     {
         label: 'About Us',
@@ -41,10 +42,10 @@ const NAV_LINKS = [
         label: 'Contact',
         path: '/contact',
     },
-    {
-        label: 'Blog',
-        path: '/blog',
-    },
+    // {
+    //     label: 'Blog',
+    //     path: '/blog',
+    // },
 ];
 export default function PremiumNav() {
     const reduce = useReducedMotion();
@@ -54,7 +55,7 @@ export default function PremiumNav() {
     const [mobileOpen, setMobileOpen] = useState(false);
     const closeTimer = useRef(null);
     const menuButtonRef = useRef(null);
-    const panelRef = useRef(null);
+    // const panelRef = useRef(null); // Destinations dropdown disabled — only Vietnam is active
     const mobileMenuRef = useRef(null);
     /*
      * ================================================================
@@ -191,7 +192,7 @@ export default function PremiumNav() {
                         onClick={closeMobileMenu}
                     >
                         <img
-                            src="/logo-on-dark.svg"
+                            src="/logo.png"
                             alt="Asian Star Travel"
                             className="
                                 h-10
@@ -294,7 +295,7 @@ export default function PremiumNav() {
                         <button
                             type="button"
                             onClick={toggleTheme}
-                            className="theme-toggle"
+                            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/30 bg-white/10 text-xl leading-none text-white shadow-sm transition-all duration-200 hover:border-gold hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold"
                             aria-label={
                                 theme === 'dark'
                                     ? 'Switch to light mode'
@@ -427,7 +428,10 @@ export default function PremiumNav() {
                 </nav>
                 {/* ========================================================
                     DESKTOP DESTINATIONS PANEL
-                    ======================================================== */}
+                    Commented out — only one destination (Vietnam);
+                    the Destinations link opens it directly, no dropdown.
+                ======================================================== */}
+                {/*
                 <AnimatePresence>
                     {panelOpen && (
                         <motion.div
@@ -559,6 +563,7 @@ export default function PremiumNav() {
                         </motion.div>
                     )}
                 </AnimatePresence>
+                */}
             </header>
         {/* ============================================================
             FIXED NAVBAR SPACER

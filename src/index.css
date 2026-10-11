@@ -1,19 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-    /* Display: Fraunces — a contemporary editorial serif with optical sizing.
-       Headlines set tight (-0.02em) at display sizes; the soft-serif
-       personality reads 'luxury publication', not 'startup template'. */
-    --font-serif: 'Fraunces', Georgia, serif;
-    --font-heading: 'Fraunces', Georgia, serif;
-    --font-display: 'Fraunces', Georgia, serif;
-    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+    /* Main heading: DM Serif Display (elegant serif).
+       Navigation, subtitle, and buttons: Inter / Poppins (clean sans-serif). */
+    --font-main-heading: 'DM Serif Display', 'Lora', Georgia, serif;
+    --font-navy: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-sans: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
+    --font-sans-mono: 'SF Mono', 'Fira Code', monospace;
     /* Motion tokens — one easing vocabulary across every section. */
     --ease-editorial: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-cinematic: cubic-bezier(0.45, 0, 0.15, 1);
-    --dur-fast: 0.3s;
-    --dur-slow: 0.8s;
 
     --color-navy: #081634;
     --color-navy-deep: #050e22;
@@ -34,12 +31,13 @@
     --color-text-secondary: #5a5a5a;
     --color-text-muted: #8a8a8a;
     --color-border-subtle: #e8e4dc;
-}
-
-/* ─── Base Reset ─── */
-*, *::before, *::after { box-sizing: border-box; }
+}/* ─── Base Reset ─── */
+*,
+*::before, *::after { box-sizing: border-box; }
 
 :root {
+    --dur-fast: 0.3s;
+    --dur-slow: 0.8s;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     font-weight: 400;
     font-style: normal;
@@ -89,17 +87,13 @@ body {
     position: static !important;
     background: var(--bg-primary);
     color: var(--text-primary);
-}
-
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Fraunces', Georgia, serif;
+}h1, h2, h3, h4, h5, h6 {
+    font-family: 'DM Serif Display', 'Lora', Georgia, serif;
     font-style: normal;
     font-optical-sizing: auto;
 }
-
-/* Display sizes pull Fraunces' optical axis down to 144 for sharper
-   high-contrast strokes; body-size serif text stays at the default axis. */
-.display-xl { font-optical-sizing: auto; font-variation-settings: 'opsz' 144; }
+/* DM Serif Display: elegant serif for the main heading. */
+.display-xl { font-family: 'DM Serif Display', 'Lora', Georgia, serif; font-optical-sizing: auto; }
 
 /* Editorial underline — draws from the left on hover; respects focus. */
 .link-underline {
@@ -137,21 +131,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 @media (min-width: 768px) { .eyebrow { font-size: 11px; } }
 
-/* ─── Button System ─── */
-.btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    white-space: nowrap;
-    line-height: 1.2;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    text-align: center;
-    text-decoration: none;
-}
+/* ─── Button System ─── *//* Button: Inter / Poppins (clean sans). */.btn {    display: inline-flex;    align-items: center;    justify-content: center;    gap: 0.5rem;    white-space: nowrap;    line-height: 1.2;    font-weight: 500;    letter-spacing: 0.04em;    font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;    cursor: pointer;    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);    text-align: center;    text-decoration: none;}
 .btn:focus-visible { outline: 2px solid var(--color-gold); outline-offset: 2px; }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
 
@@ -170,10 +150,13 @@ h1, h2, h3, h4, h5, h6 {
 .btn--ghost { background: transparent; color: var(--color-navy); border: none; padding-left: 0; padding-right: 0; }
 .btn--ghost:hover { color: var(--color-gold); }
 .btn--ghost-white { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,0.3); }
-.btn--ghost-white:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }
-
-button:focus-visible:not(.btn):not([class*='focus-visible']) {
+.btn--ghost-white:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.5); }button:focus-visible:not(.btn):not([class*='focus-visible']) {
     outline: 2px solid var(--color-gold); outline-offset: 2px;
+}
+
+/* Navigation, subtitle, and button text inherit Inter/Poppins (sans). *//* Navigation, subtitle, and button text use Inter/Poppins (clean sans). */
+.nav, .sub navbar, .eyebrow, .link-premium, .btn, .link-arrow {
+    font-family: 'Inter', 'Poppins', system-ui, -apple-system, sans-serif;
 }
 
 /* ─── Premium Link ─── */
@@ -278,9 +261,9 @@ button:focus-visible:not(.btn):not([class*='focus-visible']) {
 [data-theme="dark"] .bg-blue-50 { background-color: #0f1a2e; }
 [data-theme="dark"] .border-blue-200 { border-color: #1a2e4a; }
 [data-theme="dark"] .text-blue-900 { color: #93c5fd; }
-[data-theme="dark"] .bg-[#E8F5E9] { background-color: #0f2318; }
-[data-theme="dark"] .border-[#A5D6A7] { border-color: #1a3a2a; }
-[data-theme="dark"] .text-[#2E7D32] { color: #4ade80; }
+[data-theme="dark"] .bg-\[\#E8F5E9\] { background-color: #0f2318; }
+[data-theme="dark"] .border-\[\#A5D6A7\] { border-color: #1a3a2a; }
+[data-theme="dark"] .text-\[\#2E7D32\] { color: #4ade80; }
 [data-theme="dark"] .bg-cream { background-color: #111827; }
 [data-theme="dark"] .bg-ivory { background-color: #151d2b; }
 [data-theme="dark"] .bg-eggshell { background-color: #1a2332; }
@@ -342,12 +325,12 @@ button:focus-visible:not(.btn):not([class*='focus-visible']) {
 }
 
 [data-theme="dark"] .bg-white { background-color: var(--card-bg); }
-[data-theme="dark"] .bg-[var(--color-ivory)] { background-color: var(--bg-secondary); }
-[data-theme="dark"] .bg-[var(--color-cream)] { background-color: var(--bg-tertiary); }
-[data-theme="dark"] .text-[var(--color-navy)] { color: #e2e8f0; }
-[data-theme="dark"] .text-[var(--color-text-secondary)] { color: var(--text-secondary); }
-[data-theme="dark"] .text-[var(--color-text-muted)] { color: var(--text-muted); }
-[data-theme="dark"] .border-[var(--color-border-subtle)] { border-color: var(--border-color); }
+[data-theme="dark"] .bg-\[var\(--color-ivory\)\] { background-color: var(--bg-secondary); }
+[data-theme="dark"] .bg-\[var\(--color-cream\)\] { background-color: var(--bg-tertiary); }
+[data-theme="dark"] .text-\[var\(--color-navy\)\] { color: #e2e8f0; }
+[data-theme="dark"] .text-\[var\(--color-text-secondary\)\] { color: var(--text-secondary); }
+[data-theme="dark"] .text-\[var\(--color-text-muted\)\] { color: var(--text-muted); }
+[data-theme="dark"] .border-\[var\(--color-border-subtle\)\] { border-color: var(--border-color); }
 [data-theme="dark"] .border-gray-100 { border-color: var(--border-color); }
 [data-theme="dark"] .border-t\.border-\[var\(--color-border-subtle\)\] { border-color: var(--border-color); }
 [data-theme="dark"] img { filter: brightness(0.85); }

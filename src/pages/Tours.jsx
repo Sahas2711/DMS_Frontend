@@ -13,10 +13,7 @@ const heroImage = '/images/home/hero-image-home.webp';
 
 const CATEGORIES = [
     { label: 'All', value: 'all' },
-    { label: 'India', value: 'india' },
     { label: 'Vietnam', value: 'vietnam' },
-    { label: 'Japan', value: 'japan' },
-    { label: 'South Korea', value: 'south-korea' },
 ];
 
 const Tours = () => {
@@ -77,7 +74,7 @@ const Tours = () => {
                 <section className="relative w-full h-[50vh] md:h-[65vh] lg:min-h-screen flex items-center overflow-hidden">
                     <img
                         src={heroImage}
-                        alt="Asian landscapes — temples, mountains, and coastlines across India, Vietnam, Japan and South Korea"
+                        alt="Vietnam — landscapes across the country"
                         className="absolute inset-0 w-full h-full object-cover"
                         fetchPriority="high"
                         loading="eager"
@@ -97,7 +94,7 @@ const Tours = () => {
                                 Start with a story.
                             </h1>
                             <p className="text-white/50 text-base sm:text-lg max-w-xl leading-relaxed font-body">
-                                Sample itineraries across India, Vietnam, Japan and South Korea.
+                                Vietnam itineraries across the country.
                                 Every journey is customisable — tell us what you need.
                             </p>
                         </motion.div>
