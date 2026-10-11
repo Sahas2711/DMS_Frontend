@@ -133,7 +133,7 @@ const Services = () => (
                     <p className="mb-6 max-w-2xl text-sm leading-relaxed text-steel md:text-base">
                         From tailor-made tour design to airport fast track
                         and private transfers, our local teams handle every
-                        detail across India, Vietnam, Japan and South Korea —
+                        detail across Vietnam —
                         so your clients only feel the difference.
                     </p>
 

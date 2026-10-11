@@ -429,23 +429,25 @@ function DestinationCard({ dest, index }) {
     return (
         <article
             data-destination-card
-            className="
-                group
-                relative
-                grid
-                w-[92vw]
-                max-w-[1180px]
-                shrink-0
-                snap-center
-                grid-cols-1
-                overflow-hidden
-                bg-[#0c1528]
+            
+className="
+  group
+  relative
+  grid
+  w-[92vw]
+  max-w-[1180px]
+  shrink-0
+  snap-center
+  grid-cols-1
+  overflow-hidden
+  bg-[#0c1528]
+  lg:h-[min(66vh,620px)]
+  lg:w-[82vw]
+  lg:max-w-[1180px]
+  lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]
+  xl:w-[82vw]
+"
 
-                lg:h-[min(66vh,620px)]
-                lg:w-[82vw]
-                lg:grid-cols-[minmax(0,1.15fr)_minmax(280px,0.85fr)]
-                xl:w-[78vw]
-            "
         >
             {/* ═══════════════════════════════════════
                 IMAGE

@@ -1,27 +1,49 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState, useEffect } from 'react';
 
-const ThemeContext = createContext({ theme: 'light', toggleTheme: () => {} });
+import {
+    createContext,
+    useContext,
+    useState,
+    useEffect,
+    useCallback,
+} from 'react';
+
+const ThemeContext = createContext({
+    theme: 'light',
+    toggleTheme: () => {},
+});
+
+function getInitialTheme() {
+    try {
+        return localStorage.getItem('theme') === 'dark'
+            ? 'dark'
+            : 'light';
+    } catch {
+        return 'light';
+    }
+}
 
 export function ThemeProvider({ children }) {
-    const [theme, setTheme] = useState(() => {
-        try {
-            return localStorage.getItem('theme') || 'light';
-        } catch {
-            return 'light';
-        }
-    });
+    const [theme, setTheme] = useState(getInitialTheme);
 
     useEffect(() => {
-        document.documentElement.setAttribute('data-theme', theme);
+        const root = document.documentElement;
+
+        root.setAttribute('data-theme', theme);
+        root.style.colorScheme = theme;
+
         try {
             localStorage.setItem('theme', theme);
         } catch {
-            // localStorage not available
+            // Storage may be unavailable.
         }
     }, [theme]);
 
-    const toggleTheme = () => setTheme((t) => (t === 'light' ? 'dark' : 'light'));
+    const toggleTheme = useCallback(() => {
+        setTheme((current) =>
+            current === 'dark' ? 'light' : 'dark'
+        );
+    }, []);
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>

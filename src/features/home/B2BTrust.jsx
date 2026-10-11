@@ -27,17 +27,20 @@ export default function B2BTrust() {
                     >
                         Why Travel with Asian Star Travel
                     </motion.p>
-                    <motion.h2
-                        initial={reduce ? {} : { opacity: 0, y: 16 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.7, delay: 0.1 }}
-                        className="font-display text-[clamp(2rem,5vw,3.8rem)] leading-[1.05] tracking-[-0.02em] text-[var(--color-navy)]"
-                    >
-                        Local knowledge.
-                        <br />
-                        <span className="italic text-[var(--color-navy)]/60">Global standards.</span>
-                    </motion.h2>
+                    
+<motion.h2
+  initial={reduce ? {} : { opacity: 0, y: 16 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true }}
+  transition={{ duration: 0.7, delay: 0.1 }}
+  className="whitespace-nowrap font-display text-[clamp(1.65rem,4.2vw,3.8rem)] leading-[1.05] tracking-[-0.02em] text-[var(--color-navy)]"
+>
+  Local knowledge.{' '}
+  <span className="italic text-[var(--color-navy)]/60">
+    Global standards.
+  </span>
+</motion.h2>
+
                     <motion.p
                         initial={reduce ? {} : { opacity: 0, y: 12 }}
                         whileInView={{ opacity: 1, y: 0 }}

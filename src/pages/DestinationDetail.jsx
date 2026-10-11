@@ -8,7 +8,7 @@ import {
     breadcrumbListSchema,
     touristDestinationSchema,
 } from '../config/structuredData';
-import { fetchDestinationBySlug, fetchTours, resolveMediaUrl } from '../services/api/cms';
+import { fetchDestinationBySlug, fetchTours, resolveMediaUrl, filterVietnamTours, isVietnamDestination } from '../services/api/cms';
 import { errorMessage } from '../services/api/client';
 import { PageTransition, Rise } from '../components/editorial';
 import { getTourFallbackImageFromTour } from '../config/tourImages';
@@ -58,10 +58,14 @@ function DestinationDetail() {
         fetchDestinationBySlug(slug)
             .then((destination) => {
                 if (controller.signal.aborted) return;
+                if (!isVietnamDestination(destination)) {
+                    setState({ status: 'error', destination: null, error: 'This destination is not available.' });
+                    return;
+                }
                 setState({ status: 'success', destination, error: null });
                 return fetchTours({ destination: destination.slug, pageSize: 100, sort: 'display_order' })
                     .then((data) => {
-                        if (!controller.signal.aborted) setTours(data.items || []);
+                        if (!controller.signal.aborted) setTours(filterVietnamTours(data.items));
                     })
                     .catch(() => {});
             })
@@ -90,7 +94,7 @@ function DestinationDetail() {
                         <Seo title="Destination not found" noIndex path={`/destination/${slug}`} />
                         <h1 className="text-[var(--color-navy)] font-display text-2xl mb-2">Destination not available</h1>
                         <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed mb-5 font-body">{state.error}</p>
-                        <Link to="/destination/ha-long-bay" className="inline-flex items-center gap-2 px-5 py-3 bg-[var(--color-navy)] text-white text-sm font-medium tracking-wide hover:bg-[var(--color-navy)]/90 transition-all duration-300">
+                        <Link to="/destination" className="inline-flex items-center gap-2 px-5 py-3 bg-[var(--color-navy)] text-white text-sm font-medium tracking-wide hover:bg-[var(--color-navy)]/90 transition-all duration-300">
                             Browse destinations
                         </Link>
                     </div>
@@ -127,7 +131,7 @@ function DestinationDetail() {
                     data={[
                         breadcrumbListSchema([
                             { name: 'Home', url: '/' },
-                            { name: 'Destinations', url: '/destination/ha-long-bay' },
+                            { name: 'Destinations', url: '/destination' },
                             { name: dest.name, url: canonical },
                         ]),
                         touristDestinationSchema({ destination: dest, seo }),
@@ -153,7 +157,7 @@ function DestinationDetail() {
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
                             <Link
-                                to="/destination/ha-long-bay"
+                                to="/destination"
                                 className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.15em] uppercase text-white/60 hover:text-white transition-colors duration-300 mb-6"
                             >
                                 &larr; All Destinations

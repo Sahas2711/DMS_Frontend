@@ -38,6 +38,7 @@ const ServicesAirportFastTrack = lazy(() =>
 const GroundServices = lazy(() =>
     import('./pages/services/GroundServices')
 );
+const Destination = lazy(() => import('./pages/Destination'));
 const DestinationDetail = lazy(() =>
     import('./pages/DestinationDetail')
 );
@@ -46,6 +47,7 @@ const Contactus = lazy(() => import('./pages/Contactus'));
 const Blogs = lazy(() => import('./pages/Blogs'));
 const BlogDetail = lazy(() => import('./pages/BlogDetail'));
 const Experiences = lazy(() => import('./pages/Experiences'));
+const GroupsMice = lazy(() => import('./pages/GroupsMice'));
 const RequestQuote = lazy(() =>
     import('./pages/RequestQuote')
 );
@@ -123,8 +125,8 @@ const AdminAccount = lazy(() =>
 const ROUTE_ALIASES = [
     ['/itineraries', '/tours'],
     ['/itinerary', '/tours'],
-    // Legacy destinations paths — only Vietnam is active; deep links live under /destination/:slug.
-    ['/destinations', '/destination/ha-long-bay'],
+    // Legacy destinations paths — deep links live under /destination/:slug.
+    ['/destinations', '/destination'],
     ['/destinations/:slug', '/destination/:slug'],
     // Former consumer service sub-pages with no live page of their own hand off
     // to the Phase-1 enquiry workflow. (The canonical service pages below are
@@ -275,12 +277,7 @@ function AnimatedRoutes() {
                             />
                             <Route
                                 path="/destination"
-                                element={
-                                    <Navigate
-                                        to="/destination/ha-long-bay"
-                                        replace
-                                    />
-                                }
+                                element={<Destination />}
                             />
                             <Route
                                 path="/destination/:slug"
@@ -307,6 +304,10 @@ function AnimatedRoutes() {
                             <Route
                                 path="/experiences"
                                 element={<Experiences />}
+                            />
+                            <Route
+                                path="/groups-mice"
+                                element={<GroupsMice />}
                             />
                             <Route
                                 path="/request-quote"

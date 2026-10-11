@@ -571,7 +571,7 @@ const Aboutus = () => (
                             ))}
                         </ul>
 
-                        <Link to="/destination/ha-long-bay" className="btn btn--md btn--gold">
+                        <Link to="/destination" className="btn btn--md btn--gold">
                             Explore Destinations
                         </Link>
                     </Rise>
