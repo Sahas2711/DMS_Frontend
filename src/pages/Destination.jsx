@@ -9,29 +9,18 @@ import { itemListSchema } from '../config/structuredData';
 import { fetchDestinations, resolveMediaUrl } from '../services/api/cms';
 import { PageTransition, Rise } from '../components/editorial';
 
-const indiaImg = '/images/home/India-hero-image.webp';
-const indiaDelhi = '/images/home/india-Delhi.webp';
+const indiaImg = '/images/home/Vietnam-Hanoi.webp';
+const indiaDelhi = '/images/destinations/Hue.webp';
 const vietnamImg = '/images/home/Vietnam-Hanoi.webp';
-const japanImg = '/images/home/Japan-kyota.webp';
-const koreaImg = '/images/home/Korea-Seoul.webp';
+const japanImg = '/images/home/Vietnam-Hanoi.webp';
+const koreaImg = '/images/home/Vietnam-Hanoi.webp';
 
 /** Hero image — bundled asset, no external hotlinks. */
 const heroImage = '/images/home/hero-image-home.webp';
 const ctaImage = '/images/services/Travel-on-your-terms.webp';
 
-/** Editorial 4-country showcase data */
+/** Editorial showcase data — Vietnam only (all other destination entries commented out). */
 const EDITORIAL_DESTINATIONS = [
-    {
-        name: 'India',
-        slug: 'delhi',
-        tagline: 'In all its colour and contrast',
-        description: 'Rajasthan\'s palaces, Kerala\'s backwaters, Himalayan serenity.',
-        image: indiaImg,
-        imageAlt: 'Red Fort and Old Delhi skyline, India',
-        experiences: ['Royal Heritage', 'Wildlife Safari', 'Spiritual Retreats', 'Culinary Journeys'],
-        regions: ['Rajasthan', 'Kerala', 'Ladakh', 'Goa', 'Varanasi'],
-        meta: 'NORTH TO SOUTH',
-    },
     {
         name: 'Vietnam',
         slug: 'ha-long-bay',
@@ -43,54 +32,49 @@ const EDITORIAL_DESTINATIONS = [
         regions: ['Hanoi', 'Ha Long Bay', 'Hoi An', 'Ho Chi Minh City', 'Phu Quoc'],
         meta: '1,600 KM OF COAST',
     },
-    {
-        name: 'Japan',
-        slug: 'tokyo',
-        tagline: 'Where every detail has meaning',
-        description: 'Ancient temples meet ultra-modern cities. Every season tells a different story.',
-        image: japanImg,
-        imageAlt: 'Kyoto temple rooftops, Japan',
-        experiences: ['Cultural Immersion', 'Luxury Ryokans', 'Urban Discovery', 'Nature & Scenic'],
-        regions: ['Tokyo', 'Kyoto', 'Osaka', 'Hokkaido', 'Okinawa'],
-        meta: 'FIVE DISTINCT SEASONS',
-    },
-    {
-        name: 'South Korea',
-        slug: 'seoul',
-        tagline: 'A meeting of tradition and momentum',
-        description: 'Seoul\'s energy, Jeju\'s tranquility, ancient palace culture meets innovation.',
-        image: koreaImg,
-        imageAlt: 'South Korea — traditional palace architecture',
-        experiences: ['K-Culture', 'Island Retreats', 'Gastronomy', 'Art & Design'],
-        regions: ['Seoul', 'Busan', 'Jeju Island', 'Gyeongju', 'Incheon'],
-        meta: 'HANOK TO HANNAM',
-    },
 ];
 
 const EDITORIAL_SLUGS = EDITORIAL_DESTINATIONS.map((d) => d.slug);
 
-const FALLBACK_IMAGE_MAP = {
-    delhi: indiaDelhi,
-    'ha-long-bay': vietnamImg,
-    tokyo: japanImg,
-    seoul: koreaImg,
-};
+// Commented out: removed all destination-specific fallback image, regions, meta since only Vietnam is active.
+// const FALLBACK_IMAGE_MAP = {
+//     delhi: indiaDelhi,
+//     'ha-long-bay': vietnamImg,
+//     tokyo: japanImg,
+//     seoul: koreaImg,
+// };
 
-const FALLBACK_REGIONS = {
-    delhi: ['Rajasthan', 'Kerala', 'Ladakh', 'Goa', 'Varanasi'],
-    'ha-long-bay': ['Hanoi', 'Ha Long Bay', 'Hoi An', 'Ho Chi Minh City', 'Phu Quoc'],
-    tokyo: ['Tokyo', 'Kyoto', 'Osaka', 'Hokkaido', 'Okinawa'],
-    seoul: ['Seoul', 'Busan', 'Jeju Island', 'Gyeongju', 'Incheon'],
-    hiroshima: ['Hiroshima', 'Miyajima'],
-    sapporo: ['Sapporo', 'Otaru', 'Furano'],
-    'hoi-an': ['Hoi An', 'Da Nang', 'My Son'],
-    'da-nang': ['Da Nang', 'Hoi An', 'Hue'],
-    'ho-chi-minh-city': ['Ho Chi Minh City', 'Mekong Delta', 'Cu Chi'],
-    kyoto: ['Kyoto', 'Nara', 'Uji'],
-    osaka: ['Osaka', 'Kobe', 'Nara'],
-    jaipur: ['Jaipur', 'Pushkar', 'Ranthambore'],
-    kerala: ['Kerala', 'Alleppey', 'Munnar', 'Thekkady'],
-};
+// const FALLBACK_REGIONS = {
+//     delhi: ['Rajasthan', 'Kerala', 'Ladakh', 'Goa', 'Varanasi'],
+//     'ha-long-bay': ['Hanoi', 'Ha Long Bay', 'Hoi An', 'Ho Chi Minh City', 'Phu Quoc'],
+//     tokyo: ['Tokyo', 'Kyoto', 'Osaka', 'Hokkaido', 'Okinawa'],
+//     seoul: ['Seoul', 'Busan', 'Jeju Island', 'Gyeongju', 'Incheon'],
+//     hiroshima: ['Hiroshima', 'Miyajima'],
+//     sapporo: ['Sapporo', 'Otaru', 'Furano'],
+//     'hoi-an': ['Hoi An', 'Da Nang', 'My Son'],
+//     'da-nang': ['Da Nang', 'Hoi An', 'Hue'],
+//     'ho-chi-minh-city': ['Ho Chi Minh City', 'Mekong Delta', 'Cu Chi'],
+//     kyoto: ['Kyoto', 'Nara', 'Uji'],
+//     osaka: ['Osaka', 'Kobe', 'Nara'],
+//     jaipur: ['Jaipur', 'Pushkar', 'Ranthambore'],
+//     kerala: ['Kerala', 'Alleppey', 'Munnar', 'Thekkady'],
+// };
+
+// const FALLBACK_META = {
+//     delhi: 'NORTH TO SOUTH',
+//     'ha-long-bay': '1,600 KM OF COAST',
+//     tokyo: 'FIVE DISTINCT SEASONS',
+//     seoul: 'HANOK TO HANNAM',
+//     hiroshima: 'PEACE & HERITAGE',
+//     sapporo: 'WINTER WONDERLAND',
+//     'hoi-an': 'LANTERN-LIT HERITAGE',
+//     'da-nang': 'COASTAL GATEWAY',
+//     'ho-chi-minh-city': 'ENERGY & HISTORY',
+//     kyoto: 'ANCIENT CAPITAL',
+//     osaka: "JAPAN'S KITCHEN",
+//     jaipur: 'THE PINK CITY',
+//     kerala: "GOD'S OWN COUNTRY",
+// };
 
 const FALLBACK_EXPERIENCES = {
     delhi: ['Royal Heritage', 'Wildlife Safari', 'Spiritual Retreats', 'Culinary Journeys'],

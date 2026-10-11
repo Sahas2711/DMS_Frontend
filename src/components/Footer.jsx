@@ -2,15 +2,13 @@ import { Link } from 'react-router-dom';
 import { SITE } from '../config/site';
 
 const DESTINATION_LINKS = [
-    { label: 'India', path: '/destination/delhi' },
     { label: 'Vietnam', path: '/destination/ha-long-bay' },
-    { label: 'Japan', path: '/destination/tokyo' },
-    { label: 'South Korea', path: '/destination/seoul' },
+    { label: 'Why Vietnam', path: '/destination/ha-long-bay' },
 ];
 
 const COMPANY_LINKS = [
     { label: 'About Us', path: '/about' },
-    { label: 'Destinations', path: '/destination' },
+    { label: 'Destinations', path: '/destination/ha-long-bay' },
     { label: 'Experiences', path: '/experiences' },
     { label: 'Tours', path: '/tours' },
     { label: 'Blog', path: '/blog' },
@@ -84,7 +82,7 @@ export default function Footer() {
                                 <br className="hidden sm:block" />
 
                                 <span className="text-gold">
-                                    {' '}India, Vietnam, Japan &amp; South Korea.
+                                    {' '}Vietnam — our only destination.
                                 </span>
                             </p>
                         </div>
@@ -148,7 +146,7 @@ export default function Footer() {
 
                         <ul className="space-y-3">
                             {DESTINATION_LINKS.map((l) => (
-                                <li key={l.path}>
+                                <li key={`${l.label}-${l.path}`}>
                                     <Link
                                         to={l.path}
                                         className="
@@ -183,7 +181,7 @@ export default function Footer() {
 
                         <ul className="space-y-3">
                             {COMPANY_LINKS.map((l) => (
-                                <li key={l.path}>
+                                <li key={`${l.label}-${l.path}`}>
                                     <Link
                                         to={l.path}
                                         className="
@@ -218,7 +216,7 @@ export default function Footer() {
 
                         <ul className="space-y-3">
                             {PARTNER_LINKS.map((l) => (
-                                <li key={l.path}>
+                                <li key={`${l.label}-${l.path}`}>
                                     <Link
                                         to={l.path}
                                         className="
@@ -373,7 +371,7 @@ export default function Footer() {
                     </p>
 
                     <p className="text-[10px] uppercase tracking-[0.24em] text-white/25">
-                        India &bull; Vietnam &bull; Japan &bull; South Korea
+                        Vietnam only
                     </p>
                 </div>
             </div>

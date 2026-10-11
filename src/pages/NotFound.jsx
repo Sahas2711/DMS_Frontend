@@ -6,7 +6,7 @@ import { SITE } from '../config/site';
 const SUGGESTIONS = [
     { label: 'Tours & Itineraries', to: '/tours' },
     { label: 'Our Services', to: '/services' },
-    { label: 'Destinations', to: '/destination' },
+    { label: 'Destinations', to: '/destination/ha-long-bay' },
     { label: 'Contact Us', to: '/contact' },
 ];
 

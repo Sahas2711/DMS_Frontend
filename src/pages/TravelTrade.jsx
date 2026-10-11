@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-const heroImage = '/images/home/India-hero-image.webp';
+const heroImage = '/images/home/Vietnam-Hanoi.webp';
 import PageHero from '../components/PageHero';
 import Seo from '../components/Seo';
 import { PAGE_META } from '../config/site';

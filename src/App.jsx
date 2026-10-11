@@ -38,7 +38,6 @@ const ServicesAirportFastTrack = lazy(() =>
 const GroundServices = lazy(() =>
     import('./pages/services/GroundServices')
 );
-const Destination = lazy(() => import('./pages/Destination'));
 const DestinationDetail = lazy(() =>
     import('./pages/DestinationDetail')
 );
@@ -124,8 +123,8 @@ const AdminAccount = lazy(() =>
 const ROUTE_ALIASES = [
     ['/itineraries', '/tours'],
     ['/itinerary', '/tours'],
-    // Legacy destinations paths — deep links now live under /destination/:slug.
-    ['/destinations', '/destination'],
+    // Legacy destinations paths — only Vietnam is active; deep links live under /destination/:slug.
+    ['/destinations', '/destination/ha-long-bay'],
     ['/destinations/:slug', '/destination/:slug'],
     // Former consumer service sub-pages with no live page of their own hand off
     // to the Phase-1 enquiry workflow. (The canonical service pages below are
@@ -276,7 +275,12 @@ function AnimatedRoutes() {
                             />
                             <Route
                                 path="/destination"
-                                element={<Destination />}
+                                element={
+                                    <Navigate
+                                        to="/destination/ha-long-bay"
+                                        replace
+                                    />
+                                }
                             />
                             <Route
                                 path="/destination/:slug"

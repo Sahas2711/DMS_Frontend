@@ -2,40 +2,62 @@
  * Destination-specific fallback images for tours.
  * Used when backend doesn't provide hero_media for a tour.
  * Maps destination slug/country to appropriate local image.
+ * All images sourced from /images/destinations/ (Vietnam).
  */
 
+const D = {
+    hanoi: '/images/destinations/Hanoi.webp',
+    haLong: '/images/destinations/Ha%20Long%20Bay%20%20Lan%20Ha%20Bay.webp',
+    hcmc: '/images/destinations/Ho%20Chi%20Minh%20City.webp',
+    hoiAn: '/images/destinations/Vietnam-hoi-an.webp',
+    hue: '/images/destinations/Hue.webp',
+    sapa: '/images/destinations/Sapa.webp',
+    ninhBinh: '/images/destinations/Ninh%20Binh.webp',
+    mekong: '/images/destinations/Mekong%20Delta.webp',
+    daNang: '/images/destinations/Da-Nang.webp',
+    dalat: '/images/destinations/Dalat.webp',
+    goldenBridge: '/images/destinations/Golden%20Bridge%20at%20Vietnam%20Sunset.webp',
+    sunsetKarsts: '/images/destinations/Sunset%20Karsts%20with%20Lanterns%20and%20Junks.webp',
+    mistySapa: '/images/destinations/Misty%20Terraces%20of%20Sapa,%20Vietnam.webp',
+    hoiAnJpg: '/images/destinations/Hoi%20An.jpg.webp',
+    brandShoot: '/images/destinations/Large-Vietnam2024_BrandShoot-034-e1718707274522.webp',
+    img175: '/images/destinations/image_1754044694.jpg.webp',
+    imagesJpg: '/images/destinations/images.jpg.webp',
+    images1: '/images/destinations/images%20(1).jpg.webp',
+};
+
 export const TOUR_FALLBACK_IMAGES = {
-    // India destinations
-    delhi: '/images/home/india-Delhi.webp',
-    jaipur: '/images/home/india-Jaipur.webp',
-    kerala: '/images/home/india-kerala.webp',
-    'golden-triangle': '/images/home/India-heritage.webp',
-    india: '/images/home/India-hero-image.webp',
+    // India destinations (replaced with Vietnam destination images)
+    delhi: D.hanoi,
+    jaipur: D.hue,
+    kerala: D.ninhBinh,
+    'golden-triangle': D.dalat,
+    india: D.hcmc,
 
     // Vietnam destinations
-    hanoi: '/images/home/Vietnam-Hanoi.webp',
-    'ha-long-bay': '/images/home/Vietnam-ha-long-bay.webp',
-    'hoi-an': '/images/home/Vietnam-hoi-an.webp',
-    'da-nang': '/images/home/Vietnam-ha-long-bay.webp',
-    'ho-chi-minh-city': '/images/home/Vietnam-ho-chi-minh-city.webp',
-    sapa: '/images/home/Vietnam-Nature.webp',
-    vietnam: '/images/home/Vietnam-hero-image.webp',
+    hanoi: D.hanoi,
+    'ha-long-bay': D.haLong,
+    'hoi-an': D.hoiAn,
+    'da-nang': D.daNang,
+    'ho-chi-minh-city': D.hcmc,
+    sapa: D.sapa,
+    vietnam: D.goldenBridge,
 
-    // Japan destinations
-    tokyo: '/images/home/Japan-tokyo.webp',
-    kyoto: '/images/home/Japan-kyota.webp',
-    osaka: '/images/home/Japan-osaka.webp',
-    hiroshima: '/images/home/Japan-Heritage.webp',
-    sapporo: '/images/home/Japan-Nature.webp',
-    japan: '/images/home/Japan-hero-image.webp',
+    // Japan destinations (replaced with Vietnam destination images)
+    tokyo: D.haLong,
+    kyoto: D.hoiAn,
+    osaka: D.daNang,
+    hiroshima: D.sapa,
+    sapporo: D.mistySapa,
+    japan: D.goldenBridge,
 
-    // South Korea destinations
-    seoul: '/images/home/Korea-Seoul.webp',
-    busan: '/images/home/Korea-busan.webp',
-    jeju: '/images/home/Korea-Jeju.png',
-    gyeongju: '/images/home/Korea-Gyengo.webp',
-    korea: '/images/home/South-Korea-hero-image.webp',
-    'south-korea': '/images/home/South-Korea-hero-image.webp',
+    // South Korea destinations (replaced with Vietnam destination images)
+    seoul: D.mekong,
+    busan: D.sunsetKarsts,
+    jeju: D.hoiAnJpg,
+    gyeongju: D.brandShoot,
+    korea: D.img175,
+    'south-korea': D.imagesJpg,
 };
 
 /**
@@ -43,32 +65,32 @@ export const TOUR_FALLBACK_IMAGES = {
  * Allows different tours in the same destination to show different images.
  */
 export const TOUR_SLUG_FALLBACK_IMAGES = {
-    // India tours
-    'delhi-heritage-walk': '/images/home/india-Delhi.webp',
-    'golden-triangle-classic': '/images/home/India-heritage.webp',
-    'jaipur-royal-rajasthan': '/images/home/india-Jaipur.webp',
-    'kerala-backwaters-cruise': '/images/home/india-kerala.webp',
+    // India tours (replaced with Vietnam destination images)
+    'delhi-heritage-walk': D.images1,
+    'golden-triangle-classic': D.dalat,
+    'jaipur-royal-rajasthan': D.hue,
+    'kerala-backwaters-cruise': D.ninhBinh,
 
     // Vietnam tours
-    'hanoi-old-quarter-street-food': '/images/home/Vietnam-Hanoi.webp',
-    'ha-long-bay-overnight-cruise': '/images/home/Vietnam-ha-long-bay.webp',
-    'hoi-an-riverside-cooking-class': '/images/home/Vietnam-hoi-an.webp',
-    'da-nang-marble-mountains-beaches': '/images/home/Vietnam-ha-long-bay.webp',
-    'mekong-delta-day-trip': '/images/home/Vietnam-ho-chi-minh-city.webp',
-    'hanoi-conference-mice-package': '/images/home/Vietnam-Hanoi.webp',
+    'hanoi-old-quarter-street-food': D.hanoi,
+    'ha-long-bay-overnight-cruise': D.haLong,
+    'hoi-an-riverside-cooking-class': D.hoiAn,
+    'da-nang-marble-mountains-beaches': D.daNang,
+    'mekong-delta-day-trip': D.mekong,
+    'hanoi-conference-mice-package': D.brandShoot,
 
-    // Japan tours
-    'tokyo-temples-and-traditions': '/images/home/Japan-tokyo.webp',
-    'kyoto-luxury-geisha-cultural-tour': '/images/home/Japan-kyota.webp',
-    'osaka-street-food-nightlife-tour': '/images/home/Japan-osaka.webp',
-    'sapporo-snow-festival-winter-tour': '/images/home/Japan-Nature.webp',
-    'tokyo-mice-corporate-incentive-tour': '/images/home/Japan-tokyo.webp',
-    'mt-fuji-hakone-honeymoon-escape': '/images/home/Japan-mount-fuji.webp',
-    'osaka-castle-history-draft': '/images/home/Japan-osaka.webp',
+    // Japan tours (replaced with Vietnam destination images)
+    'tokyo-temples-and-traditions': D.hcmc,
+    'kyoto-luxury-geisha-cultural-tour': D.sunsetKarsts,
+    'osaka-street-food-nightlife-tour': D.mekong,
+    'sapporo-snow-festival-winter-tour': D.mistySapa,
+    'tokyo-mice-corporate-incentive-tour': D.img175,
+    'mt-fuji-hakone-honeymoon-escape': D.goldenBridge,
+    'osaka-castle-history-draft': D.imagesJpg,
 
-    // South Korea tours
-    'seoul-busan-korean': '/images/home/Korea-Seoul.webp',
-    'jeju-gyeongju': '/images/home/Korea-Jeju.png',
+    // South Korea tours (replaced with Vietnam destination images)
+    'seoul-busan-korean': D.images1,
+    'jeju-gyeongju': D.hoiAnJpg,
 };
 
 /**
@@ -90,7 +112,7 @@ export function getTourFallbackImage(destinationSlug, destinationCountry) {
     }
 
     // Ultimate fallback
-    return '/images/home/hero-image-home.webp';
+    return '/images/destinations/Hanoi.webp';
 }
 
 /**

@@ -14,10 +14,10 @@ import { PageTransition, Rise } from '../components/editorial';
 import { getTourFallbackImageFromTour } from '../config/tourImages';
 
 // Bundled destination imagery — no external hotlinks (project image policy).
-const indiaFallback = '/images/home/india-Delhi.webp';
-const vietnamFallback = '/images/home/Vietnam-Hanoi.webp';
-const japanFallback = '/images/home/Japan-kyota.webp';
-const koreaFallback = '/images/home/Korea-Seoul.webp';
+const indiaFallback = '/images/destinations/Hanoi.webp';
+const vietnamFallback = '/images/destinations/Ha%20Long%20Bay%20%20Lan%20Ha%20Bay.webp';
+const japanFallback = '/images/destinations/Ho%20Chi%20Minh%20City.webp';
+const koreaFallback = '/images/destinations/Hoi%20An.jpg.webp';
 
 const noSeo = {
     meta_title: '',
@@ -90,7 +90,7 @@ function DestinationDetail() {
                         <Seo title="Destination not found" noIndex path={`/destination/${slug}`} />
                         <h1 className="text-[var(--color-navy)] font-display text-2xl mb-2">Destination not available</h1>
                         <p className="text-[var(--color-text-secondary)] text-sm leading-relaxed mb-5 font-body">{state.error}</p>
-                        <Link to="/destination" className="inline-flex items-center gap-2 px-5 py-3 bg-[var(--color-navy)] text-white text-sm font-medium tracking-wide hover:bg-[var(--color-navy)]/90 transition-all duration-300">
+                        <Link to="/destination/ha-long-bay" className="inline-flex items-center gap-2 px-5 py-3 bg-[var(--color-navy)] text-white text-sm font-medium tracking-wide hover:bg-[var(--color-navy)]/90 transition-all duration-300">
                             Browse destinations
                         </Link>
                     </div>
@@ -127,7 +127,7 @@ function DestinationDetail() {
                     data={[
                         breadcrumbListSchema([
                             { name: 'Home', url: '/' },
-                            { name: 'Destinations', url: '/destination' },
+                            { name: 'Destinations', url: '/destination/ha-long-bay' },
                             { name: dest.name, url: canonical },
                         ]),
                         touristDestinationSchema({ destination: dest, seo }),
@@ -153,7 +153,7 @@ function DestinationDetail() {
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
                             <Link
-                                to="/destination"
+                                to="/destination/ha-long-bay"
                                 className="inline-flex items-center gap-2 text-[11px] font-semibold tracking-[0.15em] uppercase text-white/60 hover:text-white transition-colors duration-300 mb-6"
                             >
                                 &larr; All Destinations

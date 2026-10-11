@@ -15,12 +15,12 @@ import { PageTransition, Rise } from '../components/editorial';
 const heroImage = '/images/home/hero-image-home.webp';
 
 /**
- * Preview image per category (bundled assets — no external hotlinks).
+ * Preview image per category (Vietnam destination imagery — unique per card).
  */
 const CATEGORY_IMAGES = {
     CULTURE_HERITAGE: {
-        src: '/images/home/India-heritage.webp',
-        alt: 'Heritage architecture in Maharashtra, India',
+        src: '/images/destinations/Hue.webp',
+        alt: 'Heritage architecture in Hue, Vietnam',
     },
 
     FOOD_LOCAL_LIFE: {
@@ -29,18 +29,18 @@ const CATEGORY_IMAGES = {
     },
 
     NATURE_SCENIC: {
-        src: '/images/home/Vietnam-ha-long-bay.webp',
-        alt: 'Ha Long Bay limestone karsts, Vietnam',
+        src: '/images/destinations/Sunset%20Karsts%20with%20Lanterns%20and%20Junks.webp',
+        alt: 'Sunset karsts with lanterns and junks, Vietnam',
     },
 
     FAMILY_JOURNEYS: {
-        src: '/images/home/Korea-Jeju.png',
-        alt: 'Jeju Island landscapes, South Korea',
+        src: '/images/destinations/Sapa.webp',
+        alt: 'Terraced landscapes of Sapa, Vietnam',
     },
 
     HONEYMOON_LUXURY: {
-        src: '/images/home/india-kerala.webp',
-        alt: 'Kerala backwaters at golden hour, India',
+        src: '/images/destinations/Golden%20Bridge%20at%20Vietnam%20Sunset.webp',
+        alt: 'Golden Bridge at sunset, Vietnam',
     },
 
     GROUPS_MICE: {
@@ -49,50 +49,48 @@ const CATEGORY_IMAGES = {
     },
 
     WELLNESS_SLOW: {
-        src: '/images/home/Japan-kyota.webp',
-        alt: 'Kyoto temple gardens, Japan',
+        src: '/images/destinations/Misty%20Terraces%20of%20Sapa,%20Vietnam.webp',
+        alt: 'Misty terraces of Sapa, Vietnam',
     },
 
     ART_DESIGN: {
-        src: '/images/home/Korea-Seoul.webp',
-        alt: 'Seoul contemporary architecture, South Korea',
+        src: '/images/destinations/Da-Nang.webp',
+        alt: 'Da Nang coastline and modern design, Vietnam',
     },
 };
 
 /**
- * Destination images.
- *
- * Each country uses a corresponding image from the existing
- * bundled assets already used elsewhere on the page.
+ * Destination images — each uses a unique Vietnam destination image
+ * (no image is reused within this page).
  */
 const DESTINATIONS = [
-    {
-        name: 'India',
-        slug: 'delhi',
-        image: '/images/home/India-heritage.webp',
-        alt: 'Heritage architecture and travel in India',
-    },
+    // {
+    //     name: 'India',
+    //     slug: 'delhi',
+    //     image: '/images/destinations/Ninh%20Binh.webp',
+    //     alt: 'Ninh Binh landscapes, Vietnam',
+    // },
 
     {
         name: 'Vietnam',
         slug: 'ha-long-bay',
-        image: '/images/home/Vietnam-ha-long-bay.webp',
-        alt: 'Ha Long Bay in Vietnam',
+        image: '/images/destinations/Ha%20Long%20Bay%20%20Lan%20Ha%20Bay.webp',
+        alt: 'Ha Long Bay and Lan Ha Bay, Vietnam',
     },
 
-    {
-        name: 'Japan',
-        slug: 'tokyo',
-        image: '/images/home/Japan-kyota.webp',
-        alt: 'Kyoto temple gardens in Japan',
-    },
+    // {
+    //     name: 'Japan',
+    //     slug: 'tokyo',
+    //     image: '/images/destinations/Dalat.webp',
+    //     alt: 'Da Lat highlands, Vietnam',
+    // },
 
-    {
-        name: 'South Korea',
-        slug: 'seoul',
-        image: '/images/home/Korea-Seoul.webp',
-        alt: 'Contemporary architecture in Seoul, South Korea',
-    },
+    // {
+    //     name: 'South Korea',
+    //     slug: 'seoul',
+    //     image: '/images/destinations/Mekong%20Delta.webp',
+    //     alt: 'Mekong Delta river life, Vietnam',
+    // },
 ];
 
 const Experiences = () => {
