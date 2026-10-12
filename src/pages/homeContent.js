@@ -195,7 +195,7 @@ export const JOURNEYS = [
         imageAlt: 'Hanoi old quarter, Vietnam',
     },
     {
-        slug: 'mekong-delta',
+        slug: 'vietnam-mekong',
         title: 'Mekong Delta & Saigon',
         destination: 'Vietnam',
         days: '7 days',

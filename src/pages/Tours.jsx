@@ -11,6 +11,15 @@ import { getTourFallbackImageFromTour } from '../config/tourImages';
 
 const heroImage = '/images/home/hero-image-home.webp';
 
+/**
+ * Force image URLs to .webp so converted assets are picked up automatically
+ * (extensionless URLs like picsum and existing .webp paths pass through).
+ */
+const toWebp = (url) =>
+    typeof url === 'string' && /\.(jpe?g|png)$/i.test(url)
+        ? url.replace(/\.(jpe?g|png)$/i, '.webp')
+        : url;
+
 const CATEGORIES = [
     { label: 'All', value: 'all' },
     { label: 'Vietnam', value: 'vietnam' },
@@ -41,9 +50,11 @@ const Tours = () => {
                             summary: t.summary || '',
                             duration,
                             destination_name: destName,
-                            image: t.hero_media?.url
-                                ? resolveMediaUrl(t.hero_media.url)
-                                : getTourFallbackImageFromTour(t),
+                            image: toWebp(
+                                t.hero_media?.url
+                                    ? resolveMediaUrl(t.hero_media.url)
+                                    : getTourFallbackImageFromTour(t)
+                            ),
                             imageAlt: t.hero_media?.alt_text || t.title,
                             category: t.category || '',
                         };
