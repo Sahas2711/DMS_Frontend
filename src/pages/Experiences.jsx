@@ -64,7 +64,7 @@ const TRAVEL_STYLES = [
         description:
             'Historic landmarks, living traditions and regional stories brought together in destination-led itineraries.',
         style: 'Culture',
-        image: '/images/destinations/image_1754044694.jpg.webp',
+        image: '/images/destinations/image_1754044694.webp',
         alt: 'Historic heritage gate in Vietnam',
     },
 
@@ -92,7 +92,7 @@ const TRAVEL_STYLES = [
         description:
             'Coastal extensions and relaxed island stays that complement a wider destination programme.',
         style: 'Beach',
-        image: '/images/destinations/images%20(1).jpg.webp',
+        image: '/images/destinations/images%20(1).webp',
         alt: 'Coastal cliffs and turquoise sea in Vietnam',
     },
 

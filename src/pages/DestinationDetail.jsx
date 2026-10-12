@@ -17,7 +17,7 @@ import { getTourFallbackImageFromTour } from '../config/tourImages';
 const indiaFallback = '/images/destinations/Hanoi.webp';
 const vietnamFallback = '/images/destinations/Ha%20Long%20Bay%20%20Lan%20Ha%20Bay.webp';
 const japanFallback = '/images/destinations/Ho%20Chi%20Minh%20City.webp';
-const koreaFallback = '/images/destinations/Hoi%20An.jpg.webp';
+const koreaFallback = '/images/destinations/Hoi%20An.webp';
 
 const noSeo = {
     meta_title: '',

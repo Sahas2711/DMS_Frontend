@@ -19,11 +19,11 @@ const D = {
     goldenBridge: '/images/destinations/Golden%20Bridge%20at%20Vietnam%20Sunset.webp',
     sunsetKarsts: '/images/destinations/Sunset%20Karsts%20with%20Lanterns%20and%20Junks.webp',
     mistySapa: '/images/destinations/Misty%20Terraces%20of%20Sapa,%20Vietnam.webp',
-    hoiAnJpg: '/images/destinations/Hoi%20An.jpg.webp',
+    hoiAnJpg: '/images/destinations/Hoi%20An.webp',
     brandShoot: '/images/destinations/Large-Vietnam2024_BrandShoot-034-e1718707274522.webp',
-    img175: '/images/destinations/image_1754044694.jpg.webp',
-    imagesJpg: '/images/destinations/images.jpg.webp',
-    images1: '/images/destinations/images%20(1).jpg.webp',
+    img175: '/images/destinations/image_1754044694.webp',
+    imagesJpg: '/images/destinations/images.webp',
+    images1: '/images/destinations/images%20(1).webp',
 };
 
 export const TOUR_FALLBACK_IMAGES = {
